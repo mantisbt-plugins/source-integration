@@ -32,6 +32,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 			'EVENT_SOURCE_UPDATE_REPO_FORM'	=> 'update_repo_form',
 			'EVENT_SOURCE_UPDATE_REPO'		=> 'update_repo',
 
+			'EVENT_SOURCE_PRECOMMIT'		=> 'precommit',
 			'EVENT_SOURCE_COMMIT'			=> 'commit',
 
 			'EVENT_SOURCE_IMPORT_REPO'		=> 'import_repo',
@@ -52,6 +53,10 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	function update_repo_form( $p_event, $p_repo ) {}
 	function update_repo( $p_event, $p_repo ) {
 		return $p_repo;
+	}
+
+	function precommit( $p_event ) {
+		return null;
 	}
 
 	abstract function commit( $p_event, $p_repo, $p_data );
