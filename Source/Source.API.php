@@ -117,7 +117,6 @@ class SourceRepo {
 	var $type;
 	var $name;
 	var $url;
-	var $path;
 	var $info;
 
 	/**
@@ -128,12 +127,11 @@ class SourceRepo {
 	 * @param string Path
 	 * @param array Info
 	 */
-	function __construct( $p_type, $p_name, $p_url='', $p_path='', $p_info='' ) {
+	function __construct( $p_type, $p_name, $p_url='', $p_info='' ) {
 		$this->id	= 0;
 		$this->type	= $p_type;
 		$this->name	= $p_name;
 		$this->url	= $p_url;
-		$this->path	= $p_path;
 		if ( is_blank( $p_info ) ) {
 			$this->info = array();
 		} else {
@@ -153,15 +151,15 @@ class SourceRepo {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		if ( 0 == $this->id ) { # create
-			$t_query = "INSERT INTO $t_repo_table ( type, name, url, path, info ) VALUES ( " .
+			$t_query = "INSERT INTO $t_repo_table ( type, name, url, info ) VALUES ( " .
 				db_param(0) . ', ' . db_param(1) . ', ' . db_param(2) . ', ' . db_param(3) . ', ' . db_param(4) . ' )';
-			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, $this->path, serialize($this->info) ) );
+			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info) ) );
 
 			$this->id = db_insert_id( $t_repo_table );
 		} else { # update
 			$t_query = "UPDATE $t_repo_table SET type=" . db_param(0) . ', name=' . db_param(1) .
-				', url=' . db_param(2) . ', path=' . db_param(3) . ', info=' . db_param(4) . ' WHERE id=' . db_param(5);
-			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, $this->path, serialize($this->info), $this->id ) );
+				', url=' . db_param(2) . ', info=' . db_param(4) . ' WHERE id=' . db_param(5);
+			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info), $this->id ) );
 		}
 	}
 
@@ -211,7 +209,7 @@ class SourceRepo {
 
 		$t_row = db_fetch_array( $t_result );
 
-		$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['path'], $t_row['info'] );
+		$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
 		$t_repo->id = $t_row['id'];
 
 		return $t_repo;
@@ -230,7 +228,7 @@ class SourceRepo {
 		$t_repos = array();
 
 		while ( $t_row = db_fetch_array( $t_result ) ) {
-			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['path'], $t_row['info'] );
+			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
 			$t_repo->id = $t_row['id'];
 
 			$t_repos[] = $t_repo;
@@ -255,7 +253,7 @@ class SourceRepo {
 
 		$t_row = db_fetch_array( $t_result );
 
-		$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['path'], $t_row['info'] );
+		$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
 		$t_repo->id = $t_row['id'];
 
 		return $t_repo;
@@ -293,7 +291,7 @@ class SourceRepo {
 		$t_result = db_query( $t_query );
 
 		while ( $t_row = db_fetch_array( $t_result ) ) {
-			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['path'], $t_row['info'] );
+			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
 			$t_repo->id = $t_row['id'];
 
 			$t_repos[$t_repo->id] = $t_repo;
