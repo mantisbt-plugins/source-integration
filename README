@@ -1,0 +1,12 @@
+This plugin provides framework for fully integrating any sort of version 
+control system with Mantis, including support for multiple repositories, 
+changesets/revisions, and files/path tracking.  It has many features 
+already, such as importing repository history and optional support for 
+remote check-ins, and utilizes a class-based API to access objects in 
+the database.
+
+Initial support is included for Subversion repositories using WebSVN. 
+This can still be used without WebSVN to track a repository's changesets 
+and links to Mantis bugs, but the links to view changesets or files will 
+not work.
+
