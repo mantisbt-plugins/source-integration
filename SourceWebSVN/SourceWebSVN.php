@@ -20,10 +20,10 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		$this->name = lang_get( 'plugin_SourceWebSVN_title' );
 		$this->description = lang_get( 'plugin_SourceWebSVN_description' );
 
-		$this->version = '1.0';
+		$this->version = '0.9';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
-			'Source' => '0.1',
+			'Source' => '0.9',
 		);
 
 		$this->author = 'John Reese';
