@@ -1,0 +1,23 @@
+<?php
+# Copyright (C) 2008	John Reese
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+$s_plugin_SourceWebSVN_ = '';
+$s_plugin_SourceWebSVN_title = 'Subversion / WebSVN Integration';
+$s_plugin_SourceWebSVN_description = 'Adds Subversion integration to the Source plugin framework using the WebSVN app.';
+
+$s_plugin_SourceWebSVN_svn = 'Subversion';
+$s_plugin_SourceWebSVN_websvn_url = 'WebSVN URL<br/><span class="small">(With trailing slash)</span>';
+$s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br/><span class="small">(Repository directory)</span>';
+$s_plugin_SourceWebSVN_websvn_path = 'WebSVN Path<br/><span class="small">(From repository root)</span>';
+$s_plugin_SourceWebSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</small>';
+

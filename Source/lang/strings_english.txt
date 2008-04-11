@@ -1,0 +1,65 @@
+<?php
+# Copyright (C) 2008	John Reese
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+$s_plugin_Source_ = '';
+$s_plugin_Source_title = 'Source Control Integration';
+$s_plugin_Source_description = 'Source control integration using an abstract API to support any source control software.';
+$s_plugin_Source_version = '0.1';
+
+$s_plugin_Source_repository = 'Repository';
+$s_plugin_Source_repositories = 'Repositories';
+$s_plugin_Source_changeset = 'Changeset';
+$s_plugin_Source_changesets = 'Changesets';
+$s_plugin_Source_file = 'File';
+$s_plugin_Source_files = 'Files';
+$s_plugin_Source_diff = 'Diff';
+
+$s_plugin_Source_name = 'Name';
+$s_plugin_Source_type = 'Type';
+$s_plugin_Source_author = 'Author';
+$s_plugin_Source_timestamp = 'Timestamp';
+$s_plugin_Source_url = 'URL';
+$s_plugin_Source_info = 'Extra Info';
+
+$s_plugin_Source_issue = 'Issue';
+$s_plugin_Source_issues = 'Issues';
+$s_plugin_Source_actions = 'Actions';
+
+$s_plugin_Source_browse = 'Browse';
+$s_plugin_Source_manage = 'Manage';
+$s_plugin_Source_create = 'Create';
+$s_plugin_Source_import = 'Import';
+$s_plugin_Source_update = 'Update';
+$s_plugin_Source_delete = 'Delete';
+$s_plugin_Source_select_one = '(Select one)';
+
+$s_plugin_Source_back = 'Back to Index';
+$s_plugin_Source_import_data = 'Import Data';
+$s_plugin_Source_related_changesets = 'Related Changesets';
+
+$s_plugin_Source_configuration = 'Configuration';
+$s_plugin_Source_allow_remote_checkin = 'Allow Remote Check-In';
+$s_plugin_Source_remote_checkin_urls = 'Allowed Addresses';
+$s_plugin_Source_view_threshold = 'View Threshold';
+$s_plugin_Source_manage_threshold = 'Manage Threshold';
+$s_plugin_Source_buglink_regex_1 = 'Bug Link PCRE Pass 1';
+$s_plugin_Source_buglink_regex_2 = 'Bug Link PCRE Pass 2';
+
+$s_plugin_Source_ensure_delete = 'Do you really want to delete the "%s" repository and all of its history?';
+$s_plugin_Source_ensure_import = 'This will import to a new copy of your repository, and then destroy the old repository data, and may require use of shell access.  Do you wish to continue?';
+
+$s_plugin_Source_invalid_checkin_url = 'Invalid remote check-in address';
+$s_plugin_Source_invalid_repo = 'Invalid repository name';
+$s_plugin_Source_invalid_changeset = 'Changeset information could not be loaded';
+
+
