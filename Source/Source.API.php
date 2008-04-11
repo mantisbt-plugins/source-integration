@@ -152,13 +152,13 @@ class SourceRepo {
 
 		if ( 0 == $this->id ) { # create
 			$t_query = "INSERT INTO $t_repo_table ( type, name, url, info ) VALUES ( " .
-				db_param(0) . ', ' . db_param(1) . ', ' . db_param(2) . ', ' . db_param(3) . ', ' . db_param(4) . ' )';
+				db_param(0) . ', ' . db_param(1) . ', ' . db_param(2) . ', ' . db_param(3) . ' )';
 			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info) ) );
 
 			$this->id = db_insert_id( $t_repo_table );
 		} else { # update
 			$t_query = "UPDATE $t_repo_table SET type=" . db_param(0) . ', name=' . db_param(1) .
-				', url=' . db_param(2) . ', info=' . db_param(4) . ' WHERE id=' . db_param(5);
+				', url=' . db_param(2) . ', info=' . db_param(3) . ' WHERE id=' . db_param(5);
 			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info), $this->id ) );
 		}
 	}
