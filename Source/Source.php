@@ -120,6 +120,9 @@ class SourcePlugin extends MantisPlugin {
 				change_id	I		NOTNULL UNSIGNED PRIMARY,
 				bug_id		I		NOTNULL UNSIGNED PRIMARY
 				" ) ),
+			array( 'AddColumnSQL', array( plugin_table( 'file' ), "
+				action		C(8)	NOTNULL DEFAULT \" '' \"
+				" ) ),
 		);
 	}
 
