@@ -10,3 +10,7 @@ This can still be used without WebSVN to track a repository's changesets
 and links to Mantis bugs, but the links to view changesets or files will 
 not work.
 
+Bug reports or fixes are highly encouraged, as are contributions via
+GitHub's fork/pull-request methods.  Bug reports should be directed to
+the bug tracker located at: http://leetcode.net/mantis
+
