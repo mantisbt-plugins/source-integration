@@ -55,8 +55,8 @@ $t_predata = event_signal( 'EVENT_SOURCE_PRECOMMIT' );
 
 # Expect plugin data in form of array( repo_name, data )
 if ( is_array( $t_predata ) && count( $t_predata ) == 2 ) {
-	$f_repo_name = $t_predata[0];
-	$f_data = $t_predata[1];
+	$f_repo_name = $t_predata['repo_name'];
+	$f_data = $t_predata['data'];
 } else {
 	$f_repo_name = gpc_get_string( 'repo_name' );
 	$f_data = gpc_get_string( 'data' );
