@@ -42,18 +42,62 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	}
 
 	function show_changeset( $p_event, $p_repo, $p_changeset ) {
+		if ( 'github' != $p_repo->type ) {
+			return $p_repo;
+		}
+
+		$t_ref = substr( $p_changeset->revision, 0, 8 );
+		$t_branch = $p_changeset->branch;
+
+		return "$p_repo->name $t_ref ($t_branch)";
 	}
 
 	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
+		if ( 'github' != $p_repo->type ) {
+			return $p_repo;
+		}
+
+		return  "$p_action - $p_file->filename";
 	}
 
 	function url_repo( $p_event, $p_repo, $t_changeset=null ) {
+		if ( 'github' != $p_repo->type ) {
+			return $p_repo;
+		}
+
+		$t_username = $p_repo->info['hub_username'];
+		$t_reponame = $p_repo->info['hub_reponame'];
+
+		if ( !is_null( $t_changeset ) ) {
+			$t_ref = "/$t_changeset->revision";
+		}
+
+		return "http://github.com/$t_username/$t_reponame/tree$t_ref";
 	}
 
 	function url_changeset( $p_event, $p_repo, $p_changeset ) {
+		if ( 'github' != $p_repo->type ) {
+			return $p_repo;
+		}
+
+		$t_username = $p_repo->info['hub_username'];
+		$t_reponame = $p_repo->info['hub_reponame'];
+		$t_ref = "$t_changeset->revision";
+
+		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
 	}
 
 	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
+		if ( 'github' != $p_repo->type ) {
+			return $p_repo;
+		}
+
+		$t_username = $p_repo->info['hub_username'];
+		$t_reponame = $p_repo->info['hub_reponame'];
+		$t_ref = "$t_changeset->revision";
+		$t_filename = $t_file->filename;
+
+		return "http://github.com/$t_username/$t_reponame/tree/$t_ref/$t_filename";
 	}
 
 	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {

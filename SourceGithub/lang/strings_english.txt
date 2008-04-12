@@ -16,3 +16,5 @@ $s_plugin_SourceGithub_github = 'GitHub';
 $s_plugin_SourceGithub_title = 'GitHub Integration';
 $s_plugin_SourceGithub_description = 'Adds GitHub integration to the Source Integration framework.';
 
+$s_plugin_SourceGithub_hub_username = 'GitHub Username';
+$s_plugin_SourceGithub_hub_reponame = 'GitHub Repository<br/><span class="small">(lowercase, dashed name)</span>';
