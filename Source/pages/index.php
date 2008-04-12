@@ -58,6 +58,7 @@ html_page_top2();
 
 </table>
 
+<?php if ( $t_can_manage ) { ?>
 <br/>
 <form action="<?php echo plugin_page( 'repo_create.php' ) ?>" method="post">
 <table class="width50" align="center" cellspacing="1">
@@ -89,6 +90,7 @@ html_page_top2();
 
 </table>
 </form>
+<?php } ?>
 
 <?php
 html_page_bottom1( __FILE__ );
