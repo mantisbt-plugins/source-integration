@@ -101,8 +101,71 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	}
 
 	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
+		if ( 'github' != $p_repo->type ) {
+			return $p_repo;
+		}
+
+		$t_username = $p_repo->info['hub_username'];
+		$t_reponame = $p_repo->info['hub_reponame'];
+		$t_ref = "$t_changeset->revision";
+		$t_filename = $t_file->filename;
+
+		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
+	}
+
+	function update_repo_form( $p_event, $p_repo ) {
+		if ( 'github' != $p_repo->type ) {
+			return;
+		}
+
+		if ( isset( $t_repo->info['hub_username'] ) ) {
+			$t_username = $t_repo->info['hub_username'];
+		}
+		if ( isset( $t_repo->info['hub_reponame'] ) ) {
+			$t_username = $t_repo->info['hub_reponame'];
+		}
+?>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceGithub_hub_username' ) ?></td>
+<td><input name="hub_username" maxlength="250" size="40" value="<?php echo $t_hub_username ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceGithub_hub_reponame' ) ?></td>
+<td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo $t_hub_reponame ?>"/></td>
+</tr>
+<?php
+	}
+
+	function update_repo( $p_event, $p_repo ) {
+		if ( 'github' != $p_repo->type ) {
+			return $p_repo;
+		}
+
+		$f_hub_username = gpc_get_string( 'hub_username' );
+		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
+
+		$p_repo->info['hub_username'] = $f_hub_username;
+		$p_repo->info['hub_reponame'] = $f_hub_reponame;
+
+		return $p_repo;
 	}
 
 	function commit( $p_event, $p_repo, $p_data ) {
+	}
+
+	function import_repo( $p_event, $p_repo ) {
+		if ( 'github' != $p_repo->type ) {
+			return $p_repo;
+		}
+		echo '<pre>';
+
+		$t_uri_base = 'http://github.com/api/v1/json/' .
+			urlencode( $p_repo->info['hub_username'] ) . '/' .
+			urlencode( $p_repo->info['hub_reponame'] ) . '/';
+		$t_json = file_get_contents( $t_uri_base . 'commits/master' );
+
+		$t_data = json_decode( $t_json, true );
+		var_dump( $t_data );
+		die();
 	}
 }
