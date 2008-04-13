@@ -228,14 +228,20 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 						$t_file = new SourceFile( $t_changeset->id, '', $t_matches[2], $t_matches[1] );
 						$t_changeset->files[] = $t_file;
 
-						# Look for standard trunk/branches/tags information
-						if ( $p_repo->info['standard_repo'] && is_blank( $t_changeset->branch) ) {
-							if ( preg_match( '/\/(?:(trunk)|(?:branches|tags)\/([^\/]+))/', $t_file->filename, $t_matches ) ) {
-								if ( 'trunk' == $t_matches[1] ) {
-									$t_changeset->branch = 'trunk';
-								} else {
-									var_dump( $t_matches );
-									$t_changeset->branch = $t_matches[2];
+						# Branch-checking
+						if ( is_blank( $t_changeset->branch) ) {
+							# Look for standard trunk/branches/tags information
+							if ( $p_repo->info['standard_repo'] ) {
+								if ( preg_match( '/\/(?:(trunk)|(?:branches|tags)\/([^\/]+))/', $t_file->filename, $t_matches ) ) {
+									if ( 'trunk' == $t_matches[1] ) {
+										$t_changeset->branch = 'trunk';
+									} else {
+										$t_changeset->branch = $t_matches[2];
+									}
+								}
+							} else {
+								if ( preg_match( '/\/([^\/]+))/', $t_file->filename, $t_matches ) ) {
+									$t_changeset->branch = $t_matches[1];
 								}
 							}
 						}
