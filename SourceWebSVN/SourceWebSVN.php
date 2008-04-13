@@ -240,7 +240,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 									}
 								}
 							} else {
-								if ( preg_match( '/\/([^\/]+))/', $t_file->filename, $t_matches ) ) {
+								if ( preg_match( '/\/([^\/]+)/', $t_file->filename, $t_matches ) ) {
 									$t_changeset->branch = $t_matches[1];
 								}
 							}
