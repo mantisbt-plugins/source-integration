@@ -42,19 +42,19 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function show_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'svn' == p_repo->type ) {
+		if ( 'svn' == $p_repo->type ) {
 			return "$p_repo->name ($p_changeset->branch r$p_changeset->revision)";
 		}
 	}
 
 	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'svn' == p_repo->type ) {
+		if ( 'svn' == $p_repo->type ) {
 			return $p_file->action . ' - ' . $p_file->filename;
 		}
 	}
 
 	function url_repo( $p_event, $p_repo, $p_changeset=null ) {
-		if ( 'svn' == p_repo->type ) {
+		if ( 'svn' == $p_repo->type ) {
 			if ( !is_null( $p_changeset ) ) {
 				$t_rev = '&rev=' . urlencode( $p_changeset->revision );
 			}
@@ -66,13 +66,13 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function url_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'svn' == p_repo->type ) {
+		if ( 'svn' == $p_repo->type ) {
 			return $this->url_repo( $p_event, $p_repo, $p_changeset );
 		}
 	}
 
 	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'svn' == p_repo->type ) {
+		if ( 'svn' == $p_repo->type ) {
 			if ( $p_file->action == 'D' ) {
 				return '';
 			}
@@ -82,7 +82,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'svn' == p_repo->type ) {
+		if ( 'svn' == $p_repo->type ) {
 			if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
 				return '';
 			}
@@ -148,7 +148,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function commit( $p_event, $p_repo, $p_data ) {
-		if ( 'svn' != p_repo->type ) {
+		if ( 'svn' != $p_repo->type ) {
 			return null;
 		}
 
