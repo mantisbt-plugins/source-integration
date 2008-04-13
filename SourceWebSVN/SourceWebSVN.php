@@ -43,7 +43,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 	function show_changeset( $p_event, $p_repo, $p_changeset ) {
 		if ( 'svn' == strtolower($p_repo->type ) ) {
-			return "$p_repo->name $p_changeset->branch r$p_changeset->revision";
+			return "$p_repo->name ($p_changeset->branch r$p_changeset->revision)";
 		}
 	}
 
@@ -253,7 +253,11 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 				if ( $t_line == $t_svnline ) {
 					$t_state = 1;
 				} else {
-					$t_changeset->message .= $t_line . "\n"; 
+					if ( !is_blank($t_changeset->message) ) {
+						$t_changeset->message .= "\n$t_line";
+					} else {
+						$t_changeset->message .= $t_line;
+					}
 				}
 
 			# Should only happen at the end...
