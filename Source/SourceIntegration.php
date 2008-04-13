@@ -71,7 +71,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 		<?php foreach ( $t_changeset->files as $t_file ) {
 			echo ( $t_first ? '' : '<tr ' . helper_alternate_class() . '>' ); ?>
 <td><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
-<td>
+<td class="center">
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), lang_get( 'plugin_Source_diff' ) ) ?>
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), lang_get( 'plugin_Source_file' ) ) ?>
 </td>
@@ -80,7 +80,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 		<?php $t_first = false; } ?>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td colspan="2"><?php echo '<pre>', string_display_links( $t_changeset->message ), '</pre>' ?></td>
+<td colspan="2"><?php echo '<pre>', wordwrap( string_display_links( $t_changeset->message ), 100 ), '</pre>' ?></td>
 </tr>
 
 <tr><td class="spacer"></td></tr>
