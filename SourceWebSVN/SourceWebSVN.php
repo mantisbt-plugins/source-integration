@@ -112,15 +112,15 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 ?>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_url' ) ?></td>
-<td><input name="websvn_url" maxlength="250" size="40" value="<?php echo $t_url ?>"/></td>
+<td><input name="websvn_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_name' ) ?></td>
-<td><input name="websvn_name" maxlength="250" size="40" value="<?php echo $t_name ?>"/></td>
+<td><input name="websvn_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_path' ) ?></td>
-<td><input name="websvn_path" maxlength="250" size="40" value="<?php echo $t_path ?>"/></td>
+<td><input name="websvn_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_path ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_standard_repo' ) ?></td>
