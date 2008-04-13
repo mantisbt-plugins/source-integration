@@ -36,25 +36,25 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function show_type( $p_event, $p_type ) {
-		if ( 'svn' == strtolower( $p_type ) ) {
+		if ( 'svn' == $p_type ) {
 			return lang_get( 'plugin_SourceWebSVN_svn' );
 		}
 	}
 
 	function show_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'svn' == strtolower($p_repo->type ) ) {
+		if ( 'svn' == p_repo->type ) {
 			return "$p_repo->name ($p_changeset->branch r$p_changeset->revision)";
 		}
 	}
 
 	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'svn' == strtolower($p_repo->type ) ) {
+		if ( 'svn' == p_repo->type ) {
 			return $p_file->action . ' - ' . $p_file->filename;
 		}
 	}
 
 	function url_repo( $p_event, $p_repo, $p_changeset=null ) {
-		if ( 'svn' == strtolower($p_repo->type ) ) {
+		if ( 'svn' == p_repo->type ) {
 			if ( !is_null( $p_changeset ) ) {
 				$t_rev = '&rev=' . urlencode( $p_changeset->revision );
 			}
@@ -66,13 +66,13 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function url_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'svn' == strtolower($p_repo->type ) ) {
+		if ( 'svn' == p_repo->type ) {
 			return $this->url_repo( $p_event, $p_repo, $p_changeset );
 		}
 	}
 
 	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'svn' == strtolower($p_repo->type ) ) {
+		if ( 'svn' == p_repo->type ) {
 			if ( $p_file->action == 'D' ) {
 				return '';
 			}
@@ -82,7 +82,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'svn' == strtolower($p_repo->type ) ) {
+		if ( 'svn' == p_repo->type ) {
 			if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
 				return '';
 			}
@@ -92,7 +92,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function update_repo_form( $p_event, $p_repo ) {
-		if ( 'svn' != strtolower( $p_repo->type ) ) {
+		if ( 'svn' != $p_repo->type ) {
 			return $p_repo;
 		}
 
@@ -130,6 +130,10 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function update_repo( $p_event, $p_repo ) {
+		if (  'svn' != $p_repo->type ) {
+			return;
+		}
+
 		$f_websvn_url = gpc_get_string( 'websvn_url' );
 		$f_websvn_name = gpc_get_string( 'websvn_name' );
 		$f_websvn_path = gpc_get_string( 'websvn_path' );
@@ -144,7 +148,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function commit( $p_event, $p_repo, $p_data ) {
-		if ( 'svn' != strtolower($p_repo->type ) ) {
+		if ( 'svn' != p_repo->type ) {
 			return null;
 		}
 
@@ -164,7 +168,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function import_repo( $p_event, $p_repo ) {
-		if ( 'svn' != strtolower( $p_repo->type ) ) {
+		if ( 'svn' != $p_repo->type ) {
 			return $p_repo;
 		}
 
