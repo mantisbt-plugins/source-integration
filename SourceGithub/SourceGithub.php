@@ -183,21 +183,68 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_branch = 'master';
 		}
 
-		$this->import_json_commits( $t_uri_base, $t_branch );
+		$t_result = $this->import_json_commits( $p_repo, $t_uri_base, $t_branch );
+
+		echo '</pre>';
 
 		return true;
 	}
 
-	function import_json_commits( $p_uri_base, $p_commit_id ) {
-		$t_parents = array( 'master' );
+	function import_json_commits( $p_repo, $p_uri_base, $p_commit_id ) {
+		$t_parents = array( $p_commit_id );
 
 		while( count( $t_parents ) > 0 ) {
 			$t_commit_id = array_shift( $t_parents );
 
 			$t_uri = $p_uri_base . 'commit/' . $t_commit_id;
-			$t_commit = json_url( $t_uri, 'commit' );
+			$t_json = json_url( $t_uri, 'commit' );
 
-			var_dump( $t_commit );
+			$t_commit_parents = $this->json_commit_changeset( $p_repo, $t_json );
+
+			$t_parents = array_merge( $t_parents, $t_commit_parents );
+		}
+
+		return true;
+	}
+
+	function json_commit_changeset( $p_repo, $p_json ) {
+
+		echo "Retrieved $p_json->id ... ";
+		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
+			$t_user_id = user_get_id_by_email( $p_json->author->email );
+			if ( false === $t_user_id ) {
+				$t_user_id = user_get_id_by_realname( $p_json->author->name );
+			}
+
+			$t_parents = array();
+			foreach( $p_json->parents as $t_parent ) {
+				$t_parents[] = $t_parent->id;
+			}
+
+			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->id, '',
+				$p_json->authored_date, $p_json->author->email,
+				$p_json->message, $t_user_id );
+
+			foreach( $p_json->added as $t_added ) {
+				$t_changeset->files[] = new SourceFile( 0, '', $t_added->filename, 'A' );
+			}
+
+			foreach( $p_json->removed as $t_removed ) {
+				$t_changeset->files[] = new SourceFile( 0, '', $t_removed->filename, 'D' );
+			}
+
+			foreach( $p_json->modified as $t_modified ) {
+				$t_changeset->files[] = new SourceFile( 0, '', $t_modified->filename, 'M' );
+			}
+
+			$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
+			$t_changeset->save();
+
+			echo "saved.\n";
+			return $t_parents;
+		} else {
+			echo "rejected.\n";
+			return array();
 		}
 	}
 }
