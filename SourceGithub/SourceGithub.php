@@ -155,7 +155,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function import_repo( $p_event, $p_repo ) {
 		if ( 'github' != $p_repo->type ) {
-			return $p_repo;
+			return;
 		}
 		echo '<pre>';
 
