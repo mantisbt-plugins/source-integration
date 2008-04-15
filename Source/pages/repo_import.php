@@ -20,6 +20,9 @@ $t_repo = SourceRepo::load( $f_repo_id );
 helper_ensure_confirmed( lang_get( 'plugin_Source_ensure_import' ), lang_get( 'plugin_Source_import_data' ) );
 helper_begin_long_process();
 
+html_page_top1();
+html_page_top2();
+
 $t_new_repo = SourceRepo::load( $f_repo_id );
 $t_new_repo->id = 0;
 $t_new_repo->name = 'Import ' . date( 'Y-m-d H:i:s' );
@@ -33,11 +36,13 @@ if ( $t_status ) {
 	$t_new_repo->name = $t_repo->name;
 	$t_new_repo->save();
 
-	print_successful_redirect( plugin_page( 'repo_manage_page', true ) . '&id=' . $t_new_repo->id );
-
 } else {
 	SourceRepo::delete( $t_new_repo->id );
-
-	trigger_error( ERROR_GENERIC, ERROR );
 }
+
+echo '<br/><div class="center">';
+print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_new_repo->id, 'Return' );
+echo '</div>';
+
+html_page_bottom1();
 
