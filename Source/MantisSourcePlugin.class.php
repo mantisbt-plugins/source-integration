@@ -62,7 +62,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	abstract function commit( $p_event, $p_repo, $p_data );
 
 	function import_repo( $p_event, $p_repo ) {
-		trigger_error( ERROR_GENERIC, ERROR );
+		return;
 	}
 
 }

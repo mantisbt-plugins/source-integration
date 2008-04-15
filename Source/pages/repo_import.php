@@ -36,13 +36,17 @@ if ( $t_status ) {
 	$t_new_repo->name = $t_repo->name;
 	$t_new_repo->save();
 
+	echo '<br/><div class="center">';
+	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_new_repo->id, 'Return To Repository' );
+	echo '</div>';
+
 } else {
 	SourceRepo::delete( $t_new_repo->id );
-}
 
-echo '<br/><div class="center">';
-print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_new_repo->id, 'Return' );
-echo '</div>';
+	echo '<br/><div class="center">';
+	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
+	echo '</div>';
+}
 
 html_page_bottom1();
 
