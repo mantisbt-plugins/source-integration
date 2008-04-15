@@ -15,6 +15,8 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 	return;
 }
 
+require_once( config_get( 'core_path' ) . 'json_api.php' );
+
 class SourceGithubPlugin extends MantisSourcePlugin {
 	function register() {
 		$this->name = lang_get( 'plugin_SourceGithub_title' );
@@ -175,10 +177,27 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$t_uri_base = 'http://github.com/api/v1/json/' .
 			urlencode( $p_repo->info['hub_username'] ) . '/' .
 			urlencode( $p_repo->info['hub_reponame'] ) . '/';
-		$t_json = file_get_contents( $t_uri_base . 'commits/master' );
 
-		$t_data = json_decode( $t_json, true );
-		var_dump( $t_data );
-		die();
+		$t_branch = $p_repo->info['hub_branch'];
+		if ( is_blank( $t_branch ) ) {
+			$t_branch = 'master';
+		}
+
+		$this->import_json_commits( $t_uri_base, $t_branch );
+
+		return true;
+	}
+
+	function import_json_commits( $p_uri_base, $p_commit_id ) {
+		$t_parents = array( 'master' );
+
+		while( count( $t_parents ) > 0 ) {
+			$t_commit_id = array_shift( $t_parents );
+
+			$t_uri = $p_uri_base . 'commit/' . $t_commit_id;
+			$t_commit = json_url( $t_uri, 'commit' );
+
+			var_dump( $t_commit );
+		}
 	}
 }
