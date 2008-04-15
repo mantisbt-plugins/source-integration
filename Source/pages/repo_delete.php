@@ -13,8 +13,6 @@
 
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 
-helper_ensure_post();
-
 $f_repo_id = gpc_get_string( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );

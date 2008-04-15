@@ -49,6 +49,9 @@ html_page_top2();
 <?php 
 	print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', $t_repo ), lang_get( 'plugin_Source_browse' ) );
 	if ( $t_can_manage ) {
+		if ( preg_match( '/^Import \d+-\d+\d+/', $t_repo->name ) ) {
+			print_bracket_link( plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id, lang_get( 'plugin_Source_delete' ) );
+		}
 		print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, lang_get( 'plugin_Source_manage' ) );
 	}
 ?>
