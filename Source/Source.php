@@ -60,7 +60,7 @@ class SourcePlugin extends MantisPlugin {
 			'EVENT_SOURCE_URL_FILE_DIFF'	=> EVENT_TYPE_FIRST,	# Return a URL to see a given revision's diff of a file
 
 			'EVENT_SOURCE_UPDATE_REPO_FORM'	=> EVENT_TYPE_FIRST,	# Output HTML form elements for a repository update
-			'EVENT_SOURCE_UPDATE_REPO'		=> EVENT_TYPE_CHAIN,	# Handle form data after submitting a repo update form
+			'EVENT_SOURCE_UPDATE_REPO'		=> EVENT_TYPE_FIRST,	# Handle form data after submitting a repo update form
 
 			'EVENT_SOURCE_PRECOMMIT'		=> EVENT_TYPE_FIRST,	# Allow plugins to try finding commit information before Source looks
 			'EVENT_SOURCE_COMMIT'			=> EVENT_TYPE_FIRST,	# Source control commit handling, passed commit details from checkin script

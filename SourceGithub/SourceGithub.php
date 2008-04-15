@@ -118,11 +118,11 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		if ( isset( $t_repo->info['hub_username'] ) ) {
-			$t_username = $t_repo->info['hub_username'];
+		if ( isset( $p_repo->info['hub_username'] ) ) {
+			$t_username = $p_repo->info['hub_username'];
 		}
-		if ( isset( $t_repo->info['hub_reponame'] ) ) {
-			$t_username = $t_repo->info['hub_reponame'];
+		if ( isset( $p_repo->info['hub_reponame'] ) ) {
+			$t_username = $p_repo->info['hub_reponame'];
 		}
 ?>
 <tr <?php echo helper_alternate_class() ?>>
@@ -138,7 +138,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function update_repo( $p_event, $p_repo ) {
 		if ( 'github' != $p_repo->type ) {
-			return $p_repo;
+			return;
 		}
 
 		$f_hub_username = gpc_get_string( 'hub_username' );

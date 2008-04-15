@@ -93,7 +93,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 	function update_repo_form( $p_event, $p_repo ) {
 		if ( 'svn' != $p_repo->type ) {
-			return $p_repo;
+			return;
 		}
 
 		$t_url = $t_name = '';
