@@ -165,7 +165,55 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return $p_repo;
 	}
 
+	function uri_base( $p_repo ) {
+		$t_uri_base = 'http://github.com/api/v1/json/' .
+			urlencode( $p_repo->info['hub_username'] ) . '/' .
+			urlencode( $p_repo->info['hub_reponame'] ) . '/';
+
+		return $t_uri_base;
+	}
+
+	function precommit( $p_event ) {
+		$f_payload = gpc_get_string( 'payload', null );
+		if ( is_null( $f_payload ) ) {
+			return;
+		}
+
+		$t_json = json_decode( $f_payloaad );
+		$t_data = json_decode( $f_payloaad, true );
+		$t_reponame = $t_json->repository->name;
+
+		$t_repo_table = plugin_table( 'repository', 'Source' );
+
+		$t_query = "SELECT * FROM $t_repo_table WHERE info LIKE " . db_param(0);
+		$t_result = db_query_bound( $t_query, array( '%' . $t_reponame . '%' ) );
+
+		if ( db_num_rows( $t_result ) < 1 ) {
+			while ( $t_row = db_fetch_array( $t_result ) ) {
+				$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
+				if ( $t_repo->info['hub_reponame'] == $t_reponame ) {
+					return array( 'repo' => $t_repo, 'data' => $t_data );
+				}
+			}
+		}
+
+		return;
+	}
+
 	function commit( $p_event, $p_repo, $p_data ) {
+		if ( 'github' != $p_repo->type ) {
+			return;
+		}
+
+		$t_commits = array();
+
+		foreach( $t_data['commits'] as $t_id => $t_details ) {
+			$t_commits[] = $t_id;
+		}
+
+		$t_result = $this->import_json_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits );
+
+		return true;
 	}
 
 	function import_repo( $p_event, $p_repo ) {
@@ -174,16 +222,12 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		}
 		echo '<pre>';
 
-		$t_uri_base = 'http://github.com/api/v1/json/' .
-			urlencode( $p_repo->info['hub_username'] ) . '/' .
-			urlencode( $p_repo->info['hub_reponame'] ) . '/';
-
 		$t_branch = $p_repo->info['hub_branch'];
 		if ( is_blank( $t_branch ) ) {
 			$t_branch = 'master';
 		}
 
-		$t_result = $this->import_json_commits( $p_repo, $t_uri_base, $t_branch );
+		$t_result = $this->import_json_commits( $p_repo, $this->uri_base( $p_repo ), $t_branch );
 
 		echo '</pre>';
 
@@ -191,7 +235,11 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	}
 
 	function import_json_commits( $p_repo, $p_uri_base, $p_commit_id ) {
-		$t_parents = array( $p_commit_id );
+		if ( is_array( $p_commit_id ) ) {
+			$t_parents = $p_commit_id;
+		} else {
+			$t_parents = array( $p_commit_id );
+		}
 
 		while( count( $t_parents ) > 0 ) {
 			$t_commit_id = array_shift( $t_parents );
