@@ -55,15 +55,15 @@ $t_predata = event_signal( 'EVENT_SOURCE_PRECOMMIT' );
 
 # Expect plugin data in form of array( repo_name, data )
 if ( is_array( $t_predata ) && count( $t_predata ) == 2 ) {
-	$f_repo_name = $t_predata['repo_name'];
+	$t_repo = $t_predata['repo'];
 	$f_data = $t_predata['data'];
 } else {
 	$f_repo_name = gpc_get_string( 'repo_name' );
 	$f_data = gpc_get_string( 'data' );
-}
 
-# Try to find the repository by name
-$t_repo = SourceRepo::load_by_name( $f_repo_name );
+	# Try to find the repository by name
+	$t_repo = SourceRepo::load_by_name( $f_repo_name );
+}
 
 # Repo not found
 if ( is_null( $t_repo ) ) {
