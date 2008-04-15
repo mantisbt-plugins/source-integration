@@ -119,19 +119,30 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		}
 
 		if ( isset( $p_repo->info['hub_username'] ) ) {
-			$t_username = $p_repo->info['hub_username'];
+			$t_hub_username = $p_repo->info['hub_username'];
 		}
+
 		if ( isset( $p_repo->info['hub_reponame'] ) ) {
-			$t_username = $p_repo->info['hub_reponame'];
+			$t_hub_reponame = $p_repo->info['hub_reponame'];
+		}
+
+		if ( isset( $p_repo->info['hub_branch'] ) ) {
+			$t_hub_branch = $p_repo->info['hub_branch'];
+		} else {
+			$t_hub_branch = 'master';
 		}
 ?>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceGithub_hub_username' ) ?></td>
-<td><input name="hub_username" maxlength="250" size="40" value="<?php echo $t_hub_username ?>"/></td>
+<td><input name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceGithub_hub_reponame' ) ?></td>
-<td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo $t_hub_reponame ?>"/></td>
+<td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceGithub_hub_branch' ) ?></td>
+<td><input name="hub_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_branch ) ?>"/></td>
 </tr>
 <?php
 	}
@@ -143,9 +154,11 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$f_hub_username = gpc_get_string( 'hub_username' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
+		$f_hub_branch = gpc_get_string( 'hub_branch' );
 
 		$p_repo->info['hub_username'] = $f_hub_username;
 		$p_repo->info['hub_reponame'] = $f_hub_reponame;
+		$p_repo->info['hub_branch'] = $f_hub_branch;
 
 		return $p_repo;
 	}
