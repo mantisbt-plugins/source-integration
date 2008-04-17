@@ -179,9 +179,8 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$t_json = json_decode( $f_payloaad );
-		$t_data = json_decode( $f_payloaad, true );
-		$t_reponame = $t_json->repository->name;
+		$t_data = json_decode( $f_payload, true );
+		$t_reponame = $t_data['repository']['name'];
 
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
