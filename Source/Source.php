@@ -66,6 +66,7 @@ class SourcePlugin extends MantisPlugin {
 			'EVENT_SOURCE_COMMIT'			=> EVENT_TYPE_FIRST,	# Source control commit handling, passed commit details from checkin script
 
 			'EVENT_SOURCE_IMPORT_REPO'		=> EVENT_TYPE_FIRST,	# Import an existing repository from scratch
+			'EVENT_SOURCE_IMPORT_LATEST'	=> EVENT_TYPE_FIRST,	# Import the latest changesets from a repository
 		);
 	}
 

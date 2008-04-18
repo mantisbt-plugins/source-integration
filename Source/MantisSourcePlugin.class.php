@@ -36,6 +36,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 			'EVENT_SOURCE_COMMIT'			=> 'commit',
 
 			'EVENT_SOURCE_IMPORT_REPO'		=> 'import_repo',
+			'EVENT_SOURCE_IMPORT_LATEST'	=> 'import_latest',
 		);
 	}
 
@@ -51,20 +52,13 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	abstract function url_diff( $p_event, $p_repo, $p_changeset, $p_file );
 
 	function update_repo_form( $p_event, $p_repo ) {}
-	function update_repo( $p_event, $p_repo ) {
-		return $p_repo;
-	}
+	function update_repo( $p_event, $p_repo ) {}
 
-	function precommit( $p_event ) {
-		return null;
-	}
+	function precommit( $p_event ) {}
+	function commit( $p_event, $p_repo, $p_data ) {}
 
-	abstract function commit( $p_event, $p_repo, $p_data );
-
-	function import_repo( $p_event, $p_repo ) {
-		return;
-	}
-
+	function import_repo( $p_event, $p_repo ) {}
+	function import_latest( $p_event, $p_repo )	{}
 }
 
 /**
