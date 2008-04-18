@@ -47,7 +47,7 @@ $t_remote_checkin = plugin_config_get( 'remote_checkin' );
 <td class="category"><?php echo lang_get( 'plugin_Source_buglink_regex_1' ) ?></td>
 <td>
 	<input name="buglink_regex_1" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'buglink_regex_1' ) ) ?>"/>
-	<label><input name="buglink_reset_1" type="checkbox"/><span class="small">Reset</span></label>
+	<br/><label><input name="buglink_reset_1" type="checkbox"/><span class="small"><?php echo lang_get( 'plugin_Source_reset' ) ?></span></label>
 </td>
 </tr>
 
@@ -55,7 +55,7 @@ $t_remote_checkin = plugin_config_get( 'remote_checkin' );
 <td class="category"><?php echo lang_get( 'plugin_Source_buglink_regex_2' ) ?></td>
 <td>
 	<input name="buglink_regex_2" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'buglink_regex_2' ) ) ?>"/>
-	<label><input name="buglink_reset_2" type="checkbox"/><span class="small">Reset</span></label>
+	<br/><label><input name="buglink_reset_2" type="checkbox"/><span class="small"><?php echo lang_get( 'plugin_Source_reset' ) ?></span></label>
 </td>
 </tr>
 
