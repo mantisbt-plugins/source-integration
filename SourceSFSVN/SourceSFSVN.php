@@ -53,21 +53,24 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
+	function sf_url( $p_repo ) {
+		$t_project = urlencode( $p_repo->info['sf_project'] );
+		return "http://$t_project.svn.sourceforge.net/viewvc/$t_project";
+	}
+
 	function url_repo( $p_event, $p_repo, $p_changeset=null ) {
 		if ( 'sfsvn' == $p_repo->type ) {
 			if ( !is_null( $p_changeset ) ) {
-				$t_rev = '&rev=' . urlencode( $p_changeset->revision );
+				$t_rev = '?pathrev=' . urlencode( $p_changeset->revision );
 			}
-			if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
-				$t_path = '&path=' . urlencode( $p_repo->info['websvn_path'] );
-			}
-			return $p_repo->info['websvn_url'] . 'listing.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) . "$t_path$t_rev&sc=1";
+			return $this->sf_url( $p_repo ) . "/$t_rev";
 		}
 	}
 
 	function url_changeset( $p_event, $p_repo, $p_changeset ) {
 		if ( 'sfsvn' == $p_repo->type ) {
-			return $this->url_repo( $p_event, $p_repo, $p_changeset );
+			$t_rev = '&revision=' . urlencode( $p_changeset->revision );
+			return $this->sf_url( $p_repo ) . "?view=rev$t_rev";
 		}
 	}
 
@@ -76,8 +79,8 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			if ( $p_file->action == 'D' ) {
 				return '';
 			}
-			return $p_repo->info['websvn_url'] . 'filedetails.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-				'&rev=' . urlencode( $p_changeset->revision ) . '&path=' . urlencode( $p_file->filename ) . '&sc=1';
+			return $this->sf_url( $p_repo ) . urlencode( $p_file->filename ) .
+				'?view=markup&pathrev=' . urlencode( $p_changeset->revision );
 		}
 	}
 
@@ -86,8 +89,9 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
 				return '';
 			}
-			return $p_repo->info['websvn_url'] . 'diff.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-				'&rev=' . urlencode( $p_changeset->revision ) . '&path=' . urlencode( $p_file->filename ) . '&sc=1';
+			$t_diff = '?r1=' . urlencode( $p_changeset->revision ) . '&r2=' . urlencode( $p_changeset->revision - 1 );
+			return $this->sf_url( $p_repo ) . urlencode( $p_file->filename ) . $t_diff .
+				'&pathrev=' . urlencode( $p_changeset->revision );
 		}
 	}
 
@@ -96,31 +100,20 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$t_url = $t_name = '';
-		if ( isset( $p_repo->info['websvn_url'] ) ) {
-			$t_url = $p_repo->info['websvn_url'];
-		}
-		if ( isset( $p_repo->info['websvn_name'] ) ) {
-			$t_name = $p_repo->info['websvn_name'];
-		}
-		if ( isset( $p_repo->info['websvn_path'] ) ) {
-			$t_path = $p_repo->info['websvn_path'];
+		if ( isset( $p_repo->info['sf_project'] ) ) {
+			$t_sf_project = $p_repo->info['sf_project'];
 		}
 		if ( isset( $p_repo->info['standard_repo'] ) ) {
 			$t_branches = $p_repo->info['standard_repo'];
 		}
 ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_websvn_url' ) ?></td>
-<td><input name="websvn_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
+<td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_sf_project' ) ?></td>
+<td><input name="sf_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_websvn_name' ) ?></td>
-<td><input name="websvn_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_websvn_path' ) ?></td>
-<td><input name="websvn_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_path ) ?>"/></td>
+<td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_sf_project' ) ?></td>
+<td><input name="sf_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_standard_repo' ) ?></td>
@@ -134,14 +127,10 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$f_websvn_url = gpc_get_string( 'websvn_url' );
-		$f_websvn_name = gpc_get_string( 'websvn_name' );
-		$f_websvn_path = gpc_get_string( 'websvn_path' );
+		$f_sf_project = gpc_get_string( 'sf_project' );
 		$f_standard_repo = gpc_get_bool( 'standard_repo', false );
 
-		$p_repo->info['websvn_url'] = $f_websvn_url;
-		$p_repo->info['websvn_name'] = $f_websvn_name;
-		$p_repo->info['websvn_path'] = $f_websvn_path;
+		$p_repo->info['sf_project'] = $f_sf_project;
 		$p_repo->info['standard_repo'] = $f_standard_repo;
 
 		return $p_repo;
