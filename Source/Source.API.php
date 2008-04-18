@@ -46,6 +46,7 @@ function SourceTypes() {
 			}
 		}
 
+		asort( $t_types );
 		$g_Source_cache_types = $t_types;
 	}
 
