@@ -18,3 +18,4 @@ $s_plugin_SourceGithub_description = 'Adds GitHub integration to the Source Inte
 
 $s_plugin_SourceGithub_hub_username = 'GitHub Username';
 $s_plugin_SourceGithub_hub_reponame = 'GitHub Repository<br/><span class="small">(lowercase, dashed name)</span>';
+$s_plugin_SourceGithub_hub_branch = 'Primary Branch<br/><span class="small">(usually <em>master</em>)</span>';
