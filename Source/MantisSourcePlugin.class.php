@@ -109,9 +109,4 @@ class SourceGenericPlugin extends MantisSourcePlugin {
 	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
 		return $p_repo->url;
 	}
-
-	function commit( $p_event, $p_repo, $p_data ) {
-		return null;
-	}
-
 }
