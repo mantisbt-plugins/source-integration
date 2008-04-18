@@ -45,7 +45,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function show_changeset( $p_event, $p_repo, $p_changeset ) {
 		if ( 'github' != $p_repo->type ) {
-			return $p_repo;
+			return;
 		}
 
 		$t_ref = substr( $p_changeset->revision, 0, 8 );
@@ -56,7 +56,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
 		if ( 'github' != $p_repo->type ) {
-			return $p_repo;
+			return;
 		}
 
 		return  "$p_action - $p_file->filename";
@@ -64,7 +64,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function url_repo( $p_event, $p_repo, $t_changeset=null ) {
 		if ( 'github' != $p_repo->type ) {
-			return $p_repo;
+			return;
 		}
 
 		$t_username = $p_repo->info['hub_username'];
@@ -79,7 +79,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function url_changeset( $p_event, $p_repo, $p_changeset ) {
 		if ( 'github' != $p_repo->type ) {
-			return $p_repo;
+			return;
 		}
 
 		$t_username = $p_repo->info['hub_username'];
@@ -91,7 +91,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
 		if ( 'github' != $p_repo->type ) {
-			return $p_repo;
+			return;
 		}
 
 		$t_username = $p_repo->info['hub_username'];
@@ -104,7 +104,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
 		if ( 'github' != $p_repo->type ) {
-			return $p_repo;
+			return;
 		}
 
 		$t_username = $p_repo->info['hub_username'];
