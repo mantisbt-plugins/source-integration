@@ -24,17 +24,30 @@ if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) {
 # Check for allowed remote IP/URL addresses
 if ( ON == plugin_config_get( 'remote_checkin' ) ) {
 	$t_checkin_urls = unserialize( plugin_config_get( 'checkin_urls' ) );
+	preg_match( '/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/', $t_address, $t_address_matches );
 
 	foreach ( $t_checkin_urls as $t_url ) {
 		if ( $t_valid ) break;
 
 		$t_url = trim( $t_url );
 
-		if ( preg_match( '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $t_url ) ) { # IP
+		if ( preg_match( '/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/', $t_url, $t_remote_matches ) ) { # IP
 			if ( $t_url == $t_address ) {
 				$t_valid = true;
 				break;
 			}
+
+			$t_match = true;
+			for( $i = 1; $i <= 4; $i++ ) {
+				if ( $t_remote_matches[$i] == '0' || $t_address_matches[$i] == $t_remote_matches[$i] ) {
+				} else {
+					$t_match = false;
+					break;
+				}
+			}
+
+			$t_valid = $t_match;
+
 		} else {
 			$t_ip = gethostbyname( $t_url );
 			if ( $t_ip == $t_address ) {
