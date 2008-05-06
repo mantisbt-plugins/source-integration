@@ -197,6 +197,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	
 		while ( $t_row = db_fetch_array( $t_result ) ) {
 			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
+			$t_repo->id = $t_row['id'];
 
 			if ( $t_repo->info['hub_reponame'] == $t_reponame ) {
 				return array( 'repo' => $t_repo, 'data' => $t_data );
@@ -213,7 +214,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$t_commits = array();
 
-		foreach( $t_data['commits'] as $t_id => $t_details ) {
+		foreach( $p_data['commits'] as $t_id => $t_details ) {
 			$t_commits[] = $t_id;
 		}
 
@@ -237,7 +238,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		echo '</pre>';
 
-		return true;
+		return array();
 	}
 
 	function import_json_commits( $p_repo, $p_uri_base, $p_commit_id ) {
