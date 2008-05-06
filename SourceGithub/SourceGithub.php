@@ -179,6 +179,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			return;
 		}
 
+		if ( false === stripos( $f_payload, 'github.com' ) ) {
+			return;
+		}
+
 		$t_data = json_decode( $f_payload, true );
 		$t_reponame = $t_data['repository']['name'];
 
@@ -188,11 +192,14 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$t_result = db_query_bound( $t_query, array( '%' . $t_reponame . '%' ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
-			while ( $t_row = db_fetch_array( $t_result ) ) {
-				$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
-				if ( $t_repo->info['hub_reponame'] == $t_reponame ) {
-					return array( 'repo' => $t_repo, 'data' => $t_data );
-				}
+			return;
+		}
+	
+		while ( $t_row = db_fetch_array( $t_result ) ) {
+			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
+
+			if ( $t_repo->info['hub_reponame'] == $t_reponame ) {
+				return array( 'repo' => $t_repo, 'data' => $t_data );
 			}
 		}
 
