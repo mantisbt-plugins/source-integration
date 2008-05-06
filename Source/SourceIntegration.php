@@ -13,8 +13,8 @@
 
 final class SourceIntegrationPlugin extends MantisPlugin {
 	function register() {
-		$this->name = lang_get( 'plugin_Source_title' );
-		$this->version = lang_get( 'plugin_Source_version' );
+		$this->name = plugin_lang_get( 'title', 'Source' );
+		$this->version = plugin_lang_get( 'version', 'Source' );
 	}
 
 	function hooks() {
@@ -28,7 +28,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 
 	function menu_main() {
 		$t_page = plugin_page( 'index', false, 'Source' );
-		$t_repos = lang_get( 'plugin_Source_repositories' );
+		$t_repos = plugin_lang_get( 'repositories', 'Source' );
 		return "<a href=\"$t_page\">$t_repos</a>";
 	}
 
@@ -50,7 +50,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 <table class="width100" cellspacing="1">
 
 <tr>
-	<td class="form-title"><?php collapse_icon( 'Source' ); echo lang_get( 'plugin_Source_related_changesets' ) ?></td>
+	<td class="form-title"><?php collapse_icon( 'Source' ); echo plugin_lang_get( 'related_changesets', 'Source' ) ?></td>
 </tr>
 
 		<?php
@@ -62,18 +62,18 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category" colspan="3" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
 	<?php echo string_display( event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ) ?>
-	<br/><span class="small"><?php echo lang_get( 'plugin_Source_author' ), ': ', string_display_line( $t_changeset->author ) ?></span>
-	<br/><span class="small"><?php echo lang_get( 'plugin_Source_timestamp' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
-	<br/><span class="small"><?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', array( $t_repo, $t_changeset ) ), lang_get( 'plugin_Source_browse' ) ) ?>
-		<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_CHANGESET', array( $t_repo, $t_changeset ) ), lang_get( 'plugin_Source_changeset' ) ) ?></span>
+	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', string_display_line( $t_changeset->author ) ?></span>
+	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
+	<br/><span class="small"><?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', array( $t_repo, $t_changeset ) ), plugin_lang_get( 'browse', 'Source' ) ) ?>
+		<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_CHANGESET', array( $t_repo, $t_changeset ) ), plugin_lang_get( 'changeset', 'Source' ) ) ?></span>
 </td>
 
 		<?php foreach ( $t_changeset->files as $t_file ) {
 			echo ( $t_first ? '' : '<tr ' . helper_alternate_class() . '>' ); ?>
 <td><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
 <td class="center">
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), lang_get( 'plugin_Source_diff' ) ) ?>
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), lang_get( 'plugin_Source_file' ) ) ?>
+	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'diff', 'Source' ) ) ?>
+	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'file', 'Source' ) ) ?>
 </td>
 </tr>
 
@@ -94,7 +94,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 <table class="width100" cellspacing="1">
 
 <tr>
-	<td class="form-title"><?php collapse_icon( 'Source' ); echo lang_get( 'plugin_Source_related_changesets' ) ?></td>
+	<td class="form-title"><?php collapse_icon( 'Source' ); echo plugin_lang_get( 'related_changesets', 'Source' ) ?></td>
 </tr>
 
 </table>

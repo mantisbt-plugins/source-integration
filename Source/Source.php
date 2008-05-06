@@ -19,10 +19,10 @@ require_once( config_get_global( 'class_path' ) . 'MantisPlugin.class.php' );
  */ 
 class SourcePlugin extends MantisPlugin {
 	function register() {
-		$this->name = lang_get( 'plugin_Source_title' );
-		$this->description = lang_get( 'plugin_Source_description' );
+		$this->name = plugin_lang_get( 'title' );
+		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = lang_get( 'plugin_Source_version' );
+		$this->version = plugin_lang_get( 'version' );
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 		);

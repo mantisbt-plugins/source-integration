@@ -17,7 +17,7 @@ $f_repo_id = gpc_get_string( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
 
-helper_ensure_confirmed( lang_get( 'plugin_Source_ensure_import' ), lang_get( 'plugin_Source_import_data' ) );
+helper_ensure_confirmed( plugin_lang_get( 'ensure_import' ), plugin_lang_get( 'import_data' ) );
 helper_begin_long_process();
 
 html_page_top1();

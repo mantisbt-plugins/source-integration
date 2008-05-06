@@ -70,8 +70,8 @@ abstract class MantisSourcePlugin extends MantisPlugin {
  */
 class SourceGenericPlugin extends MantisSourcePlugin {
 	function register() {
-		$this->name = lang_get( 'plugin_Source_title' );
-		$this->version = lang_get( 'plugin_Source_version' );
+		$this->name = plugin_lang_get( 'title', 'Source' );
+		$this->version = plugin_lang_get( 'version', 'Source' );
 	}
 
 	function get_types( $p_event ) {

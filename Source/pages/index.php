@@ -17,7 +17,7 @@ $t_can_manage = access_has_global_level( plugin_config_get( 'manage_threshold' )
 $t_types = SourceTypes();
 $t_repos = SourceRepo::load_all();
 
-html_page_top1( lang_get( 'plugin_Source_title' ) );
+html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
 ?>
 
@@ -25,16 +25,16 @@ html_page_top2();
 <table class="width75" align="center" cellspacing="1">
 
 <tr>
-<td class="form-title" colspan="2"><?php echo lang_get( 'plugin_Source_repositories' ) ?></td>
+<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'repositories' ) ?></td>
 </tr>
 
 <tr class="row-category">
-<td width="30%"><?php echo lang_get( 'plugin_Source_repository' ) ?></td>
-<td width="15%"><?php echo lang_get( 'plugin_Source_type' ) ?></td>
-<td width="10%"><?php echo lang_get( 'plugin_Source_changesets' ) ?></td>
-<td width="10%"><?php echo lang_get( 'plugin_Source_files' ) ?></td>
-<td width="10%"><?php echo lang_get( 'plugin_Source_issues' ) ?></td>
-<td width="25%"><?php echo lang_get( 'plugin_Source_actions' ) ?></td>
+<td width="30%"><?php echo plugin_lang_get( 'repository' ) ?></td>
+<td width="15%"><?php echo plugin_lang_get( 'type' ) ?></td>
+<td width="10%"><?php echo plugin_lang_get( 'changesets' ) ?></td>
+<td width="10%"><?php echo plugin_lang_get( 'files' ) ?></td>
+<td width="10%"><?php echo plugin_lang_get( 'issues' ) ?></td>
+<td width="25%"><?php echo plugin_lang_get( 'actions' ) ?></td>
 </tr>
 
 <?php foreach( $t_repos as $t_repo ) {
@@ -47,12 +47,12 @@ html_page_top2();
 <td class="right"><?php echo $t_stats['bugs'] ?></td>
 <td class="center">
 <?php 
-	print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', $t_repo ), lang_get( 'plugin_Source_browse' ) );
+	print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', $t_repo ), plugin_lang_get( 'browse' ) );
 	if ( $t_can_manage ) {
 		if ( preg_match( '/^Import \d+-\d+\d+/', $t_repo->name ) ) {
-			print_bracket_link( plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id, lang_get( 'plugin_Source_delete' ) );
+			print_bracket_link( plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id, plugin_lang_get( 'delete' ) );
 		}
-		print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, lang_get( 'plugin_Source_manage' ) );
+		print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'manage' ) );
 	}
 ?>
 </td>
@@ -67,19 +67,19 @@ html_page_top2();
 <table class="width50" align="center" cellspacing="1">
 
 <tr>
-<td class="form-title" colspan="2"><?php echo lang_get( 'plugin_Source_create' ), ' ', lang_get( 'plugin_Source_repository' ) ?></td>
+<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'create' ), ' ', plugin_lang_get( 'repository' ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_Source_name' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>
 <td><input name="repo_name" maxlength="128" size="40"/></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_Source_type' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'type' ) ?></td>
 <td>
 <select name="repo_type">
-	<option value=""><?php echo lang_get( 'plugin_Source_select_one' ) ?></option>
+	<option value=""><?php echo plugin_lang_get( 'select_one' ) ?></option>
 <?php foreach( $t_types as $t_type => $t_type_name ) { ?>
 	<option value="<?php echo $t_type ?>"><?php echo string_display( $t_type_name ) ?></option>
 <?php } ?>
@@ -88,7 +88,7 @@ html_page_top2();
 </tr>
 
 <tr>
-<td class="center" colspan="2"><input type="submit" value="<?php echo lang_get( 'plugin_Source_create' ), ' ', lang_get( 'plugin_Source_repository' ) ?>"/></td>
+<td class="center" colspan="2"><input type="submit" value="<?php echo plugin_lang_get( 'create' ), ' ', plugin_lang_get( 'repository' ) ?>"/></td>
 </tr>
 
 </table>

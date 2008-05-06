@@ -18,7 +18,7 @@ $f_repo_id = gpc_get_int( 'id' );
 $t_repo = SourceRepo::load( $f_repo_id );
 $t_type = SourceType($t_repo->type);
 
-html_page_top1( lang_get( 'plugin_Source_title' ) );
+html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
 ?>
 
@@ -26,27 +26,27 @@ html_page_top2();
 <table class="width50" align="center" cellspacing="1">
 
 <tr>
-<td class="form-title" colspan="2"><?php echo lang_get( 'plugin_Source_manage' ), ' ', lang_get( 'plugin_Source_repository' ) ?></td>
-<td class="right"><?php print_bracket_link( plugin_page( 'index' ), lang_get( 'plugin_Source_back' ) ) ?></td>
+<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'manage' ), ' ', plugin_lang_get( 'repository' ) ?></td>
+<td class="right"><?php print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_Source_name' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>
 <td colspan="2"><?php echo string_display( $t_repo->name ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_Source_type' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'type' ) ?></td>
 <td colspan="2"><?php echo string_display( $t_type ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_Source_url' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'url' ) ?></td>
 <td colspan="2"><?php echo string_display( $t_repo->url ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_Source_info' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'info' ) ?></td>
 <td colspan="2"><pre><?php
 foreach( $t_repo->info as $t_key => $t_value ) {
 	echo string_display( $t_key . ' => ' );
@@ -63,11 +63,11 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 
 <tr>
 <td colspan="2">
-<form action="<?php echo plugin_page( 'repo_update_page' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo lang_get( 'plugin_Source_update' ), ' ', lang_get( 'plugin_Source_repository' ) ?>"/></form>
-<form action="<?php echo plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo lang_get( 'plugin_Source_delete' ), ' ', lang_get( 'plugin_Source_repository' ) ?>"/></form>
+<form action="<?php echo plugin_page( 'repo_update_page' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'repository' ) ?>"/></form>
+<form action="<?php echo plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'delete' ), ' ', plugin_lang_get( 'repository' ) ?>"/></form>
 </td>
 <td class="right">
-<form action="<?php echo plugin_page( 'repo_import' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo lang_get( 'plugin_Source_import_data' ) ?>"/></form>
+<form action="<?php echo plugin_page( 'repo_import' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'import_data' ) ?>"/></form>
 </td>
 </tr>
 

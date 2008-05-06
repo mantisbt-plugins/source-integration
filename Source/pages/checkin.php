@@ -60,7 +60,7 @@ if ( ON == plugin_config_get( 'remote_checkin' ) ) {
 
 # Not validated by this point gets the boot!
 if ( !$t_valid ) {
-	die( lang_get( 'plugin_Source_invalid_checkin_url' ) );
+	die( plugin_lang_get( 'invalid_checkin_url' ) );
 }
 
 # Let plugins try to intepret POST data before we do
@@ -80,7 +80,7 @@ if ( is_array( $t_predata ) && count( $t_predata ) == 2 ) {
 
 # Repo not found
 if ( is_null( $t_repo ) ) {
-	die( lang_get( 'plugin_Source_invalid_repo' ) );
+	die( plugin_lang_get( 'invalid_repo' ) );
 }
 
 # Let the plugins handle commit data
@@ -88,7 +88,7 @@ $t_changesets = event_signal( 'EVENT_SOURCE_COMMIT', array( $t_repo, $f_data ) )
 
 # Changesets couldn't be loaded apparently
 if ( is_null( $t_changesets ) ) {
-	die( lang_get( 'plugin_Source_invalid_changeset' ) );
+	die( plugin_lang_get( 'invalid_changeset' ) );
 }
 
 # Save all changesets found by the check-in
