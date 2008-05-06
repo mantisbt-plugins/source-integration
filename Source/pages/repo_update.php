@@ -23,9 +23,13 @@ $t_type = SourceType($t_repo->type);
 $t_repo->name = $f_repo_name;
 $t_repo->url = $f_repo_url;
 
-$t_repo = event_signal( 'EVENT_SOURCE_UPDATE_REPO', array( $t_repo ) );
+$t_updated_repo = event_signal( 'EVENT_SOURCE_UPDATE_REPO', array( $t_repo ) );
 
-$t_repo->save();
+if ( !is_null( $t_updated_repo ) ) {
+	$t_updated_repo->save();
+} else {
+	$t_repo->save();
+}
 
 print_successful_redirect( plugin_page( 'repo_manage_page', true ) . '&id=' . $t_repo->id );
 
