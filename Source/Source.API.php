@@ -490,7 +490,7 @@ class SourceChangeset {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		$t_query = "SELECT * FROM $t_changeset_table WHERE id=" . db_param(0) . '
-				ORDER BY timestamp ASC';
+				ORDER BY timestamp DESC';
 		$t_result = db_query_bound( $t_query, array( $p_id ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
@@ -513,7 +513,7 @@ class SourceChangeset {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		$t_query = "SELECT * FROM $t_changeset_table WHERE repo_id=" . db_param(0) . '
-				ORDER BY timestamp ASC';
+				ORDER BY timestamp DESC';
 		if ( is_null( $p_page ) ) {
 			$t_result = db_query_bound( $t_query, array( $p_repo_id ) );
 		} else {
@@ -548,7 +548,7 @@ class SourceChangeset {
 		$t_query = "SELECT c.* FROM $t_changeset_table AS c
 		   		JOIN $t_bug_table AS b ON c.id=b.change_id
 				WHERE b.bug_id=" . db_param(0) . '
-				ORDER BY c.timestamp ASC';
+				ORDER BY c.timestamp DESC';
 		$t_result = db_query_bound( $t_query, array( $p_bug_id ) );
 
 		$t_changesets = array();
