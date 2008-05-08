@@ -38,7 +38,7 @@ class SourcePlugin extends MantisPlugin {
 			'manage_threshold'	=> ADMINISTRATOR,
 			'view_threshold'	=> VIEWER,
 
-			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s+(?:#?(?:\d+)[,\.\s]+)+/i',
+			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
 			'buglink_regex_2'	=> '/#?(\d+)/',
 
 			'remote_checkin'	=> OFF,
