@@ -1,0 +1,127 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+MantisSourcePlugin	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^abstract class MantisSourcePlugin extends MantisPlugin {$/;"	c
+SourceChangeset	/space/workspace/mantis-source/Source/Source.API.php	/^class SourceChangeset {$/;"	c
+SourceFile	/space/workspace/mantis-source/Source/Source.API.php	/^class SourceFile {$/;"	c
+SourceGenericPlugin	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^class SourceGenericPlugin extends MantisSourcePlugin {$/;"	c
+SourceGithubPlugin	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^class SourceGithubPlugin extends MantisSourcePlugin {$/;"	c
+SourceIntegrationPlugin	/space/workspace/mantis-source/Source/SourceIntegration.php	/^final class SourceIntegrationPlugin extends MantisPlugin {$/;"	c
+SourcePlugin	/space/workspace/mantis-source/Source/Source.php	/^class SourcePlugin extends MantisPlugin {$/;"	c
+SourceRepo	/space/workspace/mantis-source/Source/Source.API.php	/^class SourceRepo {$/;"	c
+SourceSFSVNPlugin	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^class SourceSFSVNPlugin extends MantisSourcePlugin {$/;"	c
+SourceType	/space/workspace/mantis-source/Source/Source.API.php	/^function SourceType( $p_type ) {$/;"	f
+SourceTypes	/space/workspace/mantis-source/Source/Source.API.php	/^function SourceTypes() {$/;"	f
+SourceWebSVNPlugin	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^class SourceWebSVNPlugin extends MantisSourcePlugin {$/;"	c
+Source_Changeset_Link_Callback	/space/workspace/mantis-source/Source/Source.API.php	/^function Source_Changeset_Link_Callback( $p_matches ) {$/;"	f
+Source_Parse_Buglinks	/space/workspace/mantis-source/Source/Source.API.php	/^function Source_Parse_Buglinks( $p_string ) {$/;"	f
+__construct	/space/workspace/mantis-source/Source/Source.API.php	/^	function __construct( $p_change_id, $p_revision, $p_filename, $p_action='' ) {$/;"	f
+__construct	/space/workspace/mantis-source/Source/Source.API.php	/^	function __construct( $p_repo_id, $p_revision, $p_branch='', $p_timestamp='', $p_author='', $p_message='', $p_user_id=0 ) {$/;"	f
+__construct	/space/workspace/mantis-source/Source/Source.API.php	/^	function __construct( $p_type, $p_name, $p_url='', $p_info='' ) {$/;"	f
+check_svn	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function check_svn() {$/;"	f
+check_svn	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function check_svn() {$/;"	f
+commit	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function commit( $p_event, $p_repo, $p_data ) {}$/;"	f
+commit	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function commit( $p_event, $p_repo, $p_data ) {$/;"	f
+commit	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function commit( $p_event, $p_repo, $p_data ) {$/;"	f
+commit	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function commit( $p_event, $p_repo, $p_data ) {$/;"	f
+config	/space/workspace/mantis-source/Source/Source.php	/^	function config() {$/;"	f
+delete	/space/workspace/mantis-source/Source/Source.API.php	/^	static function delete( $p_id ) {$/;"	f
+delete_by_changeset	/space/workspace/mantis-source/Source/Source.API.php	/^	static function delete_by_changeset( $p_change_id ) {$/;"	f
+delete_by_repo	/space/workspace/mantis-source/Source/Source.API.php	/^	static function delete_by_repo( $p_repo_id ) {$/;"	f
+display_bug	/space/workspace/mantis-source/Source/SourceIntegration.php	/^	function display_bug( $p_event, $p_bug_id ) {$/;"	f
+display_formatted	/space/workspace/mantis-source/Source/SourceIntegration.php	/^	function display_formatted( $p_event, $p_string, $p_multiline ) {$/;"	f
+ensure_exists	/space/workspace/mantis-source/Source/Source.API.php	/^	static function ensure_exists( $p_id ) {$/;"	f
+events	/space/workspace/mantis-source/Source/Source.php	/^	function events() {$/;"	f
+exists	/space/workspace/mantis-source/Source/Source.API.php	/^	static function exists( $p_id ) {$/;"	f
+exists	/space/workspace/mantis-source/Source/Source.API.php	/^	static function exists( $p_repo_id, $p_revision, $p_branch=null ) {$/;"	f
+for	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^ * Abstract class for simplifying creation of source control plugins.$/;"	c
+for	/space/workspace/mantis-source/Source/Source.API.php	/^ * preg_replace_callback function for working with VCS links.$/;"	f
+get_types	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	abstract function get_types( $p_event );$/;"	f
+get_types	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function get_types( $p_event ) {$/;"	f
+get_types	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function get_types( $p_event ) {$/;"	f
+get_types	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function get_types( $p_event ) {$/;"	f
+get_types	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function get_types( $p_event ) {$/;"	f
+hooks	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function hooks() {$/;"	f
+hooks	/space/workspace/mantis-source/Source/Source.php	/^	function hooks() {$/;"	f
+hooks	/space/workspace/mantis-source/Source/SourceIntegration.php	/^	function hooks() {$/;"	f
+import_commits	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function import_commits( $p_repo, $p_uri_base, $p_commit_ids ) {$/;"	f
+import_latest	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function import_latest( $p_event, $p_repo )	{}$/;"	f
+import_repo	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function import_repo( $p_event, $p_repo ) {}$/;"	f
+import_repo	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function import_repo( $p_event, $p_repo ) {$/;"	f
+import_repo	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function import_repo( $p_event, $p_repo ) {$/;"	f
+import_repo	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function import_repo( $p_event, $p_repo ) {$/;"	f
+init	/space/workspace/mantis-source/Source/Source.php	/^	function init() {$/;"	f
+json_commit_changeset	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function json_commit_changeset( $p_repo, $p_json ) {$/;"	f
+load	/space/workspace/mantis-source/Source/Source.API.php	/^	static function load( $p_id ) {$/;"	f
+load_all	/space/workspace/mantis-source/Source/Source.API.php	/^	static function load_all() {$/;"	f
+load_bugs	/space/workspace/mantis-source/Source/Source.API.php	/^	function load_bugs() {$/;"	f
+load_by_bug	/space/workspace/mantis-source/Source/Source.API.php	/^	static function load_by_bug( $p_bug_id, $p_load_files=false ) {$/;"	f
+load_by_changeset	/space/workspace/mantis-source/Source/Source.API.php	/^	static function load_by_changeset( $p_change_id ) {$/;"	f
+load_by_changesets	/space/workspace/mantis-source/Source/Source.API.php	/^	static function load_by_changesets( $p_changesets ) { $/;"	f
+load_by_name	/space/workspace/mantis-source/Source/Source.API.php	/^	static function load_by_name( $p_repo_name ) {$/;"	f
+load_by_repo	/space/workspace/mantis-source/Source/Source.API.php	/^	static function load_by_repo( $p_repo_id, $p_load_files=false, $p_page=null, $p_limit=25  ) {$/;"	f
+load_files	/space/workspace/mantis-source/Source/Source.API.php	/^	function load_files() {$/;"	f
+menu_main	/space/workspace/mantis-source/Source/SourceIntegration.php	/^	function menu_main() {$/;"	f
+post_init	/space/workspace/mantis-source/Source/Source.php	/^	function post_init() {$/;"	f
+precommit	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function precommit( $p_event ) {}$/;"	f
+precommit	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function precommit( $p_event ) {$/;"	f
+process_svn_log	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function process_svn_log( $p_repo, $p_svnlog, $p_return_sets=true ) {$/;"	f
+process_svn_log	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function process_svn_log( $p_repo, $p_svnlog ) {$/;"	f
+register	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function register() {$/;"	f
+register	/space/workspace/mantis-source/Source/Source.php	/^	function register() {$/;"	f
+register	/space/workspace/mantis-source/Source/SourceIntegration.php	/^	function register() {$/;"	f
+register	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function register() {$/;"	f
+register	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function register() {$/;"	f
+register	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function register() {$/;"	f
+save	/space/workspace/mantis-source/Source/Source.API.php	/^	function save() {$/;"	f
+save_bugs	/space/workspace/mantis-source/Source/Source.API.php	/^	function save_bugs() {$/;"	f
+schema	/space/workspace/mantis-source/Source/Source.php	/^	function schema() {$/;"	f
+sf_url	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function sf_url( $p_repo ) {$/;"	f
+show_changeset	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	abstract function show_changeset( $p_event, $p_repo, $p_changeset);$/;"	f
+show_changeset	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function show_changeset( $p_event, $p_repo, $p_changeset ) {$/;"	f
+show_changeset	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function show_changeset( $p_event, $p_repo, $p_changeset ) {$/;"	f
+show_changeset	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function show_changeset( $p_event, $p_repo, $p_changeset ) {$/;"	f
+show_changeset	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function show_changeset( $p_event, $p_repo, $p_changeset ) {$/;"	f
+show_file	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	abstract function show_file( $p_event, $p_repo, $p_changeset, $p_file );$/;"	f
+show_file	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+show_file	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+show_file	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+show_file	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+show_type	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	abstract function show_type( $p_event, $p_type );$/;"	f
+show_type	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function show_type( $p_event, $p_type ) {$/;"	f
+show_type	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function show_type( $p_event, $p_type ) {$/;"	f
+show_type	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function show_type( $p_event, $p_type ) {$/;"	f
+show_type	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function show_type( $p_event, $p_type ) {$/;"	f
+stats	/space/workspace/mantis-source/Source/Source.API.php	/^	function stats() {$/;"	f
+update_repo	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function update_repo( $p_event, $p_repo ) {}$/;"	f
+update_repo	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function update_repo( $p_event, $p_repo ) {$/;"	f
+update_repo	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function update_repo( $p_event, $p_repo ) {$/;"	f
+update_repo	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function update_repo( $p_event, $p_repo ) {$/;"	f
+update_repo_form	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function update_repo_form( $p_event, $p_repo ) {}$/;"	f
+update_repo_form	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function update_repo_form( $p_event, $p_repo ) {$/;"	f
+update_repo_form	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function update_repo_form( $p_event, $p_repo ) {$/;"	f
+update_repo_form	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function update_repo_form( $p_event, $p_repo ) {$/;"	f
+uri_base	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function uri_base( $p_repo ) {$/;"	f
+url_changeset	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	abstract function url_changeset( $p_event, $p_repo, $p_changeset );$/;"	f
+url_changeset	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function url_changeset( $p_event, $p_repo, $p_changeset ) {$/;"	f
+url_changeset	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function url_changeset( $p_event, $p_repo, $p_changeset ) {$/;"	f
+url_changeset	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function url_changeset( $p_event, $p_repo, $p_changeset ) {$/;"	f
+url_changeset	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function url_changeset( $p_event, $p_repo, $p_changeset ) {$/;"	f
+url_diff	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	abstract function url_diff( $p_event, $p_repo, $p_changeset, $p_file );$/;"	f
+url_diff	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+url_diff	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+url_diff	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+url_diff	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+url_file	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	abstract function url_file( $p_event, $p_repo, $p_changeset, $p_file );$/;"	f
+url_file	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+url_file	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+url_file	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+url_file	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {$/;"	f
+url_repo	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	abstract function url_repo( $p_event, $p_repo, $t_changeset=null );$/;"	f
+url_repo	/space/workspace/mantis-source/Source/MantisSourcePlugin.class.php	/^	function url_repo( $p_event, $p_repo, $t_changeset=null ) {$/;"	f
+url_repo	/space/workspace/mantis-source/SourceGithub/SourceGithub.php	/^	function url_repo( $p_event, $p_repo, $t_changeset=null ) {$/;"	f
+url_repo	/space/workspace/mantis-source/SourceSFSVN/SourceSFSVN.php	/^	function url_repo( $p_event, $p_repo, $p_changeset=null ) {$/;"	f
+url_repo	/space/workspace/mantis-source/SourceWebSVN/SourceWebSVN.php	/^	function url_repo( $p_event, $p_repo, $p_changeset=null ) {$/;"	f
