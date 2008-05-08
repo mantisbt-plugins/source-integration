@@ -220,7 +220,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$t_result = $this->import_json_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits );
 
-		return true;
+		return array();
 	}
 
 	function import_repo( $p_event, $p_repo ) {
@@ -238,7 +238,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		echo '</pre>';
 
-		return array();
+		return true;
 	}
 
 	function import_json_commits( $p_repo, $p_uri_base, $p_commit_id ) {
