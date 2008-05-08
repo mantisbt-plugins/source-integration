@@ -509,12 +509,16 @@ class SourceChangeset {
 	 * @param int Repository ID
 	 * @return array Changeset objects
 	 */
-	static function load_by_repo( $p_repo_id, $p_load_files=false  ) {
+	static function load_by_repo( $p_repo_id, $p_load_files=false, $p_page=null, $p_limit=25  ) {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		$t_query = "SELECT * FROM $t_changeset_table WHERE repo_id=" . db_param(0) . '
 				ORDER BY timestamp ASC';
-		$t_result = db_query_bound( $t_query, array( $p_repo_id ) );
+		if ( is_null( $p_page ) ) {
+			$t_result = db_query_bound( $t_query, array( $p_repo_id ) );
+		} else {
+			$t_result = db_query_bound( $t_query, array( $p_repo_id ), $p_limit, ($p_page - 1) * $p_limit );
+		}
 
 		$t_changesets = array();
 
