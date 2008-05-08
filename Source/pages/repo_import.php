@@ -31,10 +31,10 @@ $t_new_repo->save();
 $t_status = event_signal( 'EVENT_SOURCE_IMPORT_REPO', array( $t_new_repo ) );
 
 if ( $t_status ) {
-	SourceRepo::delete( $t_repo->id );
-
 	$t_new_repo->name = $t_repo->name;
 	$t_new_repo->save();
+
+	SourceRepo::delete( $t_repo->id );
 
 	echo '<br/><div class="center">';
 	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_new_repo->id, 'Return To Repository' );
