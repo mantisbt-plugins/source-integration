@@ -177,9 +177,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		$t_url = $p_repo->url;
 		$t_svnlog = explode( "\n", `svn log -v $t_url` );
 
-		$this->process_svn_log( $p_repo, $t_svnlog, false );
-
-		return true;
+		return $this->process_svn_log( $p_repo, $t_svnlog );
 	}
 
 	function check_svn() {
@@ -188,11 +186,10 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
-	function process_svn_log( $p_repo, $p_svnlog, $p_return_sets=true ) {
+	function process_svn_log( $p_repo, $p_svnlog ) {
 		$t_state = 0;
 		$t_svnline = str_pad( '', 72, '-' );
 
-		$t_changesets = array();
 		$t_changeset = null;
 		$t_comments = '';
 		$t_count = 0;
@@ -208,12 +205,8 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 			# Changeset info
 			} elseif ( 1 == $t_state && preg_match( '/^r([0-9]+) \| (\w+) \| ([0-9\-]+) ([0-9:]+)/', $t_line, $t_matches ) ) {
 				if ( !is_null( $t_changeset ) ) {
-					if ( $p_return_sets ) {
-						$t_changesets[] = $t_changeset;
-					} else {
-						$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
-						$t_changeset->save();
-					}
+					$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
+					$t_changeset->save();
 				}
 
 				$t_user_id = user_get_id_by_name( $t_matches[2] );
@@ -271,14 +264,10 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		}
 
 		if ( !is_null( $t_changeset ) ) {
-			if ( $p_return_sets ) {
-				$t_changesets[] = $t_changeset;
-			} else {
-				$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
-				$t_changeset->save();
-			}
+			$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
+			$t_changeset->save();
 		}
 
-		return $t_changesets;
+		return true;
 	}
 }

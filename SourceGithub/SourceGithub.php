@@ -218,9 +218,9 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_commits[] = $t_id;
 		}
 
-		$t_result = $this->import_json_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits );
+		$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits );
 
-		return array();
+		return true;
 	}
 
 	function import_repo( $p_event, $p_repo ) {
@@ -234,18 +234,18 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_branch = 'master';
 		}
 
-		$t_result = $this->import_json_commits( $p_repo, $this->uri_base( $p_repo ), $t_branch );
+		$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_branch );
 
 		echo '</pre>';
 
 		return true;
 	}
 
-	function import_json_commits( $p_repo, $p_uri_base, $p_commit_id ) {
-		if ( is_array( $p_commit_id ) ) {
+	function import_commits( $p_repo, $p_uri_base, $p_commit_ids ) {
+		if ( is_array( $p_commit_ids ) ) {
 			$t_parents = $p_commit_id;
 		} else {
-			$t_parents = array( $p_commit_id );
+			$t_parents = array( $p_commit_ids );
 		}
 
 		while( count( $t_parents ) > 0 ) {

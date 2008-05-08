@@ -84,21 +84,10 @@ if ( is_null( $t_repo ) ) {
 }
 
 # Let the plugins handle commit data
-$t_changesets = event_signal( 'EVENT_SOURCE_COMMIT', array( $t_repo, $f_data ) );
+$t_status = event_signal( 'EVENT_SOURCE_COMMIT', array( $t_repo, $f_data ) );
 
 # Changesets couldn't be loaded apparently
-if ( is_null( $t_changesets ) ) {
+if ( !$t_status ) {
 	die( plugin_lang_get( 'invalid_changeset' ) );
-}
-
-# Save all changesets found by the check-in
-if ( is_array( $t_changesets ) ) {
-	foreach ( $t_changesets as $t_changeset ) {
-		$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
-		$t_changeset->save();
-	}
-} else {
-	$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
-	$t_changeset->save();
 }
 
