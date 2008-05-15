@@ -266,7 +266,10 @@ class SourceRepo {
 	 * @return array Repository objects
 	 */
 	static function load_by_changesets( $p_changesets ) { 
-		if ( count( $p_changesets ) < 1 ) {
+		if ( !is_array( $p_changesets ) ) {
+			$p_changesets = array( $p_changesets );
+		}
+		elseif ( count( $p_changesets ) < 1 ) {
 			return array();
 		}
 
