@@ -39,6 +39,7 @@ html_page_top2();
 <td><?php echo "Author" ?></td>
 <td><?php echo "Message" ?></td>
 <td><?php echo "Timestamp" ?></td>
+<td><?php echo "Actions" ?></td>
 </tr>
 
 <?php foreach( $t_changesets as $t_changeset ) { ?>
@@ -47,6 +48,7 @@ html_page_top2();
 <td><?php echo $t_changeset->author ?></td>
 <td><?php echo $t_changeset->message ?></td>
 <td><?php echo $t_changeset->timestamp ?></td>
+<td><?php print_bracket_link( plugin_page( 'view' ) . '&id=' . $t_changeset->id, "Details" ) ?></td>
 </tr>
 
 <?php } ?>
