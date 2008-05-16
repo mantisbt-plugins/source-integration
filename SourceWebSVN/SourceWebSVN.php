@@ -43,7 +43,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 	function show_changeset( $p_event, $p_repo, $p_changeset ) {
 		if ( 'svn' == $p_repo->type ) {
-			return "$p_repo->name ($p_changeset->branch r$p_changeset->revision)";
+			return "$p_changeset->branch r$p_changeset->revision";
 		}
 	}
 

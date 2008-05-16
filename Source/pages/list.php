@@ -31,13 +31,12 @@ html_page_top2();
 <table class="width100" cellspacing="1" align="center">
 
 <tr>
-<td class="form-title" colspan="3"><?php echo "Changesets: ", $t_repo->name ?></td>
-<td class="right" colspan="2"><?php print_bracket_link( plugin_page( 'index' ), "Back to Index" ) ?></td>
+<td class="form-title" colspan="2"><?php echo "Changesets: ", $t_repo->name ?></td>
+<td class="right" colspan="1"><?php print_bracket_link( plugin_page( 'index' ), "Back to Index" ) ?></td>
 <tr>
 
 <tr class="row-category">
-<td><?php echo "Timestamp" ?></td>
-<td><?php echo "Revision" ?></td>
+<td><?php echo "Changeset" ?></td>
 <td><?php echo "Author" ?></td>
 <td colspan="2"><?php echo "Message" ?></td>
 </tr>
@@ -48,8 +47,7 @@ foreach( $t_changesets as $t_changeset ) {
  	$t_css = helper_alternate_class();
 ?>
 <tr <?php echo $t_css ?>>
-<td rowspan="<?php echo $t_rows ?>"><?php echo $t_changeset->timestamp ?></td>
-<td rowspan="<?php echo $t_rows ?>"><?php echo $t_changeset->revision ?></td>
+<td rowspan="<?php echo $t_rows ?>"><strong><?php echo event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></strong><br/><span class="small"><?php echo $t_changeset->timestamp ?></span></td>
 <td rowspan="<?php echo $t_rows ?>"><?php echo $t_changeset->author ?></td>
 <td colspan="2"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>
