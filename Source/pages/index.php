@@ -47,7 +47,8 @@ html_page_top2();
 <td class="right"><?php echo $t_stats['bugs'] ?></td>
 <td class="center">
 <?php 
-	print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', $t_repo ), plugin_lang_get( 'browse' ) );
+	print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id, plugin_lang_get( 'browse' ) );
+	#print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', $t_repo ), plugin_lang_get( 'browse' ) );
 	if ( $t_can_manage ) {
 		if ( preg_match( '/^Import \d+-\d+\d+/', $t_repo->name ) ) {
 			print_bracket_link( plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id, plugin_lang_get( 'delete' ) );
