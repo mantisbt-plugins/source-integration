@@ -56,32 +56,29 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 		<?php
 		foreach ( $t_changesets as $t_changeset ) {
 			$t_repo = $t_repos[$t_changeset->repo_id];
-			$t_first = true;
+			$t_css = helper_alternate_class();
 			?>
 
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
-	<?php echo string_display( $t_repo->name . event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ) ?>
-	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', string_display_line( $t_changeset->author ) ?></span>
+<tr class="row-1">
+<td class="category" width="25%" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
+	<?php echo string_display( $t_repo->name . ' ( ' . event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) . ' )' ) ?>
 	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
+	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', string_display_line( $t_changeset->author ) ?></span>
 	<br/><span class="small"><?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', array( $t_repo, $t_changeset ) ), plugin_lang_get( 'browse', 'Source' ) ) ?>
 		<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_CHANGESET', array( $t_repo, $t_changeset ) ), plugin_lang_get( 'changeset', 'Source' ) ) ?></span>
 </td>
+<td colspan="2"><?php echo string_display_links( $t_changeset->message ) ?></td>
+</tr>
 
-		<?php foreach ( $t_changeset->files as $t_file ) {
-			echo ( $t_first ? '' : '<tr ' . helper_alternate_class() . '>' ); ?>
+		<?php foreach ( $t_changeset->files as $t_file ) { ?>
+<tr class="row-2">
 <td><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
-<td class="center">
+<td class="center" width="15%">
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'diff', 'Source' ) ) ?>
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'file', 'Source' ) ) ?>
 </td>
 </tr>
-
-		<?php $t_first = false; } ?>
-
-<tr <?php echo helper_alternate_class() ?>>
-<td colspan="2"><?php echo '<pre>', wordwrap( string_display_links( $t_changeset->message ), 100 ), '</pre>' ?></td>
-</tr>
+		<?php } ?>
 
 <tr><td class="spacer"></td></tr>
 

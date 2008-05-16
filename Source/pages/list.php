@@ -35,28 +35,32 @@ html_page_top2();
 <td class="right" colspan="1"><?php print_bracket_link( plugin_page( 'index' ), "Back to Index" ) ?></td>
 <tr>
 
+<?php /*
 <tr class="row-category">
 <td><?php echo "Changeset" ?></td>
 <td><?php echo "Author" ?></td>
 <td colspan="2"><?php echo "Message" ?></td>
 </tr>
+ */ ?>
 
 <?php
 foreach( $t_changesets as $t_changeset ) {
 	$t_rows = count( $t_changeset->files ) + 1;
- 	$t_css = helper_alternate_class();
 ?>
-<tr <?php echo $t_css ?>>
-<td rowspan="<?php echo $t_rows ?>"><strong><?php echo event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></strong><br/><span class="small"><?php echo $t_changeset->timestamp ?></span></td>
-<td rowspan="<?php echo $t_rows ?>"><?php echo $t_changeset->author ?></td>
+<tr class="row-1">
+<td class="category" width="25%" rowspan="<?php echo $t_rows ?>">
+	<strong><?php echo event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></strong><br/>
+	<span class="small"><?php echo "Timestamp: ", $t_changeset->timestamp ?></span><br/>
+	<span class="small"><?php echo "Author: ", $t_changeset->author ?></span>
+</td>
 <td colspan="2"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>
 
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
 
-<tr <?php echo $t_css ?>>
+<tr class="row-2">
 <td><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
-<td class="center">
+<td class="center" width="15%">
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'diff', 'Source' ) ) ?>
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'file', 'Source' ) ) ?>
 </td>
@@ -68,16 +72,16 @@ foreach( $t_changesets as $t_changeset ) {
 
 <?php } ?>
 
-</table>
+<tr>
+<td colspan="3" class="center">
 
-<div class="center">
-<?php
+<?php #PAGINATION
 $t_count = $t_stats['changesets'];
 
 if ( $t_count > $f_perpage ) {
 	$t_page = 1;
 	while( $t_count > 0 ) {
-		if ( $t_page > 1 && $t_page % 10 != 1 ) {
+		if ( $t_page > 1 && $t_page % 15 != 1 ) {
 			echo ', ';
 		}
 
@@ -87,7 +91,7 @@ if ( $t_count > $f_perpage ) {
 			echo ' <a href="', plugin_page( 'list' ), '&id=', $t_repo->id, '&offset=', $t_page, '">', $t_page, '</a>';
 		}
 
-		if ( $t_page % 10 == 0 ) {
+		if ( $t_page % 15 == 0 ) {
 			echo '<br/>';
 		}
 
@@ -96,7 +100,10 @@ if ( $t_count > $f_perpage ) {
 	}
 }
 ?>
-</div>
+</td>
+</tr>
+
+</table>
 
 <?php
 html_page_bottom1( __FILE__ );

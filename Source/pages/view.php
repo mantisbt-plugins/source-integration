@@ -81,7 +81,7 @@ foreach ( $t_changeset->bugs as $t_bug_id ) {
 <td class="category" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
 	<?php echo "Changeset" ?>
 </td>
-<td colspan="4"><?php echo '<pre>', wordwrap( string_display_links( $t_changeset->message ), 100 ), '</pre>' ?></td>
+<td colspan="4"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>
 
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
