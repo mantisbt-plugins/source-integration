@@ -13,8 +13,6 @@
 
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 
-helper_ensure_post();
-
 $f_repo_name = gpc_get_string( 'repo_name' );
 $f_repo_type = gpc_get_string( 'repo_type' );
 

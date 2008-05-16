@@ -91,7 +91,7 @@ class SourceGenericPlugin extends MantisSourcePlugin {
 	}
 
 	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		return $p_file->filename . ' (' . $p_changeset->revision . ')';
+		return $p_file->filename . ' (' . $p_file->revision . ')';
 	}
 
 	function url_repo( $p_event, $p_repo, $t_changeset=null ) {

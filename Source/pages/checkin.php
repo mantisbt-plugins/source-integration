@@ -11,8 +11,6 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-helper_ensure_post();
-
 $t_address = $_SERVER['REMOTE_ADDR'];
 $t_valid = false;
 
