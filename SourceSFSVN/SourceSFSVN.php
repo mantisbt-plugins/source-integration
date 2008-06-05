@@ -169,6 +169,18 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		return $this->process_svn_log( $p_repo, $t_svnlog );
 	}
 
+	function import_latest( $p_event, $p_repo ) {
+		if ( 'sfsvn' != $p_repo->type ) {
+			return;
+		}
+
+		$this->check_svn();
+
+		# TODO: Retrieve the highest revision from SQL
+		# TODO: `svn log` changesets from our rev onward
+		# TODO: Port feature to SourceWebSVN
+	}
+
 	function check_svn() {
 		if ( is_blank( `svn help` ) ) {
 			trigger_error( ERROR_GENERIC, ERROR );
