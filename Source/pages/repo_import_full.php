@@ -17,7 +17,7 @@ $f_repo_id = gpc_get_string( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
 
-helper_ensure_confirmed( plugin_lang_get( 'ensure_import' ), plugin_lang_get( 'import_data' ) );
+helper_ensure_confirmed( plugin_lang_get( 'ensure_import_full' ), plugin_lang_get( 'import_full' ) );
 helper_begin_long_process();
 
 html_page_top1();
@@ -28,7 +28,7 @@ $t_new_repo->id = 0;
 $t_new_repo->name = 'Import ' . date( 'Y-m-d H:i:s' );
 $t_new_repo->save();
 
-$t_status = event_signal( 'EVENT_SOURCE_IMPORT_REPO', array( $t_new_repo ) );
+$t_status = event_signal( 'EVENT_SOURCE_IMPORT_FULL', array( $t_new_repo ) );
 
 if ( $t_status ) {
 	$t_new_repo->name = $t_repo->name;
