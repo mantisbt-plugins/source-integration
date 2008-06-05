@@ -23,7 +23,7 @@ html_page_top2();
 ?>
 
 <br/>
-<table class="width50" align="center" cellspacing="1">
+<table class="width75" align="center" cellspacing="1">
 
 <tr>
 <td class="form-title" colspan="2"><?php echo plugin_lang_get( 'manage' ), ' ', plugin_lang_get( 'repository' ) ?></td>
@@ -56,9 +56,9 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 </tr>
 
 <tr>
-<td width="50%"></td>
 <td width="30%"></td>
 <td width="20%"></td>
+<td width="50%"></td>
 </tr>
 
 <tr>
@@ -67,7 +67,8 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <form action="<?php echo plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'delete' ), ' ', plugin_lang_get( 'repository' ) ?>"/></form>
 </td>
 <td class="right">
-<form action="<?php echo plugin_page( 'repo_import' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'import_data' ) ?>"/></form>
+<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'import_latest' ) ?>"/></form>
+<form action="<?php echo plugin_page( 'repo_import_full' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'import_full' ) ?>"/></form>
 </td>
 </tr>
 

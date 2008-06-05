@@ -35,7 +35,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 			'EVENT_SOURCE_PRECOMMIT'		=> 'precommit',
 			'EVENT_SOURCE_COMMIT'			=> 'commit',
 
-			'EVENT_SOURCE_IMPORT_REPO'		=> 'import_repo',
+			'EVENT_SOURCE_IMPORT_FULL'		=> 'import_full',
 			'EVENT_SOURCE_IMPORT_LATEST'	=> 'import_latest',
 		);
 	}
@@ -57,7 +57,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	function precommit( $p_event ) {}
 	function commit( $p_event, $p_repo, $p_data ) {}
 
-	function import_repo( $p_event, $p_repo ) {}
+	function import_full( $p_event, $p_repo ) {}
 	function import_latest( $p_event, $p_repo )	{}
 }
 
