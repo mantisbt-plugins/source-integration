@@ -23,7 +23,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		$this->version = '0.9b';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
-			'Source' => '0.9b',
+			'Source' => '0.10',
 		);
 
 		$this->author = 'John Reese';
