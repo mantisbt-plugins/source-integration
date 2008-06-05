@@ -167,7 +167,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 	}
 
-	function import_repo( $p_event, $p_repo ) {
+	function import_full( $p_event, $p_repo ) {
 		if ( 'svn' != $p_repo->type ) {
 			return;
 		}

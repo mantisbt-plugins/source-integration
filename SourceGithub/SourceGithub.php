@@ -223,7 +223,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return true;
 	}
 
-	function import_repo( $p_event, $p_repo ) {
+	function import_full( $p_event, $p_repo ) {
 		if ( 'github' != $p_repo->type ) {
 			return;
 		}

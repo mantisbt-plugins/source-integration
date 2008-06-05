@@ -156,7 +156,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 
 	}
 
-	function import_repo( $p_event, $p_repo ) {
+	function import_full( $p_event, $p_repo ) {
 		if ( 'sfsvn' != $p_repo->type ) {
 			return;
 		}
