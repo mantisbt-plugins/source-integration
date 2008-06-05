@@ -55,6 +55,9 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 	function url_repo( $p_event, $p_repo, $p_changeset=null ) {
 		if ( 'svn' == $p_repo->type ) {
+			$t_rev = '';
+			$t_path = '';
+
 			if ( !is_null( $p_changeset ) ) {
 				$t_rev = '&rev=' . urlencode( $p_changeset->revision );
 			}
