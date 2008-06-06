@@ -241,6 +241,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return true;
 	}
 
+	function import_latest( $p_event, $p_repo ) {
+		import_full( $p_event, $p_repo );
+	}
+
 	function import_commits( $p_repo, $p_uri_base, $p_commit_ids ) {
 		if ( is_array( $p_commit_ids ) ) {
 			$t_parents = $p_commit_id;
