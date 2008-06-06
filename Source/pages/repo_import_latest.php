@@ -12,3 +12,28 @@
 # GNU General Public License for more details.
 
 # TODO: Implement cron-able usage similar to checkin.php?
+
+access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
+
+$f_repo_id = gpc_get_string( 'id' );
+
+$t_repo = SourceRepo::load( $f_repo_id );
+
+helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
+helper_begin_long_process();
+
+html_page_top1();
+html_page_top2();
+
+$t_status = event_signal( 'EVENT_SOURCE_IMPORT_LATEST', array( $t_repo ) );
+
+if ( !$t_status ) {
+	echo 'Importing latest changes failed.';
+}
+
+echo '<br/><div class="center">';
+print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
+echo '</div>';
+
+html_page_bottom1();
+
