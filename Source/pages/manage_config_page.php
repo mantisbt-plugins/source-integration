@@ -19,13 +19,17 @@ html_page_top2();
 
 print_manage_menu();
 
-$t_checkin_urls = unserialize( plugin_config_get( 'checkin_urls' ) );
 $t_remote_checkin = plugin_config_get( 'remote_checkin' );
+$t_checkin_urls = unserialize( plugin_config_get( 'checkin_urls' ) );
+
+$t_remote_import = plugin_config_get( 'remote_imports' );
+$t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
+
 ?>
 
 <br/>
 <form action="<?php echo plugin_page( 'manage_config' ) ?>" method="post">
-<table class="width60" align="center" cellspacing="1">
+<table class="width75" align="center" cellspacing="1">
 
 <tr>
 <td class="form-title" colspan="2"><?php echo plugin_lang_get( 'title' ), ': ', plugin_lang_get( 'configuration' ) ?></td>
@@ -70,6 +74,22 @@ $t_remote_checkin = plugin_config_get( 'remote_checkin' );
 <td class="category"><?php echo plugin_lang_get( 'remote_checkin_urls' ) ?></td>
 <td><textarea name="checkin_urls" rows="8" cols="50"><?php
 foreach( $t_checkin_urls as $t_ip ) {
+	echo string_textarea( $t_ip ),"\n";
+}
+?></textarea></td>
+</tr>
+
+<tr><td class="spacer"></td></tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'allow_remote_import' ) ?></td>
+<td><input name="remote_import" type="checkbox" <?php echo (ON == $t_remote_import ? 'checked="checked"' : '') ?>></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'remote_import_urls' ) ?></td>
+<td><textarea name="import_urls" rows="8" cols="50"><?php
+foreach( $t_import_urls as $t_ip ) {
 	echo string_textarea( $t_ip ),"\n";
 }
 ?></textarea></td>

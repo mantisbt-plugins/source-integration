@@ -43,6 +43,9 @@ class SourcePlugin extends MantisPlugin {
 
 			'remote_checkin'	=> OFF,
 			'checkin_urls'		=> serialize( array( 'localhost' ) ),
+
+			'remote_imports'	=> OFF,
+			'import_urls'		=> serialize( array( 'localhost' ) ),
 		);
 	}
 
