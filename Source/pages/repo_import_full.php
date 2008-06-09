@@ -36,7 +36,10 @@ if ( $t_status ) {
 
 	SourceRepo::delete( $t_repo->id );
 
+	$t_stats = $t_new_repo->stats();
+
 	echo '<br/><div class="center">';
+	echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stats['files'], $t_stats['bugs'] ), '<br/>';
 	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_new_repo->id, 'Return To Repository' );
 	echo '</div>';
 
@@ -44,6 +47,7 @@ if ( $t_status ) {
 	SourceRepo::delete( $t_new_repo->id );
 
 	echo '<br/><div class="center">';
+	echo plugin_lang_get( 'import_full_failed' ), '<br/>';
 	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
 	echo '</div>';
 }

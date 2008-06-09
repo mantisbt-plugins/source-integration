@@ -25,13 +25,22 @@ helper_begin_long_process();
 html_page_top1();
 html_page_top2();
 
+$t_pre_stats = $t_repo->stats();
+
 $t_status = event_signal( 'EVENT_SOURCE_IMPORT_LATEST', array( $t_repo ) );
 
-if ( !$t_status ) {
-	echo 'Importing latest changes failed.';
-}
+$t_stats = $t_repo->stats();
+$t_stats['changesets'] -= $t_pre_stats['changesets'];
+$t_stats['files'] -= $t_pre_stats['files'];
+$t_stats['bugs'] -= $t_pre_stats['bugs'];
 
 echo '<br/><div class="center">';
+echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stats['files'], $t_stats['bugs'] ), '<br/>';
+
+if ( !$t_status ) {
+	echo plugin_lang_get( 'import_latest_failed' ), '<br/>';
+}
+
 print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
 echo '</div>';
 
