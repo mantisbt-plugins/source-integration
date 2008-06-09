@@ -183,6 +183,27 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		return $this->process_svn_log( $p_repo, $t_svnlog );
 	}
 
+	function import_latest( $p_event, $p_repo ) {
+		if ( 'svn' != $p_repo->type ) {
+			return;
+		}
+
+		$this->check_svn();
+
+		$t_changeset_table = plugin_table( 'changeset', 'Source' );
+
+		$t_max_query = "SELECT revision FROM $t_changeset_table
+						WHERE repo_id=" . db_param(0) . '
+						ORDER BY timestamp DESC';
+		$t_db_revision = db_result( db_query_bound( $t_max_query, array( $p_repo->id ), 1 ) );
+
+		$t_url = $p_repo->url;
+		$t_rev = $t_db_revision + 1;
+		$t_svnlog = explode( "\n", `svn log -v -r $t_rev:HEAD $t_url` );
+
+		return $this->process_svn_log( $p_repo, $t_svnlog );
+	}
+
 	function check_svn() {
 		if ( is_blank( `svn help` ) ) {
 			trigger_error( ERROR_GENERIC, ERROR );
