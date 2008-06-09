@@ -238,11 +238,13 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		echo '</pre>';
 
-		return true;
+		return $t_result;
 	}
 
 	function import_latest( $p_event, $p_repo ) {
-		import_full( $p_event, $p_repo );
+		$t_result = $this->import_full( $p_event, $p_repo );
+
+		return $t_result;
 	}
 
 	function import_commits( $p_repo, $p_uri_base, $p_commit_ids ) {
