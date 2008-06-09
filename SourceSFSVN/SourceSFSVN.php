@@ -196,7 +196,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
-	function process_svn_log( $p_repo, $p_svnlog, $p_return_sets=true ) {
+	function process_svn_log( $p_repo, $p_svnlog ) {
 		$t_state = 0;
 		$t_svnline = str_pad( '', 72, '-' );
 
