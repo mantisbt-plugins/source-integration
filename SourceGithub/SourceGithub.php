@@ -257,6 +257,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		while( count( $t_parents ) > 0 ) {
 			$t_commit_id = array_shift( $t_parents );
 
+			echo "Retrieving $t_commit_id ... ";
 			$t_uri = $p_uri_base . 'commit/' . $t_commit_id;
 			$t_json = json_url( $t_uri, 'commit' );
 
@@ -270,7 +271,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function json_commit_changeset( $p_repo, $p_json ) {
 
-		echo "Retrieved $p_json->id ... ";
+		echo "processing $p_json->id ... ";
 		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
 			$t_user_id = user_get_id_by_email( $p_json->author->email );
 			if ( false === $t_user_id ) {
@@ -304,7 +305,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			echo "saved.\n";
 			return $t_parents;
 		} else {
-			echo "rejected.\n";
+			echo "already exists.\n";
 			return array();
 		}
 	}
