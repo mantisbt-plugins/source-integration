@@ -249,7 +249,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	function import_commits( $p_repo, $p_uri_base, $p_commit_ids ) {
 		if ( is_array( $p_commit_ids ) ) {
-			$t_parents = $p_commit_id;
+			$t_parents = $p_commit_ids;
 		} else {
 			$t_parents = array( $p_commit_ids );
 		}
