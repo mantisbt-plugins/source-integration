@@ -25,7 +25,7 @@ html_page_top2();
 <br/>
 <form action="<?php echo plugin_page( 'repo_update.php' ) ?>" method="post">
 <input type="hidden" name="repo_id" value="<?php echo $t_repo->id ?>"/>
-<table class="width50" align="center" cellspacing="1">
+<table class="width60" align="center" cellspacing="1">
 
 <tr>
 <td class="form-title"><?php echo plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'repository' ) ?></td>
