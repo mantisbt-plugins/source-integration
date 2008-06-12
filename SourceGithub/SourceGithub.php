@@ -247,7 +247,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return $t_result;
 	}
 
-	function import_commits( $p_repo, $p_uri_base, $p_commit_ids ) {
+	function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
 		if ( is_array( $p_commit_ids ) ) {
 			$t_parents = $p_commit_ids;
 		} else {
@@ -261,7 +261,12 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_uri = $p_uri_base . 'commit/' . $t_commit_id;
 			$t_json = json_url( $t_uri, 'commit' );
 
-			$t_commit_parents = $this->json_commit_changeset( $p_repo, $t_json );
+			if ( false === $t_json ) {
+				echo "failed.\n";
+				continue;
+			}
+
+			$t_commit_parents = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
 
 			$t_parents = array_merge( $t_parents, $t_commit_parents );
 		}
@@ -269,7 +274,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return true;
 	}
 
-	function json_commit_changeset( $p_repo, $p_json ) {
+	function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
 
 		echo "processing $p_json->id ... ";
 		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
@@ -283,7 +288,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 				$t_parents[] = $t_parent->id;
 			}
 
-			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->id, '',
+			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->id, $p_branch,
 				$p_json->authored_date, $p_json->author->email,
 				$p_json->message, $t_user_id );
 
