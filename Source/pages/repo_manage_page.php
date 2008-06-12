@@ -27,7 +27,12 @@ html_page_top2();
 
 <tr>
 <td class="form-title" colspan="2"><?php echo plugin_lang_get( 'manage' ), ' ', plugin_lang_get( 'repository' ) ?></td>
-<td class="right"><?php print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) ) ?></td>
+<td class="right">
+<?php
+	print_bracket_link( plugin_page( 'list' ) . "&id=$f_repo_id", plugin_lang_get( 'browse' ) );
+	print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
+?>
+</td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
