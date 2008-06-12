@@ -20,7 +20,7 @@ if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) {
 }
 
 # Check for allowed remote IP/URL addresses
-if ( ON == plugin_config_get( 'remote_checkin' ) ) {
+if ( !$t_valid && ON == plugin_config_get( 'remote_checkin' ) ) {
 	$t_checkin_urls = unserialize( plugin_config_get( 'checkin_urls' ) );
 	preg_match( '/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/', $t_address, $t_address_matches );
 
