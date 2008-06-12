@@ -17,6 +17,18 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 
 require_once( config_get( 'core_path' ) . 'json_api.php' );
 
+if ( !function_exists( 'sgh_map' ) ) {
+	function sgh_map( $func, $list ) {
+		$new_list = array();
+
+		foreach( $list as $key => $item ) {
+			$new_list[$key] = call_user_func( 'trim', $item );
+		}
+
+		return $new_list;
+	}
+}
+
 class SourceGithubPlugin extends MantisSourcePlugin {
 	function register() {
 		$this->name = lang_get( 'plugin_SourceGithub_title' );
@@ -158,6 +170,11 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
 		$f_hub_branch = gpc_get_string( 'hub_branch' );
 
+		if ( !preg_match( '/^[a-zA-Z0-9_, -]*$/', $f_hub_branch ) ) {
+			echo 'Invalid parameter: \'Hub Branch\'';
+			trigger_error( ERROR_GENERIC, ERROR );
+		}
+
 		$p_repo->info['hub_username'] = $f_hub_username;
 		$p_repo->info['hub_reponame'] = $f_hub_reponame;
 		$p_repo->info['hub_branch'] = $f_hub_branch;
@@ -218,7 +235,12 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_commits[] = $t_id;
 		}
 
-		$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits );
+		$t_branch = '';
+		if ( preg_match( '@refs/heads/([a-zA-Z0-9_-]*)@', $p_data['ref'], $t_matches ) ) {
+			$t_branch = $t_matches[1];
+		}
+
+		$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch );
 
 		return true;
 	}
@@ -234,7 +256,11 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_branch = 'master';
 		}
 
-		$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_branch );
+		$t_branches = sgh_map( 'trim', explode( ',', $t_branch ) );
+
+		foreach( $t_branches as $t_branch ) {
+			$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_branch, $t_branch  );
+		}
 
 		echo '</pre>';
 
