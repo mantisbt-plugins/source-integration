@@ -11,16 +11,69 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-# TODO: Implement cron-able usage similar to checkin.php?
+$t_address = $_SERVER['REMOTE_ADDR'];
+$t_valid = false;
 
-access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
+# Always allow the same machine to import
+if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) {
+	$t_valid = true;
+}
+
+# Allow a logged-in user to import
+if ( !$t_valid && auth_is_user_authenticated() ) {
+	access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
+	helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
+
+	$t_valid = true;
+}
+
+helper_begin_long_process();
+
+# Check for allowed remote IP/URL addresses
+if ( !$t_valid && ON == plugin_config_get( 'remote_import' ) ) {
+	$t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
+	preg_match( '/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/', $t_address, $t_address_matches );
+
+	foreach ( $t_import_urls as $t_url ) {
+		if ( $t_valid ) break;
+
+		$t_url = trim( $t_url );
+
+		if ( preg_match( '/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/', $t_url, $t_remote_matches ) ) { # IP
+			if ( $t_url == $t_address ) {
+				$t_valid = true;
+				break;
+			}
+
+			$t_match = true;
+			for( $i = 1; $i <= 4; $i++ ) {
+				if ( $t_remote_matches[$i] == '0' || $t_address_matches[$i] == $t_remote_matches[$i] ) {
+				} else {
+					$t_match = false;
+					break;
+				}
+			}
+
+			$t_valid = $t_match;
+
+		} else {
+			$t_ip = gethostbyname( $t_url );
+			if ( $t_ip == $t_address ) {
+				$t_valid = true;
+				break;
+			}
+		}
+	}
+}
+
+# Not validated by this point gets the boot!
+if ( !$t_valid ) {
+	die( plugin_lang_get( 'invalid_import_url' ) );
+}
 
 $f_repo_id = gpc_get_string( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
-
-helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
-helper_begin_long_process();
 
 html_page_top1();
 html_page_top2();

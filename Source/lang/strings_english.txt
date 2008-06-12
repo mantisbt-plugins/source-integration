@@ -65,6 +65,7 @@ $s_plugin_Source_ensure_import_latest = 'This will attempt to import recent data
 $s_plugin_Source_import_stats = 'Imported %s changesets, %s files, and %s bug references.';
 
 $s_plugin_Source_invalid_checkin_url = 'Invalid remote check-in address';
+$s_plugin_Source_invalid_import_url = 'Invalid remote import address';
 $s_plugin_Source_invalid_repo = 'Invalid repository name';
 $s_plugin_Source_invalid_changeset = 'Changeset information could not be loaded';
 
