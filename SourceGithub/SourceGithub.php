@@ -34,10 +34,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->name = lang_get( 'plugin_SourceGithub_title' );
 		$this->description = lang_get( 'plugin_SourceGithub_description' );
 
-		$this->version = '0.1';
+		$this->version = '0.11';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
-			'Source' => '0.10',
+			'Source' => '0.11',
 		);
 
 		$this->author = 'John Reese';
