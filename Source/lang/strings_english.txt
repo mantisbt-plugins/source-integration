@@ -41,6 +41,7 @@ $s_plugin_Source_create = 'Create';
 $s_plugin_Source_import = 'Import';
 $s_plugin_Source_update = 'Update';
 $s_plugin_Source_delete = 'Delete';
+$s_plugin_Source_search = 'Search';
 $s_plugin_Source_select_one = '(Select one)';
 
 $s_plugin_Source_back = 'Back to Index';
