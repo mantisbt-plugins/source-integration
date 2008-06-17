@@ -25,6 +25,7 @@ class SourcePlugin extends MantisPlugin {
 		$this->version = plugin_lang_get( 'version' );
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
+			'Meta' => '0.1',
 		);
 		$this->page		= 'manage_config_page';
 

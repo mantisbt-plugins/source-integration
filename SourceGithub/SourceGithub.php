@@ -17,18 +17,6 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 
 require_once( config_get( 'core_path' ) . 'json_api.php' );
 
-if ( !function_exists( 'sgh_map' ) ) {
-	function sgh_map( $func, $list ) {
-		$new_list = array();
-
-		foreach( $list as $key => $item ) {
-			$new_list[$key] = call_user_func( 'trim', $item );
-		}
-
-		return $new_list;
-	}
-}
-
 class SourceGithubPlugin extends MantisSourcePlugin {
 	function register() {
 		$this->name = lang_get( 'plugin_SourceGithub_title' );
@@ -38,6 +26,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 			'Source' => '0.11',
+			'Meta' => '0.1',
 		);
 
 		$this->author = 'John Reese';
@@ -256,7 +245,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_branch = 'master';
 		}
 
-		$t_branches = sgh_map( 'trim', explode( ',', $t_branch ) );
+		$t_branches = map( 'trim', explode( ',', $t_branch ) );
 
 		foreach( $t_branches as $t_branch ) {
 			$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_branch, $t_branch  );
