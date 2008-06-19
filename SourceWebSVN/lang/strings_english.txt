@@ -15,7 +15,7 @@ $s_plugin_SourceWebSVN_ = '';
 $s_plugin_SourceWebSVN_title = 'Subversion / WebSVN Integration';
 $s_plugin_SourceWebSVN_description = 'Adds Subversion integration to the Source plugin framework using the WebSVN app.';
 
-$s_plugin_SourceWebSVN_svn = 'Subversion (WebSVN)';
+$s_plugin_SourceWebSVN_svn = 'WebSVN';
 $s_plugin_SourceWebSVN_websvn_url = 'WebSVN URL<br/><span class="small">(With trailing slash)</span>';
 $s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br/><span class="small">(Repository directory)</span>';
 $s_plugin_SourceWebSVN_websvn_path = 'WebSVN Path<br/><span class="small">(From repository root)</span>';

@@ -308,15 +308,15 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 				$p_json->message, $t_user_id );
 
 			foreach( $p_json->added as $t_added ) {
-				$t_changeset->files[] = new SourceFile( 0, '', $t_added->filename, 'A' );
+				$t_changeset->files[] = new SourceFile( 0, '', $t_added->filename, 'ADD' );
 			}
 
 			foreach( $p_json->removed as $t_removed ) {
-				$t_changeset->files[] = new SourceFile( 0, '', $t_removed->filename, 'D' );
+				$t_changeset->files[] = new SourceFile( 0, '', $t_removed->filename, 'RM' );
 			}
 
 			foreach( $p_json->modified as $t_modified ) {
-				$t_changeset->files[] = new SourceFile( 0, '', $t_modified->filename, 'M' );
+				$t_changeset->files[] = new SourceFile( 0, '', $t_modified->filename, 'MOD' );
 			}
 
 			$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
