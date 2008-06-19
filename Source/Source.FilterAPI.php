@@ -141,9 +141,9 @@ function Source_Process_FilterOption( $key, $option ) {
 	$value = null;
 	$text = false;
 
+	# Full-text searching
 	if ( in_array( $key, array( 'c.author', 'c.message', 'c.revision',
 								'c.branch', 'f.filename', 'f.revision' ) ) ) {
-		$text = true;
 
 		if ( !is_array( $var ) ) {
 			$var = explode( ' ', $var );
@@ -158,6 +158,21 @@ function Source_Process_FilterOption( $key, $option ) {
 		return array( $value, $var );
 	}
 
+	# Date searching
+	if ( $key == 'date_start' && !is_null( $value ) ) {
+		$wc = db_aparam();
+		$value = "c.timestamp >= $wc";
+
+		return array( $value, $var );
+	}
+	if ( $key == 'date_end' && !is_null( $value ) ) {
+		$wc = db_aparam();
+		$value = "c.timestamp <= $wc";
+
+		return array( $value, $var );
+	}
+
+	# Standard values
 	if ( is_array( $var ) ) {
 		$wc = map( 'db_aparam', $var );
 
