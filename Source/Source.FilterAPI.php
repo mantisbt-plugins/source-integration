@@ -193,13 +193,14 @@ function Source_Process_FilterOption( $key, $option ) {
 	if ( is_array( $value ) ) {
 		$wc = map( 'db_aparam', $value );
 
-		if ( count( $value ) > 1 ) {
+		$count = count( $value );
+		if ( $count > 1 ) {
 			if ( SOURCE_ANY == $how ) {
 				$sql = $key . ' IN (' . implode( ',', $wc ) . ')';
 			} else {
 				$sql = $key . ' NOT IN (' . implode( ',', $wc ) . ')';
 			}
-		} else {
+		} elseif ( $count == 1 ) {
 			$wc = $wc[0];
 
 			if ( SOURCE_ANY == $how ) {
@@ -229,11 +230,11 @@ function Source_Generate_Filter() {
 	$f_repo_id = Source_FilterOption_Permalink( 'repo_id', true );
 	$f_branch = Source_FilterOption_Permalink( 'branch', true );
 	$f_file_action = Source_FilterOption_Permalink( 'file_action', true );
-	$f_user_id = Source_FilterOption_Permalink( 'user_id' );
 
 	$f_revision = Source_FilterOption_Permalink( 'revision' );
 	$f_author = Source_FilterOption_Permalink( 'author' );
 	$f_user_id = Source_FilterOption_Permalink( 'user_id' );
+	$f_bug_id = Source_FilterOption_Permalink( 'bug_id' );
 
 	$f_filename = Source_FilterOption_Permalink( 'filename' );
 	$f_message = Source_FilterOption_Permalink( 'message' );
@@ -251,6 +252,8 @@ function Source_Generate_Filter() {
 
 	$t_filter->filters['r.id']->value = $f_repo_id;
 	$t_filter->filters['r.type']->value = $f_repo_type;
+
+	$t_filter->filters['b.bug_id']->value = ( !is_blank( $f_bug_id ) ? split( '[ ,]', $f_bug_id ) : array() );
 
 	$t_filter->filters['f.filename']->value = $f_filename;
 	$t_filter->filters['f.revision']->value = $f_revision;

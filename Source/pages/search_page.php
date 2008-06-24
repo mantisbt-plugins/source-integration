@@ -28,8 +28,8 @@ html_page_top2();
 <table class="width75" align="center" cellspacing="1">
 
 <tr>
-<td class="form-title"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>
-<td class="right" colspan="3">
+<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>
+<td class="right" colspan="5">
 <?php
 print_bracket_link( plugin_page( 'search_page' ), 'New Search' );
 ?>
@@ -52,31 +52,33 @@ print_bracket_link( plugin_page( 'search_page' ), 'New Search' );
 <tr class="spacer"><td></td></tr>
 
 <tr class="row-category">
-<td>Revision</td>
 <td>Author</td>
-<td colspan="2">Username</td>
+<td>Username</td>
+<td>Revision</td>
+<td>Bug #'s</td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="center"><input name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
 <td class="center"><?php Source_Author_Select( $t_filter->filters['c.author']->value ) ?></td>
-<td class="center" colspan="2"><?php Source_Username_Select( $t_filter->filters['c.user_id']->value ) ?></td>
+<td class="center"><?php Source_Username_Select( $t_filter->filters['c.user_id']->value ) ?></td>
+<td class="center"><input name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
+<td class="center"><input name="bug_id" size="10" value="<?php echo string_attribute( join( ',', $t_filter->filters['b.bug_id']->value ) ) ?>"/></td>
 </tr>
 
 <tr class="spacer"><td></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category">Message</td>
-<td colspan="3"><input name="message" size="40" value="<?php string_attribute( $t_filter->filters['c.message'] ) ?>"/></td>
+<td colspan="6"><input name="message" size="40" value="<?php echo string_attribute( $t_filter->filters['c.message']->value ) ?>"/></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category">Filenames</td>
-<td colspan="3"><input name="filename" size="40" value="<?php string_attribute( $t_filter->filters['f.filename'] ) ?>"/></td>
+<td colspan="6"><input name="filename" size="40" value="<?php echo string_attribute( $t_filter->filters['f.filename']->value ) ?>"/></td>
 </tr>
 
 <tr>
-<td class="center" colspan="3"><input type="submit"/></td>
+<td class="center" colspan="7"><input type="submit"/></td>
 </tr>
 
 </table>
