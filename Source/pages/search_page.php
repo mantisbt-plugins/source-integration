@@ -1,0 +1,87 @@
+<?php
+# Copyright (C) 2008	John Reese
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
+
+require_once( config_get( 'plugin_path' ) . 'Source' . DIRECTORY_SEPARATOR . 'Source.FilterAPI.php' );
+
+list( $t_filter, $t_permalink ) = Source_Generate_Filter();
+
+html_page_top1( plugin_lang_get( 'title' ) );
+html_page_top2();
+
+?>
+
+<br/>
+<form action="<?php echo helper_mantis_url( 'plugin.php' ) ?>" method="get">
+<input type="hidden" name="page" value="Source/search"/>
+<table class="width75" align="center" cellspacing="1">
+
+<tr>
+<td class="form-title"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>
+<td class="right" colspan="3">
+<?php
+print_bracket_link( plugin_page( 'search_page' ), 'New Search' );
+?>
+</tr>
+
+<tr class="row-category">
+<td>Source Control</td>
+<td>Repositories</td>
+<td>Branches</td>
+<td>Action</td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="center"><?php Source_Type_Select( $t_filter->filters['r.type']->value ) ?></td>
+<td class="center"><?php Source_Repo_Select( $t_filter->filters['r.id']->value ) ?></td>
+<td class="center"><?php Source_Branch_Select( $t_filter->filters['c.branch']->value ) ?></td>
+<td class="center"><?php Source_Action_Select( $t_filter->filters['f.action']->value ) ?></td>
+</tr>
+
+<tr class="spacer"><td></td></tr>
+
+<tr class="row-category">
+<td>Revision</td>
+<td>Author</td>
+<td colspan="2">Username</td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="center"><input name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
+<td class="center"><?php Source_Author_Select( $t_filter->filters['c.author']->value ) ?></td>
+<td class="center" colspan="2"><?php Source_Username_Select( $t_filter->filters['c.user_id']->value ) ?></td>
+</tr>
+
+<tr class="spacer"><td></td></tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category">Message</td>
+<td colspan="3"><input name="message" size="40" value="<?php string_attribute( $t_filter->filters['c.message'] ) ?>"/></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category">Filenames</td>
+<td colspan="3"><input name="filename" size="40" value="<?php string_attribute( $t_filter->filters['f.filename'] ) ?>"/></td>
+</tr>
+
+<tr>
+<td class="center" colspan="3"><input type="submit"/></td>
+</tr>
+
+</table>
+</form>
+
+<?php
+html_page_bottom1( __FILE__ );
+

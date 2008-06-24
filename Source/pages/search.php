@@ -16,18 +16,15 @@ access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
 $f_offset = gpc_get_int( 'offset', 1 );
 $f_perpage = 25;
 
-html_page_top1( plugin_lang_get( 'title' ) );
-html_page_top2();
-
 require_once( config_get( 'plugin_path' ) . 'Source' . DIRECTORY_SEPARATOR . 'Source.FilterAPI.php' );
 
-$t_filter = new SourceFilter();
-
-$t_filter->filters['c.author']->value = "jreese";
-$t_filter->filters['c.message']->value = "test";
-
+# Generate listing
+list( $t_filter, $t_permalink ) = Source_Generate_Filter();
 list( $t_changesets, $t_count ) = $t_filter->find( $f_offset );
 $t_repos = SourceRepo::load_by_changesets( $t_changesets );
+
+html_page_top1( plugin_lang_get( 'title' ) );
+html_page_top2();
 
 ?>
 
@@ -36,7 +33,13 @@ $t_repos = SourceRepo::load_by_changesets( $t_changesets );
 
 <tr>
 <td class="form-title"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>
-<td class="right" colspan="2"><?php print_bracket_link( plugin_page( 'search' ), "Return to Search" ) ?></td>
+<td class="right" colspan="2">
+<?php
+print_bracket_link( plugin_page( 'search' ) . $t_permalink, "Permalink" );
+print_bracket_link( plugin_page( 'search_page' ) . $t_permalink, "Modify Search" );
+print_bracket_link( plugin_page( 'search_page' ), "New Search" );
+?>
+</td>
 </tr>
 
 <?php
@@ -87,7 +90,7 @@ if ( $t_count > $f_perpage ) {
 		if ( $t_page == $f_offset ) {
 			echo " $t_page";
 		} else {
-			echo ' <a href="', plugin_page( 'search' ), '&offset=', $t_page, '">', $t_page, '</a>';
+			echo ' <a href="', plugin_page( 'search' ), '&offset=', $t_page, $t_permalink, '">', $t_page, '</a>';
 		}
 
 		if ( $t_page % 15 == 0 ) {
