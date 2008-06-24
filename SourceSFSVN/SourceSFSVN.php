@@ -233,9 +233,9 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 				} else {
 					if ( preg_match( '/^\s+([a-zA-Z])\s+([\S]+)/', $t_line, $t_matches ) ) {
 						switch( $t_matches[1] ) {
-							case 'A': $t_action = 'ADD'; break;
-							case 'D': $t_action = 'RM'; break;
-							case 'M': $t_action = 'MOD'; break;
+							case 'A': $t_action = 'add'; break;
+							case 'D': $t_action = 'rm'; break;
+							case 'M': $t_action = 'mod'; break;
 							default: $t_action = $t_matches[1];
 						}
 
