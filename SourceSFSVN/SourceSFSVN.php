@@ -179,7 +179,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		$t_max_query = "SELECT revision FROM $t_changeset_table
-						WHERE repo_id=" . db_param(0) . '
+						WHERE repo_id=" . db_param() . '
 						ORDER BY timestamp DESC';
 		$t_db_revision = db_result( db_query_bound( $t_max_query, array( $p_repo->id ), 1 ) );
 
