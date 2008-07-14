@@ -52,6 +52,9 @@ class SourceFilter {
 			$this->filters['f.filename'] = new SourceFilterOption();
 			$this->filters['f.revision'] = new SourceFilterOption();
 			$this->filters['f.action'] = new SourceFilterOption();
+
+			$this->filters['date_start'] = new SourceFilterOption();
+			$this->filters['date_end'] = new SourceFilterOption();
 		}
 	}
 
@@ -151,13 +154,13 @@ function Source_Process_FilterOption( $key, $option ) {
 
 	# Date searching
 	if ( $key == 'date_start' && !is_null( $value ) ) {
-		$wc = db_aparam();
+		$wc = db_param();
 		$sql = "c.timestamp >= $wc";
 
 		return array( $sql, $value );
 	}
 	if ( $key == 'date_end' && !is_null( $value ) ) {
-		$wc = db_aparam();
+		$wc = db_param();
 		$sql = "c.timestamp <= $wc";
 
 		return array( $sql, $value );
@@ -165,8 +168,8 @@ function Source_Process_FilterOption( $key, $option ) {
 
 	# Revision Searching
 	if ( $key == 'f.revision' && !is_null( $value ) )	{
-		$wc1 = db_aparam();
-		$wc2 = db_aparam();
+		$wc1 = db_param();
+		$wc2 = db_param();
 		$value = "%$value%";
 		$sql = "( c.revision LIKE $wc1 OR f.revision LIKE $wc2 )";
 
@@ -180,7 +183,7 @@ function Source_Process_FilterOption( $key, $option ) {
 			$value = explode( ' ', $value );
 		}
 
-		$wc = map( 'db_aparam', $value );
+		$wc = map( 'db_param', $value );
 		$wc = map( create_function( '$item','return "' . $key . ' LIKE $item";' ), $wc );
 		$value = map( create_function( '$item', 'return "%$item%";' ), $value );
 
@@ -191,7 +194,7 @@ function Source_Process_FilterOption( $key, $option ) {
 
 	# Standard values
 	if ( is_array( $value ) ) {
-		$wc = map( 'db_aparam', $value );
+		$wc = map( 'db_param', $value );
 
 		$count = count( $value );
 		if ( $count > 1 ) {
@@ -210,7 +213,7 @@ function Source_Process_FilterOption( $key, $option ) {
 			}
 		}
 	} else {
-		$wc = db_aparam();
+		$wc = db_param();
 
 		if ( SOURCE_ANY == $how ) {
 			$sql = "$key = $wc";
@@ -239,6 +242,9 @@ function Source_Generate_Filter() {
 	$f_filename = Source_FilterOption_Permalink( 'filename' );
 	$f_message = Source_FilterOption_Permalink( 'message' );
 
+	$f_date_start = Source_FilterOption_Permalink( 'date_start' );
+	$f_date_end = Source_FilterOption_Permalink( 'date_end' );
+
 	# Get permalink
 	$t_permalink = Source_FilterOption_Permalink();
 
@@ -259,7 +265,42 @@ function Source_Generate_Filter() {
 	$t_filter->filters['f.revision']->value = $f_revision;
 	$t_filter->filters['f.action']->value = $f_file_action;
 
+	$t_filter->filters['date_start']->value = $f_date_start;
+	$t_filter->filters['date_end']->value = $f_date_end;
+
 	return array( $t_filter, $t_permalink );
+}
+
+function Source_Date_Validate( $p_string ) {
+	$t_date = gpc_get_string( $p_string, null );
+	if ( !is_null( $t_date ) ) {
+		list( $t_year, $t_month, $t_day ) = Source_Date_StampArray( $t_date );
+	} else {
+		$t_year = gpc_get_int( "${p_string}_year", 0 );
+		$t_month = gpc_get_int( "${p_string}_month", 0 );
+		$t_day = gpc_get_int( "${p_string}_day", 0 );
+	}
+
+	if ( $t_month < 1 || $t_month > 12
+		|| $t_day < 1 || $t_day > 31
+		|| $t_year < 1970 ) {
+		return null;
+	}
+
+	$t_default = gpc_get_string( "${p_string}_default", null );
+	if ( !is_null( $t_default ) ) {
+		$t_default = Source_Date_StampArray( $t_default );
+		if ( $t_default[0] == $t_year
+			&& $t_default[1] == $t_month
+			&& $t_default[2] == $t_day ) {
+			return null;
+		}
+	}
+
+	$t_month = $t_month < 10 ? "0$t_month" : $t_month;
+	$t_day = $t_day < 10 ? "0$t_day" : $t_day;
+
+	return "$t_year-$t_month-$t_day";
 }
 
 function Source_FilterOption_Permalink( $p_string=null, $p_array=false ) {
@@ -284,6 +325,11 @@ function Source_FilterOption_Permalink( $p_string=null, $p_array=false ) {
 
 	} else {
 		$t_input = gpc_get_string( $p_string, null );
+
+		if ( $p_string == 'date_start' || $p_string == 'date_end' ) {
+			$t_input = Source_Date_Validate( $p_string );
+		}
+
 		if ( !is_blank( $t_input ) ) {
 			$s_permalink .= "&$p_string=$t_input";
 		}
@@ -406,7 +452,7 @@ function Source_Author_Select( $p_selected=null ) {
 	$t_result = db_query_bound( $t_query );
 
 	echo '<select name="author">',
-		'<option value="">[Choose]</option>';
+		'<option value="">[Any]</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		echo '<option value="', string_attribute( $t_row['author'] ),
@@ -432,7 +478,7 @@ function Source_Username_Select( $p_selected=null ) {
 	$t_result = db_query_bound( $t_query );
 
 	echo '<select name="user_id">',
-		'<option value="">[Choose]</option>';
+		'<option value="">[Any]</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		echo '<option value="', (int) $t_row['user_id'],
@@ -443,3 +489,52 @@ function Source_Username_Select( $p_selected=null ) {
 	echo '</select>';
 }
 
+function Source_Date_StampArray( $t_input ) {
+	if ( !preg_match( '/^(\d{4})\-(\d{1,2})\-(\d{1,2})/', $t_input, $t_matches ) ) {
+		return null;
+	}
+
+	return map( create_function( '$in', 'return (int) $in;' ), array_slice( $t_matches, 1, 3 ) );
+}
+
+function Source_Date_Select( $p_name, $p_selected=null ) {
+	static $s_min=null, $s_max=null;
+
+	if ( is_null( $s_min ) || is_null( $s_max ) ) {
+		$t_changeset_table = plugin_table( 'changeset' );
+
+		$t_query = "SELECT MIN( timestamp ) AS min, MAX( timestamp ) AS max FROM $t_changeset_table";
+		$t_result = db_query_bound( $t_query );
+
+		$t_row = db_fetch_array( $t_result );
+		$t_row = map( 'Source_Date_StampArray', $t_row );
+
+		$s_min = $t_row['min'][0];
+		$s_max = $t_row['max'][0];
+	}
+
+	if ( $p_selected == 'now' ) {
+		$t_selected = array( (int) date('Y'), (int) date('m'), (int) date('d') );
+		echo '<input type="hidden" name="', $p_name, '_default" value="', "$t_selected[0]-$t_selected[1]-$t_selected[2]" , '"/>';
+	} elseif ( $p_selected == 'start' ) {
+		$t_selected = array( $s_min, 1, 1 );
+		echo '<input type="hidden" name="', $p_name, '_default" value="', "$t_selected[0]-$t_selected[1]-$t_selected[2]" , '"/>';
+	} else {
+		$t_selected = Source_Date_StampArray( $p_selected );
+	}
+
+	echo '<select name="', $p_name, '_year">';
+	for( $t_year = $s_max; $t_year >= $s_min; $t_year-- ) {
+		echo '<option value="', $t_year, ( $t_year === $t_selected[0] ? '" selected="selected"' : '"' ),
+			'>', $t_year, '</option>';
+	}
+	echo '</select> ';
+
+	echo '<select name="', $p_name, '_month">';
+	print_month_option_list( $t_selected[1] );
+	echo '</select> ';
+
+	echo '<select name="', $p_name, '_day">';
+	print_day_option_list( $t_selected[2] );
+	echo '</select> ';
+}

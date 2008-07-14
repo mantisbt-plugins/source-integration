@@ -17,6 +17,9 @@ require_once( config_get( 'plugin_path' ) . 'Source' . DIRECTORY_SEPARATOR . 'So
 
 list( $t_filter, $t_permalink ) = Source_Generate_Filter();
 
+$t_date_start = ( is_null( $t_filter->filters['date_start']->value ) ? 'start' : $t_filter->filters['date_start']->value );
+$t_date_end = ( is_null( $t_filter->filters['date_end']->value ) ? 'now' : $t_filter->filters['date_end']->value );
+
 html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
 
@@ -52,17 +55,29 @@ print_bracket_link( plugin_page( 'search_page' ), 'New Search' );
 <tr class="spacer"><td></td></tr>
 
 <tr class="row-category">
-<td>Author</td>
 <td>Username</td>
+<td>Author</td>
 <td>Revision</td>
 <td>Bug #'s</td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="center"><?php Source_Author_Select( $t_filter->filters['c.author']->value ) ?></td>
 <td class="center"><?php Source_Username_Select( $t_filter->filters['c.user_id']->value ) ?></td>
+<td class="center"><?php Source_Author_Select( $t_filter->filters['c.author']->value ) ?></td>
 <td class="center"><input name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
 <td class="center"><input name="bug_id" size="10" value="<?php echo string_attribute( join( ',', $t_filter->filters['b.bug_id']->value ) ) ?>"/></td>
+</tr>
+
+<tr class="spacer"><td></td></tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category">Beginning Date</td>
+<td colspan="3"><?php Source_Date_Select( 'date_start', $t_date_start ); ?></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category">Ending Date</td>
+<td colspan="3"><?php Source_Date_Select( 'date_end', $t_date_end ); ?></td>
 </tr>
 
 <tr class="spacer"><td></td></tr>
