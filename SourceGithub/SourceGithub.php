@@ -121,6 +121,9 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			return;
 		}
 
+		$t_hub_username = null;
+		$t_hub_reponame = null;
+
 		if ( isset( $p_repo->info['hub_username'] ) ) {
 			$t_hub_username = $p_repo->info['hub_username'];
 		}
