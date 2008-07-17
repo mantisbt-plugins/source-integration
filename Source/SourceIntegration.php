@@ -61,7 +61,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 
 <tr class="row-1">
 <td class="category" width="25%" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
-	<?php echo string_display( $t_repo->name . ' ( ' . event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) . ' )' ) ?>
+	<?php echo string_display( $t_repo->name . ': ' . event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ) ?>
 	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
 	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', string_display_line( $t_changeset->author ) ?></span>
 	<br/><span class="small"><?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', array( $t_repo, $t_changeset ) ), plugin_lang_get( 'browse', 'Source' ) ) ?>
