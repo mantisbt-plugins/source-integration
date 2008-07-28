@@ -352,7 +352,8 @@ function Source_Repo_Select( $p_selected=null ) {
 	$t_query = "SELECT id,name FROM $t_repo_table ORDER BY name ASC";
 	$t_result = db_query_bound( $t_query );
 
-	echo '<select name="repo_id[]" multiple="multiple" size="6">';
+	echo '<select name="repo_id[]" multiple="multiple" size="6">',
+		'<option value="">[Any]</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		echo '<option value="', (int)$t_row['id'],
@@ -376,7 +377,8 @@ function Source_Type_Select( $p_selected=null ) {
 	$t_query = "SELECT DISTINCT( type ) FROM $t_repo_table ORDER BY type ASC";
 	$t_result = db_query_bound( $t_query );
 
-	echo '<select name="repo_type[]" multiple="multiple" size="6">';
+	echo '<select name="repo_type[]" multiple="multiple" size="6">',
+		'<option value="">[Any]</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		if ( !isset( $t_types[ $t_row['type'] ] ) ) {
@@ -403,7 +405,8 @@ function Source_Branch_Select( $p_selected=null ) {
 	$t_query = "SELECT DISTINCT( branch ) FROM $t_changeset_table ORDER BY branch ASC";
 	$t_result = db_query_bound( $t_query );
 
-	echo '<select name="branch[]" multiple="multiple" size="6">';
+	echo '<select name="branch[]" multiple="multiple" size="6">',
+		'<option value="">[Any]</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		if ( is_blank( $t_row['branch'] ) ) { continue; }
@@ -427,7 +430,8 @@ function Source_Action_Select( $p_selected=null ) {
 	$t_query = "SELECT DISTINCT( action ) FROM $t_file_table ORDER BY action ASC";
 	$t_result = db_query_bound( $t_query );
 
-	echo '<select name="file_action[]" multiple="multiple" size="6">';
+	echo '<select name="file_action[]" multiple="multiple" size="6">',
+		'<option value="">[Any]</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		echo '<option value="', string_attribute( $t_row['action'] ),
