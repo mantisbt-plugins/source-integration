@@ -35,6 +35,7 @@ html_page_top2();
 <td class="right" colspan="5">
 <?php
 print_bracket_link( plugin_page( 'search_page' ), 'New Search' );
+print_bracket_link( plugin_page( 'index' ), 'Back to Index' );
 ?>
 </tr>
 
