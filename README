@@ -5,10 +5,10 @@ already, such as importing repository history and optional support for
 remote check-ins, and utilizes a class-based API to access objects in 
 the database.
 
-Initial support is included for Subversion repositories using WebSVN. 
-This can still be used without WebSVN to track a repository's changesets 
-and links to Mantis bugs, but the links to view changesets or files will 
-not work.
+Initial support is included for Subversion repositories using WebSVN,
+and Git repositories hosted on GitHub.  Support for more source control
+tools is planned, but should be rather straightforward to implement, due
+to the flexibility inherent in the integration framework and API.
 
 Bug reports or fixes are highly encouraged, as are contributions via
 GitHub's fork/pull-request methods.  Bug reports should be directed to
