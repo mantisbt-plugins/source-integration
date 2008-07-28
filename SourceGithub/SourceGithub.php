@@ -223,8 +223,8 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$t_commits = array();
 
-		foreach( $p_data['commits'] as $t_id => $t_details ) {
-			$t_commits[] = $t_id;
+		foreach( $p_data['commits'] as $t_commit ) {
+			$t_commits[] = $t_commit['id'];
 		}
 
 		$t_branch = '';
