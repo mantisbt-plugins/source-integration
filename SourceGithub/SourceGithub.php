@@ -22,10 +22,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->name = lang_get( 'plugin_SourceGithub_title' );
 		$this->description = lang_get( 'plugin_SourceGithub_description' );
 
-		$this->version = '0.12';
+		$this->version = '0.12a';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
-			'Source' => '0.12',
+			'Source' => '0.12a',
 			'Meta' => '0.1',
 		);
 

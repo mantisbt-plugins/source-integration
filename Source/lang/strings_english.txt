@@ -14,7 +14,7 @@
 $s_plugin_Source_ = '';
 $s_plugin_Source_title = 'Source Control Integration';
 $s_plugin_Source_description = 'Source control integration using an abstract API to support any source control software.';
-$s_plugin_Source_version = '0.12';
+$s_plugin_Source_version = '0.12a';
 
 $s_plugin_Source_repository = 'Repository';
 $s_plugin_Source_repositories = 'Repositories';
