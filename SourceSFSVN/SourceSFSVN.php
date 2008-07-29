@@ -185,7 +185,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 
 		$t_url = $p_repo->url;
 		$t_rev = $t_db_revision + 1;
-		$t_svnlog = explode( "\n", `svn log -v -r $t_rev:HEAD $t_url` );
+		$t_svnlog = explode( "\n", `svn log -v -r $t_rev:HEAD --limit 200 $t_url` );
 
 		return $this->process_svn_log( $p_repo, $t_svnlog );
 	}
