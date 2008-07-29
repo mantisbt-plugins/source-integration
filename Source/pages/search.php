@@ -35,9 +35,10 @@ html_page_top2();
 <td class="form-title"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>
 <td class="right" colspan="2">
 <?php
-print_bracket_link( plugin_page( 'search' ) . $t_permalink, "Permalink" );
-print_bracket_link( plugin_page( 'search_page' ) . $t_permalink, "Modify Search" );
-print_bracket_link( plugin_page( 'search_page' ), "New Search" );
+print_bracket_link( plugin_page( 'search' ) . $t_permalink, plugin_lang_get( 'permalink' ) );
+print_bracket_link( plugin_page( 'search_page' ) . $t_permalink, plugin_lang_get( 'modify_search' ) );
+print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
+print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 ?>
 </td>
 </tr>
@@ -53,8 +54,8 @@ foreach( $t_changesets as $t_changeset ) {
 <tr class="row-1">
 <td class="category" width="25%" rowspan="<?php echo $t_rows ?>">
 	<strong><?php echo string_display( $t_repo->name ), ' ', event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></strong><br/>
-	<span class="small"><?php echo "Timestamp: ", $t_changeset->timestamp ?></span><br/>
-	<span class="small"><?php echo "Author: ", $t_changeset->author ?></span>
+	<span class="small"><?php echo plugin_lang_get( 'timestamp' ), ': ', $t_changeset->timestamp ?></span><br/>
+	<span class="small"><?php echo plugin_lang_get( 'author' ), ': ', $t_changeset->author ?></span>
 </td>
 <td colspan="2"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>

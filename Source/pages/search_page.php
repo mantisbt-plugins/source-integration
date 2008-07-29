@@ -34,16 +34,16 @@ html_page_top2();
 <td class="form-title" colspan="2"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>
 <td class="right" colspan="5">
 <?php
-print_bracket_link( plugin_page( 'search_page' ), 'New Search' );
-print_bracket_link( plugin_page( 'index' ), 'Back to Index' );
+print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
+print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 ?>
 </tr>
 
 <tr class="row-category">
-<td>Source Control</td>
-<td>Repositories</td>
-<td>Branches</td>
-<td>Action</td>
+<td><?php echo plugin_lang_get( 'type' ) ?></td>
+<td><?php echo plugin_lang_get( 'repository' ) ?></td>
+<td><?php echo plugin_lang_get( 'branch' ) ?></td>
+<td><?php echo plugin_lang_get( 'action' ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
@@ -56,10 +56,10 @@ print_bracket_link( plugin_page( 'index' ), 'Back to Index' );
 <tr class="spacer"><td></td></tr>
 
 <tr class="row-category">
-<td>Username</td>
-<td>Author</td>
-<td>Revision</td>
-<td>Bug #'s</td>
+<td><?php echo plugin_lang_get( 'username' ) ?></td>
+<td><?php echo plugin_lang_get( 'author' ) ?></td>
+<td><?php echo plugin_lang_get( 'revision' ) ?></td>
+<td><?php echo plugin_lang_get( 'issue' ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
@@ -84,17 +84,17 @@ print_bracket_link( plugin_page( 'index' ), 'Back to Index' );
 <tr class="spacer"><td></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category">Message</td>
+<td class="category"><?php echo plugin_lang_get( 'message' ) ?></td>
 <td colspan="6"><input name="message" size="40" value="<?php echo string_attribute( $t_filter->filters['c.message']->value ) ?>"/></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category">Filenames</td>
+<td class="category"><?php echo plugin_lang_get( 'filename' ) ?></td>
 <td colspan="6"><input name="filename" size="40" value="<?php echo string_attribute( $t_filter->filters['f.filename']->value ) ?>"/></td>
 </tr>
 
 <tr>
-<td class="center" colspan="7"><input type="submit"/></td>
+<td class="center" colspan="7"><input type="submit" value="<?php echo plugin_lang_get( 'search' ) ?>"/></td>
 </tr>
 
 </table>
