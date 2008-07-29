@@ -20,10 +20,10 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		$this->name = lang_get( 'plugin_SourceSFSVN_title' );
 		$this->description = lang_get( 'plugin_SourceSFSVN_description' );
 
-		$this->version = '0.11';
+		$this->version = '0.12';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
-			'Source' => '0.11',
+			'Source' => '0.12',
 		);
 
 		$this->author = 'John Reese';
