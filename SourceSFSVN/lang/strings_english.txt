@@ -16,8 +16,6 @@ $s_plugin_SourceSFSVN_title = 'Subversion / SourceForge Integration';
 $s_plugin_SourceSFSVN_description = 'Adds Subversion integration to the Source plugin framework using SourceForge.net.';
 
 $s_plugin_SourceSFSVN_svn = 'SourceForge SVN';
-$s_plugin_SourceSFSVN_websvn_url = 'WebSVN URL<br/><span class="small">(With trailing slash)</span>';
-$s_plugin_SourceSFSVN_websvn_name = 'WebSVN Name<br/><span class="small">(Repository directory)</span>';
-$s_plugin_SourceSFSVN_websvn_path = 'WebSVN Path<br/><span class="small">(From repository root)</span>';
+$s_plugin_SourceSFSVN_sf_project = 'SourceForge Project';
 $s_plugin_SourceSFSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</small>';
 

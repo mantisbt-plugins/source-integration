@@ -108,15 +108,11 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_sf_project' ) ?></td>
-<td><input name="sf_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
+<td class="category"><?php echo plugin_lang_get( 'sf_project' ) ?></td>
+<td><input name="sf_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_sf_project ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_sf_project' ) ?></td>
-<td><input name="sf_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_standard_repo' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'standard_repo' ) ?></td>
 <td><input name="standard_repo" type="checkbox" <?php echo ($t_branches ? 'checked="checked"' : '') ?>/></td>
 </tr>
 <?php
