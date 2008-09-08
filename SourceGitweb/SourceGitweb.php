@@ -15,7 +15,7 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 	return;
 }
 
-require_once( config_get( 'core_path' ) . 'json_api.php' );
+require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceGitwebPlugin extends MantisSourcePlugin {
 	function register() {
@@ -74,7 +74,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		return $this->uri_base() . ( $t_changeset ? 'h=' . $t_changeset->revision : '' );
+		return $this->uri_base( $p_repo ) . ( $t_changeset ? 'h=' . $t_changeset->revision : '' );
 	}
 
 	function url_changeset( $p_event, $p_repo, $p_changeset ) {
@@ -82,7 +82,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		return $this->uri_base() . 'a=commit;h=' . $p_changeset->revision;
+		return $this->uri_base( $p_repo ) . 'a=commit;h=' . $p_changeset->revision;
 	}
 
 	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
@@ -90,7 +90,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		return $this->uri_base() . 'a=blob;f=' . $p_file->filename . ';h=' . $p_changeset->revision;
+		return $this->uri_base( $p_repo ) . 'a=blob;f=' . $p_file->filename . ';h=' . $p_changeset->revision;
 	}
 
 	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
@@ -98,7 +98,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		return $this->uri_base() . 'a=blobdiff;f=' . $p_file->filename . ';h=' . $p_changeset->revision;
+		return $this->uri_base( $p_repo ) . 'a=blobdiff;f=' . $p_file->filename . ';h=' . $p_changeset->revision;
 	}
 
 	function update_repo_form( $p_event, $p_repo ) {
