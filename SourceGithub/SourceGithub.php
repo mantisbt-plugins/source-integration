@@ -85,7 +85,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
-		$t_ref = "$p_changeset->revision";
+		$t_ref = $p_changeset->revision;
 
 		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
 	}
@@ -97,7 +97,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
-		$t_ref = "$p_changeset->revision";
+		$t_ref = $p_changeset->revision;
 		$t_filename = $p_file->filename;
 
 		return "http://github.com/$t_username/$t_reponame/tree/$t_ref/$t_filename";
@@ -110,7 +110,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
-		$t_ref = "$p_changeset->revision";
+		$t_ref = $p_changeset->revision;
 		$t_filename = $p_file->filename;
 
 		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
