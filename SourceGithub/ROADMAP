@@ -1,4 +1,0 @@
-Roadmap for SourceGitHub:
-
-- Checkin shouldn't pull redundant data 
-- Move to importing via local/remote Git checkout
