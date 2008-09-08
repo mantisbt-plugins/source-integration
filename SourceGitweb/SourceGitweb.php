@@ -52,7 +52,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$t_ref = substr( $p_changeset->revision, 0, 8 );
 		$t_branch = $p_changeset->branch;
 
-		return "$t_branch $t_ref";
+		return "$t_branch <abbr title=\"$p_changeset->revision\">$t_ref</abbr>";
 	}
 
 	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
@@ -90,7 +90,8 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		return $this->uri_base( $p_repo ) . 'a=blob;f=' . $p_file->filename . ';h=' . $p_changeset->revision;
+		return $this->uri_base( $p_repo ) . 'a=blob;f=' . $p_file->filename .
+			';h=' . $p_file->revision . ';hb=' . $p_changeset->revision;
 	}
 
 	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
@@ -98,7 +99,8 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		return $this->uri_base( $p_repo ) . 'a=blobdiff;f=' . $p_file->filename . ';h=' . $p_changeset->revision;
+		return $this->uri_base( $p_repo ) . 'a=blobdiff;f=' . $p_file->filename .
+			';h=' . $p_file->revision . ';hb=' . $p_changeset->revision . ';hpb=' . $p_changeset->parent;
 	}
 
 	function update_repo_form( $p_event, $p_repo ) {
@@ -208,15 +210,15 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 			echo "Retrieving $t_commit_id ... ";
 
-			$t_uri = $p_uri_base . 'commit/' . $t_commit_id;
-			$t_json = json_url( $t_uri, 'commit' );
+			$t_commit_url = $this->uri_base( $p_repo ) . 'a=commit;h=' . $t_commit_id;
+			$t_input = url_get( $t_commit_url );
 
-			if ( false === $t_json ) {
+			if ( false === $t_input ) {
 				echo "failed.\n";
 				continue;
 			}
 
-			$t_commit_parents = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
+			$t_commit_parents = $this->commit_changeset( $p_repo, $t_input, $p_branch );
 
 			$t_parents = array_merge( $t_parents, $t_commit_parents );
 		}
@@ -224,34 +226,83 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		return true;
 	}
 
-	function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
+	function commit_changeset( $p_repo, $p_input, $p_branch='' ) {
 
-		echo "processing $p_json->id ... ";
-		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
-			$t_user_id = user_get_id_by_email( $p_json->author->email );
+		$t_input = str_replace( array(PHP_EOL, '&lt;', '&gt;'), array('', '<', '>'), $p_input );
+
+		# Exract sections of commit data and changed files
+		if( ! preg_match( '#<div class="title_text">(.*)<div class="list_head">.*'.
+			'<table class="diff_tree">(.*)</table><div class="page_footer">#', $t_input, $t_matches ) ) {
+			return array();
+		}
+
+		$t_gitweb_data = $t_matches[1];
+		$t_gitweb_files = $t_matches[2];
+
+		# Get commit revsion and make sure it's not a dupe
+		preg_match( '#<tr><td>commit</td><td class="sha1">([a-f0-9]*)</td></tr>#', $t_gitweb_data, $t_matches );
+		$t_commit['revision'] = $t_matches[1];
+
+		echo "processing $t_commit[revision] ... ";
+		if ( !SourceChangeset::exists( $p_repo->id, $t_commit['revision'] ) ) {
+
+			# Parse for commit data
+			preg_match( '#<tr><td>author</td><td>([^<>]*) <([^<>]*)></td></tr>'.
+				'<tr><td></td><td> \w*, (\d* \w* \d* \d*:\d*:\d*)#', $t_gitweb_data, $t_matches );
+			$t_commit['author'] = $t_matches[1];
+			$t_commit['author_email'] = $t_matches[2];
+			$t_commit['date'] = date( 'Y-m-d H:i:s', strtotime( $t_matches[3] ) );
+
+			if( preg_match( '#<tr><td>parent</td><td class="sha1"><a [^<>]*>([a-f0-9]*)</a></td>#', $t_gitweb_data, $t_matches ) ) {
+				$t_commit['parent'] = $t_matches[1];
+			}
+
+			preg_match( '#<div class="page_body">(.*)</div>#', $t_gitweb_data, $t_matches );
+			$t_commit['message'] = trim( str_replace( '<br/>', PHP_EOL, $t_matches[1] ) );
+
+
+			# Parse for changed file data
+			$t_commit['files'] = array();
+
+			preg_match_all( '#<tr class="(?:light|dark)"><td><a class="list" href="[^"]*;h=(\w+);[^"]*">([^<>]+)</a></td>'.
+				'<td>(?:<span class="file_status (\w+)">[^<>]*</span>)?</td>#',
+				$t_gitweb_files, $t_matches, PREG_SET_ORDER );
+
+			foreach( $t_matches as $t_file_matches ) {
+				$t_file = array();
+				$t_file['filename'] = $t_file_matches[2];
+				$t_file['revision'] = $t_file_matches[1];
+
+				if ( isset( $t_file_matches[3] ) ) {
+					if ( 'new' == $t_file_matches[3] ) {
+						$t_file['action'] = 'add';
+					} else if ( 'deleted' == $t_file_matches[3] ) {
+						$t_file['action'] = 'rm';
+					}
+				} else {
+					$t_file['action'] = 'mod';
+				}
+
+				$t_commit['files'][] = $t_file;
+			}
+
+			# Start building the changeset
+			$t_user_id = user_get_id_by_email( $t_commit['author_email'] );
 			if ( false === $t_user_id ) {
-				$t_user_id = user_get_id_by_realname( $p_json->author->name );
+				$t_user_id = user_get_id_by_realname( $t_commit['author'] );
 			}
 
 			$t_parents = array();
-			foreach( $p_json->parents as $t_parent ) {
-				$t_parents[] = $t_parent->id;
+			if ( isset( $t_commit['parent'] ) ) {
+				$t_parents[] = $t_commit['parent'];
 			}
 
-			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->id, $p_branch,
-				$p_json->authored_date, $p_json->author->email,
-				$p_json->message, $t_user_id );
+			$t_changeset = new SourceChangeset( $p_repo->id, $t_commit['revision'], $p_branch,
+				$t_commit['date'], $t_commit['author'], $t_commit['message'], $t_user_id,
+				( isset( $t_commit['parent'] ) ? $t_commit['parent'] : '' ) );
 
-			foreach( $p_json->added as $t_added ) {
-				$t_changeset->files[] = new SourceFile( 0, '', $t_added->filename, 'add' );
-			}
-
-			foreach( $p_json->removed as $t_removed ) {
-				$t_changeset->files[] = new SourceFile( 0, '', $t_removed->filename, 'rm' );
-			}
-
-			foreach( $p_json->modified as $t_modified ) {
-				$t_changeset->files[] = new SourceFile( 0, '', $t_modified->filename, 'mod' );
+			foreach( $t_commit['files'] as $t_file ) {
+				$t_changeset->files[] = new SourceFile( 0, $t_file['revision'], $t_file['filename'], $t_file['action'] );
 			}
 
 			$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
