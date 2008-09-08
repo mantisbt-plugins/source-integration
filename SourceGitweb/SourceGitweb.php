@@ -157,38 +157,6 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	function precommit( $p_event ) {
 		# TODO: Implement real commit sequence.
 		return;
-
-		$f_payload = gpc_get_string( 'payload', null );
-		if ( is_null( $f_payload ) ) {
-			return;
-		}
-
-		if ( false === stripos( $f_payload, 'github.com' ) ) {
-			return;
-		}
-
-		$t_data = json_decode( $f_payload, true );
-		$t_reponame = $t_data['repository']['name'];
-
-		$t_repo_table = plugin_table( 'repository', 'Source' );
-
-		$t_query = "SELECT * FROM $t_repo_table WHERE info LIKE " . db_param();
-		$t_result = db_query_bound( $t_query, array( '%' . $t_reponame . '%' ) );
-
-		if ( db_num_rows( $t_result ) < 1 ) {
-			return;
-		}
-	
-		while ( $t_row = db_fetch_array( $t_result ) ) {
-			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
-			$t_repo->id = $t_row['id'];
-
-			if ( $t_repo->info['hub_reponame'] == $t_reponame ) {
-				return array( 'repo' => $t_repo, 'data' => $t_data );
-			}
-		}
-
-		return;
 	}
 
 	function commit( $p_event, $p_repo, $p_data ) {
@@ -198,21 +166,6 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		if ( 'gitweb' != $p_repo->type ) {
 			return;
 		}
-
-		$t_commits = array();
-
-		foreach( $p_data['commits'] as $t_commit ) {
-			$t_commits[] = $t_commit['id'];
-		}
-
-		$t_branch = '';
-		if ( preg_match( '@refs/heads/([a-zA-Z0-9_-]*)@', $p_data['ref'], $t_matches ) ) {
-			$t_branch = $t_matches[1];
-		}
-
-		$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch );
-
-		return true;
 	}
 
 	function import_full( $p_event, $p_repo ) {
