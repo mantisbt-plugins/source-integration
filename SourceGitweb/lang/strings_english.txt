@@ -1,0 +1,21 @@
+<?php
+# Copyright (C) 2008	John Reese
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+$s_plugin_SourceGitweb_ = '';
+$s_plugin_SourceGitweb_github = 'Gitweb';
+$s_plugin_SourceGitweb_title = 'Gitweb Integration';
+$s_plugin_SourceGitweb_description = 'Adds Gitweb integration to the Source Integration framework.';
+
+$s_plugin_SourceGitweb_hub_username = 'Gitweb Username';
+$s_plugin_SourceGitweb_hub_reponame = 'Gitweb Repository<br/><span class="small">(lowercase, dashed name)</span>';
+$s_plugin_SourceGitweb_hub_branch = 'Primary Branches<br/><span class="small">(comma-separated list)</span>';
