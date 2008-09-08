@@ -19,8 +19,8 @@ require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGithubPlugin extends MantisSourcePlugin {
 	function register() {
-		$this->name = lang_get( 'plugin_SourceGithub_title' );
-		$this->description = lang_get( 'plugin_SourceGithub_description' );
+		$this->name = plugin_lang_get( 'title' );
+		$this->description = plugin_lang_get( 'description' );
 
 		$this->version = '0.12a';
 		$this->requires = array(
@@ -35,12 +35,12 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	}
 
 	function get_types( $p_event ) {
-		return array( 'github' => lang_get( 'plugin_SourceGithub_github' ) );
+		return array( 'github' => plugin_lang_get( 'github' ) );
 	}
 
 	function show_type( $p_event, $p_type ) {
 		if ( 'github' == $p_type ) {
-			return lang_get( 'plugin_SourceGithub_github' );
+			return plugin_lang_get( 'github' );
 		}
 	}
 
@@ -139,15 +139,15 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		}
 ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceGithub_hub_username' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'hub_username' ) ?></td>
 <td><input name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceGithub_hub_reponame' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
 <td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceGithub_hub_branch' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'hub_branch' ) ?></td>
 <td><input name="hub_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_branch ) ?>"/></td>
 </tr>
 <?php
