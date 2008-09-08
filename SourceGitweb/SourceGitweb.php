@@ -63,19 +63,18 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		return  "$p_file->action - $p_file->filename";
 	}
 
+	function uri_base( $p_repo ) {
+		$t_uri_base = $p_repo->info['gitweb_root'] . '?p=' . $p_repo->info['gitweb_project'] . ';';
+
+		return $t_uri_base;
+	}
+
 	function url_repo( $p_event, $p_repo, $t_changeset=null ) {
 		if ( 'gitweb' != $p_repo->type ) {
 			return;
 		}
 
-		$t_username = $p_repo->info['hub_username'];
-		$t_reponame = $p_repo->info['hub_reponame'];
-
-		if ( !is_null( $p_changeset ) ) {
-			$t_ref = "/$p_changeset->revision";
-		}
-
-		return "http://github.com/$t_username/$t_reponame/tree$t_ref";
+		return $this->uri_base() . ( $t_changeset ? 'h=' . $t_changeset->revision : '' );
 	}
 
 	function url_changeset( $p_event, $p_repo, $p_changeset ) {
@@ -83,11 +82,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$t_username = $p_repo->info['hub_username'];
-		$t_reponame = $p_repo->info['hub_reponame'];
-		$t_ref = "$p_changeset->revision";
-
-		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
+		return $this->uri_base() . 'a=commit;h=' . $p_changeset->revision;
 	}
 
 	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
@@ -95,12 +90,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$t_username = $p_repo->info['hub_username'];
-		$t_reponame = $p_repo->info['hub_reponame'];
-		$t_ref = "$p_changeset->revision";
-		$t_filename = $p_file->filename;
-
-		return "http://github.com/$t_username/$t_reponame/tree/$t_ref/$t_filename";
+		return $this->uri_base() . 'a=blob;f=' . $p_file->filename . ';h=' . $p_changeset->revision;
 	}
 
 	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
@@ -108,12 +98,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$t_username = $p_repo->info['hub_username'];
-		$t_reponame = $p_repo->info['hub_reponame'];
-		$t_ref = "$p_changeset->revision";
-		$t_filename = $p_file->filename;
-
-		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
+		return $this->uri_base() . 'a=blobdiff;f=' . $p_file->filename . ';h=' . $p_changeset->revision;
 	}
 
 	function update_repo_form( $p_event, $p_repo ) {
@@ -121,34 +106,34 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$t_hub_username = null;
-		$t_hub_reponame = null;
+		$t_gitweb_root = null;
+		$t_gitweb_project = null;
 
-		if ( isset( $p_repo->info['hub_username'] ) ) {
-			$t_hub_username = $p_repo->info['hub_username'];
+		if ( isset( $p_repo->info['gitweb_root'] ) ) {
+			$t_gitweb_root = $p_repo->info['gitweb_root'];
 		}
 
-		if ( isset( $p_repo->info['hub_reponame'] ) ) {
-			$t_hub_reponame = $p_repo->info['hub_reponame'];
+		if ( isset( $p_repo->info['gitweb_project'] ) ) {
+			$t_gitweb_project = $p_repo->info['gitweb_project'];
 		}
 
-		if ( isset( $p_repo->info['hub_branch'] ) ) {
-			$t_hub_branch = $p_repo->info['hub_branch'];
+		if ( isset( $p_repo->info['master_branch'] ) ) {
+			$t_master_branch = $p_repo->info['master_branch'];
 		} else {
-			$t_hub_branch = 'master';
+			$t_master_branch = 'master';
 		}
 ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_username' ) ?></td>
-<td><input name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/></td>
+<td class="category"><?php echo plugin_lang_get( 'gitweb_root' ) ?></td>
+<td><input name="gitweb_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_root ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
-<td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
+<td class="category"><?php echo plugin_lang_get( 'gitweb_project' ) ?></td>
+<td><input name="gitweb_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_project ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_branch' ) ?></td>
-<td><input name="hub_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_branch ) ?>"/></td>
+<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
+<td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
 </tr>
 <?php
 	}
@@ -158,31 +143,21 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$f_hub_username = gpc_get_string( 'hub_username' );
-		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
-		$f_hub_branch = gpc_get_string( 'hub_branch' );
+		$f_gitweb_root = gpc_get_string( 'gitweb_root' );
+		$f_gitweb_project = gpc_get_string( 'gitweb_project' );
+		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		if ( !preg_match( '/^[a-zA-Z0-9_, -]*$/', $f_hub_branch ) ) {
-			echo 'Invalid parameter: \'Hub Branch\'';
-			trigger_error( ERROR_GENERIC, ERROR );
-		}
-
-		$p_repo->info['hub_username'] = $f_hub_username;
-		$p_repo->info['hub_reponame'] = $f_hub_reponame;
-		$p_repo->info['hub_branch'] = $f_hub_branch;
+		$p_repo->info['gitweb_root'] = $f_gitweb_root;
+		$p_repo->info['gitweb_project'] = $f_gitweb_project;
+		$p_repo->info['master_branch'] = $f_master_branch;
 
 		return $p_repo;
 	}
 
-	function uri_base( $p_repo ) {
-		$t_uri_base = 'http://github.com/api/v1/json/' .
-			urlencode( $p_repo->info['hub_username'] ) . '/' .
-			urlencode( $p_repo->info['hub_reponame'] ) . '/';
-
-		return $t_uri_base;
-	}
-
 	function precommit( $p_event ) {
+		# TODO: Implement real commit sequence.
+		return;
+
 		$f_payload = gpc_get_string( 'payload', null );
 		if ( is_null( $f_payload ) ) {
 			return;
@@ -217,6 +192,9 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	}
 
 	function commit( $p_event, $p_repo, $p_data ) {
+		# TODO: Implement real commit sequence.
+		return;
+
 		if ( 'gitweb' != $p_repo->type ) {
 			return;
 		}
@@ -243,7 +221,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		}
 		echo '<pre>';
 
-		$t_branch = $p_repo->info['hub_branch'];
+		$t_branch = $p_repo->info['master_branch'];
 		if ( is_blank( $t_branch ) ) {
 			$t_branch = 'master';
 		}
@@ -276,6 +254,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_commit_id = array_shift( $t_parents );
 
 			echo "Retrieving $t_commit_id ... ";
+
 			$t_uri = $p_uri_base . 'commit/' . $t_commit_id;
 			$t_json = json_url( $t_uri, 'commit' );
 
