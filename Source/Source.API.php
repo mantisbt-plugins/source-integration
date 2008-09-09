@@ -346,6 +346,7 @@ class SourceChangeset {
 	var $repo_id;
 	var $user_id;
 	var $revision;
+	var $parent;
 	var $branch;
 	var $timestamp;
 	var $author;
@@ -362,11 +363,12 @@ class SourceChangeset {
 	 * @param string Author
 	 * @param string Commit message
 	 */
-	function __construct( $p_repo_id, $p_revision, $p_branch='', $p_timestamp='', $p_author='', $p_message='', $p_user_id=0 ) {
+	function __construct( $p_repo_id, $p_revision, $p_branch='', $p_timestamp='', $p_author='', $p_message='', $p_user_id=0, $p_parent='' ) {
 		$this->id			= 0;
 		$this->user_id		= $p_user_id;
 		$this->repo_id		= $p_repo_id;
 		$this->revision		= $p_revision;
+		$this->parent		= $p_parent;
 		$this->branch		= $p_branch;
 		$this->timestamp	= $p_timestamp;
 		$this->author		= $p_author;
@@ -388,11 +390,11 @@ class SourceChangeset {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		if ( 0 == $this->id ) { # create
-			$t_query = "INSERT INTO $t_changeset_table ( repo_id, revision, branch, user_id, timestamp, author, message ) VALUES ( " .
+			$t_query = "INSERT INTO $t_changeset_table ( repo_id, revision, parent, branch, user_id, timestamp, author, message ) VALUES ( " .
 				db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' .
-				db_param() . ', ' . db_param() . ', ' . db_param() . ' )';
-			db_query_bound( $t_query, array( $this->repo_id, $this->revision, $this->branch, $this->user_id,
-							$this->timestamp, $this->author, $this->message ) );
+				db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ' )';
+			db_query_bound( $t_query, array( $this->repo_id, $this->revision, $this->parent, $this->branch,
+							$this->user_id, $this->timestamp, $this->author, $this->message ) );
 
 			$this->id = db_insert_id( $t_changeset_table );
 
@@ -402,8 +404,9 @@ class SourceChangeset {
 
 		} else { # update
 			$t_query = "UPDATE $t_changeset_table SET repo_id=" . db_param() . ', revision=' . db_param() .
-				', branch=' . db_param() . ', user_id=' . db_param() . ', timestamp=' . db_param() .
-				', author=' . db_param() . ', message=' . db_param() . ' WHERE id=' . db_param();
+				', parent=' . db_param() . ', branch=' . db_param() . ', user_id=' . db_param() .
+				', timestamp=' . db_param() . ', author=' . db_param() . ', message=' . db_param() .
+				' WHERE id=' . db_param();
 			db_query_bound( $t_query, array( $this->repo_id, $this->revision, $this->branch, $this->user_id,
 							$this->timestamp, $this->author, $this->message, $this->id ) );
 		}
@@ -502,7 +505,7 @@ class SourceChangeset {
 		}
 
 		$t_row = db_fetch_array( $t_result );
-		$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'], $t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'], $t_row['user_id'] );
+		$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'], $t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'], $t_row['user_id'], $t_row['parent'] );
 		$t_changeset->id = $t_row['id'];
 
 		return $t_changeset;
@@ -527,7 +530,7 @@ class SourceChangeset {
 		$t_changesets = array();
 
 		while ( $t_row = db_fetch_array( $t_result ) ) {
-			$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'], $t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'], $t_row['user_id'] );
+			$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'], $t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'], $t_row['user_id'], $t_row['parent'] );
 			$t_changeset->id = $t_row['id'];
 
 			if ( $p_load_files ) {
@@ -558,7 +561,7 @@ class SourceChangeset {
 		$t_changesets = array();
 
 		while ( $t_row = db_fetch_array( $t_result ) ) {
-			$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'], $t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'], $t_row['user_id'] );
+			$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'], $t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'], $t_row['user_id'], $t_row['parent'] );
 			$t_changeset->id = $t_row['id'];
 
 			if ( $p_load_files ) {

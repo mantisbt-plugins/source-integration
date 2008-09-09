@@ -128,6 +128,9 @@ class SourcePlugin extends MantisPlugin {
 			array( 'AddColumnSQL', array( plugin_table( 'file' ), "
 				action		C(8)	NOTNULL DEFAULT \" '' \"
 				" ) ),
+			array( 'AddColumnSQL', array( plugin_table( 'changeset' ), "
+				parent		C(8)	NOTNULL DEFAULT \" '' \"
+				" ) ),
 		);
 	}
 
