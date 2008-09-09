@@ -231,19 +231,23 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$t_input = str_replace( array(PHP_EOL, '&lt;', '&gt;'), array('', '<', '>'), $p_input );
 
 		# Exract sections of commit data and changed files
-		if ( ! $t_result = preg_match( '#<div class="title_text">(.*)<div class="list_head">#', $t_input, $t_matches ) ) {
-			echo 'commit data failed!';
-			return array();
+		$t_input_p1 = strpos( $t_input, '<div class="title_text">' );
+		$t_input_p2 = strpos( $t_input, '<div class="list_head">' );
+		if ( false === $t_input_p1 || false === $t_input_p2 ) {
+			echo 'commit data failure.';
+			var_dump( strlen( $t_input ), $t_input_p1, $t_input_p2 );
+			die();
 		}
+		$t_gitweb_data = substr( $t_input, $t_input_p1, $t_input_p2 - $t_input_p1 );
 
-		$t_gitweb_data = $t_matches[1];
-
-		if ( ! $t_result = preg_match( '#<table class="diff_tree">(.*)</table><div class="page_footer">#', $t_input, $t_matches ) ) {
-			echo 'changed file data failed!';
-			return array();
+		$t_input_p1 = strpos( $t_input, '<table class="diff_tree">' );
+		$t_input_p2 = strpos( $t_input, '<div class="page_footer">' );
+		if ( false === $t_input_p1 || false === $t_input_p2 ) {
+			echo 'file data failure.';
+			var_dump( strlen( $t_input ), $t_input_p1, $t_input_p2 );
+			die();
 		}
-
-		$t_gitweb_files = $t_matches[1];
+		$t_gitweb_files = substr( $t_input, $t_input_p1, $t_input_p2 - $t_input_p1 );
 
 		# Get commit revsion and make sure it's not a dupe
 		preg_match( '#<tr><td>commit</td><td class="sha1">([a-f0-9]*)</td></tr>#', $t_gitweb_data, $t_matches );
