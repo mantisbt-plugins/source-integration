@@ -162,8 +162,8 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		if ( !preg_match( '/^[a-zA-Z0-9_, -]*$/', $f_hub_branch ) ) {
-			echo 'Invalid parameter: \'Hub Branch\'';
+		if ( !preg_match( '/^[a-zA-Z0-9_, -]*$/', $f_master_branch ) ) {
+			echo 'Invalid parameter: \'Primary Branch\'';
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
 
