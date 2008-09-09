@@ -77,6 +77,7 @@ class SourcePlugin extends MantisPlugin {
 	function hooks() {
 		return array(
 			'EVENT_PLUGIN_INIT' => 'post_init',
+			'EVENT_LAYOUT_RESOURCES' => 'css',
 		);
 	}
 
@@ -91,6 +92,10 @@ class SourcePlugin extends MantisPlugin {
 		# post-init register the generic source integration child plugin
 		# so that it always has lowest priority.
 		plugin_child( 'SourceGeneric' );
+	}
+
+	function css() {
+		return '<link rel="stylesheet" type="text/css" href="' . plugin_file( 'style.css' ) . '"/>';
 	}
 
 	function schema() {

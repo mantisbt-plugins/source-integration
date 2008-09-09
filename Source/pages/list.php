@@ -31,8 +31,15 @@ html_page_top2();
 <table class="width100" cellspacing="1" align="center">
 
 <tr>
-<td class="form-title" colspan="2"><?php echo "Changesets: ", $t_repo->name ?></td>
-<td class="right" colspan="1"><?php print_bracket_link( plugin_page( 'index' ), "Back to Index" ) ?></td>
+<td class="form-title" colspan="1"><?php echo "Changesets: ", $t_repo->name ?></td>
+<td class="right" colspan="2">
+<?php
+if ( access_has_global_level( plugin_config_get( 'manage_threshold' ) ) ) {
+	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'manage' ) );
+}
+print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
+?>
+</td>
 <tr>
 
 <?php /*
@@ -51,7 +58,12 @@ foreach( $t_changesets as $t_changeset ) {
 <td class="category" width="25%" rowspan="<?php echo $t_rows ?>">
 	<strong><?php echo event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></strong><br/>
 	<span class="small"><?php echo "Timestamp: ", $t_changeset->timestamp ?></span><br/>
-	<span class="small"><?php echo "Author: ", $t_changeset->author ?></span>
+	<span class="small"><?php echo "Author: ", $t_changeset->author ?></span><br/>
+	<span class="small-links">
+		<?php
+			print_bracket_link( plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id, plugin_lang_get( 'details', 'Source' ) );
+		?>
+	</span>
 </td>
 <td colspan="2"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>
@@ -61,8 +73,14 @@ foreach( $t_changesets as $t_changeset ) {
 <tr class="row-2">
 <td><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
 <td class="center" width="15%">
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'diff', 'Source' ) ) ?>
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'file', 'Source' ) ) ?>
+	<?php
+		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ) ) {
+			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
+		}
+		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) {
+			print_bracket_link( $t_url, plugin_lang_get( 'file', 'Source' ) );
+		}
+	?>
 </td>
 </tr>
 

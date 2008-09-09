@@ -43,6 +43,7 @@ $s_plugin_Source_issue = 'Issue';
 $s_plugin_Source_issues = 'Issues';
 $s_plugin_Source_actions = 'Actions';
 
+$s_plugin_Source_details = 'Details';
 $s_plugin_Source_browse = 'Browse';
 $s_plugin_Source_manage = 'Manage';
 $s_plugin_Source_create = 'Create';

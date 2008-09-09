@@ -64,8 +64,10 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 	<?php echo string_display( $t_repo->name . ': ' . event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ) ?>
 	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
 	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', string_display_line( $t_changeset->author ) ?></span>
-	<br/><span class="small"><?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', array( $t_repo, $t_changeset ) ), plugin_lang_get( 'browse', 'Source' ) ) ?>
-		<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_CHANGESET', array( $t_repo, $t_changeset ) ), plugin_lang_get( 'changeset', 'Source' ) ) ?></span>
+	<br/><span class="small-links">
+		<?php
+			print_bracket_link( plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id, plugin_lang_get( 'details', 'Source' ) );
+		?>
 </td>
 <td colspan="2"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>
@@ -74,8 +76,14 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 <tr class="row-2">
 <td><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
 <td class="center" width="15%">
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'diff', 'Source' ) ) ?>
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'file', 'Source' ) ) ?>
+	<?php
+		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ) ) {
+			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
+		}
+		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) {
+			print_bracket_link( $t_url, plugin_lang_get( 'file', 'Source' ) );
+		}
+	?>
 </td>
 </tr>
 		<?php } ?>

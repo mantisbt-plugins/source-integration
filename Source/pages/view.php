@@ -26,6 +26,12 @@ if ( count( $t_repos ) > 0 ) {
 	$t_repo = array_shift( $t_repos );
 }
 
+if ( $t_changeset->parent ) {
+	$t_changeset_parent = SourceChangeset::load_by_revision( $t_repo, $t_changeset->parent );
+} else {
+	$t_changeset_parent = null;
+}
+
 $t_type = SourceType($t_repo->type);
 
 html_page_top1( plugin_lang_get( 'title' ) );
@@ -36,24 +42,22 @@ html_page_top2();
 <table class="width75" cellspacing="1" align="center">
 
 <tr>
-<td class="form-title" colspan="3"><?php echo event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></td>
+<td class="form-title" colspan="3"><?php echo string_display_line( $t_repo->name ), ': ', event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></td>
 <td class="right" colspan="2"><?php print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset, "Back to Repository" ) ?></td>
 <tr>
 
 <tr class="row-category">
-<td><?php echo "Repository" ?></td>
-<td><?php echo "Revision" ?></td>
 <td><?php echo "Branch" ?></td>
 <td><?php echo "Author" ?></td>
 <td><?php echo "Timestamp" ?></td>
+<td><?php echo "Parent" ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td><?php echo $t_repo->name ?></td>
-<td><?php echo $t_changeset->revision ?></td>
-<td><?php echo $t_changeset->branch ?></td>
-<td><?php echo $t_changeset->author ?></td>
-<td><?php echo $t_changeset->timestamp ?></td>
+<td><?php echo string_display_line( $t_changeset->branch ) ?></td>
+<td><?php echo string_display_line( $t_changeset->author ) ?></td>
+<td><?php echo string_display_line( $t_changeset->timestamp ) ?></td>
+<td><?php if ( $t_changeset_parent ) { print_link( plugin_page( 'view' ) . '&id=' . $t_changeset_parent->id, event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset_parent ) ) ); } ?></td>
 </tr>
 
 <?php if ( count( $t_changeset->bugs ) > 0 ) { ?>
@@ -70,7 +74,7 @@ foreach ( $t_changeset->bugs as $t_bug_id ) {
 	$t_bug = bug_get( $t_bug_id );
 	echo ( $t_first ? '' : '<tr ' . helper_alternate_class() . '>' );
 ?>
-<td colspan="4"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug->summary ) ?></td>
+<td colspan="3"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug->summary ) ?></td>
 </tr>
 
 <?php $t_first = false; } } ?>
@@ -81,12 +85,12 @@ foreach ( $t_changeset->bugs as $t_bug_id ) {
 <td class="category" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
 	<?php echo "Changeset" ?>
 </td>
-<td colspan="4"><?php echo string_display_links( $t_changeset->message ) ?></td>
+<td colspan="3"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>
 
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td colspan="3"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
+<td colspan="2"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
 <td class="center">
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'diff', 'Source' ) ) ?>
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'file', 'Source' ) ) ?>
