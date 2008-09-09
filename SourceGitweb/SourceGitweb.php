@@ -231,13 +231,19 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$t_input = str_replace( array(PHP_EOL, '&lt;', '&gt;'), array('', '<', '>'), $p_input );
 
 		# Exract sections of commit data and changed files
-		if( ! preg_match( '#<div class="title_text">(.*)<div class="list_head">.*'.
-			'<table class="diff_tree">(.*)</table><div class="page_footer">#', $t_input, $t_matches ) ) {
+		if ( ! $t_result = preg_match( '#<div class="title_text">(.*)<div class="list_head">#', $t_input, $t_matches ) ) {
+			echo 'commit data failed!';
 			return array();
 		}
 
 		$t_gitweb_data = $t_matches[1];
-		$t_gitweb_files = $t_matches[2];
+
+		if ( ! $t_result = preg_match( '#<table class="diff_tree">(.*)</table><div class="page_footer">#', $t_input, $t_matches ) ) {
+			echo 'changed file data failed!';
+			return array();
+		}
+
+		$t_gitweb_files = $t_matches[1];
 
 		# Get commit revsion and make sure it's not a dupe
 		preg_match( '#<tr><td>commit</td><td class="sha1">([a-f0-9]*)</td></tr>#', $t_gitweb_data, $t_matches );
