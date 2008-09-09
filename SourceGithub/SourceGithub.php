@@ -307,7 +307,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			}
 
 			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->id, $p_branch,
-				$p_json->authored_date, $p_json->author->email,
+				$p_json->authored_date, $p_json->author->name,
 				$p_json->message, $t_user_id );
 
 			foreach( $p_json->added as $t_added ) {
