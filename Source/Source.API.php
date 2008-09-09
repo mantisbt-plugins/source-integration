@@ -512,6 +512,30 @@ class SourceChangeset {
 	}
 
 	/**
+	 * Fetch a changeset object given a repository and revision.
+	 * @param multi Repo object
+	 * @param string Revision
+	 * @return multi Changeset object
+	 */
+	static function load_by_revision( $p_repo, $p_revision ) {
+		$t_changeset_table = plugin_table( 'changeset', 'Source' );
+
+		$t_query = "SELECT * FROM $t_changeset_table WHERE repo_id=" . db_param() . '
+				AND revision=' . db_param() . ' ORDER BY timestamp DESC';
+		$t_result = db_query_bound( $t_query, array( $p_repo->id, $p_revision ) );
+
+		if ( db_num_rows( $t_result ) < 1 ) {
+			trigger_error( ERROR_GENERIC, ERROR );
+		}
+
+		$t_row = db_fetch_array( $t_result );
+		$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'], $t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'], $t_row['user_id'], $t_row['parent'] );
+		$t_changeset->id = $t_row['id'];
+
+		return $t_changeset;
+	}
+
+	/**
 	 * Fetch an array of changeset objects for a given repository ID.
 	 * @param int Repository ID
 	 * @return array Changeset objects
