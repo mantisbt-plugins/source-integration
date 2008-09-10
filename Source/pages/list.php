@@ -31,11 +31,14 @@ html_page_top2();
 <table class="width100" cellspacing="1" align="center">
 
 <tr>
-<td class="form-title" colspan="1"><?php echo "Changesets: ", $t_repo->name ?></td>
+<td class="form-title" colspan="2"><?php echo "Changesets: ", $t_repo->name ?></td>
 <td class="right" colspan="2">
 <?php
 if ( access_has_global_level( plugin_config_get( 'manage_threshold' ) ) ) {
 	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'manage' ) );
+}
+if ( $t_url = event_signal( 'EVENT_SOURCE_URL_REPO', $t_repo ) ) {
+	print_bracket_link( $t_url, plugin_lang_get( 'browse' ) );
 }
 print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 ?>
@@ -65,13 +68,13 @@ foreach( $t_changesets as $t_changeset ) {
 		?>
 	</span>
 </td>
-<td colspan="2"><?php echo string_display_links( $t_changeset->message ) ?></td>
+<td colspan="3"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>
 
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
 
 <tr class="row-2">
-<td><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
+<td colspan="2"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
 <td class="center" width="15%">
 	<?php
 		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ) ) {
@@ -91,7 +94,7 @@ foreach( $t_changesets as $t_changeset ) {
 <?php } ?>
 
 <tr>
-<td colspan="3" class="center">
+<td colspan="4" class="center">
 
 <?php #PAGINATION
 $t_count = $t_stats['changesets'];
