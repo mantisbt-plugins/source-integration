@@ -355,6 +355,7 @@ class SourceChangeset {
 	var $files; # array of SourceFile's
 	var $bugs;
 	var $__bugs;
+	var $repo;
 
 	/**
 	 * Build a new changeset object given certain properties.
@@ -449,6 +450,14 @@ class SourceChangeset {
 			}
 
 			db_query_bound( $t_query, $t_params );
+
+	/**
+	 * Load/cache repo object.
+	 */
+	function load_repo() {
+		if ( is_null( $this->repo ) ) {
+			$t_repos = SourceRepo::load_by_changesets( $this );
+			$this->repo = array_shift( $t_repos );
 		}
 	}
 
