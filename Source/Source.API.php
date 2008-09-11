@@ -354,6 +354,7 @@ class SourceChangeset {
 
 	var $files; # array of SourceFile's
 	var $bugs;
+	var $__bugs;
 
 	/**
 	 * Build a new changeset object given certain properties.
@@ -376,6 +377,7 @@ class SourceChangeset {
 
 		$this->files		= array();
 		$this->bugs			= array();
+		$this->__bugs		= array();
 	}
 
 	/**
@@ -421,16 +423,24 @@ class SourceChangeset {
 	function save_bugs() {
 		$t_bug_table = plugin_table( 'bug', 'Source' );
 
-		$t_query = "DELETE FROM $t_bug_table WHERE change_id=" . $this->id;
-		db_query( $t_query );
+		$t_bugs_added = array_diff( $this->bugs, $this->__bugs );
+		$t_bugs_deleted = array_diff( $this->__bugs, $this->bugs );
 
-		if ( count( $this->bugs ) > 0 ) {
+		if ( count( $t_bugs_deleted ) ) {
+			$t_bugs_deleted = join( ',', $t_bugs_deleted );
+
+			$t_query = "DELETE FROM $t_bug_table WHERE change_id=" . $this->id .
+				" AND bug_id IN ( $t_bugs_deleted )";
+			db_query_bound( $t_query );
+		}
+
+		if ( count( $t_bugs_added ) > 0 ) {
 			$t_query = "INSERT INTO $t_bug_table ( change_id, bug_id ) VALUES ";
 
 			$t_count = 0;
 			$t_params = array();
 
-			foreach( $this->bugs as $t_bug_id ) {
+			foreach( $t_bugs_added as $t_bug_id ) {
 				$t_query .= ( $t_count == 0 ? '' : ', ' ) .
 					'(' . db_param() . ', ' . db_param() . ')';
 				$t_params[] = $this->id;
@@ -460,8 +470,10 @@ class SourceChangeset {
 		$t_result = db_query_bound( $t_query, array( $this->id ) );
 
 		$this->bugs = array();
+		$this->__bugs = array();
 		while( $t_row = db_fetch_array( $t_result ) ) {
 			$this->bugs[] = $t_row['bug_id'];
+			$this->__bugs[] = $t_row['bug_id'];
 		}
 	}
 
