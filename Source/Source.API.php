@@ -450,6 +450,8 @@ class SourceChangeset {
 			}
 
 			db_query_bound( $t_query, $t_params );
+		}
+	}
 
 	/**
 	 * Load/cache repo object.
