@@ -427,12 +427,20 @@ class SourceChangeset {
 		$t_bugs_added = array_diff( $this->bugs, $this->__bugs );
 		$t_bugs_deleted = array_diff( $this->__bugs, $this->bugs );
 
+		$this->load_repo();
+
 		if ( count( $t_bugs_deleted ) ) {
 			$t_bugs_deleted = join( ',', $t_bugs_deleted );
 
 			$t_query = "DELETE FROM $t_bug_table WHERE change_id=" . $this->id .
 				" AND bug_id IN ( $t_bugs_deleted )";
 			db_query_bound( $t_query );
+
+			foreach( $t_bugs_deleted as $t_bug_id ) {
+				plugin_history_log( $t_bug_id, 'changeset_unlinked',
+					event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $this->repo, $this ) ),
+					'', $this->user_id, 'Source' );
+			}
 		}
 
 		if ( count( $t_bugs_added ) > 0 ) {
@@ -450,6 +458,12 @@ class SourceChangeset {
 			}
 
 			db_query_bound( $t_query, $t_params );
+
+			foreach( $t_bugs_added as $t_bug_id ) {
+				plugin_history_log( $t_bug_id, 'changeset_linked',
+					event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $this->repo, $this ) ),
+					'', $this->user_id, 'Source' );
+			}
 		}
 	}
 
