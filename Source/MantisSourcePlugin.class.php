@@ -40,15 +40,70 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 		);
 	}
 
+	/**
+	 * Get a short, unique, lowercase string representing the plugin's source
+	 * control type.
+	 * @return string Source control type
+	 */
 	abstract function get_types( $p_event );
 
+	/**
+	 * Get a long, proper string representing the plugin's source control type.
+	 * Should ignore any $p_type not matching the output from get_type()
+	 * @param string Source control type
+	 * @return string Source control name
+	 */
 	abstract function show_type( $p_event, $p_type );
+
+	/**
+	 * Get a string representing the given repository and changeset.
+	 * @param object Repository
+	 * @param object Changeset
+	 * @return string Changeset string
+	 */
 	abstract function show_changeset( $p_event, $p_repo, $p_changeset);
+
+	/**
+	 * Get a string representing a file for a given repository and changeset.
+	 * @param object Repository
+	 * @param object Changeset
+	 * @param object File
+	 * @return string File string
+	 */
 	abstract function show_file( $p_event, $p_repo, $p_changeset, $p_file );
 
+	/**
+	 * Get a URL to a view of the repository at the given changeset.
+	 * @param object Repository
+	 * @param object Changeset
+	 * @return string URL
+	 */
 	abstract function url_repo( $p_event, $p_repo, $t_changeset=null );
+
+	/**
+	 * Get a URL to a view of the given changeset.
+	 * @param object Repository
+	 * @param object Changeset
+	 * @return string URL
+	 */
 	abstract function url_changeset( $p_event, $p_repo, $p_changeset );
+
+	/**
+	 * Get a URL to a view of the given file at the given changeset.
+	 * @param object Repository
+	 * @param object Changeset
+	 * @param object File
+	 * @return string URL
+	 */
 	abstract function url_file( $p_event, $p_repo, $p_changeset, $p_file );
+
+	/**
+	 * Get a URL to a diff view of the given file at the given changeset.
+	 * @param object Repository
+	 * @param object Changeset
+	 * @param object File
+	 * @return string URL
+	 */
 	abstract function url_diff( $p_event, $p_repo, $p_changeset, $p_file );
 
 	function update_repo_form( $p_event, $p_repo ) {}
