@@ -136,6 +136,13 @@ class SourcePlugin extends MantisPlugin {
 			array( 'AddColumnSQL', array( plugin_table( 'changeset' ), "
 				parent		C(250)	NOTNULL DEFAULT \" '' \"
 				" ) ),
+			# 2008-10-02
+			array( 'AddColumnSQL', array( plugin_table( 'changeset' ), "
+				ported		C(250)	NOTNULL DEFAULT \" '' \"
+				" ) ),
+			array( 'AddColumnSQL', array( plugin_table( 'changeset' ), "
+				author_email	C(250)	NOTNULL DEFAULT \" '' \"
+				" ) ),
 		);
 	}
 
