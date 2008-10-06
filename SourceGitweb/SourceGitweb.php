@@ -52,7 +52,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$t_ref = substr( $p_changeset->revision, 0, 8 );
 		$t_branch = $p_changeset->branch;
 
-		return "$t_branch <abbr title=\"$p_changeset->revision\">$t_ref</abbr>";
+		return "$t_branch $t_ref";
 	}
 
 	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
