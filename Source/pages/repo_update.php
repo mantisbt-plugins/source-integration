@@ -11,6 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
+form_security_validate( 'plugin_Source_repo_update' );
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 
 $f_repo_id = gpc_get_int( 'repo_id' );
@@ -30,6 +31,8 @@ if ( !is_null( $t_updated_repo ) ) {
 } else {
 	$t_repo->save();
 }
+
+form_security_purge( 'plugin_Source_repo_update' );
 
 print_successful_redirect( plugin_page( 'repo_manage_page', true ) . '&id=' . $t_repo->id );
 

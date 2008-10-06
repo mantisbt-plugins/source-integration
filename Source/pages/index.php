@@ -65,7 +65,8 @@ html_page_top2();
 
 <?php if ( $t_can_manage ) { ?>
 <br/>
-<form action="<?php echo plugin_page( 'repo_create.php' ) ?>" method="post">
+<form action="<?php echo plugin_page( 'repo_create' ) ?>" method="post">
+<?php echo form_security_field( 'plugin_Source_repo_create' ?>
 <table class="width50" align="center" cellspacing="1">
 
 <tr>

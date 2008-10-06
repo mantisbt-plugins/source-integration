@@ -11,6 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
+form_security_validate( 'plugin_Source_manage_config' );
 auth_reauthenticate();
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 
@@ -81,6 +82,8 @@ if ( $f_remote_checkin != plugin_config_get( 'remote_checkin' ) ) {
 
 plugin_config_set( 'checkin_urls', serialize( $t_checkin_urls ) );
 plugin_config_set( 'import_urls', serialize( $t_import_urls ) );
+
+form_security_purge( 'plugin_Source_manage_config' );
 
 print_successful_redirect( plugin_page( 'manage_config_page', true ) );
 

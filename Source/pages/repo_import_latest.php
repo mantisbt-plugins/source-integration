@@ -13,21 +13,24 @@
 
 $t_address = $_SERVER['REMOTE_ADDR'];
 $t_valid = false;
+$t_remote = true;
+
+# Allow a logged-in user to import
+if ( !$t_valid && auth_is_user_authenticated() ) {
+	form_security_validate( 'plugin_Source_repo_import_latest' );
+	access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
+	helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
+
+	$t_valid = true;
+	$t_remote = false;
+}
+
+helper_begin_long_process();
 
 # Always allow the same machine to import
 if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) {
 	$t_valid = true;
 }
-
-# Allow a logged-in user to import
-if ( !$t_valid && auth_is_user_authenticated() ) {
-	access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
-	helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
-
-	$t_valid = true;
-}
-
-helper_begin_long_process();
 
 # Check for allowed remote IP/URL addresses
 if ( !$t_valid && ON == plugin_config_get( 'remote_import' ) ) {
@@ -96,6 +99,10 @@ if ( !$t_status ) {
 
 print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
 echo '</div>';
+
+if ( !$t_remote ) {
+	form_security_purge( 'plugin_Source_repo_import_latest' );
+}
 
 html_page_bottom1();
 

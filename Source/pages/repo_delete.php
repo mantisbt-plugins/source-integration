@@ -11,6 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
+form_security_validate( 'plugin_Source_repo_delete' );
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 
 $f_repo_id = gpc_get_string( 'id' );
@@ -21,4 +22,5 @@ helper_ensure_confirmed( sprintf( plugin_lang_get( 'ensure_delete' ), $t_repo->n
 
 SourceRepo::delete( $t_repo->id );
 
+form_security_purge( 'plugin_Source_repo_delete' );
 print_successful_redirect( plugin_page( 'index', true ) );

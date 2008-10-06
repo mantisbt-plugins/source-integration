@@ -29,6 +29,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 <br/>
 <form action="<?php echo plugin_page( 'manage_config' ) ?>" method="post">
+<?php echo form_security_field( 'plugin_Source_manage_config' ?>
 <table class="width75" align="center" cellspacing="1">
 
 <tr>

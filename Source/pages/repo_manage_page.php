@@ -68,12 +68,23 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 
 <tr>
 <td colspan="2">
-<form action="<?php echo plugin_page( 'repo_update_page' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'repository' ) ?>"/></form>
-<form action="<?php echo plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'delete' ), ' ', plugin_lang_get( 'repository' ) ?>"/></form>
+<form action="<?php echo plugin_page( 'repo_update_page' ) . '&id=' . $t_repo->id ?>" method="post">
+	<input type="submit" value="<?php echo plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'repository' ) ?>"/>
+</form>
+<form action="<?php echo plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id ?>" method="post">
+	<?php echo form_security_field( 'plugin_Source_repo_delete' ) ?>
+	<input type="submit" value="<?php echo plugin_lang_get( 'delete' ), ' ', plugin_lang_get( 'repository' ) ?>"/>
+</form>
 </td>
 <td class="right">
-<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'import_latest' ) ?>"/></form>
-<form action="<?php echo plugin_page( 'repo_import_full' ) . '&id=' . $t_repo->id ?>" method="post"><input type="submit" value="<?php echo plugin_lang_get( 'import_full' ) ?>"/></form>
+<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&id=' . $t_repo->id ?>" method="post">
+	<?php echo form_security_field( 'plugin_Source_repo_import_latest' ) ?>
+	<input type="submit" value="<?php echo plugin_lang_get( 'import_latest' ) ?>"/>
+</form>
+<form action="<?php echo plugin_page( 'repo_import_full' ) . '&id=' . $t_repo->id ?>" method="post">
+	<?php echo form_security_field( 'plugin_Source_repo_import_full' ) ?>
+	<input type="submit" value="<?php echo plugin_lang_get( 'import_full' ) ?>"/>
+</form>
 </td>
 </tr>
 
