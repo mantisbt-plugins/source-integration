@@ -36,6 +36,8 @@ class SourcePlugin extends MantisPlugin {
 
 	function config() {
 		return array(
+			'show_repo_link'	=> ON,
+			'show_search_link'	=> OFF,
 			'manage_threshold'	=> ADMINISTRATOR,
 			'view_threshold'	=> VIEWER,
 
@@ -78,6 +80,7 @@ class SourcePlugin extends MantisPlugin {
 		return array(
 			'EVENT_PLUGIN_INIT' => 'post_init',
 			'EVENT_LAYOUT_RESOURCES' => 'css',
+			'EVENT_MENU_MAIN' => 'menu_main',
 		);
 	}
 
@@ -96,6 +99,24 @@ class SourcePlugin extends MantisPlugin {
 
 	function css() {
 		return '<link rel="stylesheet" type="text/css" href="' . plugin_file( 'style.css' ) . '"/>';
+	}
+
+	function menu_main() {
+		$t_links = array();
+
+		if ( plugin_config_get( 'show_repo_link' ) ) {
+			$t_page = plugin_page( 'index', false, 'Source' );
+			$t_lang = plugin_lang_get( 'repositories', 'Source' );
+			$t_links[] = "<a href=\"$t_page\">$t_lang</a>";
+		}
+
+		if ( plugin_config_get( 'show_search_link' ) ) {
+			$t_page = plugin_page( 'search_page', false, 'Source' );
+			$t_lang = plugin_lang_get( 'search', 'Source' );
+			$t_links[] = "<a href=\"$t_page\">$t_lang</a>";
+		}
+
+		return $t_links;
 	}
 
 	function schema() {

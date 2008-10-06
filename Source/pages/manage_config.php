@@ -18,6 +18,9 @@ access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 $f_view_threshold = gpc_get_int( 'view_threshold' );
 $f_manage_threshold = gpc_get_int( 'manage_threshold' );
 
+$f_show_repo_link = gpc_get_bool( 'show_repo_link', OFF );
+$f_show_search_link = gpc_get_bool( 'show_search_link', OFF );
+
 $f_buglink_regex_1 = gpc_get_string( 'buglink_regex_1' );
 $f_buglink_reset_1 = gpc_get_string( 'buglink_reset_1', OFF );
 $f_buglink_regex_2 = gpc_get_string( 'buglink_regex_2' );
@@ -54,6 +57,14 @@ if ( $f_view_threshold != plugin_config_get( 'view_threshold' ) ) {
 
 if ( $f_manage_threshold != plugin_config_get( 'manage_threshold' ) ) {
 	plugin_config_set( 'manage_threshold', $f_manage_threshold );
+}
+
+if ( $f_show_repo_link != plugin_config_get( 'show_repo_link' ) ) {
+	plugin_config_set( 'show_repo_link', $f_show_repo_link );
+}
+
+if ( $f_show_search_link != plugin_config_get( 'show_search_link' ) ) {
+	plugin_config_set( 'show_search_link', $f_show_search_link );
 }
 
 if ( ! $f_buglink_reset_1 ) {

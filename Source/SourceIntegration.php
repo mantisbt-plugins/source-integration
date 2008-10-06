@@ -19,17 +19,9 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 
 	function hooks() {
 		return array(
-			'EVENT_MENU_MAIN'			=> 'menu_main',
 			'EVENT_VIEW_BUG_EXTRA'		=> 'display_bug',
 			'EVENT_DISPLAY_FORMATTED'	=> 'display_formatted',
-			'EVENT_SOURCE_COMMIT'		=> 'commit',
 		);
-	}
-
-	function menu_main() {
-		$t_page = plugin_page( 'index', false, 'Source' );
-		$t_repos = plugin_lang_get( 'repositories', 'Source' );
-		return "<a href=\"$t_page\">$t_repos</a>";
 	}
 
 	function display_bug( $p_event, $p_bug_id ) {

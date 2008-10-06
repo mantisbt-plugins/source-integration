@@ -29,7 +29,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 <br/>
 <form action="<?php echo plugin_page( 'manage_config' ) ?>" method="post">
-<?php echo form_security_field( 'plugin_Source_manage_config' ?>
+<?php echo form_security_field( 'plugin_Source_manage_config' ) ?>
 <table class="width75" align="center" cellspacing="1">
 
 <tr>
@@ -44,6 +44,16 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'manage_threshold' ) ?></td>
 <td><select name="manage_threshold"><?php print_enum_string_option_list( 'access_levels', plugin_config_get( 'manage_threshold' ) ) ?></select></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'menu_links' ) ?></td>
+<td>
+	<label><input type="checkbox" name="show_repo_link" <?php echo ( plugin_config_get( 'show_repo_link' ) ? 'checked="checked" ' : '' ) ?>/>
+	<?php echo plugin_lang_get( 'show_repo_link' ) ?></label>
+	<label><input type="checkbox" name="show_search_link" <?php echo ( plugin_config_get( 'show_search_link' ) ? 'checked="checked" ' : '' ) ?>/>
+	<?php echo plugin_lang_get( 'show_search_link' ) ?></label>
+</td>
 </tr>
 
 <tr><td class="spacer"></td></tr>
