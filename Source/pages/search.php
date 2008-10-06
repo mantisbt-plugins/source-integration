@@ -54,6 +54,7 @@ print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' 
 if ( $t_count > $f_perpage ) {
 
 	$t_pages = ceil( $t_count / $f_perpage );
+	$t_block = max( 5, min( 20, ceil( $t_pages / 6 ) ) );
 	$t_current = $f_offset;
 	$t_page_set = array();
 
@@ -67,7 +68,7 @@ if ( $t_count > $f_perpage ) {
 		for( $i = 1; $i <= $t_pages; $i++ ) {
 			if ( $i <= 3 || $i > $t_pages-3 ||
 				( $i >= $t_current-4 && $i <= $t_current+4 ) ||
-				$i % 10 == 0) {
+				$i % $t_block == 0) {
 
 				$t_page_set[] = $i;
 				$t_used_page = true;
