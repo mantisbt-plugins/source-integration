@@ -496,7 +496,10 @@ class SourceChangeset {
 	 * Load all file objects associated with this changeset.
 	 */
 	function load_files() {
-		$this->files = SourceFile::load_by_changeset( $this->id );
+		if ( count( $this->files ) < 1 ) {
+			$this->files = SourceFile::load_by_changeset( $this->id );
+		}
+
 		return $this->files;
 	}
 
@@ -504,17 +507,21 @@ class SourceChangeset {
 	 * Load all bug numbers associated with this changeset.
 	 */
 	function load_bugs() {
-		$t_bug_table = plugin_table( 'bug', 'Source' );
+		if ( count( $this->bugs ) < 1 ) {
+			$t_bug_table = plugin_table( 'bug', 'Source' );
 
-		$t_query = "SELECT bug_id FROM $t_bug_table WHERE change_id=" . db_param();
-		$t_result = db_query_bound( $t_query, array( $this->id ) );
+			$t_query = "SELECT bug_id FROM $t_bug_table WHERE change_id=" . db_param();
+			$t_result = db_query_bound( $t_query, array( $this->id ) );
 
-		$this->bugs = array();
-		$this->__bugs = array();
-		while( $t_row = db_fetch_array( $t_result ) ) {
-			$this->bugs[] = $t_row['bug_id'];
-			$this->__bugs[] = $t_row['bug_id'];
+			$this->bugs = array();
+			$this->__bugs = array();
+			while( $t_row = db_fetch_array( $t_result ) ) {
+				$this->bugs[] = $t_row['bug_id'];
+				$this->__bugs[] = $t_row['bug_id'];
+			}
 		}
+
+		return $this->bugs;
 	}
 
 	/**
