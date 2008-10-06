@@ -56,25 +56,46 @@ print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 $t_count = $t_stats['changesets'];
 
 if ( $t_count > $f_perpage ) {
-	$t_page = 1;
-	while( $t_count > 0 ) {
-		if ( $t_page > 1 && $t_page % 15 != 1 ) {
-			echo ', ';
+
+	$t_pages = ceil( $t_count / $f_perpage );
+	$t_current = $f_offset;
+	$t_page_set = array();
+
+	$t_page_link_body = "if ( is_null( \$t ) ) { \$t = \$p; }
+		return ( is_null( \$p ) ? '...' : ( \$p == $t_current ? \"<strong>\$p</strong>\" :
+		'<a href=\"' . plugin_page( 'search' ) . '&offset=' . \$p . '$t_permalink' . '\">' . \$t . '</a>' ) );";
+	$t_page_link = create_function( '$p, $t=null', $t_page_link_body ) or die( 'gah' );
+
+	if ( $t_pages > 15 ) {
+		$t_used_page = false;
+		for( $i = 1; $i <= $t_pages; $i++ ) {
+			if ( $i <= 3 || $i > $t_pages-3 ||
+				( $i >= $t_current-4 && $i <= $t_current+4 ) ||
+				$i % 10 == 0) {
+
+				$t_page_set[] = $i;
+				$t_used_page = true;
+			} else if ( $t_used_page ) {
+				$t_page_set[] = null;
+				$t_used_page = false;
+			}
 		}
 
-		if ( $t_page == $f_offset ) {
-			echo " $t_page";
-		} else {
-			echo ' <a href="', plugin_page( 'list' ), '&id=', $t_repo->id, '&offset=', $t_page, '">', $t_page, '</a>';
-		}
-
-		if ( $t_page % 15 == 0 ) {
-			echo '<br/>';
-		}
-
-		$t_count -= $f_perpage;
-		$t_page ++;
+	} else {
+		$t_page_set = range( 1, $t_pages );
 	}
+
+	if ( $t_current > 1 ) {
+		echo $t_page_link( $f_offset-1, '<<' ), '&nbsp;&nbsp;';
+	}
+
+	$t_page_set = map( $t_page_link, $t_page_set );
+	echo join( ' ', $t_page_set );
+
+	if ( $t_current < $t_pages ) {
+		echo '&nbsp;&nbsp;', $t_page_link( $f_offset+1, '>>' );
+	}
+
 }
 ?>
 </td>
