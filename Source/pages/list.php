@@ -11,6 +11,8 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
+require_once( config_get( 'plugin_path' ) . 'Source/Source.ViewAPI.php' );
+
 access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
 
 $f_repo_id = gpc_get_int( 'id' );
@@ -45,53 +47,7 @@ print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 </td>
 <tr>
 
-<?php /*
-<tr class="row-category">
-<td><?php echo "Changeset" ?></td>
-<td><?php echo "Author" ?></td>
-<td colspan="2"><?php echo "Message" ?></td>
-</tr>
- */ ?>
-
-<?php
-foreach( $t_changesets as $t_changeset ) {
-	$t_rows = count( $t_changeset->files ) + 1;
-?>
-<tr class="row-1">
-<td class="category" width="25%" rowspan="<?php echo $t_rows ?>">
-	<strong><?php echo event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></strong><br/>
-	<span class="small"><?php echo "Timestamp: ", $t_changeset->timestamp ?></span><br/>
-	<span class="small"><?php echo "Author: ", $t_changeset->author ?></span><br/>
-	<span class="small-links">
-		<?php
-			print_bracket_link( plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id, plugin_lang_get( 'details', 'Source' ) );
-		?>
-	</span>
-</td>
-<td colspan="3"><?php echo string_display_links( $t_changeset->message ) ?></td>
-</tr>
-
-<?php foreach ( $t_changeset->files as $t_file ) { ?>
-
-<tr class="row-2">
-<td colspan="2"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
-<td class="center" width="15%">
-	<?php
-		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ) ) {
-			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
-		}
-		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) {
-			print_bracket_link( $t_url, plugin_lang_get( 'file', 'Source' ) );
-		}
-	?>
-</td>
-</tr>
-
-<?php } ?>
-
-<tr><td class="spacer"></td></tr>
-
-<?php } ?>
+<?php Source_View_Changesets( $t_changesets, array( $t_repo->id => $t_repo ), false ) ?>
 
 <tr>
 <td colspan="4" class="center">

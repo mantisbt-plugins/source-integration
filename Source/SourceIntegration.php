@@ -33,6 +33,8 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 	}
 
 	function display_bug( $p_event, $p_bug_id ) {
+		require_once( 'Source.ViewAPI.php' );
+
 		if ( !access_has_global_level( config_get( 'plugin_Source_view_threshold' ) ) ) {
 			return;
 		}
@@ -52,45 +54,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 <tr>
 	<td class="form-title"><?php collapse_icon( 'Source' ); echo plugin_lang_get( 'related_changesets', 'Source' ) ?></td>
 </tr>
-
-		<?php
-		foreach ( $t_changesets as $t_changeset ) {
-			$t_repo = $t_repos[$t_changeset->repo_id];
-			$t_css = helper_alternate_class();
-			?>
-
-<tr class="row-1">
-<td class="category" width="25%" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
-	<?php echo string_display( $t_repo->name . ': ' . event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ) ?>
-	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
-	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', string_display_line( $t_changeset->author ) ?></span>
-	<br/><span class="small-links">
-		<?php
-			print_bracket_link( plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id, plugin_lang_get( 'details', 'Source' ) );
-		?>
-</td>
-<td colspan="2"><?php echo string_display_links( $t_changeset->message ) ?></td>
-</tr>
-
-		<?php foreach ( $t_changeset->files as $t_file ) { ?>
-<tr class="row-2">
-<td><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
-<td class="center" width="15%">
-	<?php
-		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ) ) {
-			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
-		}
-		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) {
-			print_bracket_link( $t_url, plugin_lang_get( 'file', 'Source' ) );
-		}
-	?>
-</td>
-</tr>
-		<?php } ?>
-
-<tr><td class="spacer"></td></tr>
-
-		<?php } ?>
+		<?php Source_View_Changesets( $t_changesets, $t_repos ); ?>
 </table>
 <?php
 			collapse_closed( 'Source' );

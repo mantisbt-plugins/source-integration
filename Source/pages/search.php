@@ -11,6 +11,8 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
+require_once( config_get( 'plugin_path' ) . 'Source/Source.ViewAPI.php' );
+
 access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
 
 $f_offset = gpc_get_int( 'offset', 1 );
@@ -32,7 +34,7 @@ html_page_top2();
 <table class="width100" align="center" cellspacing="1">
 
 <tr>
-<td class="form-title"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>
+<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>
 <td class="right" colspan="2">
 <?php
 print_bracket_link( plugin_page( 'search' ) . $t_permalink, plugin_lang_get( 'permalink' ) );
@@ -43,38 +45,7 @@ print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 </td>
 </tr>
 
-<?php
-foreach( $t_changesets as $t_changeset ) {
-	$t_changeset->load_files();
-	$t_changeset->load_bugs();
-	$t_repo = $t_repos[ $t_changeset->repo_id ];
-	$t_rows = count( $t_changeset->files ) + 1;
-?>
-
-<tr class="row-1">
-<td class="category" width="25%" rowspan="<?php echo $t_rows ?>">
-	<strong><?php echo string_display( $t_repo->name ), ' ', event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></strong><br/>
-	<span class="small"><?php echo plugin_lang_get( 'timestamp' ), ': ', $t_changeset->timestamp ?></span><br/>
-	<span class="small"><?php echo plugin_lang_get( 'author' ), ': ', $t_changeset->author ?></span>
-</td>
-<td colspan="2"><?php echo string_display_links( $t_changeset->message ) ?></td>
-</tr>
-
-<?php foreach ( $t_changeset->files as $t_file ) { ?>
-
-<tr class="row-2">
-<td><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
-<td class="center" width="15%">
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'diff', 'Source' ) ) ?>
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'file', 'Source' ) ) ?>
-</td>
-</tr>
-
-<?php } ?>
-
-<tr><td class="spacer"></td></tr>
-
-<?php } ?>
+<?php Source_View_Changesets( $t_changesets, $t_repos ) ?>
 
 <tr>
 <td colspan="3" class="center">
