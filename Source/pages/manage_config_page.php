@@ -50,9 +50,17 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <td class="category"><?php echo plugin_lang_get( 'menu_links' ) ?></td>
 <td>
 	<label><input type="checkbox" name="show_repo_link" <?php echo ( plugin_config_get( 'show_repo_link' ) ? 'checked="checked" ' : '' ) ?>/>
-	<?php echo plugin_lang_get( 'show_repo_link' ) ?></label>
+	<?php echo plugin_lang_get( 'show_repo_link' ) ?></label><br/>
 	<label><input type="checkbox" name="show_search_link" <?php echo ( plugin_config_get( 'show_search_link' ) ? 'checked="checked" ' : '' ) ?>/>
-	<?php echo plugin_lang_get( 'show_search_link' ) ?></label>
+	<?php echo plugin_lang_get( 'show_search_link' ) ?></label><br/>
+</td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'enabled_features' ) ?></td>
+<td>
+	<label><input type="checkbox" name="enable_porting" <?php echo ( plugin_config_get( 'enable_porting' ) ? 'checked="checked" ' : '' ) ?>/>
+	<?php echo plugin_lang_get( 'enable_porting' ) ?></label><br/>
 </td>
 </tr>
 

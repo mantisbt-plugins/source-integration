@@ -21,6 +21,8 @@ $f_manage_threshold = gpc_get_int( 'manage_threshold' );
 $f_show_repo_link = gpc_get_bool( 'show_repo_link', OFF );
 $f_show_search_link = gpc_get_bool( 'show_search_link', OFF );
 
+$f_enable_porting = gpc_get_bool( 'enable_porting', OFF );
+
 $f_buglink_regex_1 = gpc_get_string( 'buglink_regex_1' );
 $f_buglink_reset_1 = gpc_get_string( 'buglink_reset_1', OFF );
 $f_buglink_regex_2 = gpc_get_string( 'buglink_regex_2' );
@@ -51,48 +53,35 @@ $f_import_urls = gpc_get_string( 'import_urls' );
 $t_checkin_urls = check_urls( $f_checkin_urls );
 $t_import_urls = check_urls( $f_import_urls );
 
-if ( $f_view_threshold != plugin_config_get( 'view_threshold' ) ) {
-	plugin_config_set( 'view_threshold', $f_view_threshold );
+function maybe_set_option( $name, $value ) {
+	if ( $value != plugin_config_get( $name ) ) {
+		plugin_config_set( $name, $value );
+	}
 }
 
-if ( $f_manage_threshold != plugin_config_get( 'manage_threshold' ) ) {
-	plugin_config_set( 'manage_threshold', $f_manage_threshold );
-}
+maybe_set_option( 'view_threshold', $f_view_threshold );
+maybe_set_option( 'manage_threshold', $f_manage_threshold );
 
-if ( $f_show_repo_link != plugin_config_get( 'show_repo_link' ) ) {
-	plugin_config_set( 'show_repo_link', $f_show_repo_link );
-}
+maybe_set_option( 'show_repo_link', $f_show_repo_link );
+maybe_set_option( 'show_search_link', $f_show_search_link );
 
-if ( $f_show_search_link != plugin_config_get( 'show_search_link' ) ) {
-	plugin_config_set( 'show_search_link', $f_show_search_link );
-}
+maybe_set_option( 'enable_porting', $f_enable_porting );
 
 if ( ! $f_buglink_reset_1 ) {
-	if ( $f_buglink_regex_1 != plugin_config_get( 'buglink_regex_1' ) ) {
-		plugin_config_set( 'buglink_regex_1', $f_buglink_regex_1 );
-	}
+	maybe_set_option( 'buglink_regex_1', $f_buglink_regex_1 );
 } else {
 	plugin_config_delete( 'buglink_regex_1' );
 }
 
 if ( ! $f_buglink_reset_2 ) {
-	if ( $f_buglink_regex_2 != plugin_config_get( 'buglink_regex_2' ) ) {
-		plugin_config_set( 'buglink_regex_2', $f_buglink_regex_2 );
-	}
+	maybe_set_option( 'buglink_regex_2', $f_buglink_regex_2 );
 } else {
 	plugin_config_delete( 'buglink_regex_2' );
 }
 
-if ( $f_manage_threshold != plugin_config_get( 'manage_threshold' ) ) {
-	plugin_config_set( 'manage_threshold', $f_manage_threshold );
-}
-
-if ( $f_remote_checkin != plugin_config_get( 'remote_checkin' ) ) {
-	plugin_config_set( 'remote_checkin', $f_remote_checkin );
-}
-
-plugin_config_set( 'checkin_urls', serialize( $t_checkin_urls ) );
-plugin_config_set( 'import_urls', serialize( $t_import_urls ) );
+maybe_set_option( 'remote_checkin', $f_remote_checkin );
+maybe_set_option( 'checkin_urls', serialize( $t_checkin_urls ) );
+maybe_set_option( 'import_urls', serialize( $t_import_urls ) );
 
 form_security_purge( 'plugin_Source_manage_config' );
 
