@@ -52,7 +52,7 @@ html_page_top2();
 	#print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', $t_repo ), plugin_lang_get( 'browse' ) );
 	if ( $t_can_manage ) {
 		if ( preg_match( '/^Import \d+-\d+\d+/', $t_repo->name ) ) {
-			print_bracket_link( plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id, plugin_lang_get( 'delete' ) );
+			print_bracket_link( plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id . form_security_param( 'plugin_Source_repo_delete' ), plugin_lang_get( 'delete' ) );
 		}
 		print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'manage' ) );
 	}
