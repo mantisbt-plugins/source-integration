@@ -31,6 +31,7 @@ $s_plugin_Source_action = 'Action';
 $s_plugin_Source_author = 'Author';
 $s_plugin_Source_username = 'Username';
 $s_plugin_Source_timestamp = 'Timestamp';
+$s_plugin_Source_parent = 'Parent';
 $s_plugin_Source_url = 'URL';
 $s_plugin_Source_info = 'Extra Info';
 $s_plugin_Source_revision = 'Revision';
@@ -61,6 +62,7 @@ $s_plugin_Source_back = 'Back to Index';
 $s_plugin_Source_import_full = 'Import Everything';
 $s_plugin_Source_import_latest = 'Import Latest Data';
 $s_plugin_Source_related_changesets = 'Related Changesets';
+$s_plugin_Source_affected_issues = 'Affected Issues';
 
 $s_plugin_Source_configuration = 'Configuration';
 $s_plugin_Source_allow_remote_checkin = 'Allow Remote Check-In';

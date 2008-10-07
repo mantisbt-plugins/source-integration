@@ -47,17 +47,18 @@ html_page_top2();
 <tr>
 
 <tr class="row-category">
-<td><?php echo "Branch" ?></td>
-<td><?php echo "Author" ?></td>
-<td><?php echo "Timestamp" ?></td>
-<td><?php echo "Parent" ?></td>
+<td><?php echo plugin_lang_get( 'author' ) ?></td>
+<td><?php echo plugin_lang_get( 'branch' ) ?></td>
+<td><?php echo plugin_lang_get( 'timestamp' ) ?></td>
+<td><?php echo plugin_lang_get( 'parent' ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td><?php echo string_display_line( $t_changeset->branch ) ?></td>
-<td><?php echo string_display_line( $t_changeset->author ) ?></td>
-<td><?php echo string_display_line( $t_changeset->timestamp ) ?></td>
-<td><?php if ( $t_changeset_parent ) { print_link( plugin_page( 'view' ) . '&id=' . $t_changeset_parent->id, event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset_parent ) ) ); } ?></td>
+<td class="center"><?php echo string_display_line( $t_changeset->author ),
+	( $t_changeset->author_email ? '<br/>' . $t_changeset->author_email : '' ) ?></td>
+<td class="center"><?php echo string_display_line( $t_changeset->branch ) ?></td>
+<td class="center"><?php echo string_display_line( $t_changeset->timestamp ) ?></td>
+<td class="center"><?php if ( $t_changeset_parent ) { print_link( plugin_page( 'view' ) . '&id=' . $t_changeset_parent->id, event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset_parent ) ) ); } ?></td>
 </tr>
 
 <?php if ( count( $t_changeset->bugs ) > 0 ) { ?>
@@ -65,7 +66,7 @@ html_page_top2();
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category" rowspan="<?php echo count( $t_changeset->bugs ) ?>">
-	<?php echo "Affected Issues" ?>
+	<?php echo plugin_lang_get( 'affected_issues' ) ?>
 </td>
 
 <?php
