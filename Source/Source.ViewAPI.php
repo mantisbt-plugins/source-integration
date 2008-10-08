@@ -49,8 +49,8 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 
 		<?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr class="row-2">
-<td colspan="2"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
-<td class="center" width="15%">
+<td class="small mono" colspan="2"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
+<td class="center" width="8%"><span class="small-links">
 		<?php
 		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ) ) {
 			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
@@ -59,7 +59,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 			print_bracket_link( $t_url, plugin_lang_get( 'file', 'Source' ) );
 		}
 		?>
-</td>
+</span></td>
 </tr>
 		<?php } ?>
 <tr><td class="spacer"></td></tr>

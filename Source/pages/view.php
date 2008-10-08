@@ -91,11 +91,11 @@ foreach ( $t_changeset->bugs as $t_bug_id ) {
 
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td colspan="2"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
-<td class="center">
+<td class="small mono" colspan="2"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
+<td class="center"><span class="small-links">
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'diff', 'Source' ) ) ?>
 	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'file', 'Source' ) ) ?>
-</td>
+</span></td>
 </tr>
 
 <?php } ?>
