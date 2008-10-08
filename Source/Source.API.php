@@ -119,6 +119,7 @@ class SourceRepo {
 	var $name;
 	var $url;
 	var $info;
+	var $branches;
 
 	/**
 	 * Build a new Repo object given certain properties.
@@ -138,6 +139,7 @@ class SourceRepo {
 		} else {
 			$this->info = unserialize( $p_info );
 		}
+		$this->branches = array();
 	}
 
 	/**
@@ -162,6 +164,25 @@ class SourceRepo {
 				', url=' . db_param() . ', info=' . db_param() . ' WHERE id=' . db_param();
 			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info), $this->id ) );
 		}
+	}
+
+	/**
+	 * Load and cache the list of unique branches for the repo's changesets.
+	 */
+	function load_branches() {
+		if ( count( $this->branches ) < 1 ) {
+			$t_changeset_table = plugin_table( 'changeset', 'Source' );
+
+			$t_query = "SELECT DISTINCT branch FROM $t_changeset_table WHERE repo_id=" .
+				db_param() . ' ORDER BY branch ASC';
+			$t_result = db_query_bound( $t_query, array( $this->id ) );
+
+			while( $t_row = db_fetch_array( $t_result ) ) {
+				$this->branches[] = $t_row['branch'];
+			}
+		}
+
+		return $this->branches;
 	}
 
 	/**
