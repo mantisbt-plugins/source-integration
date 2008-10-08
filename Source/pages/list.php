@@ -64,7 +64,7 @@ if ( $t_count > $f_perpage ) {
 
 	$t_page_link_body = "if ( is_null( \$t ) ) { \$t = \$p; }
 		return ( is_null( \$p ) ? '...' : ( \$p == $t_current ? \"<strong>\$p</strong>\" :
-		'<a href=\"' . plugin_page( 'search' ) . '&offset=' . \$p . '$t_permalink' . '\">' . \$t . '</a>' ) );";
+		'<a href=\"' . plugin_page( 'search' ) . '&offset=' . \$p . '\">' . \$t . '</a>' ) );";
 	$t_page_link = create_function( '$p, $t=null', $t_page_link_body ) or die( 'gah' );
 
 	if ( $t_pages > 15 ) {
