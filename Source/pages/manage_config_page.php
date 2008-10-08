@@ -42,6 +42,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'update_threshold' ) ?></td>
+<td><select name="update_threshold"><?php print_enum_string_option_list( 'access_levels', plugin_config_get( 'update_threshold' ) ) ?></select></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'manage_threshold' ) ?></td>
 <td><select name="manage_threshold"><?php print_enum_string_option_list( 'access_levels', plugin_config_get( 'manage_threshold' ) ) ?></select></td>
 </tr>

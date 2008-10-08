@@ -16,6 +16,7 @@ auth_reauthenticate();
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 
 $f_view_threshold = gpc_get_int( 'view_threshold' );
+$f_update_threshold = gpc_get_int( 'update_threshold' );
 $f_manage_threshold = gpc_get_int( 'manage_threshold' );
 
 $f_show_repo_link = gpc_get_bool( 'show_repo_link', OFF );
@@ -60,6 +61,7 @@ function maybe_set_option( $name, $value ) {
 }
 
 maybe_set_option( 'view_threshold', $f_view_threshold );
+maybe_set_option( 'update_threshold', $f_update_threshold );
 maybe_set_option( 'manage_threshold', $f_manage_threshold );
 
 maybe_set_option( 'show_repo_link', $f_show_repo_link );

@@ -38,8 +38,10 @@ class SourcePlugin extends MantisPlugin {
 		return array(
 			'show_repo_link'	=> ON,
 			'show_search_link'	=> OFF,
-			'manage_threshold'	=> ADMINISTRATOR,
+
 			'view_threshold'	=> VIEWER,
+			'update_threshold'	=> UPDATER,
+			'manage_threshold'	=> ADMINISTRATOR,
 
 			'enable_porting'	=> OFF,
 
