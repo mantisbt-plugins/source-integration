@@ -39,6 +39,7 @@ $s_plugin_Source_date_begin = 'Beginning Date';
 $s_plugin_Source_date_end = 'Ending Date';
 $s_plugin_Source_message = 'Message';
 $s_plugin_Source_filename = 'Filename';
+$s_plugin_Source_ported = 'Ported';
 
 $s_plugin_Source_issue = 'Issue';
 $s_plugin_Source_issues = 'Issues';
@@ -57,6 +58,8 @@ $s_plugin_Source_new_search = 'New Search';
 $s_plugin_Source_permalink = 'Permalink';
 $s_plugin_Source_select_one = '(Select one)';
 $s_plugin_Source_select_any = '[any]';
+$s_plugin_Source_pending = 'Pending';
+$s_plugin_Source_na = 'N/A';
 
 $s_plugin_Source_back = 'Back to Index';
 $s_plugin_Source_import_full = 'Import Everything';
