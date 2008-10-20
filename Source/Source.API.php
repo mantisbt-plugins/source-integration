@@ -473,7 +473,7 @@ class SourceChangeset {
 			db_query_bound( $t_query );
 
 			foreach( $t_bugs_deleted as $t_bug_id ) {
-				plugin_history_log( $t_bug_id, 'changeset_attached',
+				plugin_history_log( $t_bug_id, 'changeset_removed',
 					event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $this->repo, $this ) ),
 					'', $this->user_id, 'Source' );
 			}
@@ -496,7 +496,7 @@ class SourceChangeset {
 			db_query_bound( $t_query, $t_params );
 
 			foreach( $t_bugs_added as $t_bug_id ) {
-				plugin_history_log( $t_bug_id, 'changeset_removed',
+				plugin_history_log( $t_bug_id, 'changeset_attached',
 					event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $this->repo, $this ) ),
 					'', $this->user_id, 'Source' );
 			}
