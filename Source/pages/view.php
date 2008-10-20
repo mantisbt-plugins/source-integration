@@ -60,7 +60,14 @@ html_page_top2();
 
 <tr>
 <td class="form-title" colspan="<?php echo $t_columns - 2 ?>"><?php echo string_display_line( $t_repo->name ), ': ', event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></td>
-<td class="right" colspan="2"><?php print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset, "Back to Repository" ) ?></td>
+<td class="right" colspan="2">
+<?php
+	if ( $t_url = event_signal( 'EVENT_SOURCE_URL_CHANGESET', array( $t_repo, $t_changeset ) ) ) {
+		print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
+	}
+	print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset, "Back to Repository" );
+?>
+</td>
 <tr>
 
 <tr class="row-category">

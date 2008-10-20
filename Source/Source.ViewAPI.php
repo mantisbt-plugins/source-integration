@@ -42,6 +42,9 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 	<br/><span class="small-links">
 		<?php
 		print_bracket_link( plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id, plugin_lang_get( 'details', 'Source' ) );
+		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_CHANGESET', array( $t_repo, $t_changeset ) ) ) {
+			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
+		}
 		?>
 </td>
 <td colspan="3"><?php echo string_display_links( $t_changeset->message ) ?></td>

@@ -81,7 +81,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	abstract function url_repo( $p_event, $p_repo, $t_changeset=null );
 
 	/**
-	 * Get a URL to a view of the given changeset.
+	 * Get a URL to a diff view of the given changeset.
 	 * @param object Repository
 	 * @param object Changeset
 	 * @return string URL
