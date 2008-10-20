@@ -228,7 +228,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 	function commit_changeset( $p_repo, $p_input, $p_branch='' ) {
 
-		$t_input = str_replace( array(PHP_EOL, '&lt;', '&gt;'), array('', '<', '>'), $p_input );
+		$t_input = str_replace( array(PHP_EOL, '&lt;', '&gt;', '&nbsp;'), array('', '<', '>', ' '), $p_input );
 
 		# Exract sections of commit data and changed files
 		$t_input_p1 = strpos( $t_input, '<div class="title_text">' );
