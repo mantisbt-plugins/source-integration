@@ -82,7 +82,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		return $this->uri_base( $p_repo ) . 'a=commit;h=' . $p_changeset->revision;
+		return $this->uri_base( $p_repo ) . 'a=commitdiff;h=' . $p_changeset->revision;
 	}
 
 	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
