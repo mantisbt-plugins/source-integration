@@ -15,6 +15,11 @@ $t_address = $_SERVER['REMOTE_ADDR'];
 $t_valid = false;
 $t_remote = true;
 
+# Always allow the same machine to import
+if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) {
+	$t_valid = true;
+}
+
 # Allow a logged-in user to import
 if ( !$t_valid && auth_is_user_authenticated() ) {
 	form_security_validate( 'plugin_Source_repo_import_latest' );
@@ -26,11 +31,6 @@ if ( !$t_valid && auth_is_user_authenticated() ) {
 }
 
 helper_begin_long_process();
-
-# Always allow the same machine to import
-if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) {
-	$t_valid = true;
-}
 
 # Check for allowed remote IP/URL addresses
 if ( !$t_valid && ON == plugin_config_get( 'remote_import' ) ) {
