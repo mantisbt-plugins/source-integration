@@ -22,7 +22,7 @@ print_manage_menu();
 $t_remote_checkin = plugin_config_get( 'remote_checkin' );
 $t_checkin_urls = unserialize( plugin_config_get( 'checkin_urls' ) );
 
-$t_remote_import = plugin_config_get( 'remote_imports' );
+$t_remote_imports = plugin_config_get( 'remote_imports' );
 $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 ?>
@@ -107,7 +107,7 @@ foreach( $t_checkin_urls as $t_ip ) {
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'allow_remote_import' ) ?></td>
-<td><input name="remote_import" type="checkbox" <?php echo (ON == $t_remote_import ? 'checked="checked"' : '') ?>></td>
+<td><input name="remote_imports" type="checkbox" <?php echo (ON == $t_remote_imports ? 'checked="checked"' : '') ?>></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>

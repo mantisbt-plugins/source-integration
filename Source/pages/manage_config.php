@@ -48,7 +48,7 @@ function check_urls( $t_urls_in ) {
 $f_remote_checkin = gpc_get_bool( 'remote_checkin', OFF );
 $f_checkin_urls = gpc_get_string( 'checkin_urls' );
 
-$f_remote_import = gpc_get_bool( 'remote_import', OFF );
+$f_remote_imports = gpc_get_bool( 'remote_imports', OFF );
 $f_import_urls = gpc_get_string( 'import_urls' );
 
 $t_checkin_urls = check_urls( $f_checkin_urls );
@@ -83,7 +83,7 @@ if ( ! $f_buglink_reset_2 ) {
 
 maybe_set_option( 'remote_checkin', $f_remote_checkin );
 maybe_set_option( 'checkin_urls', serialize( $t_checkin_urls ) );
-maybe_set_option( 'remote_import', $f_remote_import );
+maybe_set_option( 'remote_imports', $f_remote_imports );
 maybe_set_option( 'import_urls', serialize( $t_import_urls ) );
 
 form_security_purge( 'plugin_Source_manage_config' );
