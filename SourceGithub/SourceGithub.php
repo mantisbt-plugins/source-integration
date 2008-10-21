@@ -262,6 +262,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 			if ( db_num_rows( $t_result ) > 0 ) {
 				$t_parent = db_result( $t_result );
+				echo "Oldest '$t_branch' branch parent: '$t_parent'\n";
 
 				if ( !empty( $t_parent ) ) {
 					$t_commits[] = $t_parent;
