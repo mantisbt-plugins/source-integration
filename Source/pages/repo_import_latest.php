@@ -15,13 +15,10 @@ $t_address = $_SERVER['REMOTE_ADDR'];
 $t_valid = false;
 $t_remote = true;
 
-# Always allow the same machine to import
-if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) {
-	$t_valid = true;
-}
+helper_begin_long_process();
 
 # Allow a logged-in user to import
-if ( !$t_valid && auth_is_user_authenticated() ) {
+if ( auth_is_user_authenticated() && !current_user_is_anonymous() ) {
 	form_security_validate( 'plugin_Source_repo_import_latest' );
 	access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 	helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
@@ -30,10 +27,13 @@ if ( !$t_valid && auth_is_user_authenticated() ) {
 	$t_remote = false;
 }
 
-helper_begin_long_process();
+# Always allow the same machine to import
+if ( !$t_valid && ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) ) {
+	$t_valid = true;
+}
 
 # Check for allowed remote IP/URL addresses
-if ( !$t_valid && ON == plugin_config_get( 'remote_import' ) ) {
+if ( !$t_valid && ON == plugin_config_get( 'remote_imports' ) ) {
 	$t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	preg_match( '/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/', $t_address, $t_address_matches );
 
