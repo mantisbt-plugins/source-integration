@@ -250,19 +250,36 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$t_branches = map( 'trim', explode( ',', $t_branch ) );
 
+		$t_changeset_table = plugin_table( 'changeset', 'Source' );
+
 		foreach( $t_branches as $t_branch ) {
-			$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_branch, $t_branch  );
+			$t_query = "SELECT parent FROM $t_changeset_table
+				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
+				'ORDER BY timestamp ASC';
+			$t_result = db_query_bound( $t_query, array( $p_repo->id, $t_branch ), 1 );
+
+			$t_commits = array( $t_branch );
+
+			if ( db_num_rows( $t_result ) > 0 ) {
+				$t_parent = db_result( $t_result );
+
+				if ( !empty( $t_parent ) ) {
+					$t_commits[] = $t_parent;
+				}
+			}
+
+			$t_status = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch  );
 		}
 
 		echo '</pre>';
 
-		return $t_result;
+		return $t_status;
 	}
 
 	function import_latest( $p_event, $p_repo ) {
-		$t_result = $this->import_full( $p_event, $p_repo );
+		$t_status = $this->import_full( $p_event, $p_repo );
 
-		return $t_result;
+		return $t_status;
 	}
 
 	function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
