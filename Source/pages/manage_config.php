@@ -83,6 +83,7 @@ if ( ! $f_buglink_reset_2 ) {
 
 maybe_set_option( 'remote_checkin', $f_remote_checkin );
 maybe_set_option( 'checkin_urls', serialize( $t_checkin_urls ) );
+maybe_set_option( 'remote_import', $f_remote_import );
 maybe_set_option( 'import_urls', serialize( $t_import_urls ) );
 
 form_security_purge( 'plugin_Source_manage_config' );
