@@ -26,7 +26,12 @@ html_page_top2();
 
 <tr>
 <td class="form-title" colspan="2"><?php echo plugin_lang_get( 'repositories' ) ?></td>
-<td class="right" colspan="4"><?php print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) ) ?></td>
+<td class="right" colspan="4">
+<?php
+print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
+if ( $t_can_manage ) { print_bracket_link( plugin_page( 'manage_config_page' ), plugin_lang_get( 'configuration' ) ); }
+?>
+</td>
 </tr>
 
 <tr class="row-category">
