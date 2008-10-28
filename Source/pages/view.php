@@ -135,7 +135,7 @@ foreach ( $t_changeset->bugs as $t_bug_id ) {
 ?>
 <td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug->summary ) ?></td>
 <?php if ( $t_can_update ) { ?>
-<td class="center"><?php print_bracket_link( plugin_page( 'detach' ) . '&id=' . $t_changeset->id . '&bug_id=' . $t_bug_id . form_security_param( 'plugin_Source_detach' ), plugin_lang_get( 'detach' ) ) ?>
+<td class="center"><span class="small-links"><?php print_bracket_link( plugin_page( 'detach' ) . '&id=' . $t_changeset->id . '&bug_id=' . $t_bug_id . form_security_param( 'plugin_Source_detach' ), plugin_lang_get( 'detach' ) ) ?></span>
 <?php } ?>
 </tr>
 
