@@ -53,6 +53,8 @@ $s_plugin_Source_import = 'Import';
 $s_plugin_Source_update = 'Update';
 $s_plugin_Source_delete = 'Delete';
 $s_plugin_Source_search = 'Search';
+$s_plugin_Source_attach = 'Attach';
+$s_plugin_Source_detach = 'Detach';
 $s_plugin_Source_modify_search = 'Modify Search';
 $s_plugin_Source_new_search = 'New Search';
 $s_plugin_Source_permalink = 'Permalink';
@@ -66,6 +68,7 @@ $s_plugin_Source_import_full = 'Import Everything';
 $s_plugin_Source_import_latest = 'Import Latest Data';
 $s_plugin_Source_related_changesets = 'Related Changesets';
 $s_plugin_Source_affected_issues = 'Affected Issues';
+$s_plugin_Source_attach_to_issue = 'Attach Issues:';
 
 $s_plugin_Source_configuration = 'Configuration';
 $s_plugin_Source_allow_remote_checkin = 'Allow Remote Check-In';

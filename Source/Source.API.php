@@ -457,6 +457,9 @@ class SourceChangeset {
 		$this->save_bugs();
 	}
 
+	/**
+	 * Update changeset relations to affected bugs.
+	 */
 	function save_bugs() {
 		$t_bug_table = plugin_table( 'bug', 'Source' );
 
@@ -466,10 +469,10 @@ class SourceChangeset {
 		$this->load_repo();
 
 		if ( count( $t_bugs_deleted ) ) {
-			$t_bugs_deleted = join( ',', $t_bugs_deleted );
+			$t_bugs_deleted_str = join( ',', $t_bugs_deleted );
 
 			$t_query = "DELETE FROM $t_bug_table WHERE change_id=" . $this->id .
-				" AND bug_id IN ( $t_bugs_deleted )";
+				" AND bug_id IN ( $t_bugs_deleted_str )";
 			db_query_bound( $t_query );
 
 			foreach( $t_bugs_deleted as $t_bug_id ) {

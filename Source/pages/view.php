@@ -123,7 +123,7 @@ html_page_top2();
 <tr><td class="spacer"></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category" rowspan="<?php echo count( $t_changeset->bugs ) ?>">
+<td class="category" rowspan="<?php echo ( count( $t_changeset->bugs ) + ( $t_can_update ? 1 : 0 ) ) ?>">
 	<?php echo plugin_lang_get( 'affected_issues' ) ?>
 </td>
 
@@ -133,10 +133,23 @@ foreach ( $t_changeset->bugs as $t_bug_id ) {
 	$t_bug = bug_get( $t_bug_id );
 	echo ( $t_first ? '' : '<tr ' . helper_alternate_class() . '>' );
 ?>
-<td colspan="<?php echo $t_columns-1 ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug->summary ) ?></td>
+<td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug->summary ) ?></td>
+<?php if ( $t_can_update ) { ?>
+<td class="center"><?php print_bracket_link( plugin_page( 'detach' ) . '&id=' . $t_changeset->id . '&bug_id=' . $t_bug_id . form_security_param( 'plugin_Source_detach' ), plugin_lang_get( 'detach' ) ) ?>
+<?php } ?>
 </tr>
 
-<?php $t_first = false; } } ?>
+<?php $t_first = false; } }
+	if ( $t_can_update ) { ?>
+	<tr <?php echo helper_alternate_class() ?>><td colspan="<?php echo $t_columns-1 ?>">
+<form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
+<?php echo form_security_field( 'plugin_Source_attach' ) ?>
+<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
+<?php echo plugin_lang_get( 'attach_to_issue' ) ?> <input name="bug_ids" size="15"/>
+<input type="submit" value="<?php echo plugin_lang_get( 'attach' ) ?>"/>
+</form>
+</td></tr>
+<?php } ?>
 
 <tr><td class="spacer"></td></tr>
 
