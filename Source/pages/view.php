@@ -22,6 +22,14 @@ $t_changeset->load_files();
 $t_changeset->load_bugs();
 bug_cache_array_rows( $t_changeset->bugs );
 
+$t_bug_rows = array();
+foreach( $t_changeset->bugs as $t_bug_id ) {
+	$t_bug_row = bug_cache_row( $t_bug_id, false );
+	if ( false === $t_bug_row ) { continue; }
+
+	$t_bug_rows[$t_bug_id] = $t_bug_row;
+}
+
 $t_repos = SourceRepo::load_by_changesets( $t_changeset );
 if ( count( $t_repos ) < 1 ) {
 	trigger_error( ERROR_GENERIC, ERROR );
@@ -119,7 +127,6 @@ html_page_top2();
 </form>
 <?php } ?>
 
-<?php if ( count( $t_changeset->bugs ) > 0 ) { ?>
 <tr><td class="spacer"></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
@@ -129,19 +136,23 @@ html_page_top2();
 
 <?php
 $t_first = true;
-foreach ( $t_changeset->bugs as $t_bug_id ) {
-	$t_bug = bug_get( $t_bug_id );
+foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
 	echo ( $t_first ? '' : '<tr ' . helper_alternate_class() . '>' );
 ?>
-<td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug->summary ) ?></td>
+<td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug_row['summary'] ) ?></td>
 <?php if ( $t_can_update ) { ?>
 <td class="center"><span class="small-links"><?php print_bracket_link( plugin_page( 'detach' ) . '&id=' . $t_changeset->id . '&bug_id=' . $t_bug_id . form_security_param( 'plugin_Source_detach' ), plugin_lang_get( 'detach' ) ) ?></span>
 <?php } ?>
 </tr>
 
-<?php $t_first = false; } }
-	if ( $t_can_update ) { ?>
-	<tr <?php echo helper_alternate_class() ?>><td colspan="<?php echo $t_columns-1 ?>">
+<?php
+	$t_first = false;
+}
+if ( $t_can_update ) {
+	if ( !$t_first ) { ?>
+<tr <?php echo helper_alternate_class() ?>>
+<?php } ?>
+<td colspan="<?php echo $t_columns-1 ?>">
 <form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
 <?php echo form_security_field( 'plugin_Source_attach' ) ?>
 <input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
