@@ -130,7 +130,7 @@ html_page_top2();
 <tr><td class="spacer"></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category" rowspan="<?php echo ( count( $t_changeset->bugs ) + ( $t_can_update ? 1 : 0 ) ) ?>">
+<td class="category" rowspan="<?php echo ( count( $t_bug_rows ) + ( $t_can_update ? 1 : 0 ) ) ?>">
 	<?php echo plugin_lang_get( 'affected_issues' ) ?>
 </td>
 
