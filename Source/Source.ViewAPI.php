@@ -26,6 +26,8 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		$t_repos = SourceRepo::load_by_changesets( $p_changesets );
 	}
 
+	$t_use_porting = plugin_config_get( 'enable_porting', 'Source' );
+
 	foreach( $p_changesets as $t_changeset ) {
 		$t_repo = $p_repos[ $t_changeset->repo_id ];
 		$t_changeset->load_files();
@@ -39,6 +41,11 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		) ?>
 	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
 	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', string_display_line( $t_changeset->author ) ?></span>
+	<?php if ( $t_use_porting ) { ?>
+	<br/><span class="small"><?php echo plugin_lang_get( 'ported', 'Source' ), ': ',
+		( $t_changeset->ported ? string_display_line( $t_changeset->ported ) :
+			( is_null( $t_changeset->ported ) ? plugin_lang_get( 'pending', 'Source' ) : plugin_lang_get( 'na', 'Source' ) ) ) ?></span>
+	<?php } ?>
 	<br/><span class="small-links">
 		<?php
 		print_bracket_link( plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id, plugin_lang_get( 'details', 'Source' ) );
