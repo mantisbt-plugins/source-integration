@@ -460,13 +460,15 @@ class SourceChangeset {
 	/**
 	 * Update changeset relations to affected bugs.
 	 */
-	function save_bugs() {
+	function save_bugs( $p_user_id=null ) {
 		$t_bug_table = plugin_table( 'bug', 'Source' );
 
 		$t_bugs_added = array_diff( $this->bugs, $this->__bugs );
 		$t_bugs_deleted = array_diff( $this->__bugs, $this->bugs );
 
 		$this->load_repo();
+
+		$t_user_id = ( is_null( $p_user_id ) ? $this->user_id : (int)$p_user_id );
 
 		if ( count( $t_bugs_deleted ) ) {
 			$t_bugs_deleted_str = join( ',', $t_bugs_deleted );
