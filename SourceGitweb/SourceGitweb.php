@@ -289,8 +289,8 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_commit['message'] = trim( str_replace( '<br/>', PHP_EOL, $t_matches[1] ) );
 
 			# Strip ref links and signoff spans from commit message
-			$t_commit['message'] = preg_replace( '/<a [^>]*>([^<]*)</a>/', '$1', $t_commit['message'] );
-			$t_commit['message'] = preg_replace( '/<span [^>]*>([^<]*)</span>/', '$1', $t_commit['message'] );
+			$t_commit['message'] = preg_replace( '/<a [^>]*>([^<]*)<\/a>/', '$1', $t_commit['message'] );
+			$t_commit['message'] = preg_replace( '/<span [^>]*>([^<]*)<\/span>/', '$1', $t_commit['message'] );
 
 			# Parse for changed file data
 			$t_commit['files'] = array();
