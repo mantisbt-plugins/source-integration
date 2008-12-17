@@ -100,6 +100,17 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			return;
 		}
 
+		$t_svn_username = '';
+		$t_svn_password = '';
+		$t_sf_project = '';
+		$t_branches = '';
+
+		if ( isset( $p_repo->info['svn_password'] ) ) {
+			$t_svn_password = $p_repo->info['svn_password'];
+		}
+		if ( isset( $p_repo->info['svn_username'] ) ) {
+			$t_svn_username = $p_repo->info['svn_username'];
+		}
 		if ( isset( $p_repo->info['sf_project'] ) ) {
 			$t_sf_project = $p_repo->info['sf_project'];
 		}
@@ -107,6 +118,14 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			$t_branches = $p_repo->info['standard_repo'];
 		}
 ?>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_svn_username' ) ?></td>
+<td><input name="svn_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_username ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_svn_password' ) ?></td>
+<td><input name="svn_password" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_password ) ?>"/></td>
+</tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'sf_project' ) ?></td>
 <td><input name="sf_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_sf_project ) ?>"/></td>
@@ -123,9 +142,13 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			return;
 		}
 
+		$f_svn_username = gpc_get_string( 'svn_username' );
+		$f_svn_password = gpc_get_string( 'svn_password' );
 		$f_sf_project = gpc_get_string( 'sf_project' );
 		$f_standard_repo = gpc_get_bool( 'standard_repo', false );
 
+		$p_repo->info['svn_username'] = $f_svn_username;
+		$p_repo->info['svn_password'] = $f_svn_password;
 		$p_repo->info['sf_project'] = $f_sf_project;
 		$p_repo->info['standard_repo'] = $f_standard_repo;
 
@@ -138,9 +161,11 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 
 		if ( preg_match( '/(\d+)/', $p_data, $p_matches ) ) {
+			$svn = $this->svn_call( $p_repo );
+
 			$t_url = $p_repo->url;
 			$t_revision = $p_matches[1];
-			$t_svnlog = explode( "\n", `svn log -v $t_url -r$t_revision` );
+			$t_svnlog = explode( "\n", `$svn log -v $t_url -r$t_revision` );
 
 			if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
 				echo "Revision $t_revision already committed!\n";
@@ -158,9 +183,10 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 
 		$this->check_svn();
+		$svn = $this->svn_call( $p_repo );
 
 		$t_url = $p_repo->url;
-		$t_svnlog = explode( "\n", `svn log -v $t_url` );
+		$t_svnlog = explode( "\n", `$svn log -v $t_url` );
 
 		return $this->process_svn_log( $p_repo, $t_svnlog );
 	}
@@ -171,6 +197,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 
 		$this->check_svn();
+		$svn = $this->svn_call( $p_repo );
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
@@ -181,7 +208,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 
 		$t_url = $p_repo->url;
 		$t_rev = $t_db_revision + 1;
-		$t_svnlog = explode( "\n", `svn log -v -r $t_rev:HEAD --limit 200 $t_url` );
+		$t_svnlog = explode( "\n", `$svn log -v -r $t_rev:HEAD --limit 200 $t_url` );
 
 		return $this->process_svn_log( $p_repo, $t_svnlog );
 	}
@@ -190,6 +217,22 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		if ( is_blank( `svn help` ) ) {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
+	}
+
+	function svn_call( $p_repo ) {
+		$t_call = 'svn';
+
+		$t_username = $p_repo->info['svn_username'];
+		$t_password = $p_repo->info['svn_password'];
+
+		if ( !is_blank( $t_username ) ) {
+			$t_call .= ' --username ' . $t_username;
+		}
+		if ( !is_blank( $t_password ) ) {
+			$t_call .= ' --password ' . $t_password;
+		}
+
+		return $t_call;
 	}
 
 	function process_svn_log( $p_repo, $p_svnlog ) {
