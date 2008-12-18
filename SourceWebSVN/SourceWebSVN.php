@@ -229,7 +229,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		$t_db_revision = db_result( db_query_bound( $t_max_query, array( $p_repo->id ), 1 ) );
 
 		$t_url = $p_repo->url;
-		$t_rev = $t_db_revision + 1;
+		$t_rev = ( false === $t_db_revision ? 0 : $t_db_revision + 1 );
 		$t_svnlog = explode( "\n", `$svn log -v -r $t_rev:HEAD --limit 200 $t_url` );
 
 		return $this->process_svn_log( $p_repo, $t_svnlog );
@@ -242,7 +242,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function svn_call( $p_repo ) {
-		$t_call = 'svn';
+		$t_call = 'svn --non-interactive';
 
 		$t_username = $p_repo->info['svn_username'];
 		$t_password = $p_repo->info['svn_password'];
