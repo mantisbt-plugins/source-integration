@@ -259,6 +259,11 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$t_gitweb_data = substr( $t_input, $t_input_p1, $t_input_p2 - $t_input_p1 );
 
 		$t_input_p1 = strpos( $t_input, '<table class="diff_tree">' );
+
+		if ( false === $t_input_p1) {
+			$t_input_p1 = strpos( $t_input, '<table class="combined diff_tree">' );
+		}
+
 		$t_input_p2 = strpos( $t_input, '<div class="page_footer">' );
 		if ( false === $t_input_p1 || false === $t_input_p2 ) {
 			echo 'file data failure.';
