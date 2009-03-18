@@ -21,7 +21,18 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 		return array(
 			'EVENT_VIEW_BUG_EXTRA'		=> 'display_bug',
 			'EVENT_DISPLAY_FORMATTED'	=> 'display_formatted',
+			'EVENT_MENU_ISSUE'			=> 'display_changeset_link'
 		);
+	}
+
+	function display_changeset_link( $p_event, $p_bug_id ) {
+		$this->changesets = SourceChangeset::load_by_bug( $p_bug_id, true );
+
+		if ( count( $this->changesets ) > 1 ) {
+			return array( lang_get( 'related_changesets' ) => '#changesets' );
+		}
+
+		return array();
 	}
 
 	function display_bug( $p_event, $p_bug_id ) {
@@ -31,7 +42,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 			return;
 		}
 
-		$t_changesets = SourceChangeset::load_by_bug( $p_bug_id, true );
+		$t_changesets = $this->changesets;
 		$t_repos = SourceRepo::load_by_changesets( $t_changesets );
 
 		if ( count( $t_changesets ) < 1 ) {
@@ -39,8 +50,10 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 		}
 
 		collapse_open( 'Source' );
+
 		?>
 <br/>
+<a name="changesets"/>
 <table class="width100" cellspacing="1">
 
 <tr>
