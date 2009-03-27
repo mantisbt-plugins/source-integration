@@ -1,7 +1,7 @@
 
 ## Mantis Source Integration
 
-Copyright (C) 2008	John Reese
+Copyright (C) 2008	John Reese, LeetCode.net
 
 ### Description
 
@@ -23,11 +23,28 @@ integration framework and API.
 The Source Integration framework requires Mantis version 1.2.0 or
 higher, and requires the following additional plugins:
 
-- [Meta, version 0.1+](http://github.com/jreese/mantis-forge)
+- [Meta, version 0.1+](http://git.mantisforge.org/w/meta.git)
+
+### Installation
+
+For basic instruction on getting started with the plugin framework,
+see the article on LeetCode.net covering Git and Subversion:
+  http://leetcode.net/blog/2009/01/integrating-git-svn-with-mantisbt/
 
 ### Support
 
-Bug reports or fixes are highly encouraged, as are contributions via
-GitHub's fork/pull-request methods.  Bug reports should be directed to
-the bug tracker located at: http://leetcode.net/mantis
+Problems or questions dealing with use and installation should be
+directed to the MantisBT IRC channel #mantishelp:
+
+  irc://freenode.net/mantishelp
+  http://leetcode.net/mantis/plugin.php?page=Mibbit/irc
+
+Bug reports or fixes are highly encouraged, and should be directed to
+the bug tracker on LeetCode.net:
+
+  http://leetcode.net/mantis
+
+The latest source code can be found on MantisForge.org:
+
+  http://git.mantisforge.org/w/source-integration.git
 
