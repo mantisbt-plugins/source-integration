@@ -314,28 +314,30 @@ function Source_FilterOption_Permalink( $p_string=null, $p_array=false ) {
 
 	if ( $p_array ) {
 		$t_input = gpc_get_string_array( $p_string, null );
+		$t_input_clean = array();
 
 		if ( is_array( $t_input ) && count( $t_input ) > 0 ) {
 			foreach( $t_input as $t_value ) {
 				if ( !is_blank( $t_value ) ) {
+					$t_input_clean[] = $t_value;
 					$s_permalink .= "&${p_string}[]=$t_value";
 				}
 			}
 		}
 
 	} else {
-		$t_input = gpc_get_string( $p_string, null );
+		$t_input_clean = gpc_get_string( $p_string, null );
 
 		if ( $p_string == 'date_start' || $p_string == 'date_end' ) {
-			$t_input = Source_Date_Validate( $p_string );
+			$t_input_clean = Source_Date_Validate( $p_string );
 		}
 
-		if ( !is_blank( $t_input ) ) {
-			$s_permalink .= "&$p_string=$t_input";
+		if ( !is_blank( $t_input_clean ) ) {
+			$s_permalink .= "&$p_string=$t_input_clean";
 		}
 	}
 
-	return $t_input;
+	return $t_input_clean;
 }
 
 ### Search filter printing
