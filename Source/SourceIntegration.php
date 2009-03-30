@@ -29,7 +29,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 		$this->changesets = SourceChangeset::load_by_bug( $p_bug_id, true );
 
 		if ( count( $this->changesets ) > 1 ) {
-			return array( plugin_lang_get( 'related_changesets' ) => '#changesets' );
+			return array( plugin_lang_get( 'related_changesets', 'Source' ) => '#changesets' );
 		}
 
 		return array();
