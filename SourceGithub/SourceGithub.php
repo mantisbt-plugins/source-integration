@@ -232,9 +232,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_branch = $t_matches[1];
 		}
 
-		$t_result = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch );
-
-		return true;
+		return $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch );
 	}
 
 	function import_full( $p_event, $p_repo ) {
@@ -249,6 +247,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		}
 
 		$t_branches = map( 'trim', explode( ',', $t_branch ) );
+		$t_changesets = array();
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
@@ -269,18 +268,16 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 				}
 			}
 
-			$t_status = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch  );
+			array_merge( $t_changesets, $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch ) );
 		}
 
 		echo '</pre>';
 
-		return $t_status;
+		return $t_changesets;
 	}
 
 	function import_latest( $p_event, $p_repo ) {
-		$t_status = $this->import_full( $p_event, $p_repo );
-
-		return $t_status;
+		return $this->import_full( $p_event, $p_repo );
 	}
 
 	function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
@@ -345,7 +342,6 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 				$t_changeset->files[] = new SourceFile( 0, '', $t_modified->filename, 'mod' );
 			}
 
-			$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
 			$t_changeset->save();
 
 			echo "saved.\n";
