@@ -78,31 +78,32 @@ $f_repo_id = gpc_get_string( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
 
-html_page_top1();
-html_page_top2();
+if ( !$t_remote ) {
+	html_page_top1();
+	html_page_top2();
+}
 
 $t_pre_stats = $t_repo->stats();
 
 $t_status = event_signal( 'EVENT_SOURCE_IMPORT_LATEST', array( $t_repo ) );
 
-$t_stats = $t_repo->stats();
-$t_stats['changesets'] -= $t_pre_stats['changesets'];
-$t_stats['files'] -= $t_pre_stats['files'];
-$t_stats['bugs'] -= $t_pre_stats['bugs'];
-
-echo '<br/><div class="center">';
-echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stats['files'], $t_stats['bugs'] ), '<br/>';
-
 if ( !$t_status ) {
 	echo plugin_lang_get( 'import_latest_failed' ), '<br/>';
 }
 
-print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
-echo '</div>';
-
 if ( !$t_remote ) {
-	form_security_purge( 'plugin_Source_repo_import_latest' );
-}
+	$t_stats = $t_repo->stats();
+	$t_stats['changesets'] -= $t_pre_stats['changesets'];
+	$t_stats['files'] -= $t_pre_stats['files'];
+	$t_stats['bugs'] -= $t_pre_stats['bugs'];
 
-html_page_bottom1();
+	echo '<br/><div class="center">';
+	echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stats['files'], $t_stats['bugs'] ), '<br/>';
+
+	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
+	echo '</div>';
+
+	form_security_purge( 'plugin_Source_repo_import_latest' );
+	html_page_bottom1();
+}
 
