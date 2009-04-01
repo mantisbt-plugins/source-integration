@@ -182,6 +182,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		}
 
 		$t_branches = map( 'trim', explode( ',', $t_branch ) );
+		$t_changesets = array();
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
@@ -202,18 +203,16 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				}
 			}
 
-			$t_status = $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch  );
+			array_merge( $t_changesets, $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch  ) );
 		}
 
 		echo '</pre>';
 
-		return $t_status;
+		return $t_changesets;
 	}
 
 	function import_latest( $p_event, $p_repo ) {
-		$t_status = $this->import_full( $p_event, $p_repo );
-
-		return $t_status;
+		return $this->import_full( $p_event, $p_repo );
 	}
 
 	function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
@@ -222,6 +221,8 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		} else {
 			$t_parents = array( $p_commit_ids );
 		}
+
+		$t_changesets = array();
 
 		while( count( $t_parents ) > 0 ) {
 			$t_commit_id = array_shift( $t_parents );
@@ -236,12 +237,15 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				continue;
 			}
 
-			$t_commit_parents = $this->commit_changeset( $p_repo, $t_input, $p_branch );
+			list( $t_changeset, $t_commit_parents ) = $this->commit_changeset( $p_repo, $t_input, $p_branch );
+			if ( !is_null( $t_changeset ) ) {
+				$t_changesets[] = $t_changeset;
+			}
 
 			$t_parents = array_merge( $t_parents, $t_commit_parents );
 		}
 
-		return true;
+		return $t_changesets;
 	}
 
 	function commit_changeset( $p_repo, $p_input, $p_branch='' ) {
@@ -343,14 +347,13 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				$t_changeset->files[] = new SourceFile( 0, $t_file['revision'], $t_file['filename'], $t_file['action'] );
 			}
 
-			$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
 			$t_changeset->save();
 
 			echo "saved.\n";
-			return $t_parents;
+			return array( $t_changeset, $t_parents );
 		} else {
 			echo "already exists.\n";
-			return array();
+			return array( null, array() );
 		}
 	}
 }
