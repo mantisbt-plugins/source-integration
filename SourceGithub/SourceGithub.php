@@ -290,6 +290,8 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_parents = array( $p_commit_ids );
 		}
 
+		$t_changesets = array();
+
 		while( count( $t_parents ) > 0 ) {
 			$t_commit_id = array_shift( $t_parents );
 
@@ -302,12 +304,15 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 				continue;
 			}
 
-			$t_commit_parents = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
+			list( $t_changeset, $t_commit_parents ) = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
+			if ( $t_changeset ) {
+				$t_changesets[] = $t_changeset;
+			}
 
 			$t_parents = array_merge( $t_parents, $t_commit_parents );
 		}
 
-		return true;
+		return $t_changesets;
 	}
 
 	function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
@@ -344,10 +349,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_changeset->save();
 
 			echo "saved.\n";
-			return $t_parents;
+			return array( $t_changeset, $t_parents );
 		} else {
 			echo "already exists.\n";
-			return array();
+			return array( null, array() );
 		}
 	}
 }
