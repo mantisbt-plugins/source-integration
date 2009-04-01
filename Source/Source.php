@@ -48,6 +48,10 @@ class SourcePlugin extends MantisPlugin {
 			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
 			'buglink_regex_2'	=> '/#?(\d+)/',
 
+			'bugfix_resolving'	=> OFF,
+			'bugfix_regex_1'	=> '/(?:fixe?s?|resolves?)+\s+(?:bugs?|issues?|reports?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
+			'bugfix_regex_2'	=> '/#?(\d+)/',
+
 			'remote_checkin'	=> OFF,
 			'checkin_urls'		=> serialize( array( 'localhost' ) ),
 

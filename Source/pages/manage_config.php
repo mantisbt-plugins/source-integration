@@ -29,6 +29,12 @@ $f_buglink_reset_1 = gpc_get_string( 'buglink_reset_1', OFF );
 $f_buglink_regex_2 = gpc_get_string( 'buglink_regex_2' );
 $f_buglink_reset_2 = gpc_get_string( 'buglink_reset_2', OFF );
 
+$f_bugfix_resolve = gpc_get_bool( 'bugfix_resolve' );
+$f_bugfix_regex_1 = gpc_get_string( 'bugfix_regex_1' );
+$f_bugfix_reset_1 = gpc_get_string( 'bugfix_reset_1', OFF );
+$f_bugfix_regex_2 = gpc_get_string( 'bugfix_regex_2' );
+$f_bugfix_reset_2 = gpc_get_string( 'bugfix_reset_2', OFF );
+
 function check_urls( $t_urls_in ) {
 	$t_urls_in = explode( "\n", $t_urls_in );
 	$t_urls_out = array();
@@ -79,6 +85,20 @@ if ( ! $f_buglink_reset_2 ) {
 	maybe_set_option( 'buglink_regex_2', $f_buglink_regex_2 );
 } else {
 	plugin_config_delete( 'buglink_regex_2' );
+}
+
+maybe_set_option( 'bugfix_resolve', $f_bugfix_resolve );
+
+if ( ! $f_bugfix_reset_1 ) {
+	maybe_set_option( 'bugfix_regex_1', $f_bugfix_regex_1 );
+} else {
+	plugin_config_delete( 'bugfix_regex_1' );
+}
+
+if ( ! $f_bugfix_reset_2 ) {
+	maybe_set_option( 'bugfix_regex_2', $f_bugfix_regex_2 );
+} else {
+	plugin_config_delete( 'bugfix_regex_2' );
 }
 
 maybe_set_option( 'remote_checkin', $f_remote_checkin );

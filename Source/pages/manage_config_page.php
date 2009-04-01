@@ -30,7 +30,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <br/>
 <form action="<?php echo plugin_page( 'manage_config' ) ?>" method="post">
 <?php echo form_security_field( 'plugin_Source_manage_config' ) ?>
-<table class="width75" align="center" cellspacing="1">
+<table class="width100" align="center" cellspacing="1">
 
 <tr>
 <td class="form-title" colspan="2"><?php echo plugin_lang_get( 'title' ), ': ', plugin_lang_get( 'configuration' ) ?></td>
@@ -84,6 +84,29 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <td>
 	<input name="buglink_regex_2" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'buglink_regex_2' ) ) ?>"/>
 	<br/><label><input name="buglink_reset_2" type="checkbox"/><span class="small"><?php echo plugin_lang_get( 'reset' ) ?></span></label>
+</td>
+</tr>
+
+<tr><td class="spacer"></td></tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'bugfix_resolving' ) ?></td>
+<td><input name="bugfix_resolving" type="checkbox" <?php echo (ON == plugin_config_get( 'bugfix_resolving' ) ? 'checked="checked"' : '') ?>></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'bugfix_regex_1' ) ?></td>
+<td>
+	<input name="bugfix_regex_1" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'bugfix_regex_1' ) ) ?>"/>
+	<br/><label><input name="bugfix_reset_1" type="checkbox"/><span class="small"><?php echo plugin_lang_get( 'reset' ) ?></span></label>
+</td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'bugfix_regex_2' ) ?></td>
+<td>
+	<input name="bugfix_regex_2" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'bugfix_regex_2' ) ) ?>"/>
+	<br/><label><input name="bugfix_reset_2" type="checkbox"/><span class="small"><?php echo plugin_lang_get( 'reset' ) ?></span></label>
 </td>
 </tr>
 
