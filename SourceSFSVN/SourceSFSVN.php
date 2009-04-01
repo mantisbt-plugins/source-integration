@@ -174,7 +174,6 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 
 			return $this->process_svn_log( $p_repo, $t_svnlog );
 		}
-
 	}
 
 	function import_full( $p_event, $p_repo ) {
@@ -239,6 +238,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		$t_state = 0;
 		$t_svnline = str_pad( '', 72, '-' );
 
+		$t_changesets = array();
 		$t_changeset = null;
 		$t_comments = '';
 		$t_count = 0;
@@ -254,8 +254,8 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			# Changeset info
 			} elseif ( 1 == $t_state && preg_match( '/^r([0-9]+) \| (\w+) \| ([0-9\-]+) ([0-9:]+)/', $t_line, $t_matches ) ) {
 				if ( !is_null( $t_changeset ) ) {
-					$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
 					$t_changeset->save();
+					$t_changesets[] = $t_changeset;
 				}
 
 				$t_user_id = user_get_id_by_name( $t_matches[2] );
@@ -320,10 +320,10 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 
 		if ( !is_null( $t_changeset ) ) {
-			$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
 			$t_changeset->save();
+			$t_changesets[] = $t_changeset;
 		}
 
-		return true;
+		return $t_changesets;
 	}
 }
