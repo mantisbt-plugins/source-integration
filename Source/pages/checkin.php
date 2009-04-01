@@ -82,10 +82,13 @@ if ( is_null( $t_repo ) ) {
 }
 
 # Let the plugins handle commit data
-$t_status = event_signal( 'EVENT_SOURCE_COMMIT', array( $t_repo, $f_data ) );
+$t_changesets = event_signal( 'EVENT_SOURCE_COMMIT', array( $t_repo, $f_data ) );
 
 # Changesets couldn't be loaded apparently
-if ( !$t_status ) {
+if ( !is_array( $t_changesets ) ) {
 	die( plugin_lang_get( 'invalid_changeset' ) );
 }
+
+# Allow plugins to handle commits afterwards
+event_signal( 'EVENT_SOURCE_POSTCOMMIT', array( $t_repo, $t_changesets ) );
 

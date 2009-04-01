@@ -74,9 +74,11 @@ class SourcePlugin extends MantisPlugin {
 
 			'EVENT_SOURCE_PRECOMMIT'		=> EVENT_TYPE_FIRST,	# Allow plugins to try finding commit information before Source looks
 			'EVENT_SOURCE_COMMIT'			=> EVENT_TYPE_FIRST,	# Source control commit handling, passed commit details from checkin script
+			'EVENT_SOURCE_POSTCOMMIT'		=> EVENT_TYPE_EXECUTE,	# Allow processing of the newly-committed changesets
 
 			'EVENT_SOURCE_IMPORT_FULL'		=> EVENT_TYPE_FIRST,	# Import an existing repository from scratch
 			'EVENT_SOURCE_IMPORT_LATEST'	=> EVENT_TYPE_FIRST,	# Import the latest changesets from a repository
+			'EVENT_SOURCE_POSTIMPORT'		=> EVENT_TYPE_EXECUTE,	# Allow processing of the newly-imported changesets
 		);
 	}
 

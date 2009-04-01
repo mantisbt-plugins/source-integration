@@ -85,10 +85,12 @@ if ( !$t_remote ) {
 
 $t_pre_stats = $t_repo->stats();
 
-$t_status = event_signal( 'EVENT_SOURCE_IMPORT_LATEST', array( $t_repo ) );
+$t_changesets = event_signal( 'EVENT_SOURCE_IMPORT_LATEST', array( $t_repo ) );
 
-if ( !$t_status ) {
+if ( !is_array( $t_changesets ) ) {
 	echo plugin_lang_get( 'import_latest_failed' ), '<br/>';
+} else {
+	event_signal( 'EVENT_SOURCE_POSTIMPORT', array( $t_repo, $t_changesets ) );
 }
 
 if ( !$t_remote ) {
