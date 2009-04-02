@@ -128,6 +128,28 @@ function Source_Process_Buglinks( $p_changesets ) {
 		$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
 	}
 
+	# Parse resolved bug links
+	if ( plugin_config_get( 'bugfix_resolve', null, 'Source' ) ) {
+		$t_resolved_bugs = array();
+
+		# Find and associate resolve links with the changeset
+		foreach( $p_changesets as $t_changeset ) {
+			$t_bugs = Source_Parse_Bugfixes( $t_changeset->message );
+
+			foreach( $t_bugs as $t_bug_id ) {
+				$t_resolved_bugs[ $t_bug_id ] = &$t_changeset;
+			}
+
+			# Add the link to the normal set of buglinks
+			$t_changeset->bugs = array_merge( $t_changeset->bugs, $t_bugs );
+		}
+
+		# Start resolving issues
+		foreach( $t_resolved_bugs as $t_bug_id => $t_changeset ) {
+			bug_resolve( $t_bug_id, FIXED, '', '', null, $t_changeset->user_id );
+		}
+	}
+
 	# Save changes
 	foreach( $p_changesets as $t_changeset ) {
 		$t_changeset->save();
