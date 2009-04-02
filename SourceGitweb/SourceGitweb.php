@@ -203,7 +203,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				}
 			}
 
-			array_merge( $t_changesets, $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch  ) );
+			$t_changesets = array_merge( $t_changesets, $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch  ) );
 		}
 
 		echo '</pre>';
