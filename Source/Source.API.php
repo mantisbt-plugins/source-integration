@@ -56,8 +56,8 @@ function SourceTypes() {
 function Source_Parse_Buglinks( $p_string ) {
 	$t_bugs = array();
 
-	$t_regex1 = config_get( 'plugin_Source_buglink_regex_1' );
-	$t_regex2 = config_get( 'plugin_Source_buglink_regex_2' );
+	$t_regex1 = plugin_config_get( 'buglink_regex_1', null, 'Source' );
+	$t_regex2 = plugin_config_get( 'buglink_regex_2', null, 'Source' );
 
 	preg_match_all( $t_regex1, $p_string, $t_matches_all );
 
@@ -71,6 +71,27 @@ function Source_Parse_Buglinks( $p_string ) {
 	}
 
 	return array_keys( $t_bugs );
+}
+
+/**
+ * Given a set of changeset objects, parse the bug links
+ * and save the changes.
+ * @param array Changeset objects
+ */
+function Source_Process_Buglinks( $p_changesets ) {
+	if ( !is_array( $p_changesets ) ) {
+		return;
+	}
+
+	# Parse normal bug links
+	foreach( $p_changesets as $t_changeset ) {
+		$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
+	}
+
+	# Save changes
+	foreach( $p_changesets as $t_changeset ) {
+		$t_changeset->save();
+	}
 }
 
 /**

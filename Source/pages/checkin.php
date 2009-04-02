@@ -89,6 +89,8 @@ if ( !is_array( $t_changesets ) ) {
 	die( plugin_lang_get( 'invalid_changeset' ) );
 }
 
+Source_Process_Buglinks( $t_changesets );
+
 # Allow plugins to handle commits afterwards
 event_signal( 'EVENT_SOURCE_POSTCOMMIT', array( $t_repo, $t_changesets ) );
 

@@ -29,9 +29,11 @@ $t_new_repo->id = 0;
 $t_new_repo->name = 'Import ' . date( 'Y-m-d H:i:s' );
 $t_new_repo->save();
 
-$t_status = event_signal( 'EVENT_SOURCE_IMPORT_FULL', array( $t_new_repo ) );
+$t_changesets = event_signal( 'EVENT_SOURCE_IMPORT_FULL', array( $t_new_repo ) );
 
-if ( $t_status ) {
+if ( is_array( $t_changesets ) ) {
+	Source_Process_Buglinks( $t_changesets );
+
 	$t_new_repo->name = $t_repo->name;
 	$t_new_repo->save();
 
