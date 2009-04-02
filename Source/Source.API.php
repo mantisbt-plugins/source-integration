@@ -65,8 +65,8 @@ function Source_Parse_Buglinks( $p_string ) {
 	$t_bugs = array();
 
 	if ( is_null( $s_regex1 ) ) {
-		$s_regex1 = plugin_config_get( 'buglink_regex_1', null, 'Source' );
-		$s_regex2 = plugin_config_get( 'buglink_regex_2', null, 'Source' );
+		$s_regex1 = config_get( 'plugin_Source_buglink_regex_1' );
+		$s_regex2 = config_get( 'plugin_Source_buglink_regex_2' );
 	}
 
 	preg_match_all( $s_regex1, $p_string, $t_matches_all );
@@ -95,8 +95,8 @@ function Source_Parse_Bugfixes( $p_string ) {
 	$t_bugs = array();
 
 	if ( is_null( $s_regex1 ) ) {
-		$s_regex1 = plugin_config_get( 'bugfix_regex_1', null, 'Source' );
-		$s_regex2 = plugin_config_get( 'bugfix_regex_2', null, 'Source' );
+		$s_regex1 = config_get( 'plugin_Source_bugfix_regex_1' );
+		$s_regex2 = config_get( 'plugin_Source_bugfix_regex_2' );
 	}
 
 	preg_match_all( $s_regex1, $p_string, $t_matches_all );
@@ -129,7 +129,7 @@ function Source_Process_Buglinks( $p_changesets ) {
 	}
 
 	# Parse resolved bug links
-	if ( plugin_config_get( 'bugfix_resolving', null, 'Source' ) ) {
+	if ( config_get( 'plugin_Source_bugfix_resolving' ) ) {
 		$t_resolved_bugs = array();
 
 		# Find and associate resolve links with the changeset
