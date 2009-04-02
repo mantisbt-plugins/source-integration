@@ -69,10 +69,10 @@ function Source_Parse_Buglinks( $p_string ) {
 		$s_regex2 = plugin_config_get( 'buglink_regex_2', null, 'Source' );
 	}
 
-	preg_match_all( $t_regex1, $p_string, $t_matches_all );
+	preg_match_all( $s_regex1, $p_string, $t_matches_all );
 
 	foreach( $t_matches_all[0] as $t_substring ) {
-		preg_match_all( $t_regex2, $t_substring, $t_matches );
+		preg_match_all( $s_regex2, $t_substring, $t_matches );
 		foreach ( $t_matches[1] as $t_match ) {
 			if ( 0 < (int)$t_match ) {
 				$t_bugs[$t_match] = true;
@@ -99,10 +99,10 @@ function Source_Parse_Bugfixes( $p_string ) {
 		$s_regex2 = plugin_config_get( 'bugfix_regex_2', null, 'Source' );
 	}
 
-	preg_match_all( $t_regex1, $p_string, $t_matches_all );
+	preg_match_all( $s_regex1, $p_string, $t_matches_all );
 
 	foreach( $t_matches_all[0] as $t_substring ) {
-		preg_match_all( $t_regex2, $t_substring, $t_matches );
+		preg_match_all( $s_regex2, $t_substring, $t_matches );
 		foreach ( $t_matches[1] as $t_match ) {
 			if ( 0 < (int)$t_match ) {
 				$t_bugs[$t_match] = true;
