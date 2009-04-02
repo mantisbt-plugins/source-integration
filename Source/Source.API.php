@@ -53,11 +53,51 @@ function SourceTypes() {
 	return $g_Source_cache_types;
 }
 
+/**
+ * Parse basic bug links from a changeset commit message
+ * and return a list of referenced bug IDs.
+ * @param string Changeset commit message
+ * @return array Bug IDs
+ */
 function Source_Parse_Buglinks( $p_string ) {
+	static $s_regex1, $s_regex2;
+
 	$t_bugs = array();
 
-	$t_regex1 = plugin_config_get( 'buglink_regex_1', null, 'Source' );
-	$t_regex2 = plugin_config_get( 'buglink_regex_2', null, 'Source' );
+	if ( is_null( $s_regex1 ) ) {
+		$s_regex1 = plugin_config_get( 'buglink_regex_1', null, 'Source' );
+		$s_regex2 = plugin_config_get( 'buglink_regex_2', null, 'Source' );
+	}
+
+	preg_match_all( $t_regex1, $p_string, $t_matches_all );
+
+	foreach( $t_matches_all[0] as $t_substring ) {
+		preg_match_all( $t_regex2, $t_substring, $t_matches );
+		foreach ( $t_matches[1] as $t_match ) {
+			if ( 0 < (int)$t_match ) {
+				$t_bugs[$t_match] = true;
+			}
+		}
+	}
+
+	return array_keys( $t_bugs );
+}
+
+/**
+ * Parse resolved bug fix links from a changeset commit message
+ * and return a list of referenced bug IDs.
+ * @param string Changeset commit message
+ * @return array Bug IDs
+ */
+function Source_Parse_Bugfixes( $p_string ) {
+	static $s_regex1, $s_regex2;
+
+	$t_bugs = array();
+
+	if ( is_null( $s_regex1 ) ) {
+		$s_regex1 = plugin_config_get( 'bugfix_regex_1', null, 'Source' );
+		$s_regex2 = plugin_config_get( 'bugfix_regex_2', null, 'Source' );
+	}
 
 	preg_match_all( $t_regex1, $p_string, $t_matches_all );
 
