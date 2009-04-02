@@ -29,7 +29,7 @@ $f_buglink_reset_1 = gpc_get_string( 'buglink_reset_1', OFF );
 $f_buglink_regex_2 = gpc_get_string( 'buglink_regex_2' );
 $f_buglink_reset_2 = gpc_get_string( 'buglink_reset_2', OFF );
 
-$f_bugfix_resolve = gpc_get_bool( 'bugfix_resolve' );
+$f_bugfix_resolving = gpc_get_bool( 'bugfix_resolving' );
 $f_bugfix_regex_1 = gpc_get_string( 'bugfix_regex_1' );
 $f_bugfix_reset_1 = gpc_get_string( 'bugfix_reset_1', OFF );
 $f_bugfix_regex_2 = gpc_get_string( 'bugfix_regex_2' );
@@ -87,7 +87,7 @@ if ( ! $f_buglink_reset_2 ) {
 	plugin_config_delete( 'buglink_regex_2' );
 }
 
-maybe_set_option( 'bugfix_resolve', $f_bugfix_resolve );
+maybe_set_option( 'bugfix_resolving', $f_bugfix_resolving );
 
 if ( ! $f_bugfix_reset_1 ) {
 	maybe_set_option( 'bugfix_regex_1', $f_bugfix_regex_1 );

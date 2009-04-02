@@ -129,7 +129,7 @@ function Source_Process_Buglinks( $p_changesets ) {
 	}
 
 	# Parse resolved bug links
-	if ( plugin_config_get( 'bugfix_resolve', null, 'Source' ) ) {
+	if ( plugin_config_get( 'bugfix_resolving', null, 'Source' ) ) {
 		$t_resolved_bugs = array();
 
 		# Find and associate resolve links with the changeset
