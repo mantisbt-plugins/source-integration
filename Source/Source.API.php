@@ -118,7 +118,7 @@ function Source_Parse_Bugfixes( $p_string ) {
  * and save the changes.
  * @param array Changeset objects
  */
-function Source_Process_Buglinks( $p_changesets ) {
+function Source_Process_Changesets( $p_changesets ) {
 	if ( !is_array( $p_changesets ) ) {
 		return;
 	}
@@ -144,9 +144,15 @@ function Source_Process_Buglinks( $p_changesets ) {
 			$t_changeset->bugs = array_merge( $t_changeset->bugs, $t_bugs );
 		}
 
+		# Precache information for resolved bugs
+		bug_cache_array_rows( $t_resolved_bugs );
+
 		# Start resolving issues
 		foreach( $t_resolved_bugs as $t_bug_id => $t_changeset ) {
-			bug_resolve( $t_bug_id, FIXED, '', '', null, $t_changeset->user_id );
+			$t_status = config_get( 'bug_resolved_status_threshold', null, null, bug_get_field( $t_bug_id, 'project_id' ) );
+			$t_user_id = $t_changeset->user_id > 0 ? $t_changeset->user_id : null;
+
+			bug_resolve( $t_bug_id, $t_status, '', '', null, $t_user_id );
 		}
 	}
 

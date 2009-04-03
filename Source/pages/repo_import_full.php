@@ -32,7 +32,7 @@ $t_new_repo->save();
 $t_changesets = event_signal( 'EVENT_SOURCE_IMPORT_FULL', array( $t_new_repo ) );
 
 if ( is_array( $t_changesets ) ) {
-	Source_Process_Buglinks( $t_changesets );
+	Source_Process_Changesets( $t_changesets );
 
 	$t_new_repo->name = $t_repo->name;
 	$t_new_repo->save();
