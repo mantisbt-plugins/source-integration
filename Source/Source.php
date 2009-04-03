@@ -49,6 +49,7 @@ class SourcePlugin extends MantisPlugin {
 			'buglink_regex_2'	=> '/#?(\d+)/',
 
 			'bugfix_resolving'	=> OFF,
+			'bugfix_resolution'	=> FIXED,
 			'bugfix_regex_1'	=> '/(?:fixe?s?|resolves?)+\s+(?:bugs?|issues?|reports?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
 			'bugfix_regex_2'	=> '/#?(\d+)/',
 

@@ -233,9 +233,8 @@ function Source_Process_Changesets( $p_changesets ) {
 		bug_cache_array_rows( $t_resolved_bugs );
 
 		# Start resolving issues
+		$t_resolution = plugin_config_get( 'bugfix_resolution' );
 		foreach( $t_resolved_bugs as $t_bug_id => $t_changeset ) {
-			$t_status = config_get( 'bug_resolved_status_threshold', null, null, bug_get_field( $t_bug_id, 'project_id' ) );
-
 			$t_user_id = null;
 			if ( $t_changeset->committer_id > 0 ) {
 				$t_user_id = $t_changeset->committer_id;
@@ -243,7 +242,7 @@ function Source_Process_Changesets( $p_changesets ) {
 				$t_user_id = $t_changeset->user_id;
 			}
 
-			bug_resolve( $t_bug_id, $t_status, '', '', null, $t_user_id );
+			bug_resolve( $t_bug_id, $t_resolution, '', '', null, $t_user_id );
 		}
 	}
 
