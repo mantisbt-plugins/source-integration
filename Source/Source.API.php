@@ -153,6 +153,9 @@ function Source_Parse_Users( &$p_changeset ) {
 				break;
 			}
 		}
+
+		# Don't actually loop
+		break;
 	}
 
 	# Handle the changeset committer
@@ -185,6 +188,9 @@ function Source_Parse_Users( &$p_changeset ) {
 				break;
 			}
 		}
+
+		# Don't actually loop
+		break;
 	}
 }
 /**
