@@ -199,6 +199,8 @@ function Source_Parse_Users( &$p_changeset ) {
  * @param array Changeset objects
  */
 function Source_Process_Changesets( $p_changesets ) {
+	global $g_cache_current_user_id;
+
 	if ( !is_array( $p_changesets ) ) {
 		return;
 	}
@@ -233,6 +235,7 @@ function Source_Process_Changesets( $p_changesets ) {
 		bug_cache_array_rows( $t_resolved_bugs );
 
 		# Start resolving issues
+		$t_current_user_id = $g_cache_current_user_id;
 		$t_resolution = plugin_config_get( 'bugfix_resolution' );
 		foreach( $t_resolved_bugs as $t_bug_id => $t_changeset ) {
 			$t_user_id = null;
@@ -242,8 +245,16 @@ function Source_Process_Changesets( $p_changesets ) {
 				$t_user_id = $t_changeset->user_id;
 			}
 
+			if ( !is_null( $t_user_id ) ) {
+				$g_cache_current_user_id = $t_user_id;
+			} else {
+				$g_cache_current_user_id = $t_current_user_id;
+			}
+
 			bug_resolve( $t_bug_id, $t_resolution, '', '', null, $t_user_id );
 		}
+
+		$g_cache_current_user_id = $t_current_user_id;
 	}
 
 	# Save changes
