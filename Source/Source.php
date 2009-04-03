@@ -174,6 +174,12 @@ class SourcePlugin extends MantisPlugin {
 			array( 'AddColumnSQL', array( plugin_table( 'changeset' ), "
 				author_email	C(250)	NOTNULL DEFAULT \" '' \"
 				" ) ),
+			# 2009-03-03 - Add committer information properties to changesets
+			array( 'AddColumnSQL', array( plugin_table( 'changeset' ), "
+				committer		C(250)	NOTNULL DEFAULT \" '' \",
+				committer_email	C(250)	NOTNULL DEFAULT \" '' \",
+				committer_id	I		NOTNULL UNSIGNED DEFAULT '0'
+				" ) ),
 		);
 	}
 
