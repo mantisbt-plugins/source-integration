@@ -114,6 +114,80 @@ function Source_Parse_Bugfixes( $p_string ) {
 }
 
 /**
+ * Determine the user ID for both the author and committer.
+ * First checks the email address for a matching user, then
+ * checks the name for a matching username or realname.
+ * @param object Changeset object
+ */
+function Source_Parse_Users( &$p_changeset ) {
+	static $s_names = array();
+	static $s_emails = array();
+
+	# Handle the changeset author
+	while ( !$t_changeset->user_id ) {
+
+		# Look up the email address if given
+		if ( $t_email = $t_changeset->author_email ) {
+			if ( isset( $s_emails[ $t_email ] ) ) {
+				$t_changeset->user_id = $s_emails[ $t_email ];
+				break;
+
+			} else if ( false !== ( $t_email_id = user_get_id_by_email( $t_email ) ) ) {
+				$s_emails[ $t_email ] = $t_changeset->user_id = $t_email_id;
+				break;
+			}
+		}
+
+		# Look up the name if the email failed
+		if ( $t_name = $t_changeset->author ) {
+			if ( isset( $s_names[ $t_name ] ) ) {
+				$t_changeset->user_id = $s_names[ $t_name ];
+				break;
+
+			} else if ( false !== ( $t_user_id = user_get_id_by_realname( $t_name ) ) ) {
+				$s_names[ $t_name ] = $t_changeset->user_id = $t_user_id;
+				break;
+
+			} else if ( false !== ( $t_user_id = user_get_id_by_name( $t_changeset->author ) ) ) {
+				$s_names[ $t_name ] = $t_changeset->user_id = $t_user_id;
+				break;
+			}
+		}
+	}
+
+	# Handle the changeset committer
+	while ( !$t_changeset->committer_id ) {
+
+		# Look up the email address if given
+		if ( $t_email = $t_email ) {
+			if ( isset( $s_emails[ $t_email ] ) ) {
+				$t_changeset->committer_id = $s_emails[ $t_email ];
+				break;
+
+			} else if ( false !== ( $t_email_id = user_get_id_by_email( $t_email ) ) ) {
+				$s_emails[ $t_email ] = $t_changeset->committer_id = $t_email_id;
+				break;
+			}
+		}
+
+		# Look up the name if the email failed
+		if ( $t_name = $t_changeset->committer ) {
+			if ( isset( $s_names[ $t_name ] ) ) {
+				$t_changeset->committer_id = $s_names[ $t_name ];
+				break;
+
+			} else if ( false !== ( $t_user_id = user_get_id_by_realname( $t_name ) ) ) {
+				$s_names[ $t_name ] = $t_changeset->committer_id = $t_user_id;
+				break;
+
+			} else if ( false !== ( $t_user_id = user_get_id_by_name( $t_name ) ) ) {
+				$s_names[ $t_name ] = $t_changeset->committer_id = $t_user_id;
+				break;
+			}
+		}
+	}
+}
+/**
  * Given a set of changeset objects, parse the bug links
  * and save the changes.
  * @param array Changeset objects
@@ -121,6 +195,11 @@ function Source_Parse_Bugfixes( $p_string ) {
 function Source_Process_Changesets( $p_changesets ) {
 	if ( !is_array( $p_changesets ) ) {
 		return;
+	}
+
+	# Link author and committer name/email to user accounts
+	foreach( $p_changesets as $t_changeset ) {
+		Source_Parse_Users( $t_changeset );
 	}
 
 	# Parse normal bug links
@@ -493,10 +572,10 @@ class SourceChangeset {
 		$this->timestamp		= $p_timestamp;
 		$this->author			= $p_author;
 		$this->author_email		= $p_author_email;
-		$this->committer		= $p_committer;
-		$this->committer_email	= $p_committer_email;
-		$this->committer_id		= $p_committer_id;
 		$this->message			= $p_message;
+		$this->committer		= '';
+		$this->committer_email	= '';
+		$this->committer_id		= 0;
 
 		$this->files			= array();
 		$this->bugs				= array();
