@@ -229,7 +229,13 @@ function Source_Process_Changesets( $p_changesets ) {
 		# Start resolving issues
 		foreach( $t_resolved_bugs as $t_bug_id => $t_changeset ) {
 			$t_status = config_get( 'bug_resolved_status_threshold', null, null, bug_get_field( $t_bug_id, 'project_id' ) );
-			$t_user_id = $t_changeset->user_id > 0 ? $t_changeset->user_id : null;
+
+			$t_user_id = null;
+			if ( $t_changeset->committer_id > 0 ) {
+				$t_user_id = $t_changeset->committer_id;
+			} else if ( $t_changeset->user_id > 0 ) {
+				$t_user_id = $t_changeset->user_id;
+			}
 
 			bug_resolve( $t_bug_id, $t_status, '', '', null, $t_user_id );
 		}
@@ -647,7 +653,14 @@ class SourceChangeset {
 
 		$this->load_repo();
 
-		$t_user_id = ( is_null( $p_user_id ) ? $this->user_id : (int)$p_user_id );
+		$t_user_id = (int)$p_user_id;
+		if ( $t_user_id < 1 ) {
+			if ( $this->committer_id > 0 ) {
+				$t_user_id = $this->committer_id;
+			} else if ( $this->user_id > 0 ) {
+				$t_user_id = $this->user_id;
+			}
+		}
 
 		if ( count( $t_bugs_deleted ) ) {
 			$t_bugs_deleted_str = join( ',', $t_bugs_deleted );
