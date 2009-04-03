@@ -124,32 +124,32 @@ function Source_Parse_Users( &$p_changeset ) {
 	static $s_emails = array();
 
 	# Handle the changeset author
-	while ( !$t_changeset->user_id ) {
+	while ( !$p_changeset->user_id ) {
 
 		# Look up the email address if given
-		if ( $t_email = $t_changeset->author_email ) {
+		if ( $t_email = $p_changeset->author_email ) {
 			if ( isset( $s_emails[ $t_email ] ) ) {
-				$t_changeset->user_id = $s_emails[ $t_email ];
+				$p_changeset->user_id = $s_emails[ $t_email ];
 				break;
 
 			} else if ( false !== ( $t_email_id = user_get_id_by_email( $t_email ) ) ) {
-				$s_emails[ $t_email ] = $t_changeset->user_id = $t_email_id;
+				$s_emails[ $t_email ] = $p_changeset->user_id = $t_email_id;
 				break;
 			}
 		}
 
 		# Look up the name if the email failed
-		if ( $t_name = $t_changeset->author ) {
+		if ( $t_name = $p_changeset->author ) {
 			if ( isset( $s_names[ $t_name ] ) ) {
-				$t_changeset->user_id = $s_names[ $t_name ];
+				$p_changeset->user_id = $s_names[ $t_name ];
 				break;
 
 			} else if ( false !== ( $t_user_id = user_get_id_by_realname( $t_name ) ) ) {
-				$s_names[ $t_name ] = $t_changeset->user_id = $t_user_id;
+				$s_names[ $t_name ] = $p_changeset->user_id = $t_user_id;
 				break;
 
-			} else if ( false !== ( $t_user_id = user_get_id_by_name( $t_changeset->author ) ) ) {
-				$s_names[ $t_name ] = $t_changeset->user_id = $t_user_id;
+			} else if ( false !== ( $t_user_id = user_get_id_by_name( $p_changeset->author ) ) ) {
+				$s_names[ $t_name ] = $p_changeset->user_id = $t_user_id;
 				break;
 			}
 		}
@@ -159,32 +159,32 @@ function Source_Parse_Users( &$p_changeset ) {
 	}
 
 	# Handle the changeset committer
-	while ( !$t_changeset->committer_id ) {
+	while ( !$p_changeset->committer_id ) {
 
 		# Look up the email address if given
 		if ( $t_email = $t_email ) {
 			if ( isset( $s_emails[ $t_email ] ) ) {
-				$t_changeset->committer_id = $s_emails[ $t_email ];
+				$p_changeset->committer_id = $s_emails[ $t_email ];
 				break;
 
 			} else if ( false !== ( $t_email_id = user_get_id_by_email( $t_email ) ) ) {
-				$s_emails[ $t_email ] = $t_changeset->committer_id = $t_email_id;
+				$s_emails[ $t_email ] = $p_changeset->committer_id = $t_email_id;
 				break;
 			}
 		}
 
 		# Look up the name if the email failed
-		if ( $t_name = $t_changeset->committer ) {
+		if ( $t_name = $p_changeset->committer ) {
 			if ( isset( $s_names[ $t_name ] ) ) {
-				$t_changeset->committer_id = $s_names[ $t_name ];
+				$p_changeset->committer_id = $s_names[ $t_name ];
 				break;
 
 			} else if ( false !== ( $t_user_id = user_get_id_by_realname( $t_name ) ) ) {
-				$s_names[ $t_name ] = $t_changeset->committer_id = $t_user_id;
+				$s_names[ $t_name ] = $p_changeset->committer_id = $t_user_id;
 				break;
 
 			} else if ( false !== ( $t_user_id = user_get_id_by_name( $t_name ) ) ) {
-				$s_names[ $t_name ] = $t_changeset->committer_id = $t_user_id;
+				$s_names[ $t_name ] = $p_changeset->committer_id = $t_user_id;
 				break;
 			}
 		}
@@ -224,7 +224,7 @@ function Source_Process_Changesets( $p_changesets ) {
 			$t_bugs = Source_Parse_Bugfixes( $t_changeset->message );
 
 			foreach( $t_bugs as $t_bug_id ) {
-				$t_resolved_bugs[ $t_bug_id ] = &$t_changeset;
+				$t_resolved_bugs[ $t_bug_id ] = $t_changeset;
 			}
 
 			# Add the link to the normal set of buglinks
@@ -247,8 +247,10 @@ function Source_Process_Changesets( $p_changesets ) {
 
 			if ( !is_null( $t_user_id ) ) {
 				$g_cache_current_user_id = $t_user_id;
-			} else {
+			} else if ( !is_null( $t_current_user_id ) ) {
 				$g_cache_current_user_id = $t_current_user_id;
+			} else {
+				$g_cache_current_user_id = 0;
 			}
 
 			bug_resolve( $t_bug_id, $t_resolution, '', '', null, $t_user_id );
