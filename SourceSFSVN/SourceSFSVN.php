@@ -258,10 +258,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 					$t_changesets[] = $t_changeset;
 				}
 
-				$t_user_id = user_get_id_by_name( $t_matches[2] );
-				$t_user_id = ( false === $t_user_id ? 0 : $t_user_id );
-
-				$t_changeset = new SourceChangeset( $p_repo->id, $t_matches[1], '', $t_matches[3] . ' ' . $t_matches[4], $t_matches[2], '', $t_user_id );
+				$t_changeset = new SourceChangeset( $p_repo->id, $t_matches[1], '', $t_matches[3] . ' ' . $t_matches[4], $t_matches[2], '' );
 
 				$t_state = 2;
 

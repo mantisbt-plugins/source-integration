@@ -290,6 +290,11 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_commit['author_email'] = $t_matches[2];
 			$t_commit['date'] = date( 'Y-m-d H:i:s', strtotime( $t_matches[3] ) );
 
+			if( preg_match( '#<tr><td>committer</td><td>([^<>]*) <([^<>]*)></td></tr>#', $t_gitweb_data, $t_matches ) ) {
+				$t_commit['committer'] = $t_matches[1];
+				$t_commit['committer_email'] = $t_matches[2];
+			}
+
 			if( preg_match( '#<tr><td>parent</td><td class="sha1"><a [^<>]*>([a-f0-9]*)</a></td>#', $t_gitweb_data, $t_matches ) ) {
 				$t_commit['parent'] = $t_matches[1];
 			}
@@ -328,20 +333,18 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				$t_commit['files'][] = $t_file;
 			}
 
-			# Start building the changeset
-			$t_user_id = user_get_id_by_email( $t_commit['author_email'] );
-			if ( false === $t_user_id ) {
-				$t_user_id = user_get_id_by_realname( $t_commit['author'] );
-			}
-
 			$t_parents = array();
 			if ( isset( $t_commit['parent'] ) ) {
 				$t_parents[] = $t_commit['parent'];
 			}
 
 			$t_changeset = new SourceChangeset( $p_repo->id, $t_commit['revision'], $p_branch,
-				$t_commit['date'], $t_commit['author'], $t_commit['message'], $t_user_id,
+				$t_commit['date'], $t_commit['author'], $t_commit['message'], 0,
 				( isset( $t_commit['parent'] ) ? $t_commit['parent'] : '' ) );
+
+			$t_changeset->author_email = $t_commit['author'];
+			$t_changeset->committer = $t_commit['committer'];
+			$t_changeset->committer_email = $t_commit['committer_email'];
 
 			foreach( $t_commit['files'] as $t_file ) {
 				$t_changeset->files[] = new SourceFile( 0, $t_file['revision'], $t_file['filename'], $t_file['action'] );

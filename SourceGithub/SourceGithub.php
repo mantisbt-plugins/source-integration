@@ -316,19 +316,17 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		echo "processing $p_json->id ... ";
 		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
-			$t_user_id = user_get_id_by_email( $p_json->author->email );
-			if ( false === $t_user_id ) {
-				$t_user_id = user_get_id_by_realname( $p_json->author->name );
-			}
-
 			$t_parents = array();
 			foreach( $p_json->parents as $t_parent ) {
 				$t_parents[] = $t_parent->id;
 			}
 
 			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->id, $p_branch,
-				$p_json->authored_date, $p_json->author->name,
-				$p_json->message, $t_user_id );
+				$p_json->authored_date, $p_json->author->name, $p_json->message );
+
+			$t_changeset->author_email = $p_json->author->email;
+			$t_changeset->committer = $p_json->committer->name;
+			$t_changeset->committer_email = $p_json->committer->email;
 
 			foreach( $p_json->added as $t_added ) {
 				$t_changeset->files[] = new SourceFile( 0, '', $t_added->filename, 'add' );
