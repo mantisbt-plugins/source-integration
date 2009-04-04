@@ -64,6 +64,8 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'enabled_features' ) ?></td>
 <td>
+	<label><input type="checkbox" name="enable_mapping" <?php echo ( plugin_config_get( 'enable_mapping' ) ? 'checked="checked" ' : '' ) ?>/>
+	<?php echo plugin_lang_get( 'enable_mapping' ) ?></label><br/>
 	<label><input type="checkbox" name="enable_resolving" <?php echo ( plugin_config_get( 'enable_resolving' ) ? 'checked="checked" ' : '' ) ?>/>
 	<?php echo plugin_lang_get( 'enable_resolving' ) ?></label><br/>
 	<label><input type="checkbox" name="enable_porting" <?php echo ( plugin_config_get( 'enable_porting' ) ? 'checked="checked" ' : '' ) ?>/>

@@ -43,6 +43,7 @@ class SourcePlugin extends MantisPlugin {
 			'update_threshold'	=> UPDATER,
 			'manage_threshold'	=> ADMINISTRATOR,
 
+			'enable_mapping'	=> OFF,
 			'enable_porting'	=> OFF,
 			'enable_resolving'	=> OFF,
 

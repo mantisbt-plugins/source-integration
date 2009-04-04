@@ -22,6 +22,7 @@ $f_manage_threshold = gpc_get_int( 'manage_threshold' );
 $f_show_repo_link = gpc_get_bool( 'show_repo_link', OFF );
 $f_show_search_link = gpc_get_bool( 'show_search_link', OFF );
 
+$f_enable_mapping = gpc_get_bool( 'enable_mapping', OFF );
 $f_enable_resolving = gpc_get_bool( 'enable_resolving', OFF );
 $f_enable_porting = gpc_get_bool( 'enable_porting', OFF );
 
@@ -74,6 +75,7 @@ maybe_set_option( 'manage_threshold', $f_manage_threshold );
 maybe_set_option( 'show_repo_link', $f_show_repo_link );
 maybe_set_option( 'show_search_link', $f_show_search_link );
 
+maybe_set_option( 'enable_mapping', $f_enable_mapping );
 maybe_set_option( 'enable_resolving', $f_enable_resolving );
 maybe_set_option( 'enable_porting', $f_enable_porting );
 
