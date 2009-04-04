@@ -215,29 +215,30 @@ function Source_Process_Changesets( $p_changesets ) {
 		$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
 	}
 
-	# Parse resolved bug links
-	if ( config_get( 'plugin_Source_bugfix_resolving' ) ) {
-		$t_resolved_bugs = array();
+	# Parse fixed bug links
+	$t_fixed_bugs = array();
 
-		# Find and associate resolve links with the changeset
-		foreach( $p_changesets as $t_changeset ) {
-			$t_bugs = Source_Parse_Bugfixes( $t_changeset->message );
+	# Find and associate resolve links with the changeset
+	foreach( $p_changesets as $t_changeset ) {
+		$t_bugs = Source_Parse_Bugfixes( $t_changeset->message );
 
-			foreach( $t_bugs as $t_bug_id ) {
-				$t_resolved_bugs[ $t_bug_id ] = $t_changeset;
-			}
-
-			# Add the link to the normal set of buglinks
-			$t_changeset->bugs = array_merge( $t_changeset->bugs, $t_bugs );
+		foreach( $t_bugs as $t_bug_id ) {
+			$t_fixed_bugs[ $t_bug_id ] = $t_changeset;
 		}
 
+		# Add the link to the normal set of buglinks
+		$t_changeset->bugs = array_merge( $t_changeset->bugs, $t_bugs );
+	}
+
+	# Resolve any fixed bugs
+	if ( config_get( 'plugin_Source_bugfix_resolving' ) ) {
 		# Precache information for resolved bugs
-		bug_cache_array_rows( $t_resolved_bugs );
+		bug_cache_array_rows( $t_fixed_bugs );
 
 		# Start resolving issues
 		$t_current_user_id = $g_cache_current_user_id;
 		$t_resolution = plugin_config_get( 'bugfix_resolution' );
-		foreach( $t_resolved_bugs as $t_bug_id => $t_changeset ) {
+		foreach( $t_fixed_bugs as $t_bug_id => $t_changeset ) {
 			$t_user_id = null;
 			if ( $t_changeset->committer_id > 0 ) {
 				$t_user_id = $t_changeset->committer_id;
