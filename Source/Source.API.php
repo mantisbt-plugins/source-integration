@@ -18,6 +18,17 @@ require_once( 'MantisSourcePlugin.class.php' );
  * @author John Reese
  */
 
+# branch mapping strategies
+define( 'SOURCE_EXPLICIT',		0 );
+define( 'SOURCE_NEAR',			1 );
+define( 'SOURCE_FAR',			2 );
+define( 'SOURCE_FIRST',			3 );
+define( 'SOURCE_LAST',			4 );
+define( 'SOURCE_NEAR_REGEX',	5 );
+define( 'SOURCE_FAR_REGEX',		6 );
+define( 'SOURCE_FIRST_REGEX',	7 );
+define( 'SOURCE_LAST_REGEX',	8 );
+
 global $g_Source_cache_types;
 $g_Source_cache_types = null;
 

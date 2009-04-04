@@ -187,7 +187,8 @@ class SourcePlugin extends MantisPlugin {
 				repo_id		I		NOTNULL UNSIGNED PRIMARY,
 				branch		C(128)	NOTNULL PRIMARY,
 				type		I		NOTNULL UNSIGNED DEFAULT '0',
-				version		I		NOTNULL UNSIGNED
+				version_id	I		NOTNULL UNSIGNED,
+				regex		C(64)	NOTNULL DEFAULT \" '' \"
 				" ) ),
 		);
 	}
