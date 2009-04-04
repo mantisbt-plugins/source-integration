@@ -181,6 +181,13 @@ class SourcePlugin extends MantisPlugin {
 				committer_email	C(250)	NOTNULL DEFAULT \" '' \",
 				committer_id	I		NOTNULL UNSIGNED DEFAULT '0'
 				" ) ),
+			# 2009-03-03 - Add mappings from repository branches to project versions
+			array( 'CreateTableSQL', array( plugin_table( 'branch' ), "
+				repo_id		I		NOTNULL UNSIGNED PRIMARY,
+				branch		C(128)	NOTNULL PRIMARY,
+				type		I		NOTNULL UNSIGNED DEFAULT '0',
+				version		I		NOTNULL UNSIGNED
+				" ) ),
 		);
 	}
 
