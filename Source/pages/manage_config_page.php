@@ -64,6 +64,8 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'enabled_features' ) ?></td>
 <td>
+	<label><input type="checkbox" name="enable_resolving" <?php echo ( plugin_config_get( 'enable_resolving' ) ? 'checked="checked" ' : '' ) ?>/>
+	<?php echo plugin_lang_get( 'enable_resolving' ) ?></label><br/>
 	<label><input type="checkbox" name="enable_porting" <?php echo ( plugin_config_get( 'enable_porting' ) ? 'checked="checked" ' : '' ) ?>/>
 	<?php echo plugin_lang_get( 'enable_porting' ) ?></label><br/>
 </td>
@@ -90,16 +92,6 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <tr><td class="spacer"></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'bugfix_resolving' ) ?></td>
-<td><input name="bugfix_resolving" type="checkbox" <?php echo (ON == plugin_config_get( 'bugfix_resolving' ) ? 'checked="checked"' : '') ?>></td>
-</tr>
-
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'bugfix_resolution' ) ?></td>
-<td><select name="bugfix_resolution"><?php print_enum_string_option_list( 'resolution', plugin_config_get( 'bugfix_resolution' ) ) ?></select></td>
-</tr>
-
-<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'bugfix_regex_1' ) ?></td>
 <td>
 	<input name="bugfix_regex_1" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'bugfix_regex_1' ) ) ?>"/>
@@ -113,6 +105,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	<input name="bugfix_regex_2" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'bugfix_regex_2' ) ) ?>"/>
 	<br/><label><input name="bugfix_reset_2" type="checkbox"/><span class="small"><?php echo plugin_lang_get( 'reset' ) ?></span></label>
 </td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'bugfix_resolution' ) ?></td>
+<td><select name="bugfix_resolution"><?php print_enum_string_option_list( 'resolution', plugin_config_get( 'bugfix_resolution' ) ) ?></select></td>
 </tr>
 
 <tr><td class="spacer"></td></tr>

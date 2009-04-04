@@ -44,13 +44,13 @@ class SourcePlugin extends MantisPlugin {
 			'manage_threshold'	=> ADMINISTRATOR,
 
 			'enable_porting'	=> OFF,
+			'enable_resolving'	=> OFF,
 
 			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
 			'buglink_regex_2'	=> '/#?(\d+)/',
 
-			'bugfix_resolving'	=> OFF,
 			'bugfix_resolution'	=> FIXED,
-			'bugfix_regex_1'	=> '/(?:fixe?s?|resolves?)+\s+(?:bugs?|issues?|reports?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
+			'bugfix_regex_1'	=> '/(?:fixe?s?|resolves?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
 			'bugfix_regex_2'	=> '/#?(\d+)/',
 
 			'remote_checkin'	=> OFF,
@@ -175,7 +175,7 @@ class SourcePlugin extends MantisPlugin {
 			array( 'AddColumnSQL', array( plugin_table( 'changeset' ), "
 				author_email	C(250)	NOTNULL DEFAULT \" '' \"
 				" ) ),
-			# 2009-03-03 - Add committer information properties to changesets
+			# 2009-04-03 - Add committer information properties to changesets
 			array( 'AddColumnSQL', array( plugin_table( 'changeset' ), "
 				committer		C(250)	NOTNULL DEFAULT \" '' \",
 				committer_email	C(250)	NOTNULL DEFAULT \" '' \",
