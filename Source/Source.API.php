@@ -24,10 +24,6 @@ define( 'SOURCE_NEAR',			1 );
 define( 'SOURCE_FAR',			2 );
 define( 'SOURCE_FIRST',			3 );
 define( 'SOURCE_LAST',			4 );
-define( 'SOURCE_NEAR_REGEX',	5 );
-define( 'SOURCE_FAR_REGEX',		6 );
-define( 'SOURCE_FIRST_REGEX',	7 );
-define( 'SOURCE_LAST_REGEX',	8 );
 
 global $g_Source_cache_types;
 $g_Source_cache_types = null;
@@ -1054,6 +1050,9 @@ class SourceMapping {
 	var $version_id;
 	var $regex;
 
+	static $s_versions = array();
+	static $s_versions_sorted = array();
+
 	/**
 	 * Initialize a mapping object.
 	 * @param int Repository ID
@@ -1094,7 +1093,7 @@ class SourceMapping {
 	static function load_by_repo( $p_repo ) {
 		$t_branch_table = plugin_table( 'branch' );
 
-		$t_query = "SELECT FROM $t_branch_table WHERE repo_id=" . db_param();
+		$t_query = "SELECT * FROM $t_branch_table WHERE repo_id=" . db_param();
 		$t_result = db_query_bound( $t_query, array( $p_repo->id ) );
 
 		$t_mappings = array();
@@ -1107,6 +1106,81 @@ class SourceMapping {
 		}
 
 		return $t_mappings;
+	}
+
+	/**
+	 * Given a bug ID, apply the appropriate branch mapping algorithm
+	 * to find and return the appropriate version ID.
+	 * @param int Bug ID
+	 * @return int Version ID
+	 */
+	function apply( $p_bug_id ) {
+		# if it's explicit, return the version_id before doing anything else
+		if ( $this->type == SOURCE_EXPLICIT ) {
+			return $this->version_id;
+		}
+
+		# cache project/version sets, and the appropriate sorting
+		$t_project_id = bug_get_field( $p_bug_id, 'project_id' );
+		if ( !isset( $s_versions[ $t_project_id ] ) ) {
+			$s_versions[ $t_project_id ] = version_get_all_rows( $t_project_id, false );
+		}
+
+		# handle empty version sets
+		if ( count( $s_versions[ $t_project_id ] ) < 1 ) {
+			return null;
+		}
+
+		# cache the version set based on the current algorithm
+		if ( !isset( $s_versions_sorted[ $t_project_id ][ $this->type ] ) ) {
+			$s_versions_sorted[ $t_project_id ][ $this->type ] = $s_versions[ $t_project_id ];
+
+			switch( $this->type ) {
+				case SOURCE_NEAR:
+					usort( $s_versions_sorted[ $t_project_id ][ $this->type ], array( 'SourceMapping', 'cmp_near' ) );
+					break;
+				case SOURCE_FAR:
+					usort( $s_versions_sorted[ $t_project_id ][ $this->type ], array( 'SourceMapping', 'cmp_far' ) );
+					break;
+				case SOURCE_FIRST:
+					usort( $s_versions_sorted[ $t_project_id ][ $this->type ], array( 'SourceMapping', 'cmp_first' ) );
+					break;
+				case SOURCE_LAST:
+					usort( $s_versions_sorted[ $t_project_id ][ $this->type ], array( 'SourceMapping', 'cmp_last' ) );
+					break;
+			}
+		}
+
+		# pull the appropriate versions set from the cache
+		$t_versions = &$s_versions_sorted[ $t_project_id ][ $this->type ];
+
+		# handle non-regex mappings
+		if ( is_blank( $this->regex ) ) {
+			return $t_versions[0]['id'];
+		}
+
+		# handle regex mappings
+		foreach( $t_versions as $t_version ) {
+			if ( preg_match( $this->regex, $t_version['version'] ) ) {
+				return $t_version['id'];
+			}
+		}
+
+		# no version matches the regex
+		return null;
+	}
+
+	function cmp_near( $a, $b ) {
+		return strcmp( $a['date_order'], $b['date_order'] );
+	}
+	function cmp_far( $a, $b ) {
+		return strcmp( $b['date_order'], $a['date_order'] );
+	}
+	function cmp_first( $a, $b ) {
+		return version_compare( $a['version'], $b['version'] );
+	}
+	function cmp_last( $a, $b ) {
+		return version_compare( $b['version'], $a['version'] );
 	}
 }
 
