@@ -93,18 +93,18 @@ $s_plugin_Source_enable_resolving = 'Resolve Fixed Issues';
 $s_plugin_Source_enable_porting = 'Porting Status';
 
 $s_plugin_Source_branch_mapping = 'Branch Mappings';
+$s_plugin_Source_mapping_update = 'Update Mappings';
 $s_plugin_Source_mapping_strategy = 'Strategy';
+$s_plugin_Source_mapping_version = 'Version';
+$s_plugin_Source_mapping_version_info = '<acronym title="Only used with the Explicit Version strategy.">?</acronym>';
 $s_plugin_Source_mapping_regex = 'Regular Expression';
-$s_plugin_Source_mapping_regex_info = '<span class="small">Only selects versions matching the given expression.  Only used with "Regex" strategies.</span>';
-$s_plugin_Source_mapping[SOURCE_EXPLICIT] = 'Explicit Version';
-$s_plugin_Source_mapping[SOURCE_NEAR] = 'Nearest Release Date';
-$s_plugin_Source_mapping[SOURCE_FAR] = 'furthest Release Date';
-$s_plugin_Source_mapping[SOURCE_FIRST] = 'Sorted First';
-$s_plugin_Source_mapping[SOURCE_LAST] = 'Sorted Last';
-$s_plugin_Source_mapping[SOURCE_NEAR_REGEX] = 'Nearest Release Date (Regex)';
-$s_plugin_Source_mapping[SOURCE_FAR_REGEX] = 'Furthest Release Date (Regex)';
-$s_plugin_Source_mapping[SOURCE_FIRST_REGEX] = 'Sorted First (Regex)';
-$s_plugin_Source_mapping[SOURCE_LAST_REGEX] = 'Sorted Last (Regex)';
+$s_plugin_Source_mapping_regex_info = '<acronym title="Only apply the selected strategy to versions matching the given PCRE-style regex.">?</acronym>';
+$s_plugin_Source_mapping_create = 'Create Mapping';
+$s_plugin_Source_mapping_explicit = 'Explicit Version';
+$s_plugin_Source_mapping_near = 'Nearest Release Date';
+$s_plugin_Source_mapping_far = 'Furthest Release Date';
+$s_plugin_Source_mapping_first = 'Version Sorted First';
+$s_plugin_Source_mapping_last = 'Version Sorted Last';
 
 $s_plugin_Source_changeset_attached = 'Changeset attached';
 $s_plugin_Source_changeset_removed = 'Changeset removed';

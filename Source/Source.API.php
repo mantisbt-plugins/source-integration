@@ -19,11 +19,11 @@ require_once( 'MantisSourcePlugin.class.php' );
  */
 
 # branch mapping strategies
-define( 'SOURCE_EXPLICIT',		0 );
-define( 'SOURCE_NEAR',			1 );
-define( 'SOURCE_FAR',			2 );
-define( 'SOURCE_FIRST',			3 );
-define( 'SOURCE_LAST',			4 );
+define( 'SOURCE_EXPLICIT',		1 );
+define( 'SOURCE_NEAR',			2 );
+define( 'SOURCE_FAR',			3 );
+define( 'SOURCE_FIRST',			4 );
+define( 'SOURCE_LAST',			5 );
 
 global $g_Source_cache_types;
 $g_Source_cache_types = null;
@@ -1047,11 +1047,8 @@ class SourceMapping {
 	var $branch;
 	var $type;
 
-	var $version_id;
+	var $version;
 	var $regex;
-
-	static $s_versions = array();
-	static $s_versions_sorted = array();
 
 	/**
 	 * Initialize a mapping object.
@@ -1059,11 +1056,11 @@ class SourceMapping {
 	 * @param string Branch name
 	 * @param int Mapping type
 	 */
-	function __construct( $p_repo_id, $p_branch, $p_type, $p_version_id=0, $p_regex='' ) {
+	function __construct( $p_repo_id, $p_branch, $p_type, $p_version='', $p_regex='' ) {
 		$this->repo_id = $p_repo_id;
 		$this->branch = $p_branch;
 		$this->type = $p_type;
-		$this->version_id = $p_version_id;
+		$this->version = $p_version;
 		$this->regex = $p_regex;
 	}
 
@@ -1074,14 +1071,14 @@ class SourceMapping {
 		$t_branch_table = plugin_table( 'branch' );
 
 		if ( $this->_new ) {
-			$t_query = "INSERT INTO $t_branch_table ( repo_id, branch, type, version_id, regex ) VALUES (" .
+			$t_query = "INSERT INTO $t_branch_table ( repo_id, branch, type, version, regex ) VALUES (" .
 				db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .    db_param() . ')';
-			db_query_bound( $t_query, array( $this->repo_id, $this->branch, $this->type, $this->version_id, $this->regex ) );
+			db_query_bound( $t_query, array( $this->repo_id, $this->branch, $this->type, $this->version, $this->regex ) );
 
 		} else {
-			$t_query = "UPDATE $t_branch_table SET type=" . db_param() . ', version_id=' . db_param() .
+			$t_query = "UPDATE $t_branch_table SET type=" . db_param() . ', version=' . db_param() .
 				', regex=' . db_param() . ' WHERE repo_id=' . db_param() . ' AND branch=' . db_param();
-			db_query_bound( $t_query, array( $this->type, $this->version_id, $this->regex, $this->repo_id, $this->branch ) );
+			db_query_bound( $t_query, array( $this->type, $this->version, $this->regex, $this->repo_id, $this->branch ) );
 		}
 	}
 
@@ -1099,7 +1096,7 @@ class SourceMapping {
 		$t_mappings = array();
 
 		while( $t_row = db_fetch_array( $t_result ) ) {
-			$t_mapping = new SourceMapping( $t_row['repo_id'], $t_row['branch'], $t_row['type'], $t_row['version_id'], $t_row['regex'] );
+			$t_mapping = new SourceMapping( $t_row['repo_id'], $t_row['branch'], $t_row['type'], $t_row['version'], $t_row['regex'] );
 			$t_mapping->_new = false;
 
 			$t_mappings[$t_mapping->branch] = $t_mapping;
@@ -1115,9 +1112,12 @@ class SourceMapping {
 	 * @return int Version ID
 	 */
 	function apply( $p_bug_id ) {
+		static $s_versions = array();
+		static $s_versions_sorted = array();
+
 		# if it's explicit, return the version_id before doing anything else
 		if ( $this->type == SOURCE_EXPLICIT ) {
-			return $this->version_id;
+			return $this->version;
 		}
 
 		# cache project/version sets, and the appropriate sorting
@@ -1128,7 +1128,7 @@ class SourceMapping {
 
 		# handle empty version sets
 		if ( count( $s_versions[ $t_project_id ] ) < 1 ) {
-			return null;
+			return '';
 		}
 
 		# cache the version set based on the current algorithm
@@ -1156,18 +1156,18 @@ class SourceMapping {
 
 		# handle non-regex mappings
 		if ( is_blank( $this->regex ) ) {
-			return $t_versions[0]['id'];
+			return $t_versions[0]['version'];
 		}
 
 		# handle regex mappings
 		foreach( $t_versions as $t_version ) {
 			if ( preg_match( $this->regex, $t_version['version'] ) ) {
-				return $t_version['id'];
+				return $t_version['version'];
 			}
 		}
 
 		# no version matches the regex
-		return null;
+		return '';
 	}
 
 	function cmp_near( $a, $b ) {

@@ -18,6 +18,25 @@ $f_repo_id = gpc_get_int( 'id' );
 $t_repo = SourceRepo::load( $f_repo_id );
 $t_type = SourceType($t_repo->type);
 
+$t_mappings = $t_repo->load_mappings();
+
+function display_strategies( $p_type=null ) {
+	if ( is_null( $p_type ) ) {
+		echo '<option>', plugin_lang_get( 'select_one' ), '</option>';
+	}
+
+	echo '<option value="', SOURCE_EXPLICIT, '"', ( $p_type == SOURCE_EXPLICIT ? ' selected="selected"' : '' ),
+		'>', plugin_lang_get( 'mapping_explicit' ), '</option>',
+		'<option value="', SOURCE_NEAR, '"', ( $p_type == SOURCE_NEAR ? ' selected="selected"' : '' ),
+		'>', plugin_lang_get( 'mapping_near' ), '</option>',
+		'<option value="', SOURCE_FAR, '"', ( $p_type == SOURCE_FAR ? ' selected="selected"' : '' ),
+		'>', plugin_lang_get( 'mapping_far' ), '</option>',
+		'<option value="', SOURCE_FIRST, '"', ( $p_type == SOURCE_FIRST ? ' selected="selected"' : '' ),
+		'>', plugin_lang_get( 'mapping_first' ), '</option>',
+		'<option value="', SOURCE_LAST, '"', ( $p_type == SOURCE_LAST ? ' selected="selected"' : '' ),
+		'>', plugin_lang_get( 'mapping_last' ), '</option>';
+}
+
 html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
 ?>
@@ -90,6 +109,50 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 
 </table>
 </form>
+
+<?php if ( plugin_config_get( 'enable_mapping' ) ) { ?>
+<br/>
+<form action="<?php echo plugin_page( 'repo_update_mappings' ) . '&id=' . $t_repo->id ?>" method="post">
+<table class="width75" align="center" cellspacing="1">
+
+<tr>
+<td class="form-title"><?php echo plugin_lang_get( 'branch_mapping' ) ?></td>
+</tr>
+
+<tr class="row-category">
+<td><?php echo plugin_lang_get( 'branch' ) ?></td>
+<td><?php echo plugin_lang_get( 'mapping_strategy' ) ?></td>
+<td><?php echo plugin_lang_get( 'mapping_version' ), ' ', plugin_lang_get( 'mapping_version_info' ) ?></td>
+<td><?php echo plugin_lang_get( 'mapping_regex' ), ' ', plugin_lang_get( 'mapping_regex_info' ) ?></td>
+</tr>
+
+<?php foreach( $t_mappings as $t_mapping ) { ?>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td><input name="<?php echo $t_mapping->branch ?>_branch" value="<?php echo string_attribute( $t_mapping->branch ) ?>" size="12" maxlength="128"/></td>
+<td><select name="<?php echo $t_mapping->branch ?>_type"><?php display_strategies( $t_mapping->type ) ?></select></td>
+<td><select name="<?php echo $t_mapping->branch ?>_version"><?php print_version_option_list( $t_mapping->version, ALL_PROJECTS, false, true, true ) ?></select></td>
+<td><input name="<?php echo $t_mapping->branch ?>_regex" value="<?php echo string_attribute( $t_mapping->regex ) ?>" size="18" maxlength="128"/></td>
+</tr>
+<?php } ?>
+
+<tr><td></td></tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td><input name="_name" size="12" maxlength="128"/></td>
+<td><select name=_type"><?php display_strategies(); ?></select></td>
+<td><select name="_version"><?php print_version_option_list( '', ALL_PROJECTS, false, true, true ) ?></td>
+<td><input name="_regex" size="18" maxlength="128"/></td>
+</tr>
+
+<tr>
+<td class="center" colspan="4"><input type="submit" value="<?php echo plugin_lang_get( 'mapping_update' ) ?>"/></td>
+</tr>
+
+</table>
+</form>
+
+<?php } ?>
 
 <?php
 html_page_bottom1( __FILE__ );
