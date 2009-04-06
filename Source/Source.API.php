@@ -237,35 +237,61 @@ function Source_Process_Changesets( $p_changesets ) {
 		$t_changeset->bugs = array_merge( $t_changeset->bugs, $t_bugs );
 	}
 
-	# Resolve any fixed bugs
-	if ( config_get( 'plugin_Source_bugfix_resolving' ) ) {
-		# Precache information for resolved bugs
-		bug_cache_array_rows( $t_fixed_bugs );
+	# Precache information for resolved bugs
+	bug_cache_array_rows( $t_fixed_bugs );
 
-		# Start resolving issues
-		$t_current_user_id = $g_cache_current_user_id;
-		$t_resolution = plugin_config_get( 'bugfix_resolution' );
-		foreach( $t_fixed_bugs as $t_bug_id => $t_changeset ) {
-			$t_user_id = null;
-			if ( $t_changeset->committer_id > 0 ) {
-				$t_user_id = $t_changeset->committer_id;
-			} else if ( $t_changeset->user_id > 0 ) {
-				$t_user_id = $t_changeset->user_id;
-			}
+	$t_current_user_id = $g_cache_current_user_id;
+	$t_enable_resolving = config_get( 'plugin_Source_enable_resolving' );
+	$t_enable_mapping = config_get( 'plugin_Source_enable_mapping' );
+	$t_resolution = plugin_config_get( 'bugfix_resolution' );
 
-			if ( !is_null( $t_user_id ) ) {
-				$g_cache_current_user_id = $t_user_id;
-			} else if ( !is_null( $t_current_user_id ) ) {
-				$g_cache_current_user_id = $t_current_user_id;
-			} else {
-				$g_cache_current_user_id = 0;
-			}
+	$t_mappings = array();
 
-			bug_resolve( $t_bug_id, $t_resolution, '', '', null, $t_user_id );
+	# Start fixing and/or resolving issues
+	foreach( $t_fixed_bugs as $t_bug_id => $t_changeset ) {
+
+		# fake the history entries as the committer/author user ID
+		$t_user_id = null;
+		if ( $t_changeset->committer_id > 0 ) {
+			$t_user_id = $t_changeset->committer_id;
+		} else if ( $t_changeset->user_id > 0 ) {
+			$t_user_id = $t_changeset->user_id;
 		}
 
-		$g_cache_current_user_id = $t_current_user_id;
+		if ( !is_null( $t_user_id ) ) {
+			$g_cache_current_user_id = $t_user_id;
+		} else if ( !is_null( $t_current_user_id ) ) {
+			$g_cache_current_user_id = $t_current_user_id;
+		} else {
+			$g_cache_current_user_id = 0;
+		}
+
+		# generate the branch mapping
+		$t_version = '';
+		if ( $t_enable_mapping ) {
+			$t_repo_id = $t_changeset->repo_id;
+
+			if ( !isset( $t_mappings[ $t_repo_id ] ) ) {
+				$t_mappings[ $t_repo_id ] = SourceMapping::load_by_repo( $t_repo_id );
+			}
+
+			if ( isset( $t_mappings[ $t_repo_id ][ $t_changeset->branch ] ) ) {
+				$t_mapping = $t_mappings[ $t_repo_id ][ $t_changeset->branch ];
+				$t_version = $t_mapping->apply( $t_bug_id );
+			}
+		}
+
+		# Resolve any fixed bugs
+		if ( $t_enable_resolving ) {
+			bug_resolve( $t_bug_id, $t_resolution, $t_version, '', null, $t_user_id );
+		} else {
+			bug_set_field( $t_bug_id, 'resolution', $t_resolution );
+			bug_set_field( $t_bug_id, 'fixed_in_version', $t_version );
+		}
 	}
+
+	# reset the user ID
+	$g_cache_current_user_id = $t_current_user_id;
 
 	# Save changes
 	foreach( $p_changesets as $t_changeset ) {
