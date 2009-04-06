@@ -1076,9 +1076,10 @@ class SourceMapping {
 			db_query_bound( $t_query, array( $this->repo_id, $this->branch, $this->type, $this->version, $this->regex ) );
 
 		} else {
-			$t_query = "UPDATE $t_branch_table SET type=" . db_param() . ', version=' . db_param() .
+			$t_query = "UPDATE $t_branch_table SET branch=" . db_param() . ', type=' . db_param() . ', version=' . db_param() .
 				', regex=' . db_param() . ' WHERE repo_id=' . db_param() . ' AND branch=' . db_param();
-			db_query_bound( $t_query, array( $this->type, $this->version, $this->regex, $this->repo_id, $this->branch ) );
+			db_query_bound( $t_query, array( $this->branch, $this->type, $this->version,
+				$this->regex, $this->repo_id, $this->branch ) );
 		}
 	}
 
