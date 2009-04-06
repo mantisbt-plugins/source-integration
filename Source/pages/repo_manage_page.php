@@ -113,6 +113,7 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <?php if ( plugin_config_get( 'enable_mapping' ) ) { ?>
 <br/>
 <form action="<?php echo plugin_page( 'repo_update_mappings' ) . '&id=' . $t_repo->id ?>" method="post">
+<?php echo form_security_field( 'plugin_Source_repo_update_mappings' ) ?>
 <table class="width75" align="center" cellspacing="1">
 
 <tr>
@@ -124,6 +125,7 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <td><?php echo plugin_lang_get( 'mapping_strategy' ) ?></td>
 <td><?php echo plugin_lang_get( 'mapping_version' ), ' ', plugin_lang_get( 'mapping_version_info' ) ?></td>
 <td><?php echo plugin_lang_get( 'mapping_regex' ), ' ', plugin_lang_get( 'mapping_regex_info' ) ?></td>
+<td><?php echo plugin_lang_get( 'delete' ) ?></td>
 </tr>
 
 <?php foreach( $t_mappings as $t_mapping ) { ?>
@@ -133,6 +135,7 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <td><select name="<?php echo $t_mapping->branch ?>_type"><?php display_strategies( $t_mapping->type ) ?></select></td>
 <td><select name="<?php echo $t_mapping->branch ?>_version"><?php print_version_option_list( $t_mapping->version, ALL_PROJECTS, false, true, true ) ?></select></td>
 <td><input name="<?php echo $t_mapping->branch ?>_regex" value="<?php echo string_attribute( $t_mapping->regex ) ?>" size="18" maxlength="128"/></td>
+<td><input name="<?php echo $t_mapping->branch ?>_delete" type="checkbox" value="1"/></td>
 </tr>
 <?php } ?>
 
@@ -143,10 +146,11 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <td><select name=_type"><?php display_strategies(); ?></select></td>
 <td><select name="_version"><?php print_version_option_list( '', ALL_PROJECTS, false, true, true ) ?></td>
 <td><input name="_regex" size="18" maxlength="128"/></td>
+<td></td>
 </tr>
 
 <tr>
-<td class="center" colspan="4"><input type="submit" value="<?php echo plugin_lang_get( 'mapping_update' ) ?>"/></td>
+<td class="center" colspan="5"><input type="submit" value="<?php echo plugin_lang_get( 'mapping_update' ) ?>"/></td>
 </tr>
 
 </table>
