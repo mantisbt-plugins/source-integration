@@ -22,7 +22,7 @@ $t_mappings = $t_repo->load_mappings();
 
 function display_strategies( $p_type=null ) {
 	if ( is_null( $p_type ) ) {
-		echo '<option>', plugin_lang_get( 'select_one' ), '</option>';
+		echo '<option value="0">', plugin_lang_get( 'select_one' ), '</option>';
 	}
 
 	echo '<option value="', SOURCE_EXPLICIT, '"', ( $p_type == SOURCE_EXPLICIT ? ' selected="selected"' : '' ),
@@ -142,8 +142,8 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <tr><td></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td><input name="_name" size="12" maxlength="128"/></td>
-<td><select name=_type"><?php display_strategies(); ?></select></td>
+<td><input name="_branch" size="12" maxlength="128"/></td>
+<td><select name="_type"><?php display_strategies(); ?></select></td>
 <td><select name="_version"><?php print_version_option_list( '', ALL_PROJECTS, false, true, true ) ?></td>
 <td><input name="_regex" size="18" maxlength="128"/></td>
 <td></td>

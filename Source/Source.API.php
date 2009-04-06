@@ -1084,6 +1084,20 @@ class SourceMapping {
 	}
 
 	/**
+	 * Delete a branch mapping.
+	 */
+	function delete() {
+		$t_branch_table = plugin_table( 'branch' );
+
+		if ( !$this->_new ) {
+			$t_query = "DELETE FROM $t_branch_table WHERE repo_id=" . db_param() . ' AND branch=' . db_param();
+			db_query_bound( $t_query, array( $this->repo_id, $this->branch ) );
+
+			$this->_new = true;
+		}
+	}
+
+	/**
 	 * Load a group of mapping objects for a given repository.
 	 * @param object Repository object
 	 * @param array Mapping objects
@@ -1091,7 +1105,7 @@ class SourceMapping {
 	static function load_by_repo( $p_repo ) {
 		$t_branch_table = plugin_table( 'branch' );
 
-		$t_query = "SELECT * FROM $t_branch_table WHERE repo_id=" . db_param();
+		$t_query = "SELECT * FROM $t_branch_table WHERE repo_id=" . db_param() . ' ORDER BY branch';
 		$t_result = db_query_bound( $t_query, array( $p_repo->id ) );
 
 		$t_mappings = array();
