@@ -324,6 +324,7 @@ class SourceRepo {
 	var $url;
 	var $info;
 	var $branches;
+	var $mappings;
 
 	/**
 	 * Build a new Repo object given certain properties.
@@ -344,6 +345,7 @@ class SourceRepo {
 			$this->info = unserialize( $p_info );
 		}
 		$this->branches = array();
+		$this->mappings = array();
 	}
 
 	/**
@@ -368,6 +370,10 @@ class SourceRepo {
 				', url=' . db_param() . ', info=' . db_param() . ' WHERE id=' . db_param();
 			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info), $this->id ) );
 		}
+
+		foreach( $this->mappings as $t_mapping ) {
+			$t_mapping->save();
+		}
 	}
 
 	/**
@@ -387,6 +393,17 @@ class SourceRepo {
 		}
 
 		return $this->branches;
+	}
+
+	/**
+	 * Load and cache the set of branch mappings for the repository.
+	 */
+	function load_mappings() {
+		if ( count( $this->mappings ) < 1 ) {
+			$this->mappings = SourceMapping::load_by_repo( $this );
+		}
+
+		return $this->mappings;
 	}
 
 	/**
@@ -1022,6 +1039,74 @@ class SourceFile {
 
 		$t_query = "DELETE FROM $t_file_table WHERE change_id=" . db_param();
 		db_query_bound( $t_query, array( $p_change_id ) );
+	}
+}
+
+/**
+ * Class for handling branch version mappings on a repository.
+ */
+class SourceMapping {
+	var $_new = true;
+	var $repo_id;
+	var $branch;
+	var $type;
+
+	var $version_id;
+	var $regex;
+
+	/**
+	 * Initialize a mapping object.
+	 * @param int Repository ID
+	 * @param string Branch name
+	 * @param int Mapping type
+	 */
+	function __construct( $p_repo_id, $p_branch, $p_type, $p_version_id=0, $p_regex='' ) {
+		$this->repo_id = $p_repo_id;
+		$this->branch = $p_branch;
+		$this->type = $p_type;
+		$this->version_id = $p_version_id;
+		$this->regex = $p_regex;
+	}
+
+	/**
+	 * Save the given mapping object to the database.
+	 */
+	function save() {
+		$t_branch_table = plugin_table( 'branch' );
+
+		if ( $this->_new ) {
+			$t_query = "INSERT INTO $t_branch_table ( repo_id, branch, type, version_id, regex ) VALUES (" .
+				db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .    db_param() . ')';
+			db_query_bound( $t_query, array( $this->repo_id, $this->branch, $this->type, $this->version_id, $this->regex ) );
+
+		} else {
+			$t_query = "UPDATE $t_branch_table SET type=" . db_param() . ', version_id=' . db_param() .
+				', regex=' . db_param() . ' WHERE repo_id=' . db_param() . ' AND branch=' . db_param();
+			db_query_bound( $t_query, array( $this->type, $this->version_id, $this->regex, $this->repo_id, $this->branch ) );
+		}
+	}
+
+	/**
+	 * Load a group of mapping objects for a given repository.
+	 * @param object Repository object
+	 * @param array Mapping objects
+	 */
+	static function load_by_repo( $p_repo ) {
+		$t_branch_table = plugin_table( 'branch' );
+
+		$t_query = "SELECT FROM $t_branch_table WHERE repo_id=" . db_param();
+		$t_result = db_query_bound( $t_query, array( $p_repo->id ) );
+
+		$t_mappings = array();
+
+		while( $t_row = db_fetch_array( $t_result ) ) {
+			$t_mapping = new SourceMapping( $t_row['repo_id'], $t_row['branch'], $t_row['type'], $t_row['version_id'], $t_row['regex'] );
+			$t_mapping->_new = false;
+
+			$t_mappings[$t_mapping->branch] = $t_mapping;
+		}
+
+		return $t_mappings;
 	}
 }
 
