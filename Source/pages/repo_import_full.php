@@ -24,16 +24,44 @@ helper_begin_long_process();
 html_page_top1();
 html_page_top2();
 
+# create a new, temporary repo
 $t_new_repo = SourceRepo::load( $f_repo_id );
 $t_new_repo->id = 0;
 $t_new_repo->name = 'Import ' . date( 'Y-m-d H:i:s' );
 $t_new_repo->save();
 
-$t_changesets = event_signal( 'EVENT_SOURCE_IMPORT_FULL', array( $t_new_repo ) );
+# keep checking for more changesets to import
+$t_error = false;
+while( true ) {
 
-if ( is_array( $t_changesets ) ) {
+	# import the next batch of changesets
+	$t_changesets = event_signal( 'EVENT_SOURCE_IMPORT_FULL', array( $t_new_repo ) );
+
+	# check for errors
+	if ( !is_array( $t_changesets ) ) {
+		$t_error = true;
+		break;
+	}
+
+	# if no more entries, we're done
+	if ( count( $t_changesets ) < 1 ) {
+		break;
+	}
+
 	Source_Process_Changesets( $t_changesets );
+}
 
+# if we errored, delete the new repo and stop
+if ( $t_error ) {
+	SourceRepo::delete( $t_new_repo->id );
+
+	echo '<br/><div class="center">';
+	echo plugin_lang_get( 'import_full_failed' ), '<br/>';
+	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
+	echo '</div>';
+
+# otherwise, rename and save the new repo, then delete the old
+} else {
 	$t_new_repo->name = $t_repo->name;
 	$t_new_repo->save();
 
@@ -44,14 +72,6 @@ if ( is_array( $t_changesets ) ) {
 	echo '<br/><div class="center">';
 	echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stats['files'], $t_stats['bugs'] ), '<br/>';
 	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_new_repo->id, 'Return To Repository' );
-	echo '</div>';
-
-} else {
-	SourceRepo::delete( $t_new_repo->id );
-
-	echo '<br/><div class="center">';
-	echo plugin_lang_get( 'import_full_failed' ), '<br/>';
-	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
 	echo '</div>';
 }
 

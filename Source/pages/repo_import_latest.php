@@ -85,17 +85,37 @@ if ( !$t_remote ) {
 
 $t_pre_stats = $t_repo->stats();
 
-$t_changesets = event_signal( 'EVENT_SOURCE_IMPORT_LATEST', array( $t_repo ) );
+# keep checking for more changesets to import
+$t_error = false;
+while( true ) {
 
-if ( !is_array( $t_changesets ) ) {
-	echo plugin_lang_get( 'import_latest_failed' ), '<br/>';
-} else {
+	# import the next batch of changesets
+	$t_changesets = event_signal( 'EVENT_SOURCE_IMPORT_LATEST', array( $t_repo ) );
+
+	# check for errors
+	if ( !is_array( $t_changesets ) ) {
+		$t_error = true;
+		break;
+	}
+
+	# if no more entries, we're done
+	if ( count( $t_changesets ) < 1 ) {
+		break;
+	}
+
 	Source_Process_Changesets( $t_changesets );
 
+	# let plugins process this batch of changesets
 	event_signal( 'EVENT_SOURCE_POSTIMPORT', array( $t_repo, $t_changesets ) );
 }
 
+# only display results when the user is initiating the import
 if ( !$t_remote ) {
+
+	if ( $t_error ) {
+		echo '<br/>', plugin_lang_get( 'import_latest_failed' ), '<br/>';
+	}
+
 	$t_stats = $t_repo->stats();
 	$t_stats['changesets'] -= $t_pre_stats['changesets'];
 	$t_stats['files'] -= $t_pre_stats['files'];
