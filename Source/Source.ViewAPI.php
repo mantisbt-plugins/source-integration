@@ -24,12 +24,14 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 
 	if ( is_null( $p_repos ) || !is_array( $p_repos ) ) {
 		$t_repos = SourceRepo::load_by_changesets( $p_changesets );
+	} else {
+		$t_repos = $p_repos;
 	}
 
 	$t_use_porting = config_get( 'plugin_Source_enable_porting' );
 
 	foreach( $p_changesets as $t_changeset ) {
-		$t_repo = $p_repos[ $t_changeset->repo_id ];
+		$t_repo = $t_repos[ $t_changeset->repo_id ];
 		$t_changeset->load_files();
 		?>
 
