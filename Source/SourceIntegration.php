@@ -43,7 +43,6 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 		}
 
 		$t_changesets = $this->changesets;
-		$t_repos = SourceRepo::load_by_changesets( $t_changesets );
 
 		if ( count( $t_changesets ) < 1 ) {
 			return;
@@ -59,7 +58,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 <tr>
 	<td class="form-title"><?php collapse_icon( 'Source' ); echo plugin_lang_get( 'related_changesets', 'Source' ) ?></td>
 </tr>
-		<?php Source_View_Changesets( $t_changesets, $t_repos ); ?>
+		<?php Source_View_Changesets( $t_changesets ); ?>
 </table>
 <?php
 			collapse_closed( 'Source' );
