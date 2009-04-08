@@ -89,6 +89,11 @@ if ( !is_array( $t_changesets ) ) {
 	die( plugin_lang_get( 'invalid_changeset' ) );
 }
 
+# No more changesets to checkin
+if ( count( $t_changesets ) < 1 ) {
+	return;
+}
+
 Source_Process_Changesets( $t_changesets );
 
 # Allow plugins to handle commits afterwards
