@@ -26,7 +26,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		$t_repos = SourceRepo::load_by_changesets( $p_changesets );
 	}
 
-	$t_use_porting = plugin_config_get( 'enable_porting', 'Source' );
+	$t_use_porting = config_get( 'plugin_Source_enable_porting' );
 
 	foreach( $p_changesets as $t_changeset ) {
 		$t_repo = $p_repos[ $t_changeset->repo_id ];
