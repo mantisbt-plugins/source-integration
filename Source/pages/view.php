@@ -14,6 +14,8 @@
 access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
 $t_can_update = access_has_project_level( plugin_config_get( 'update_threshold' ) );
 
+require_once( config_get( 'plugin_path' ) . 'Source/Source.ViewAPI.php' );
+
 $f_changeset_id = gpc_get_int( 'id' );
 $f_offset = gpc_get_int( 'offset', 0 );
 
@@ -50,7 +52,7 @@ $t_use_porting = plugin_config_get( 'enable_porting' );
 
 $t_columns =
 	( $t_use_porting ? 1 : 0 ) +
-	4;
+	5;
 
 $t_update_form = $t_use_porting || false;
 
@@ -80,6 +82,7 @@ html_page_top2();
 
 <tr class="row-category">
 <td><?php echo plugin_lang_get( 'author' ) ?></td>
+<td><?php echo plugin_lang_get( 'committer' ) ?></td>
 <td><?php echo plugin_lang_get( 'branch' ) ?></td>
 <td><?php echo plugin_lang_get( 'timestamp' ) ?></td>
 <td><?php echo plugin_lang_get( 'parent' ) ?></td>
@@ -89,8 +92,8 @@ html_page_top2();
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="center"><?php echo string_display_line( $t_changeset->author ),
-	( $t_changeset->author_email ? '<br/>' . $t_changeset->author_email : '' ) ?></td>
+<td class="center"><?php Source_View_Author( $t_changeset ) ?></td>
+<td class="center"><?php Source_View_Committer( $t_changeset ) ?></td>
 <td class="center"><?php echo string_display_line( $t_changeset->branch ) ?></td>
 <td class="center"><?php echo string_display_line( $t_changeset->timestamp ) ?></td>
 <td class="center"><?php if ( $t_changeset_parent ) { print_link( plugin_page( 'view' ) . '&id=' . $t_changeset_parent->id, event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset_parent ) ) ); } ?></td>
@@ -121,8 +124,8 @@ html_page_top2();
 
 <?php if ( $t_update_form ) { ?>
 <tr>
-<td colspan="4"></td>
-<td colspan="<?php echo $t_columns-4 ?>" class="center"><input type="submit" value="<?php echo plugin_lang_get( 'update' ) ?>"/></td>
+<td colspan="<?php echo $t_columns-1 ?>"></td>
+<td class="center"><input type="submit" value="<?php echo plugin_lang_get( 'update' ) ?>"/></td>
 </tr>
 </form>
 <?php } ?>

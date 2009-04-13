@@ -29,6 +29,7 @@ $s_plugin_Source_type = 'Type';
 $s_plugin_Source_branch = 'Branch';
 $s_plugin_Source_action = 'Action';
 $s_plugin_Source_author = 'Author';
+$s_plugin_Source_committer = 'Committer';
 $s_plugin_Source_username = 'Username';
 $s_plugin_Source_timestamp = 'Timestamp';
 $s_plugin_Source_parent = 'Parent';

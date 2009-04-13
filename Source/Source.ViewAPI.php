@@ -33,6 +33,9 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 	foreach( $p_changesets as $t_changeset ) {
 		$t_repo = $t_repos[ $t_changeset->repo_id ];
 		$t_changeset->load_files();
+
+		$t_author = Source_View_Author( $t_changeset, false );
+		$t_committer = Source_View_Committer( $t_changeset, false );
 		?>
 
 <tr class="row-1">
@@ -42,7 +45,9 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) )
 		) ?>
 	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
-	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', string_display_line( $t_changeset->author ) ?></span>
+	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', $t_author ?></span>
+	<?php if ( $t_committer && $t_committer != $t_author ) { ?><br/><span class="small"><?php echo plugin_lang_get( 'committer', 'Source' ), ': ', $t_committer ?></span><?php } ?>
+	<?php if ( $t_changeset->committer ) { ?><br/><span class="small"><?php echo plugin_lang_get( 'committer', 'Source' ), ': ', string_display_line( $t_changeset->committer ) ?></span><?php } ?>
 	<?php if ( $t_use_porting ) { ?>
 	<br/><span class="small"><?php echo plugin_lang_get( 'ported', 'Source' ), ': ',
 		( $t_changeset->ported ? string_display_line( $t_changeset->ported ) :
@@ -76,6 +81,60 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		<?php } ?>
 <tr><td class="spacer"></td></tr>
 		<?php
+	}
+}
+
+/**
+ * Display the author information for a changeset.
+ * @param object Changeset object
+ * @param boolean Echo information
+ */
+function Source_View_Author( $p_changeset, $p_echo=true ) {
+	$t_author_name = !is_blank( $p_changeset->author ) ? string_display_line( $p_changeset->author ) : false;
+	$t_author_email = !is_blank( $p_changeset->author_email ) ? string_display_line( $p_changeset->author_email ) : false;
+	$t_author_username = $p_changeset->user_id > 0 ? string_display_line( user_get_name( $p_changeset->user_id ) ) : false;
+
+	if ( $t_author_username ) {
+		$t_output =  $t_author_username;
+
+	} else if ( $t_author_name ) {
+		$t_output =  $t_author_name;
+
+	} else {
+		$t_output =  $t_author_email;
+	}
+
+	if ( $p_echo ) {
+		echo $t_output;
+	} else {
+		return $t_output;
+	}
+}
+
+/**
+ * Display the committer information for a changeset.
+ * @param object Changeset object
+ * @param boolean Echo information
+ */
+function Source_View_Committer( $p_changeset, $p_echo=true ) {
+	$t_comitter_name = !is_blank( $p_changeset->comitter ) ? string_display_line( $p_changeset->comitter ) : false;
+	$t_comitter_email = !is_blank( $p_changeset->comitter_email ) ? string_display_line( $p_changeset->comitter_email ) : false;
+	$t_comitter_username = $p_changeset->user_id > 0 ? string_display_line( user_get_name( $p_changeset->user_id ) ) : false;
+
+	if ( $t_comitter_username ) {
+		$t_output =  $t_comitter_username;
+
+	} else if ( $t_comitter_name ) {
+		$t_output =  $t_comitter_name;
+
+	} else {
+		$t_output =  $t_comitter_email;
+	}
+
+	if ( $p_echo ) {
+		echo $t_output;
+	} else {
+		return $t_output;
 	}
 }
 
