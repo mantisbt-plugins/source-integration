@@ -184,20 +184,6 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		$this->check_svn();
 		$svn = $this->svn_call( $p_repo );
 
-		$t_url = $p_repo->url;
-		$t_svnlog = explode( "\n", `$svn log -v $t_url` );
-
-		return $this->process_svn_log( $p_repo, $t_svnlog );
-	}
-
-	function import_latest( $p_event, $p_repo ) {
-		if ( 'sfsvn' != $p_repo->type ) {
-			return;
-		}
-
-		$this->check_svn();
-		$svn = $this->svn_call( $p_repo );
-
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		$t_max_query = "SELECT revision FROM $t_changeset_table
@@ -210,6 +196,14 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		$t_svnlog = explode( "\n", `$svn log -v -r $t_rev:HEAD --limit 200 $t_url` );
 
 		return $this->process_svn_log( $p_repo, $t_svnlog );
+	}
+
+	function import_latest( $p_event, $p_repo ) {
+		if ( 'sfsvn' != $p_repo->type ) {
+			return;
+		}
+
+		return $this->import_full( $p_event, $p_repo );
 	}
 
 	function check_svn() {
