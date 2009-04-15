@@ -21,7 +21,10 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 		return array(
 			'EVENT_VIEW_BUG_EXTRA'		=> 'display_bug',
 			'EVENT_DISPLAY_FORMATTED'	=> 'display_formatted',
-			'EVENT_MENU_ISSUE'			=> 'display_changeset_link'
+			'EVENT_MENU_ISSUE'			=> 'display_changeset_link',
+
+			'EVENT_ACCOUNT_PREF_UPDATE_FORM' => 'account_update_form',
+			'EVENT_ACCOUNT_PREF_UPDATE' => 'account_update',
 		);
 	}
 
@@ -81,5 +84,40 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 		$t_string = preg_replace_callback( '/(\s)c?:([\w ]+):([\w]+)\b/', 'Source_Changeset_Link_Callback',	$t_string );
 
 		return $t_string;
+	}
+
+	/**
+	 * When updating user preferences, allowing the user or admin to specify
+	 * a version control username to be associated with the account.
+	 * @param string Event name
+	 * @param int User ID
+	 */
+	function account_update_form( $p_event, $p_user_id ) {
+		$t_user = SourceUser::load( $p_user_id );
+
+		echo '<tr ', helper_alternate_class(), '><td class="category">', plugin_lang_get( 'vcs_username', 'Source' ),
+			'<input type="hidden" name="Source_vcs" value="1"/></td><td>',
+			'<input name="Source_vcs_username" value="', $t_user->username, '"/></td>';
+	}
+
+	/**
+	 * When updating user preferences, allowing the user or admin to specify
+	 * a version control username to be associated with the account.
+	 * @param string Event name
+	 * @param int User ID
+	 */
+	function account_update( $p_event, $p_user_id ) {
+		$f_vcs_sent = gpc_get_bool( 'Source_vcs', false );
+		$f_vcs_username = gpc_get_string( 'Source_vcs_username', '' );
+
+		# only load and persist the username if things are set and changed
+		if ( $f_vcs_sent ) {
+			$t_user = SourceUser::load( $p_user_id );
+
+			if ( $t_user->username != $f_vcs_username ) {
+				$t_user->username = $f_vcs_username;
+				$t_user->save();
+			}
+		}
 	}
 }

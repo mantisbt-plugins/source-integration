@@ -190,6 +190,11 @@ class SourcePlugin extends MantisPlugin {
 				version		C(64)	NOTNULL DEFAULT \" '' \",
 				regex		C(128)	NOTNULL DEFAULT \" '' \"
 				" ) ),
+			# 2009-04-15 - Allow a user/admin to specify a user's VCS username
+			array( 'CreateTableSQL', array( plugin_table( 'user' ), "
+				user_id		I		NOTNULL UNSIGNED PRIMARY,
+				username	C(64)	NOTNULL DEFAULT \" '' \"
+				" ) ),
 		);
 	}
 

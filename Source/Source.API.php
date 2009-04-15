@@ -127,11 +127,23 @@ function Source_Parse_Bugfixes( $p_string ) {
  * @param object Changeset object
  */
 function Source_Parse_Users( &$p_changeset ) {
+	static $s_vcs_names;
 	static $s_names = array();
 	static $s_emails = array();
 
+	# cache the vcs username mappings
+	if ( is_null( $s_vcs_names ) ) {
+		$s_vcs_names = SourceUser::load_mappings();
+	}
+
 	# Handle the changeset author
 	while ( !$p_changeset->user_id ) {
+
+		# Check username associations
+		if ( isset( $s_vcs_names[ $p_changeset->author ] ) ) {
+			$p_changeset->user_id = $s_vcs_names[ $p_changeset->author ];
+			break;
+		}
 
 		# Look up the email address if given
 		if ( $t_email = $p_changeset->author_email ) {
@@ -167,6 +179,12 @@ function Source_Parse_Users( &$p_changeset ) {
 
 	# Handle the changeset committer
 	while ( !$p_changeset->committer_id ) {
+
+		# Check username associations
+		if ( isset( $s_vcs_names[ $p_changeset->committer ] ) ) {
+			$p_changeset->user_id = $s_vcs_names[ $p_changeset->committer ];
+			break;
+		}
 
 		# Look up the email address if given
 		if ( $t_email = $t_email ) {
@@ -1225,3 +1243,95 @@ class SourceMapping {
 	}
 }
 
+/**
+ * Object for handling VCS username associations.
+ */
+class SourceUser {
+	var $new = true;
+
+	var $user_id;
+	var $username;
+
+	function __construct( $p_user_id, $p_username='' ) {
+		$this->user_id = $p_user_id;
+		$this->username = $p_username;
+	}
+
+	/**
+	 * Load a user object from the database for a given user ID, or generate
+	 * a new object if the database entry does not exist.
+	 * @param int User ID
+	 * @return object User object
+	 */
+	static function load( $p_user_id ) {
+		$t_user_table = plugin_table( 'user', 'Source' );
+
+		$t_query = "SELECT * FROM $t_user_table WHERE user_id=" . db_param();
+		$t_result = db_query_bound( $t_query, array( $p_user_id ) );
+
+		if ( db_num_rows( $t_result ) > 0 ) {
+			$t_row = db_fetch_array( $t_result );
+
+			$t_user = new SourceUser( $t_row['user_id'], $t_row['username'] );
+			$t_user->new = false;
+
+		} else {
+			$t_user = new SourceUser( $p_user_id );
+		}
+
+		return $t_user;
+	}
+
+	/**
+	 * Load all user objects from the database and create an array indexed by
+	 * username, pointing to user IDs.
+	 * @return array Username mappings
+	 */
+	static function load_mappings() {
+		$t_user_table = plugin_table( 'user', 'Source' );
+
+		$t_query = "SELECT * FROM $t_user_table";
+		$t_result = db_query( $t_query );
+
+		$t_usernames = array();
+		while( $t_row = db_fetch_array( $t_result ) ) {
+			$t_usernames[ $t_row['username'] ] = $t_row['user_id'];
+		}
+
+		return $t_usernames;
+	}
+
+	/**
+	 * Persist a user object to the database.  If the user object contains a blank
+	 * username, then delete any existing data from the database to minimize storage.
+	 */
+	function save() {
+		$t_user_table = plugin_table( 'user', 'Source' );
+
+		# handle new objects
+		if ( $this->new ) {
+			if ( is_blank( $this->username ) ) { # do nothing
+				return;
+
+			} else { # insert new entry
+				$t_query = "INSERT INTO $t_user_table ( user_id, username ) VALUES (" .
+					db_param() . ', ' . db_param() . ')';
+				db_query_bound( $t_query, array( $this->user_id, $this->username ) );
+
+				$this->new = false;
+			}
+
+		# handle loaded objects
+		} else {
+			if ( is_blank( $this->username ) ) { # delete existing entry
+				$t_query = "DELETE FROM $t_user_table WHERE user_id=" . db_param();
+				db_query_bound( $t_query, array( $this->user_id ) );
+
+			} else { # update existing entry
+				$t_query = "UPDATE $t_user_table SET username=" . db_param() .
+					' WHERE user_id=' . db_param();
+				db_query_bound( $t_query, array( $this->username, $this->user_id ) );
+			}
+		}
+	}
+}

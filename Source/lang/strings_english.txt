@@ -41,6 +41,7 @@ $s_plugin_Source_date_end = 'Ending Date';
 $s_plugin_Source_message = 'Message';
 $s_plugin_Source_filename = 'Filename';
 $s_plugin_Source_ported = 'Ported';
+$s_plugin_Source_vcs_username = 'Source Control Username';
 
 $s_plugin_Source_issue = 'Issue';
 $s_plugin_Source_issues = 'Issues';
