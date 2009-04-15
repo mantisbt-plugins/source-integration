@@ -195,6 +195,7 @@ class SourcePlugin extends MantisPlugin {
 				user_id		I		NOTNULL UNSIGNED PRIMARY,
 				username	C(64)	NOTNULL DEFAULT \" '' \"
 				" ) ),
+			array( 'CreateIndexSQL', array( 'idx_user_username', plugin_table( 'user' ), 'username', array( 'UNIQUE' ) ) ),
 		);
 	}
 
