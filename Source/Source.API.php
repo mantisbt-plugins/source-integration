@@ -274,6 +274,11 @@ function Source_Process_Changesets( $p_changesets ) {
 	# Start fixing and/or resolving issues
 	foreach( $t_fixed_bugs as $t_bug_id => $t_changeset ) {
 
+		# make sure the bug exists before processing
+		if ( !bug_exists( $t_bug_id ) ) {
+			continue;
+		}
+
 		# fake the history entries as the committer/author user ID
 		$t_user_id = null;
 		if ( $t_changeset->committer_id > 0 ) {
