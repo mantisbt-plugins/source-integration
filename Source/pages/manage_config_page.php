@@ -52,6 +52,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'username_threshold' ) ?></td>
+<td><select name="username_threshold"><?php print_enum_string_option_list( 'access_levels', plugin_config_get( 'username_threshold' ) ) ?></select></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'menu_links' ) ?></td>
 <td>
 	<label><input type="checkbox" name="show_repo_link" <?php echo ( plugin_config_get( 'show_repo_link' ) ? 'checked="checked" ' : '' ) ?>/>

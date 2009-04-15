@@ -42,6 +42,7 @@ class SourcePlugin extends MantisPlugin {
 			'view_threshold'	=> VIEWER,
 			'update_threshold'	=> UPDATER,
 			'manage_threshold'	=> ADMINISTRATOR,
+			'username_threshold' => DEVELOPER,
 
 			'enable_mapping'	=> OFF,
 			'enable_porting'	=> OFF,

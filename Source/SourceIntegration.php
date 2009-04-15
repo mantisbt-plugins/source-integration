@@ -93,6 +93,10 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 	 * @param int User ID
 	 */
 	function account_update_form( $p_event, $p_user_id ) {
+		if ( !access_has_global_level( config_get( 'plugin_Source_username_threshold' ) ) ) {
+			return;
+		}
+
 		$t_user = SourceUser::load( $p_user_id );
 
 		echo '<tr ', helper_alternate_class(), '><td class="category">', plugin_lang_get( 'vcs_username', 'Source' ),
@@ -107,6 +111,10 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 	 * @param int User ID
 	 */
 	function account_update( $p_event, $p_user_id ) {
+		if ( !access_has_global_level( config_get( 'plugin_Source_username_threshold' ) ) ) {
+			return;
+		}
+
 		$f_vcs_sent = gpc_get_bool( 'Source_vcs', false );
 		$f_vcs_username = gpc_get_string( 'Source_vcs_username', '' );
 
