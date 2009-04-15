@@ -55,7 +55,7 @@ class SourcePlugin extends MantisPlugin {
 			'bugfix_regex_1'	=> '/(?:fixe?s?|resolves?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
 			'bugfix_regex_2'	=> '/#?(\d+)/',
 			'bugfix_resolution'	=> FIXED,
-			'bugfix_message'	=> 'Fix committed to %s branch.',
+			'bugfix_message'	=> 'Fix committed to $1 branch.',
 
 			'remote_checkin'	=> OFF,
 			'checkin_urls'		=> serialize( array( 'localhost' ) ),

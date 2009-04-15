@@ -264,7 +264,10 @@ function Source_Process_Changesets( $p_changesets ) {
 	$t_enable_mapping = config_get( 'plugin_Source_enable_mapping' );
 
 	$t_resolution = plugin_config_get( 'bugfix_resolution' );
-	$t_message_template = plugin_config_get( 'bugfix_message' );
+	$t_message_template = str_replace(
+		array( '$1', '$2', '$3', '$4' ),
+		array( '%1$s', '%2$s', '%3$s', '%4$s' ),
+		plugin_config_get( 'bugfix_message' ) );
 
 	$t_mappings = array();
 
