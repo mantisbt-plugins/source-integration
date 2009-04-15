@@ -260,8 +260,11 @@ function Source_Process_Changesets( $p_changesets ) {
 
 	$t_current_user_id = $g_cache_current_user_id;
 	$t_enable_resolving = config_get( 'plugin_Source_enable_resolving' );
+	$t_enable_message = config_get( 'plugin_Source_enable_message' );
 	$t_enable_mapping = config_get( 'plugin_Source_enable_mapping' );
+
 	$t_resolution = plugin_config_get( 'bugfix_resolution' );
+	$t_message_template = plugin_config_get( 'bugfix_message' );
 
 	$t_mappings = array();
 
@@ -299,12 +302,23 @@ function Source_Process_Changesets( $p_changesets ) {
 			}
 		}
 
+		# generate a note message
+		if ( $t_enable_message ) {
+			$t_message = sprintf( $t_message_template, $t_changeset->branch, $t_changeset->revision, $t_changeset->timestamp, $t_changeset->message );
+		} else {
+			$t_message = '';
+		}
+
 		# Resolve any fixed bugs
 		if ( $t_enable_resolving ) {
-			bug_resolve( $t_bug_id, $t_resolution, $t_version, '', null, $t_user_id );
+			bug_resolve( $t_bug_id, $t_resolution, $t_version, $t_message, null, $t_user_id );
 		} else {
 			bug_set_field( $t_bug_id, 'resolution', $t_resolution );
 			bug_set_field( $t_bug_id, 'fixed_in_version', $t_version );
+
+			if ( !is_blank( $t_message ) ) {
+				bugnote_add( $t_bug_id, $t_message );
+			}
 		}
 	}
 
