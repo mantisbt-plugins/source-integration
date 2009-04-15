@@ -47,13 +47,15 @@ class SourcePlugin extends MantisPlugin {
 			'enable_mapping'	=> OFF,
 			'enable_porting'	=> OFF,
 			'enable_resolving'	=> OFF,
+			'enable_message'	=> OFF,
 
 			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
 			'buglink_regex_2'	=> '/#?(\d+)/',
 
-			'bugfix_resolution'	=> FIXED,
 			'bugfix_regex_1'	=> '/(?:fixe?s?|resolves?)+\s+(?:#?(?:\d+)[,\.\s]*)+/i',
 			'bugfix_regex_2'	=> '/#?(\d+)/',
+			'bugfix_resolution'	=> FIXED,
+			'bugfix_message'	=> 'Fix committed to %s branch.',
 
 			'remote_checkin'	=> OFF,
 			'checkin_urls'		=> serialize( array( 'localhost' ) ),

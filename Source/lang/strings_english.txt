@@ -86,6 +86,8 @@ $s_plugin_Source_buglink_regex_2 = 'Bug Link Regex Pass 2';
 $s_plugin_Source_bugfix_regex_1 = 'Bug Fixed Regex Pass 1';
 $s_plugin_Source_bugfix_regex_2 = 'Bug Fixed Regex Pass 2';
 $s_plugin_Source_bugfix_resolution = 'Bug Fixed Resolution';
+$s_plugin_Source_bugfix_message = 'Bug Fixed Message Template';
+$s_plugin_Source_bugfix_message_info = '<span class="small">Use %1$s for branch, %2$s for revision, %3$s for timestamp, or %4$s for commit message.</span>';
 $s_plugin_Source_reset = 'Reset to default';
 $s_plugin_Source_menu_links = 'Main Menu Links';
 $s_plugin_Source_show_repo_link = 'Repositories';
@@ -93,6 +95,7 @@ $s_plugin_Source_show_search_link = 'Search';
 $s_plugin_Source_enabled_features = 'Enabled Features';
 $s_plugin_Source_enable_mapping = 'Branch Mappings';
 $s_plugin_Source_enable_resolving = 'Resolve Fixed Issues';
+$s_plugin_Source_enable_message = 'Bug Fixed Message';
 $s_plugin_Source_enable_porting = 'Porting Status';
 
 $s_plugin_Source_branch_mapping = 'Branch Mappings';

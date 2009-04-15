@@ -73,6 +73,8 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	<?php echo plugin_lang_get( 'enable_mapping' ) ?></label><br/>
 	<label><input type="checkbox" name="enable_resolving" <?php echo ( plugin_config_get( 'enable_resolving' ) ? 'checked="checked" ' : '' ) ?>/>
 	<?php echo plugin_lang_get( 'enable_resolving' ) ?></label><br/>
+	<label><input type="checkbox" name="enable_message" <?php echo ( plugin_config_get( 'enable_message' ) ? 'checked="checked" ' : '' ) ?>/>
+	<?php echo plugin_lang_get( 'enable_message' ) ?></label><br/>
 	<label><input type="checkbox" name="enable_porting" <?php echo ( plugin_config_get( 'enable_porting' ) ? 'checked="checked" ' : '' ) ?>/>
 	<?php echo plugin_lang_get( 'enable_porting' ) ?></label><br/>
 </td>
@@ -117,6 +119,12 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'bugfix_resolution' ) ?></td>
 <td><select name="bugfix_resolution"><?php print_enum_string_option_list( 'resolution', plugin_config_get( 'bugfix_resolution' ) ) ?></select></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'bugfix_message' ) ?></td>
+<td><input name="bugfix_message" size="50" value="<?php echo string_attribute( plugin_config_get( 'bugfix_message' ) ) ?>"/><br/>
+<?php echo plugin_lang_get( 'bugfix_message_info' ) ?></td>
 </tr>
 
 <tr><td class="spacer"></td></tr>
