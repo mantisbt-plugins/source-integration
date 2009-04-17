@@ -43,6 +43,7 @@ class SourceFilter {
 			$this->filters['c.branch'] = new SourceFilterOption();
 			$this->filters['c.author'] = new SourceFilterOption();
 			$this->filters['c.message'] = new SourceFilterOption();
+			$this->filters['c.user_id'] = new SourceFilterOption();
 
 			$this->filters['r.id'] = new SourceFilterOption();
 			$this->filters['r.type'] = new SourceFilterOption();
