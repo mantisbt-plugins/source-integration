@@ -23,3 +23,7 @@ $s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br/><span class="small">(Repos
 $s_plugin_SourceWebSVN_websvn_path = 'WebSVN Path<br/><span class="small">(From repository root)</span>';
 $s_plugin_SourceWebSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</small>';
 
+$s_plugin_SourceWebSVN_configuration = 'Configuration';
+$s_plugin_SourceWebSVN_update = 'Configuration';
+$s_plugin_SourceWebSVN_svnpath = 'Path to Subversion CLI';
+
