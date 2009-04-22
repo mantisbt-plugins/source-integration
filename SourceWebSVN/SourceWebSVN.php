@@ -300,7 +300,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 				}
 
 			# Changeset info
-			} elseif ( 1 == $t_state && preg_match( '/^r([0-9]+) \| (\w+) \| ([0-9\-]+) ([0-9:]+)/', $t_line, $t_matches ) ) {
+			} elseif ( 1 == $t_state && preg_match( '/^r([0-9]+) \| ([^|]+) \| ([0-9\-]+) ([0-9:]+)/', $t_line, $t_matches ) ) {
 				if ( !is_null( $t_changeset ) ) {
 					$t_changeset->save();
 					$t_changesets[] = $t_changeset;
