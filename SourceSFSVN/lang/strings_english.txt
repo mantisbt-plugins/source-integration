@@ -21,3 +21,7 @@ $s_plugin_SourceSFSVN_svn_password = 'SVN Password';
 $s_plugin_SourceSFSVN_sf_project = 'SourceForge Project';
 $s_plugin_SourceSFSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</small>';
 
+$s_plugin_SourceSFSVN_configuration = 'Configuration';
+$s_plugin_SourceSFSVN_update = 'Configuration';
+$s_plugin_SourceSFSVN_svnpath = 'Path to Subversion CLI';
+

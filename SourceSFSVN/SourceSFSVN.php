@@ -19,6 +19,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 	function register() {
 		$this->name = lang_get( 'plugin_SourceSFSVN_title' );
 		$this->description = lang_get( 'plugin_SourceSFSVN_description' );
+		$this->page = 'config_page';
 
 		$this->version = '0.13';
 		$this->requires = array(
@@ -29,6 +30,12 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		$this->author = 'John Reese';
 		$this->contact = 'jreese@leetcode.net';
 		$this->url = 'http://leetcode.net';
+	}
+
+	function config() {
+		return array(
+			'svnpath' => '',
+		);
 	}
 
 	function get_types( $p_event ) {
@@ -207,14 +214,38 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 	}
 
 	function check_svn() {
-		if ( is_blank( `svn help` ) ) {
+		$svn = $this->svn_call();
+
+		if ( is_blank( `$svn help` ) ) {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
 	}
 
-	function svn_call( $p_repo ) {
-		$t_call = 'svn';
+	function svn_call( $p_repo=null ) {
+		static $s_call;
 
+		# Generate, validate, and cache the SVN binary path
+		if ( is_null( $s_call ) ) {
+			$t_path = plugin_config_get( 'svnpath' );
+			if ( !is_blank( $t_path ) && is_dir( $t_path ) ) {
+				$s_call = $t_path . DIRECTORY_SEPARATOR . 'svn';
+
+				if ( !is_file( $s_call ) || !is_executable( $s_call ) ) {
+					$s_call = 'svn';
+				}
+
+			} else {
+				$s_call = 'svn';
+			}
+		}
+
+		# If not given a repo, just return the base SVN binary
+		if ( is_null( $p_repo ) ) {
+			return $s_call;
+		}
+
+		# With a repo, add arguments for repo info
+		$t_call = $s_call . ' --non-interactive';
 		$t_username = $p_repo->info['svn_username'];
 		$t_password = $p_repo->info['svn_password'];
 
@@ -225,6 +256,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			$t_call .= ' --password ' . $t_password;
 		}
 
+		# Done
 		return $t_call;
 	}
 
