@@ -36,6 +36,6 @@ if ( $f_svnpath != $t_svnpath ) {
 	}
 }
 
-form_security_purge( 'plugin_Mibbit_config_update' );
+form_security_purge( 'plugin_SourceWebSVN_config_update' );
 print_successful_redirect( plugin_page( 'config_page', true ) );
 

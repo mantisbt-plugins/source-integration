@@ -21,7 +21,7 @@ print_manage_menu();
 
 <br/>
 <form action="<?php echo plugin_page( 'config_update' ) ?>" method="post">
-<?php echo form_security_field( 'plugin_Mibbit_config_update' ) ?>
+<?php echo form_security_field( 'plugin_SourceWebSVN_config_update' ) ?>
 <table class="width75" align="center" cellspacing="1">
 
 <tr>
