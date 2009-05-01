@@ -295,8 +295,11 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				$t_commit['committer_email'] = $t_matches[2];
 			}
 
-			if( preg_match( '#<tr><td>parent</td><td class="sha1"><a [^<>]*>([a-f0-9]*)</a></td>#', $t_gitweb_data, $t_matches ) ) {
-				$t_commit['parent'] = $t_matches[1];
+			$t_parents = array();
+			if( preg_match_all( '#<tr><td>parent</td><td class="sha1"><a [^<>]*>([a-f0-9]*)</a></td>#', $t_gitweb_data, $t_matches ) ) {
+				foreach( $t_matches as $t_match ) {
+					$t_parents[] = $t_commit['parent'] = $t_match[1];
+				}
 			}
 
 			preg_match( '#<div class="page_body">(.*)</div>#', $t_gitweb_data, $t_matches );
@@ -331,11 +334,6 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				}
 
 				$t_commit['files'][] = $t_file;
-			}
-
-			$t_parents = array();
-			if ( isset( $t_commit['parent'] ) ) {
-				$t_parents[] = $t_commit['parent'];
 			}
 
 			$t_changeset = new SourceChangeset( $p_repo->id, $t_commit['revision'], $p_branch,
