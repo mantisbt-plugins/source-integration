@@ -141,7 +141,7 @@ class SourcePlugin extends MantisPlugin {
 				type		C(8)	NOTNULL DEFAULT \" '' \" PRIMARY,
 				name		C(128)	NOTNULL DEFAULT \" '' \" PRIMARY,
 				url			C(250)	DEFAULT \" '' \",
-				info		XL		NOTNULL DEFAULT \" '' \"
+				info		XL		NOTNULL
 				" ) ),
 			array( 'CreateTableSQL', array( plugin_table( 'changeset' ), "
 				id			I		NOTNULL UNSIGNED AUTOINCREMENT PRIMARY,
@@ -151,8 +151,8 @@ class SourcePlugin extends MantisPlugin {
 				user_id		I		NOTNULL UNSIGNED DEFAULT '0',
 				timestamp	T		NOTNULL,
 				author		C(250)	NOTNULL DEFAULT \" '' \",
-				message		XL		NOTNULL DEFAULT \" '' \",
-				info		XL		NOTNULL DEFAULT \" '' \"
+				message		XL		NOTNULL,
+				info		XL		NOTNULL
 				" ) ),
 			array( 'CreateIndexSQL', array( 'idx_changeset_stamp_author', plugin_table( 'changeset' ), 'timestamp, author' ) ),
 			array( 'CreateTableSQL', array( plugin_table( 'file' ), "
