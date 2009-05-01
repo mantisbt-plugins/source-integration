@@ -216,16 +216,19 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	}
 
 	function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
+		static $s_parents = array();
+		static $s_counter = 0;
+
 		if ( is_array( $p_commit_ids ) ) {
-			$t_parents = $p_commit_ids;
+			$s_parents = array_merge( $s_parents, $p_commit_ids );
 		} else {
-			$t_parents = array( $p_commit_ids );
+			$s_parents[] = $p_commit_ids;
 		}
 
 		$t_changesets = array();
 
-		while( count( $t_parents ) > 0 ) {
-			$t_commit_id = array_shift( $t_parents );
+		while( count( $s_parents ) > 0 && $s_counter < 200 ) {
+			$t_commit_id = array_shift( $s_parents );
 
 			echo "Retrieving $t_commit_id ... ";
 
@@ -242,9 +245,10 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				$t_changesets[] = $t_changeset;
 			}
 
-			$t_parents = array_merge( $t_parents, $t_commit_parents );
+			$s_parents = array_merge( $s_parents, $t_commit_parents );
 		}
 
+		$s_counter = 0;
 		return $t_changesets;
 	}
 
