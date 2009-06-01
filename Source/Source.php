@@ -38,6 +38,7 @@ class SourcePlugin extends MantisPlugin {
 		return array(
 			'show_repo_link'	=> ON,
 			'show_search_link'	=> OFF,
+			'show_repo_stats'	=> ON,
 
 			'view_threshold'	=> VIEWER,
 			'update_threshold'	=> UPDATER,

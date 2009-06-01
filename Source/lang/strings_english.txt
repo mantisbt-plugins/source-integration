@@ -92,6 +92,7 @@ $s_plugin_Source_reset = 'Reset to default';
 $s_plugin_Source_menu_links = 'Main Menu Links';
 $s_plugin_Source_show_repo_link = 'Repositories';
 $s_plugin_Source_show_search_link = 'Search';
+$s_plugin_Source_show_repo_stats = 'Repository Statistics';
 $s_plugin_Source_enabled_features = 'Enabled Features';
 $s_plugin_Source_enable_mapping = 'Branch Mappings';
 $s_plugin_Source_enable_resolving = 'Resolve Fixed Issues';
