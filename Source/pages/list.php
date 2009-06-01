@@ -22,7 +22,7 @@ $f_perpage = 25;
 $t_repo = SourceRepo::load( $f_repo_id );
 $t_type = SourceType($t_repo->type);
 
-$t_stats = $t_repo->stats();
+$t_stats = $t_repo->stats( false );
 $t_changesets = SourceChangeset::load_by_repo( $t_repo->id, true, $f_offset, $f_perpage );
 
 html_page_top1( plugin_lang_get( 'title' ) );
@@ -71,7 +71,7 @@ if ( $t_count > $f_perpage ) {
 		$t_used_page = false;
 		for( $i = 1; $i <= $t_pages; $i++ ) {
 			if ( $i <= 3 || $i > $t_pages-3 ||
-				( $i >= $t_current-4 && $i <= $t_current+4 ) ||
+				( $i >= $t_current-5 && $i <= $t_current+5 ) ||
 				$i % $t_block == 0) {
 
 				$t_page_set[] = $i;

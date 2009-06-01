@@ -472,7 +472,7 @@ class SourceRepo {
 	 * Get a list of repository statistics.
 	 * @return array Stats
 	 */
-	function stats() {
+	function stats( $p_all=true ) {
 		$t_stats = array();
 		
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
@@ -482,17 +482,19 @@ class SourceRepo {
 		$t_query = "SELECT COUNT(*) FROM $t_changeset_table WHERE repo_id=" . db_param();
 		$t_stats['changesets'] = db_result( db_query_bound( $t_query, array( $this->id ) ) );
 
-		$t_query = "SELECT COUNT(DISTINCT filename) FROM $t_file_table AS f
-		   			JOIN $t_changeset_table AS c
-					ON c.id=f.change_id
-					WHERE c.repo_id=" . db_param();
-		$t_stats['files'] = db_result( db_query_bound( $t_query, array( $this->id ) ) );
+		if ( $p_all ) {
+			$t_query = "SELECT COUNT(DISTINCT filename) FROM $t_file_table AS f
+						JOIN $t_changeset_table AS c
+						ON c.id=f.change_id
+						WHERE c.repo_id=" . db_param();
+			$t_stats['files'] = db_result( db_query_bound( $t_query, array( $this->id ) ) );
 
-		$t_query = "SELECT COUNT(DISTINCT bug_id) FROM $t_bug_table AS b
-		   			JOIN $t_changeset_table AS c
-					ON c.id=b.change_id
-					WHERE c.repo_id=" . db_param();
-		$t_stats['bugs'] = db_result( db_query_bound( $t_query, array( $this->id ) ) );
+			$t_query = "SELECT COUNT(DISTINCT bug_id) FROM $t_bug_table AS b
+						JOIN $t_changeset_table AS c
+						ON c.id=b.change_id
+						WHERE c.repo_id=" . db_param();
+			$t_stats['bugs'] = db_result( db_query_bound( $t_query, array( $this->id ) ) );
+		}
 
 		return $t_stats;
 	}
