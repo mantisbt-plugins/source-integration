@@ -293,7 +293,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 				if ( strlen( $t_line ) == 0 ) {
 					$t_state = 3;
 				} else {
-					if ( preg_match( '/^\s+([a-zA-Z])\s+([\S]+)/', $t_line, $t_matches ) ) {
+					if ( preg_match( '/^\s+([a-zA-Z])\s+(.+)/', $t_line, $t_matches ) ) {
 						switch( $t_matches[1] ) {
 							case 'A': $t_action = 'add'; break;
 							case 'D': $t_action = 'rm'; break;
@@ -301,7 +301,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 							default: $t_action = $t_matches[1];
 						}
 
-						$t_file = new SourceFile( $t_changeset->id, '', $t_matches[2], $t_action );
+						$t_file = new SourceFile( $t_changeset->id, '', trim( $t_matches[2] ), $t_action );
 						$t_changeset->files[] = $t_file;
 
 						# Branch-checking
