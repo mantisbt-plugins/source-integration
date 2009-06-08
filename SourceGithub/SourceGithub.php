@@ -292,14 +292,14 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$t_changesets = array();
 
-		while( count( $t_parents ) > 0 && $s_counter < 200 ) {
+		while( count( $s_parents ) > 0 && $s_counter < 200 ) {
 			$t_commit_id = array_shift( $s_parents );
 
 			echo "Retrieving $t_commit_id ... ";
 			$t_uri = $p_uri_base . 'commit/' . $t_commit_id;
 			$t_json = json_url( $t_uri, 'commit' );
 
-			if ( false === $t_json ) {
+			if ( false === $t_json || is_null( $t_json ) ) {
 				echo "failed.\n";
 				continue;
 			}
