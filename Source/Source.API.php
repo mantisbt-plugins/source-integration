@@ -551,11 +551,18 @@ class SourceRepo {
 	static function load_by_name( $p_repo_name ) {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
+		# Look for a repository with the exact name given
 		$t_query = "SELECT * FROM $t_repo_table WHERE name LIKE " . db_param();
-		$t_result = db_query_bound( $t_query, array( '%' . $p_repo_name . '%' ) );
+		$t_result = db_query_bound( $t_query, array( $p_repo_name ) );
 
+		# If not found, look for a repo containing the name given
 		if ( db_num_rows( $t_result ) < 1 ) {
-			return null;
+			$t_query = "SELECT * FROM $t_repo_table WHERE name LIKE " . db_param();
+			$t_result = db_query_bound( $t_query, array( '%' . $p_repo_name . '%' ) );
+
+			if ( db_num_rows( $t_result ) < 1 ) {
+				return null;
+			}
 		}
 
 		$t_row = db_fetch_array( $t_result );
