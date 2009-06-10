@@ -1009,23 +1009,8 @@ class SourceChangeset {
 		$t_bug_table = plugin_table( 'bug', 'Source' );
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
-		$t_changesets = SourceChangeset::load_by_repo( $p_repo_id );
-
-		if ( count( $t_changesets ) > 0 ) {
-			$t_query = "DELETE FROM $t_bug_table WHERE change_id in ( ";
-			$t_first = true;
-
-			foreach ( $t_changesets as $t_changeset ) {
-				SourceFile::delete_by_changeset( $t_changeset->id );
-
-				$t_query .= ( $t_first ? (int)$t_changeset->id : ', ' . (int)$t_changeset->id );
-				$t_first = false;
-			}
-
-			$t_query .= ' )';
-
-			db_query( $t_query );
-		}
+		# first drop any files for the repository's changesets
+		SourceFile::delete_by_repo( $p_repo_id );
 
 		$t_query = "DELETE FROM $t_changeset_table WHERE repo_id=" . db_param();
 		db_query_bound( $t_query, array( $p_repo_id ) );
@@ -1110,6 +1095,18 @@ class SourceFile {
 
 		$t_query = "DELETE FROM $t_file_table WHERE change_id=" . db_param();
 		db_query_bound( $t_query, array( $p_change_id ) );
+	}
+
+	/**
+	 * Delete all file objects from the database for a given repository.
+	 * @param int Repository ID
+	 */
+	static function delete_by_repo( $p_repo_id ) {
+		$t_file_table = plugin_table( 'file', 'Source' );
+		$t_changeset_table = plugin_table( 'changeset', 'Source' );
+
+		$t_query = "DELETE FROM $t_file_table WHERE change_id IN ( SELECT id FROM $t_changeset_table WHERE repo_id=" . db_param() . ')';
+		db_query_bound( $t_query, array( $p_repo_id ) );
 	}
 }
 
