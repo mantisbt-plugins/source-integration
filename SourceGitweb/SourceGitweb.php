@@ -301,8 +301,8 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 			$t_parents = array();
 			if( preg_match_all( '#<tr><td>parent</td><td class="sha1"><a [^<>]*>([a-f0-9]*)</a></td>#', $t_gitweb_data, $t_matches ) ) {
-				foreach( $t_matches as $t_match ) {
-					$t_parents[] = $t_commit['parent'] = $t_match[1];
+				foreach( $t_matches[1] as $t_match ) {
+					$t_parents[] = $t_commit['parent'] = $t_match;
 				}
 			}
 
