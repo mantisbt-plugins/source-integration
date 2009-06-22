@@ -117,18 +117,18 @@ function Source_View_Author( $p_changeset, $p_echo=true ) {
  * @param boolean Echo information
  */
 function Source_View_Committer( $p_changeset, $p_echo=true ) {
-	$t_comitter_name = !is_blank( $p_changeset->comitter ) ? string_display_line( $p_changeset->comitter ) : false;
-	$t_comitter_email = !is_blank( $p_changeset->comitter_email ) ? string_display_line( $p_changeset->comitter_email ) : false;
-	$t_comitter_username = $p_changeset->user_id > 0 ? string_display_line( user_get_name( $p_changeset->user_id ) ) : false;
+	$t_committer_name = !is_blank( $p_changeset->committer ) ? string_display_line( $p_changeset->committer ) : false;
+	$t_committer_email = !is_blank( $p_changeset->committer_email ) ? string_display_line( $p_changeset->committer_email ) : false;
+	$t_committer_username = $p_changeset->user_id > 0 ? string_display_line( user_get_name( $p_changeset->user_id ) ) : false;
 
-	if ( $t_comitter_username ) {
-		$t_output =  $t_comitter_username;
+	if ( $t_committer_username ) {
+		$t_output =  $t_committer_username;
 
-	} else if ( $t_comitter_name ) {
-		$t_output =  $t_comitter_name;
+	} else if ( $t_committer_name ) {
+		$t_output =  $t_committer_name;
 
 	} else {
-		$t_output =  $t_comitter_email;
+		$t_output =  $t_committer_email;
 	}
 
 	if ( $p_echo ) {
