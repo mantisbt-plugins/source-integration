@@ -230,9 +230,9 @@ function Source_Process_Changesets( $p_changesets ) {
 		return;
 	}
 
-	$t_resolved_threshold = plugin_config_get('bug_resolved_status_threshold');
-	$t_fixed_threshold = plugin_config_get('bug_resolution_fixed_threshold');
-	$t_notfixed_threshold = plugin_config_get('bug_resolution_notfixed_threshold');
+	$t_resolved_threshold = config_get('bug_resolved_status_threshold');
+	$t_fixed_threshold = config_get('bug_resolution_fixed_threshold');
+	$t_notfixed_threshold = config_get('bug_resolution_not_fixed_threshold');
 
 	# Link author and committer name/email to user accounts
 	foreach( $p_changesets as $t_changeset ) {
@@ -321,7 +321,7 @@ function Source_Process_Changesets( $p_changesets ) {
 			$t_message = '';
 		}
 
-		$t_bug_data = bug_get( $t_bug_id );
+		$t_bug = bug_get( $t_bug_id );
 
 		# Resolve any fixed bugs that are not already marked as resolved
 		if ( $t_enable_resolving && $t_bug_data->status < $t_resolved_threshold ) {
