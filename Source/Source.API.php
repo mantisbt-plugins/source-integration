@@ -230,6 +230,10 @@ function Source_Process_Changesets( $p_changesets ) {
 		return;
 	}
 
+	$t_resolved_threshold = plugin_config_get('bug_resolved_status_threshold');
+	$t_fixed_threshold = plugin_config_get('bug_resolution_fixed_threshold');
+	$t_notfixed_threshold = plugin_config_get('bug_resolution_notfixed_threshold');
+
 	# Link author and committer name/email to user accounts
 	foreach( $p_changesets as $t_changeset ) {
 		Source_Parse_Users( $t_changeset );
@@ -317,14 +321,32 @@ function Source_Process_Changesets( $p_changesets ) {
 			$t_message = '';
 		}
 
-		# Resolve any fixed bugs
-		if ( $t_enable_resolving ) {
-			bug_resolve( $t_bug_id, $t_resolution, $t_version, $t_message, null, $t_user_id );
-		} else {
-			bug_set_field( $t_bug_id, 'resolution', $t_resolution );
-			bug_set_field( $t_bug_id, 'fixed_in_version', $t_version );
+		$t_bug_data = bug_get( $t_bug_id );
 
-			if ( !is_blank( $t_message ) ) {
+		# Resolve any fixed bugs that are not already marked as resolved
+		if ( $t_enable_resolving && $t_bug_data->status < $t_resolved_threshold ) {
+			bug_resolve( $t_bug_id, $t_resolution, $t_version, $t_message, null, $t_user_id );
+
+		# Optionally update the resoltion, fixed-in version, or add a bugnote
+		} else {
+			$t_update = false;
+
+			if ( $t_bug->resolution < $t_fixed_threshold || $t_bug->resolution >= $t_notfixedthreshold ) {
+				$t_bug->resolution = $t_resolution;
+				$t_update = true;
+			}
+			if ( is_blank( $t_bug->fixed_in_version ) ) {
+				$t_bug->fixed_in_version = $t_version;
+				$t_update = true;
+			}
+
+			if ( $t_update ) {
+				if ( $t_message ) {
+					bugnote_add( $t_bug_id, $t_message, '0:00', false, 0, '', null, false );
+				}
+				$t_bug->update()
+
+			} else if ( $t_message ) {
 				bugnote_add( $t_bug_id, $t_message );
 			}
 		}
