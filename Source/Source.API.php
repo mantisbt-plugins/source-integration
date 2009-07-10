@@ -344,7 +344,7 @@ function Source_Process_Changesets( $p_changesets ) {
 				if ( $t_message ) {
 					bugnote_add( $t_bug_id, $t_message, '0:00', false, 0, '', null, false );
 				}
-				$t_bug->update()
+				$t_bug->update();
 
 			} else if ( $t_message ) {
 				bugnote_add( $t_bug_id, $t_message );
