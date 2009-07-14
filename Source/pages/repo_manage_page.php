@@ -128,14 +128,14 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <td><?php echo plugin_lang_get( 'delete' ) ?></td>
 </tr>
 
-<?php foreach( $t_mappings as $t_mapping ) { ?>
+<?php foreach( $t_mappings as $t_mapping ) { $t_branch = str_replace( '.', '_', $t_mapping->branch ); ?>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td><input name="<?php echo $t_mapping->branch ?>_branch" value="<?php echo string_attribute( $t_mapping->branch ) ?>" size="12" maxlength="128"/></td>
-<td><select name="<?php echo $t_mapping->branch ?>_type"><?php display_strategies( $t_mapping->type ) ?></select></td>
-<td><select name="<?php echo $t_mapping->branch ?>_version"><?php print_version_option_list( $t_mapping->version, ALL_PROJECTS, false, true, true ) ?></select></td>
-<td><input name="<?php echo $t_mapping->branch ?>_regex" value="<?php echo string_attribute( $t_mapping->regex ) ?>" size="18" maxlength="128"/></td>
-<td><input name="<?php echo $t_mapping->branch ?>_delete" type="checkbox" value="1"/></td>
+<td><input name="<?php echo $t_branch ?>_branch" value="<?php echo string_attribute( $t_mapping->branch ) ?>" size="12" maxlength="128"/></td>
+<td><select name="<?php echo $t_branch ?>_type"><?php display_strategies( $t_mapping->type ) ?></select></td>
+<td><select name="<?php echo $t_branch ?>_version"><?php print_version_option_list( $t_mapping->version, ALL_PROJECTS, false, true, true ) ?></select></td>
+<td><input name="<?php echo $t_branch ?>_regex" value="<?php echo string_attribute( $t_mapping->regex ) ?>" size="18" maxlength="128"/></td>
+<td><input name="<?php echo $t_branch ?>_delete" type="checkbox" value="1"/></td>
 </tr>
 <?php } ?>
 

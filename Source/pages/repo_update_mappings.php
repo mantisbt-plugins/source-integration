@@ -30,10 +30,12 @@ foreach( $t_mappings as $t_mapping ) {
 		$t_mapping->delete();
 	}
 
-	$f_mapping_branch = gpc_get_string( $t_mapping->branch . '_branch', $t_mapping->branch );
-	$f_mapping_type = gpc_get_int( $t_mapping->branch . '_type', $t_mapping->type );
-	$f_mapping_version = gpc_get_string( $t_mapping->branch . '_version', $t_mapping->version );
-	$f_mapping_regex = gpc_get_string( $t_mapping->branch . '_regex', $t_mapping->regex );
+	$t_posted_branch = str_replace( '.', '_', $t_mapping->branch );
+
+	$f_mapping_branch = gpc_get_string( $t_posted_branch . '_branch', $t_mapping->branch );
+	$f_mapping_type = gpc_get_int( $t_posted_branch . '_type', $t_mapping->type );
+	$f_mapping_version = gpc_get_string( $t_posted_branch . '_version', $t_mapping->version );
+	$f_mapping_regex = gpc_get_string( $t_posted_branch . '_regex', $t_mapping->regex );
 
 	$t_update = false;
 
