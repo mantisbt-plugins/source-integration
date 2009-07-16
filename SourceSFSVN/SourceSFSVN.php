@@ -172,7 +172,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 
 			$t_url = $p_repo->url;
 			$t_revision = $p_matches[1];
-			$t_svnlog = explode( "\n", `$svn log -v $t_url -r$t_revision` );
+			$t_svnlog = explode( "\n", shell_exec( "$svn log -v $t_url -r$t_revision" ) );
 
 			if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
 				echo "Revision $t_revision already committed!\n";
@@ -200,7 +200,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 
 		$t_url = $p_repo->url;
 		$t_rev = $t_db_revision + 1;
-		$t_svnlog = explode( "\n", `$svn log -v -r $t_rev:HEAD --limit 200 $t_url` );
+		$t_svnlog = explode( "\n", shell_exec( "$svn log -v -r $t_rev:HEAD --limit 200 $t_url" ) );
 
 		return $this->process_svn_log( $p_repo, $t_svnlog );
 	}
@@ -216,7 +216,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 	function check_svn() {
 		$svn = $this->svn_call();
 
-		if ( is_blank( `$svn help` ) ) {
+		if ( is_blank( shell_exec( "$svn help" ) ) ) {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
 	}
