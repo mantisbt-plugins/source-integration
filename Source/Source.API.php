@@ -230,6 +230,8 @@ function Source_Process_Changesets( $p_changesets ) {
 		return;
 	}
 
+	$t_repos = SourceRepo::load_by_changesets( $p_changesets );
+
 	$t_resolved_threshold = config_get('bug_resolved_status_threshold');
 	$t_fixed_threshold = config_get('bug_resolution_fixed_threshold');
 	$t_notfixed_threshold = config_get('bug_resolution_not_fixed_threshold');
@@ -269,8 +271,8 @@ function Source_Process_Changesets( $p_changesets ) {
 
 	$t_resolution = config_get( 'plugin_Source_bugfix_resolution' );
 	$t_message_template = str_replace(
-		array( '$1', '$2', '$3', '$4' ),
-		array( '%1$s', '%2$s', '%3$s', '%4$s' ),
+		array( '$1', '$2', '$3', '$4', '$5' ),
+		array( '%1$s', '%2$s', '%3$s', '%4$s', '%5$s' ),
 		config_get( 'plugin_Source_bugfix_message' ) );
 
 	$t_mappings = array();
@@ -316,7 +318,7 @@ function Source_Process_Changesets( $p_changesets ) {
 
 		# generate a note message
 		if ( $t_enable_message ) {
-			$t_message = sprintf( $t_message_template, $t_changeset->branch, $t_changeset->revision, $t_changeset->timestamp, $t_changeset->message );
+			$t_message = sprintf( $t_message_template, $t_changeset->branch, $t_changeset->revision, $t_changeset->timestamp, $t_changeset->message, $t_repos[ $t_changeset->repo_id ]->name );
 		} else {
 			$t_message = '';
 		}
