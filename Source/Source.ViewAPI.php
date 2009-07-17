@@ -92,7 +92,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 function Source_View_Author( $p_changeset, $p_echo=true ) {
 	$t_author_name = !is_blank( $p_changeset->author ) ? string_display_line( $p_changeset->author ) : false;
 	$t_author_email = !is_blank( $p_changeset->author_email ) ? string_display_line( $p_changeset->author_email ) : false;
-	$t_author_username = $p_changeset->user_id > 0 ? string_display_line( user_get_name( $p_changeset->user_id ) ) : false;
+	$t_author_username = $p_changeset->user_id > 0 ? prepare_user_name( $p_changeset->user_id ) : false;
 
 	if ( $t_author_username ) {
 		$t_output =  $t_author_username;
@@ -119,7 +119,7 @@ function Source_View_Author( $p_changeset, $p_echo=true ) {
 function Source_View_Committer( $p_changeset, $p_echo=true ) {
 	$t_committer_name = !is_blank( $p_changeset->committer ) ? string_display_line( $p_changeset->committer ) : false;
 	$t_committer_email = !is_blank( $p_changeset->committer_email ) ? string_display_line( $p_changeset->committer_email ) : false;
-	$t_committer_username = $p_changeset->committer_id > 0 ? string_display_line( user_get_name( $p_changeset->committer_id ) ) : false;
+	$t_committer_username = $p_changeset->committer_id > 0 ? prepare_user_name( $p_changeset->committer_id ) : false;
 
 	if ( $t_committer_username ) {
 		$t_output =  $t_committer_username;
