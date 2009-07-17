@@ -119,7 +119,7 @@ function Source_View_Author( $p_changeset, $p_echo=true ) {
 function Source_View_Committer( $p_changeset, $p_echo=true ) {
 	$t_committer_name = !is_blank( $p_changeset->committer ) ? string_display_line( $p_changeset->committer ) : false;
 	$t_committer_email = !is_blank( $p_changeset->committer_email ) ? string_display_line( $p_changeset->committer_email ) : false;
-	$t_committer_username = $p_changeset->user_id > 0 ? string_display_line( user_get_name( $p_changeset->user_id ) ) : false;
+	$t_committer_username = $p_changeset->committer_id > 0 ? string_display_line( user_get_name( $p_changeset->committer_id ) ) : false;
 
 	if ( $t_committer_username ) {
 		$t_output =  $t_committer_username;
