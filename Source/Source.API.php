@@ -691,6 +691,7 @@ class SourceChangeset {
 	var $committer_email;
 	var $committer_id;
 	var $message;
+	var $info;
 
 	var $files; # array of SourceFile's
 	var $bugs;
@@ -719,6 +720,7 @@ class SourceChangeset {
 		$this->author			= $p_author;
 		$this->author_email		= $p_author_email;
 		$this->message			= $p_message;
+		$this->info				= '';
 		$this->committer		= '';
 		$this->committer_email	= '';
 		$this->committer_id		= 0;
@@ -741,15 +743,15 @@ class SourceChangeset {
 
 		if ( 0 == $this->id ) { # create
 			$t_query = "INSERT INTO $t_changeset_table ( repo_id, revision, parent, branch, user_id,
-				timestamp, author, message, ported, author_email, committer, committer_email, committer_id
+				timestamp, author, message, info, ported, author_email, committer, committer_email, committer_id
 				) VALUES ( " .
 				db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' .
 				db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' .
 				db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' .
-				db_param() . ' )';
+				db_param() . ', ' . db_param() . ' )';
 			db_query_bound( $t_query, array(
 				$this->repo_id, $this->revision, $this->parent, $this->branch,
-				$this->user_id, $this->timestamp, $this->author, $this->message,
+				$this->user_id, $this->timestamp, $this->author, $this->message, $this->info,
 				$this->ported, $this->author_email, $this->committer, $this->committer_email,
 				$this->committer_id ) );
 
@@ -763,16 +765,16 @@ class SourceChangeset {
 			$t_query = "UPDATE $t_changeset_table SET repo_id=" . db_param() . ', revision=' . db_param() .
 				', parent=' . db_param() . ', branch=' . db_param() . ', user_id=' . db_param() .
 				', timestamp=' . db_param() . ', author=' . db_param() . ', message=' . db_param() .
-				', ported=' . db_param() . ', author_email=' . db_param() . ', committer=' . db_param() .
-				', committer_email=' . db_param() . ', committer_id=' . db_param() .
+				', info=' . db_param() . ', ported=' . db_param() . ', author_email=' . db_param() .
+				', committer=' . db_param() . ', committer_email=' . db_param() . ', committer_id=' . db_param() .
 				' WHERE id=' . db_param();
 			db_query_bound( $t_query, array(
 				$this->repo_id, $this->revision,
 				$this->parent, $this->branch, $this->user_id,
 				$this->timestamp, $this->author, $this->message,
-				$this->ported, $this->author_email, $this->committer,
-				$this->committer_email, $this->committer_id,
-				$this->id ) );
+				$this->info, $this->ported, $this->author_email,
+				$this->committer, $this->committer_email,
+				$this->committer_id, $this->id ) );
 		}
 
 		foreach( $this->files as $t_file ) {
