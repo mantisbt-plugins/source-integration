@@ -263,7 +263,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 		}
 
 		# Add the link to the normal set of buglinks
-		$t_changeset->bugs = array_merge( $t_changeset->bugs, $t_bugs );
+		$t_changeset->bugs = array_unique( array_merge( $t_changeset->bugs, $t_bugs ) );
 	}
 
 	# Precache information for resolved bugs
