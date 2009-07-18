@@ -48,7 +48,8 @@ while( true ) {
 		break;
 	}
 
-	Source_Process_Changesets( $t_changesets );
+	$t_new_repo->name = $t_repo->name;
+	Source_Process_Changesets( $t_changesets, $t_new_repo );
 }
 
 # if we errored, delete the new repo and stop
@@ -62,7 +63,6 @@ if ( $t_error ) {
 
 # otherwise, rename and save the new repo, then delete the old
 } else {
-	$t_new_repo->name = $t_repo->name;
 	$t_new_repo->save();
 
 	SourceRepo::delete( $t_repo->id );

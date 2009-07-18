@@ -222,15 +222,20 @@ function Source_Parse_Users( &$p_changeset ) {
  * Given a set of changeset objects, parse the bug links
  * and save the changes.
  * @param array Changeset objects
+ * @param object Repository object
  */
-function Source_Process_Changesets( $p_changesets ) {
+function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	global $g_cache_current_user_id;
 
 	if ( !is_array( $p_changesets ) ) {
 		return;
 	}
 
-	$t_repos = SourceRepo::load_by_changesets( $p_changesets );
+	if ( is_null( $p_repo ) ) {
+		$t_repos = SourceRepo::load_by_changesets( $p_changesets );
+	} else {
+		$t_repos = array( $p_repo->id => $p_repo );
+	}
 
 	$t_resolved_threshold = config_get('bug_resolved_status_threshold');
 	$t_fixed_threshold = config_get('bug_resolution_fixed_threshold');
