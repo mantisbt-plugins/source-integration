@@ -1003,10 +1003,11 @@ class SourceChangeset {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 		$t_bug_table = plugin_table( 'bug', 'Source' );
 
+		$t_order = strtoupper( config_get( 'history_order' ) ) == 'ASC' ? 'ASC' : 'DESC';
 		$t_query = "SELECT c.* FROM $t_changeset_table AS c
 		   		JOIN $t_bug_table AS b ON c.id=b.change_id
-				WHERE b.bug_id=" . db_param() . '
-				ORDER BY c.timestamp DESC';
+				WHERE b.bug_id=" . db_param() . "
+				ORDER BY c.timestamp $t_order";
 		$t_result = db_query_bound( $t_query, array( $p_bug_id ) );
 
 		$t_changesets = array();
