@@ -15,7 +15,8 @@ $t_address = $_SERVER['REMOTE_ADDR'];
 $t_valid = false;
 
 # Always allow the same machine to check-in
-if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) {
+if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address
+     || 'localhost' == $t_address || '::1' == $t_address ) {
 	$t_valid = true;
 }
 
