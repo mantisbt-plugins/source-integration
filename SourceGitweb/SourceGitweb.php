@@ -162,12 +162,22 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	}
 
 	function commit( $p_event, $p_repo, $p_data ) {
-		# TODO: Implement real commit sequence.
-		return;
-
 		if ( 'gitweb' != $p_repo->type ) {
 			return;
 		}
+
+                # The -d option from curl requires you to encode your own data.
+                # Once it reaches here it is decoded. Hence we split by a space
+                # were as the curl command uses a '+' character instead.
+                # i.e. DATA=`echo $INPUT | sed -e 's/ /+/g'`
+                list ( , $t_commit_id, $t_branch) = split(' ', $p_data);
+                list ( , , $t_branch) = split('/', $t_branch);
+                if ($t_branch != $p_repo->info['master_branch'])
+                {
+                        return;
+                }
+
+                return $this->import_commits($p_repo, null, $t_commit_id, $t_branch);
 	}
 
 	function import_full( $p_event, $p_repo ) {
