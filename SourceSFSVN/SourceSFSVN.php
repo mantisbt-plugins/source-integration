@@ -298,6 +298,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 							case 'A': $t_action = 'add'; break;
 							case 'D': $t_action = 'rm'; break;
 							case 'M': $t_action = 'mod'; break;
+							case 'R': $t_action = 'mv'; break;
 							default: $t_action = $t_matches[1];
 						}
 
