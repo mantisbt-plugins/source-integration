@@ -22,6 +22,9 @@ $s_plugin_SourceWebSVN_websvn_url = 'WebSVN URL<br/><span class="small">(With tr
 $s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br/><span class="small">(Repository directory)</span>';
 $s_plugin_SourceWebSVN_websvn_path = 'WebSVN Path<br/><span class="small">(From repository root)</span>';
 $s_plugin_SourceWebSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</small>';
+$s_plugin_SourceWebSVN_trunk_path = 'Trunk Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceWebSVN_branch_path = 'Branch Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceWebSVN_ignore_paths = 'Ignore Other Paths<br/><span class="small">(Non-standard repository)</span>';
 
 $s_plugin_SourceWebSVN_configuration = 'Configuration';
 $s_plugin_SourceWebSVN_update = 'Configuration';

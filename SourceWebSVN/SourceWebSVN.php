@@ -106,34 +106,16 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$t_svn_username = '';
-		$t_svn_password = '';
-		$t_url = '';
-		$t_name = '';
-		$t_path = '';
-		$t_branches = '';
+		$t_svn_username = isset( $p_repo->info['svn_password'] ) ? $p_repo->info['svn_password'] : '';
+		$t_svn_password = isset( $p_repo->info['svn_username'] ) ? $p_repo->info['svn_username'] : '';
+		$t_url = isset( $p_repo->info['websvn_url'] ) ? $p_repo->info['websvn_url'] : '';
+		$t_name = isset( $p_repo->info['websvn_name'] ) ? $p_repo->info['websvn_name'] : '';
+		$t_path = isset( $p_repo->info['websvn_path'] ) ? $p_repo->info['websvn_path'] : '';
+		$t_standard_repo = isset( $p_repo->info['standard_repo'] ) ? $p_repo->info['standard_repo'] : '';
+		$t_trunk_path = isset( $p_repo->info['trunk_path'] ) ? $p_repo->info['trunk_path'] : '';
+		$t_branch_path = isset( $p_repo->info['branch_path'] ) ? $p_repo->info['branch_path'] : '';
+		$t_ignore_paths = isset( $p_repo->info['ignore_paths'] ) ? $p_repo->info['ignore_paths'] : '';
 
-		if ( isset( $p_repo->info['svn_password'] ) ) {
-			$t_svn_password = $p_repo->info['svn_password'];
-		}
-		if ( isset( $p_repo->info['svn_username'] ) ) {
-			$t_svn_username = $p_repo->info['svn_username'];
-		}
-		if ( isset( $p_repo->info['websvn_url'] ) ) {
-			$t_url = $p_repo->info['websvn_url'];
-		}
-		if ( isset( $p_repo->info['websvn_url'] ) ) {
-			$t_url = $p_repo->info['websvn_url'];
-		}
-		if ( isset( $p_repo->info['websvn_name'] ) ) {
-			$t_name = $p_repo->info['websvn_name'];
-		}
-		if ( isset( $p_repo->info['websvn_path'] ) ) {
-			$t_path = $p_repo->info['websvn_path'];
-		}
-		if ( isset( $p_repo->info['standard_repo'] ) ) {
-			$t_branches = $p_repo->info['standard_repo'];
-		}
 ?>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_svn_username' ) ?></td>
@@ -157,7 +139,19 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_standard_repo' ) ?></td>
-<td><input name="standard_repo" type="checkbox" <?php echo ($t_branches ? 'checked="checked"' : '') ?>/></td>
+<td><input name="standard_repo" type="checkbox" <?php echo ($t_standard_repo ? 'checked="checked"' : '') ?>/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_trunk_path' ) ?></td>
+<td><input name="trunk_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_trunk_path ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_branch_path' ) ?></td>
+<td><input name="branch_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_branch_path ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_ignore_paths' ) ?></td>
+<td><input name="ignore_paths" type="checkbox" <?php echo ($t_ignore_paths ? 'checked="checked"' : '') ?>/></td>
 </tr>
 <?php
 	}
@@ -167,19 +161,15 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$f_svn_username = gpc_get_string( 'svn_username' );
-		$f_svn_password = gpc_get_string( 'svn_password' );
-		$f_websvn_url = gpc_get_string( 'websvn_url' );
-		$f_websvn_name = gpc_get_string( 'websvn_name' );
-		$f_websvn_path = gpc_get_string( 'websvn_path' );
-		$f_standard_repo = gpc_get_bool( 'standard_repo', false );
-
-		$p_repo->info['svn_username'] = $f_svn_username;
-		$p_repo->info['svn_password'] = $f_svn_password;
-		$p_repo->info['websvn_url'] = $f_websvn_url;
-		$p_repo->info['websvn_name'] = $f_websvn_name;
-		$p_repo->info['websvn_path'] = $f_websvn_path;
-		$p_repo->info['standard_repo'] = $f_standard_repo;
+		$p_repo->info['svn_username'] = gpc_get_string( 'svn_username' );
+		$p_repo->info['svn_password'] = gpc_get_string( 'svn_password' );
+		$p_repo->info['websvn_url'] = gpc_get_string( 'websvn_url' );
+		$p_repo->info['websvn_name'] = gpc_get_string( 'websvn_name' );
+		$p_repo->info['websvn_path'] = gpc_get_string( 'websvn_path' );
+		$p_repo->info['standard_repo'] = gpc_get_bool( 'standard_repo', false );
+		$p_repo->info['trunk_path'] = gpc_get_string( 'trunk_path' );
+		$p_repo->info['branch_path'] = gpc_get_string( 'branch_path' );
+		$p_repo->info['ignore_paths'] = gpc_get_bool( 'ignore_paths', false );
 
 		return $p_repo;
 	}
@@ -291,6 +281,10 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		$t_comments = '';
 		$t_count = 0;
 
+		$t_trunk_path = $p_repo->info['trunk_path'];
+		$t_branch_path = $p_repo->info['branch_path'];
+		$t_ignore_paths = $p_repo->info['ignore_paths'];
+
 		foreach( $p_svnlog as $t_line ) {
 
 			# starting state, do nothing
@@ -301,7 +295,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 			# Changeset info
 			} elseif ( 1 == $t_state && preg_match( '/^r([0-9]+) \| ([^|]+) \| ([0-9\-]+) ([0-9:]+)/', $t_line, $t_matches ) ) {
-				if ( !is_null( $t_changeset ) ) {
+				if ( !is_null( $t_changeset ) && !is_blank( $t_changeset->branch ) ) {
 					$t_changeset->save();
 					$t_changesets[] = $t_changeset;
 				}
@@ -339,7 +333,16 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 									}
 								}
 							} else {
-								if ( preg_match( '/\/([^\/]+)/', $t_file->filename, $t_matches ) ) {
+								# Look for non-standard trunk path
+								if ( !is_blank( $t_trunk_path ) && preg_match( '@^' . $t_trunk_path . '@i', $t_file->filename ) ) {
+									$t_changeset->branch = 'trunk';
+
+								# Look for non-standard branch path
+								} else if ( !is_blank( $t_branch_path ) && preg_match( '@^' . $t_branch_path . '([^\/]+)@i', $t_file->filename, $t_matches ) ) {
+									$t_changeset->branch = $t_matches[1];
+
+								# Fall back to just using the root folder as the branch name
+								} else if ( !$t_ignore_paths && preg_match( '/\/([^\/]+)/', $t_file->filename, $t_matches ) ) {
 									$t_changeset->branch = $t_matches[1];
 								}
 							}
@@ -365,7 +368,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 			}
 		}
 
-		if ( !is_null( $t_changeset ) ) {
+		if ( !is_null( $t_changeset ) && !is_blank( $t_changeset->branch ) ) {
 			$t_changeset->save();
 			$t_changesets[] = $t_changeset;
 		}
