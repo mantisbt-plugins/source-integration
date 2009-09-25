@@ -230,7 +230,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 			# if a number is returned, repeat from given revision
 			} else if ( is_numeric( $t_changesets ) ) {
-				$t_rev = $t_changesets;
+				$t_rev = $t_changesets + 1;
 			}
 		}
 	}
