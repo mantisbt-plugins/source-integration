@@ -207,9 +207,21 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 
 		$t_url = $p_repo->url;
 		$t_rev = $t_db_revision + 1;
-		$t_svnlog = explode( "\n", shell_exec( "$svn log -v -r $t_rev:HEAD --limit 200 $t_url" ) );
 
-		return $this->process_svn_log( $p_repo, $t_svnlog );
+		while( true ) {
+			$t_svnlog = explode( "\n", shell_exec( "$svn log -v -r $t_rev:HEAD --limit 200 $t_url" ) );
+
+			$t_changesets = $this->process_svn_log( $p_repo, $t_svnlog );
+
+			# if an array is returned, processing is done
+			if ( is_array( $t_changesets ) ) {
+				return $t_changesets;
+
+			# if a number is returned, repeat from given revision
+			} else if ( is_numeric( $t_changesets ) ) {
+				$t_rev = $t_changesets;
+			}
+		}
 	}
 
 	function import_latest( $p_event, $p_repo ) {
@@ -291,9 +303,13 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 
 			# Changeset info
 			} elseif ( 1 == $t_state && preg_match( '/^r([0-9]+) \| (\w+) \| ([0-9\-]+) ([0-9:]+)/', $t_line, $t_matches ) ) {
-				if ( !is_null( $t_changeset ) && !is_blank( $t_changeset->branch ) ) {
-					$t_changeset->save();
-					$t_changesets[] = $t_changeset;
+				if ( !is_null( $t_changeset ) ) {
+					if ( !is_blank( $t_changeset->branch ) ) {
+						$t_changeset->save();
+						$t_changesets[] = $t_changeset;
+					} else {
+						$t_discarded = $t_changeset->revision;
+					}
 				}
 
 				$t_changeset = new SourceChangeset( $p_repo->id, $t_matches[1], '', $t_matches[3] . ' ' . $t_matches[4], $t_matches[2], '' );
@@ -368,11 +384,19 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			}
 		}
 
-		if ( !is_null( $t_changeset ) && !is_blank( $t_changeset->branch ) ) {
-			$t_changeset->save();
-			$t_changesets[] = $t_changeset;
+		if ( !is_null( $t_changeset ) ) {
+			if ( !is_blank( $t_changeset->branch ) ) {
+				$t_changeset->save();
+				$t_changesets[] = $t_changeset;
+			} else {
+				$t_discarded = $t_changeset->revision;
+			}
 		}
 
-		return $t_changesets;
+		if ( count( $t_changesets ) < 1 && $t_discarded !== false ) {
+			return $t_discarded;
+		} else {
+			return $t_changesets;
+		}
 	}
 }
