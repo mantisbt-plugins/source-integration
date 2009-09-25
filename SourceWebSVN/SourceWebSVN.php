@@ -373,9 +373,6 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 								# Fall back to just using the root folder as the branch name
 								} else if ( !$t_ignore_paths && preg_match( '/\/([^\/]+)/', $t_file->filename, $t_matches ) ) {
 									$t_changeset->branch = $t_matches[1];
-
-								} else {
-								var_dump( "here $t_changeset->revision -- $t_file->filename<br/>\n" );
 								}
 							}
 						}
