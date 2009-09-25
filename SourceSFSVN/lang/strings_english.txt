@@ -22,6 +22,7 @@ $s_plugin_SourceSFSVN_sf_project = 'SourceForge Project';
 $s_plugin_SourceSFSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</small>';
 $s_plugin_SourceSFSVN_trunk_path = 'Trunk Path<br/><span class="small">(Non-standard repository)</span>';
 $s_plugin_SourceSFSVN_branch_path = 'Branch Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceSFSVN_tag_path = 'Tag Path<br/><span class="small">(Non-standard repository)</span>';
 $s_plugin_SourceSFSVN_ignore_paths = 'Ignore Other Paths<br/><span class="small">(Non-standard repository)</span>';
 
 $s_plugin_SourceSFSVN_configuration = 'Configuration';

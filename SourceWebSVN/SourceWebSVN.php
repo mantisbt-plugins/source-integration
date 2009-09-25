@@ -114,6 +114,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		$t_standard_repo = isset( $p_repo->info['standard_repo'] ) ? $p_repo->info['standard_repo'] : '';
 		$t_trunk_path = isset( $p_repo->info['trunk_path'] ) ? $p_repo->info['trunk_path'] : '';
 		$t_branch_path = isset( $p_repo->info['branch_path'] ) ? $p_repo->info['branch_path'] : '';
+		$t_tag_path = isset( $p_repo->info['tag_path'] ) ? $p_repo->info['tag_path'] : '';
 		$t_ignore_paths = isset( $p_repo->info['ignore_paths'] ) ? $p_repo->info['ignore_paths'] : '';
 
 ?>
@@ -150,6 +151,10 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 <td><input name="branch_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_branch_path ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_tag_path' ) ?></td>
+<td><input name="tag_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_tag_path ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_ignore_paths' ) ?></td>
 <td><input name="ignore_paths" type="checkbox" <?php echo ($t_ignore_paths ? 'checked="checked"' : '') ?>/></td>
 </tr>
@@ -169,6 +174,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		$p_repo->info['standard_repo'] = gpc_get_bool( 'standard_repo', false );
 		$p_repo->info['trunk_path'] = gpc_get_string( 'trunk_path' );
 		$p_repo->info['branch_path'] = gpc_get_string( 'branch_path' );
+		$p_repo->info['tag_path'] = gpc_get_string( 'tag_path' );
 		$p_repo->info['ignore_paths'] = gpc_get_bool( 'ignore_paths', false );
 
 		return $p_repo;
@@ -283,6 +289,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 		$t_trunk_path = $p_repo->info['trunk_path'];
 		$t_branch_path = $p_repo->info['branch_path'];
+		$t_tag_path = $p_repo->info['tag_path'];
 		$t_ignore_paths = $p_repo->info['ignore_paths'];
 
 		foreach( $p_svnlog as $t_line ) {
@@ -339,6 +346,10 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 								# Look for non-standard branch path
 								} else if ( !is_blank( $t_branch_path ) && preg_match( '@^' . $t_branch_path . '([^\/]+)@i', $t_file->filename, $t_matches ) ) {
+									$t_changeset->branch = $t_matches[1];
+
+								# Look for non-standard tag path
+								} else if ( !is_blank( $t_tag_path ) && preg_match( '@^' . $t_tag_path . '([^\/]+)@i', $t_file->filename, $t_matches ) ) {
 									$t_changeset->branch = $t_matches[1];
 
 								# Fall back to just using the root folder as the branch name
