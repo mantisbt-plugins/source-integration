@@ -334,7 +334,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 				if ( strlen( $t_line ) == 0 ) {
 					$t_state = 3;
 				} else {
-					if ( preg_match( '/^\s+([a-zA-Z])\s+(.+)/', $t_line, $t_matches ) ) {
+					if ( preg_match( '/^\s+([a-zA-Z])\s+([^\(]+)(?: \(from [^\)]+\))?/', $t_line, $t_matches ) ) {
 						switch( $t_matches[1] ) {
 							case 'A': $t_action = 'add'; break;
 							case 'D': $t_action = 'rm'; break;
