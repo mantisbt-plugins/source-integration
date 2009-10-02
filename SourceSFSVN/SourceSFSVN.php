@@ -107,8 +107,8 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$t_svn_username = isset( $p_repo->info['svn_password'] ) ? $p_repo->info['svn_password'] : '';
-		$t_svn_password = isset( $p_repo->info['svn_username'] ) ? $p_repo->info['svn_username'] : '';
+		$t_svn_username = isset( $p_repo->info['svn_username'] ) ? $p_repo->info['svn_username'] : '';
+		$t_svn_password = isset( $p_repo->info['svn_password'] ) ? $p_repo->info['svn_password'] : '';
 		$t_sf_project = isset( $p_repo->info['sf_project'] ) ? $p_repo->info['sf_project'] : '';
 		$t_standard_repo = isset( $p_repo->info['standard_repo'] ) ? $p_repo->info['standard_repo'] : '';
 		$t_trunk_path = isset( $p_repo->info['trunk_path'] ) ? $p_repo->info['trunk_path'] : '';

@@ -106,8 +106,8 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 			return;
 		}
 
-		$t_svn_username = isset( $p_repo->info['svn_password'] ) ? $p_repo->info['svn_password'] : '';
-		$t_svn_password = isset( $p_repo->info['svn_username'] ) ? $p_repo->info['svn_username'] : '';
+		$t_svn_username = isset( $p_repo->info['svn_username'] ) ? $p_repo->info['svn_username'] : '';
+		$t_svn_password = isset( $p_repo->info['svn_password'] ) ? $p_repo->info['svn_password'] : '';
 		$t_url = isset( $p_repo->info['websvn_url'] ) ? $p_repo->info['websvn_url'] : '';
 		$t_name = isset( $p_repo->info['websvn_name'] ) ? $p_repo->info['websvn_name'] : '';
 		$t_path = isset( $p_repo->info['websvn_path'] ) ? $p_repo->info['websvn_path'] : '';
