@@ -276,8 +276,8 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 
 		# With a repo, add arguments for repo info
 		$t_call = $s_call . ' --non-interactive';
-		$t_username = $p_repo->info['svn_username'];
-		$t_password = $p_repo->info['svn_password'];
+		$t_username = escapeshellarg($p_repo->info['svn_username']);
+		$t_password = escapeshellarg($p_repo->info['svn_password']);
 
 		if ( !is_blank( $t_username ) ) {
 			$t_call .= ' --username ' . $t_username;
