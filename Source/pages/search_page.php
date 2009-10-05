@@ -25,10 +25,14 @@ html_page_top2();
 
 ?>
 
+<?php if ( plugin_is_loaded( 'jQuery' ) ) { ?>
+<script src="<?php echo plugin_file( 'search.js' ) ?>"></script>
+<?php } ?>
+
 <br/>
 <form action="<?php echo helper_mantis_url( 'plugin.php' ) ?>" method="get">
 <input type="hidden" name="page" value="Source/search"/>
-<table class="width75" align="center" cellspacing="1">
+<table class="width75 SourceFilters" align="center" cellspacing="1">
 
 <tr>
 <td class="form-title" colspan="2"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>

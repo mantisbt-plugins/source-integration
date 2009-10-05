@@ -27,6 +27,9 @@ class SourcePlugin extends MantisPlugin {
 			'MantisCore' => '1.2.0',
 			'Meta' => '0.1',
 		);
+		$this->uses = array(
+			'jQuery' => '1.3',
+		);
 		$this->page		= 'manage_config_page';
 
 		$this->author	= 'John Reese';
