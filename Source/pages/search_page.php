@@ -85,6 +85,13 @@ print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 <td colspan="3"><?php Source_Date_Select( 'date_end', $t_date_end ); ?></td>
 </tr>
 
+<?php if ( plugin_config_get( 'enable_porting' ) ): ?>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category">Porting Status</td>
+<td colspan="3"><?php Source_Ported_Select( $t_filter->filters['c.ported']->value ); ?></td>
+</tr>
+<?php endif ?>
+
 <tr class="spacer"><td></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>

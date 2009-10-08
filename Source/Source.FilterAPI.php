@@ -44,6 +44,7 @@ class SourceFilter {
 			$this->filters['c.author'] = new SourceFilterOption();
 			$this->filters['c.message'] = new SourceFilterOption();
 			$this->filters['c.user_id'] = new SourceFilterOption();
+			$this->filters['c.ported'] = new SourceFilterOption();
 
 			$this->filters['r.id'] = new SourceFilterOption();
 			$this->filters['r.type'] = new SourceFilterOption();
@@ -193,6 +194,40 @@ function Source_Process_FilterOption( $key, $option ) {
 		return array( $sql, $value );
 	}
 
+	# Porting status
+	if ( $key == 'c.ported' ) {
+		$clauses = array();
+
+		foreach( $value as $ported ) {
+			# ported
+			if ( $ported == "-2" ) {
+				$clauses[] = "( $key != '' AND $key != '0' )";
+			}
+			# pending
+			if ( $ported == "-1" ) {
+				$clauses[] = "$key = ''";
+			}
+			# n/a
+			if ( $ported == "0" ) {
+				$clauses[] = "$key = '0'";
+			}
+		}
+
+		if ( SOURCE_ANY == $how ) {
+			if ( count( $clauses ) > 0 ) {
+				return array( '(' . implode( ' OR ', $clauses ) . ')', array() );
+			} else {
+				return array( null, null );
+			}
+		} else {
+			if ( count( $clauses ) > 0 ) {
+				return array( 'NOT (' . implode( ' OR ', $clauses ) . ')', array() );
+			} else {
+				return array( null, null );
+			}
+		}
+	}
+
 	# Standard values
 	if ( is_array( $value ) ) {
 		$wc = map( 'db_param', $value );
@@ -234,6 +269,7 @@ function Source_Generate_Filter() {
 	$f_repo_id = Source_FilterOption_Permalink( 'repo_id', true );
 	$f_branch = Source_FilterOption_Permalink( 'branch', true );
 	$f_file_action = Source_FilterOption_Permalink( 'file_action', true );
+	$f_ported = Source_FilterOption_Permalink( 'ported', true );
 
 	$f_revision = Source_FilterOption_Permalink( 'revision' );
 	$f_author = Source_FilterOption_Permalink( 'author' );
@@ -256,6 +292,7 @@ function Source_Generate_Filter() {
 	$t_filter->filters['c.message']->value = $f_message;
 	$t_filter->filters['c.author']->value = $f_author;
 	$t_filter->filters['c.user_id']->value = $f_user_id;
+	$t_filter->filters['c.ported']->value = $f_ported;
 
 	$t_filter->filters['r.id']->value = $f_repo_id;
 	$t_filter->filters['r.type']->value = $f_repo_type;
@@ -496,6 +533,21 @@ function Source_Username_Select( $p_selected=null ) {
 	echo '</select>';
 }
 
+function Source_Ported_Select( $p_selected=null ) {
+	if ( !is_array( $p_selected ) ) {
+		$t_selected = array( $p_selected );
+	} else {
+		$t_selected = $p_selected;
+	}
+
+	echo '<select name="ported[]" multiple="multiple">',
+		'<option value="">', plugin_lang_get( 'select_any' ), '</option>',
+		'<option value="-1">', plugin_lang_get( 'pending' ), '</option>',
+		'<option value="0">', plugin_lang_get( 'na' ), '</option>',
+		'<option value="-2">', plugin_lang_get( 'ported' ), '</option>',
+		'</select>';
+}
+
 function Source_Date_StampArray( $t_input ) {
 	if ( !preg_match( '/^(\d{4})\-(\d{1,2})\-(\d{1,2})/', $t_input, $t_matches ) ) {
 		return null;
@@ -545,3 +597,4 @@ function Source_Date_Select( $p_name, $p_selected=null ) {
 	print_day_option_list( $t_selected[2] );
 	echo '</select> ';
 }
+
