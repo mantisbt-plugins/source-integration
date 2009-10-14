@@ -29,7 +29,7 @@ $(document).ready( function() {
 					//continue;
 				}
 
-				var show = $(this).hasClass( "SourceAny" );
+				var show = types.length < 1 || $(this).hasClass( "SourceAny" );
 				for(var i = 0; !show && i < types.length; i++) {
 					if ( types[i] == "SourceType" || $(this).hasClass( types[i] ) ) {
 						show = true;
@@ -44,12 +44,12 @@ $(document).ready( function() {
 				}
 			});
 
-		SourceRepoChange();
+		reposelect.each( SourceRepoChange );
 	}
 
 	function SourceRepoChange() {
 		var options = $(this).children("option:selected");
-		var types = new Array();
+		var repos = new Array();
 		options.each( function(index) {
 				repos.push( "SourceRepo" + this.value )
 			});
@@ -58,7 +58,7 @@ $(document).ready( function() {
 					//continue;
 				}
 
-				var show = $(this).hasClass( "SourceAny" );
+				var show = repos.length < 1 || $(this).hasClass( "SourceAny" );
 				for(var i = 0; !show && i < repos.length; i++) {
 					if ( repos[i] == "SourceRepo" || $(this).hasClass( repos[i] ) ) {
 						show = true;
