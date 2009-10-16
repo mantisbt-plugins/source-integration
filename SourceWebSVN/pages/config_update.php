@@ -32,6 +32,8 @@ if ( $f_svnpath != $t_svnpath ) {
 			is_executable( $f_svnpath . DIRECTORY_SEPARATOR . 'svn' ) ) {
 
 			plugin_config_set( 'svnpath', $f_svnpath );
+		} else {
+			plugin_error( 'SVNPathInvalid' );
 		}
 	}
 }

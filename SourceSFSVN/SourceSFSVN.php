@@ -38,6 +38,12 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		);
 	}
 
+	function errors() {
+		return array(
+			'SVNPathInvalid' => 'Path to Subversion binary invalid or inaccessible',
+		);
+	}
+
 	function get_types( $p_event ) {
 		return array( 'sfsvn' => lang_get( 'plugin_SourceSFSVN_svn' ) );
 	}
