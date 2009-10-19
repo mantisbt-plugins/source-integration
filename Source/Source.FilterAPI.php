@@ -309,7 +309,7 @@ function Source_Generate_Filter() {
 	return array( $t_filter, $t_permalink );
 }
 
-function Source_Date_Validate( $p_string ) {
+function Source_Date_Validate( $p_string, $p_end_of_day=false ) {
 	$t_date = gpc_get_string( $p_string, null );
 	if ( !is_null( $t_date ) ) {
 		list( $t_year, $t_month, $t_day ) = Source_Date_StampArray( $t_date );
@@ -338,7 +338,11 @@ function Source_Date_Validate( $p_string ) {
 	$t_month = $t_month < 10 ? "0$t_month" : $t_month;
 	$t_day = $t_day < 10 ? "0$t_day" : $t_day;
 
-	return "$t_year-$t_month-$t_day";
+	if ( !$p_end_of_day ) {
+		return "$t_year-$t_month-$t_day 00:00:00";
+	} else {
+		return "$t_year-$t_month-$t_day 23:59:59";
+	}
 }
 
 function Source_FilterOption_Permalink( $p_string=null, $p_array=false ) {
@@ -367,7 +371,7 @@ function Source_FilterOption_Permalink( $p_string=null, $p_array=false ) {
 		$t_input_clean = gpc_get_string( $p_string, null );
 
 		if ( $p_string == 'date_start' || $p_string == 'date_end' ) {
-			$t_input_clean = Source_Date_Validate( $p_string );
+			$t_input_clean = Source_Date_Validate( $p_string, $p_string == 'date_end' );
 		}
 
 		if ( !is_blank( $t_input_clean ) ) {
