@@ -797,8 +797,11 @@ class SourceChangeset {
 	function save_bugs( $p_user_id=null ) {
 		$t_bug_table = plugin_table( 'bug', 'Source' );
 
-		$t_bugs_added = array_diff( $this->bugs, $this->__bugs );
-		$t_bugs_deleted = array_diff( $this->__bugs, $this->bugs );
+		$this->bugs = array_unique( $this->bugs );
+		$this->__bugs = array_unique( $this->__bugs );
+
+		$t_bugs_added = array_unique( array_diff( $this->bugs, $this->__bugs ) );
+		$t_bugs_deleted = array_unique( array_diff( $this->__bugs, $this->bugs ) );
 
 		$this->load_repo();
 
