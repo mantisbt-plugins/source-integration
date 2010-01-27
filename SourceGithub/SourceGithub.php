@@ -18,7 +18,7 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGithubPlugin extends MantisSourcePlugin {
-	function register() {
+	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
@@ -34,40 +34,24 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->url = 'http://leetcode.net';
 	}
 
-	function get_types( $p_event ) {
-		return array( 'github' => plugin_lang_get( 'github' ) );
+	public $type = 'github';
+
+	public function show_type() {
+		return plugin_lang_get( 'github' );
 	}
 
-	function show_type( $p_event, $p_type ) {
-		if ( 'github' == $p_type ) {
-			return plugin_lang_get( 'github' );
-		}
-	}
-
-	function show_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
-
+	public function show_changeset( $p_repo, $p_changeset ) {
 		$t_ref = substr( $p_changeset->revision, 0, 8 );
 		$t_branch = $p_changeset->branch;
 
 		return "$t_branch $t_ref";
 	}
 
-	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
-
+	public function show_file( $p_repo, $p_changeset, $p_file ) {
 		return  "$p_file->action - $p_file->filename";
 	}
 
-	function url_repo( $p_event, $p_repo, $t_changeset=null ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
-
+	public function url_repo( $p_repo, $t_changeset=null ) {
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 
@@ -78,11 +62,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return "http://github.com/$t_username/$t_reponame/tree$t_ref";
 	}
 
-	function url_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
-
+	public function url_changeset( $p_repo, $p_changeset ) {
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = $p_changeset->revision;
@@ -90,11 +70,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
 	}
 
-	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
-
+	public function url_file( $p_repo, $p_changeset, $p_file ) {
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = $p_changeset->revision;
@@ -103,11 +79,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return "http://github.com/$t_username/$t_reponame/tree/$t_ref/$t_filename";
 	}
 
-	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
-
+	public function url_diff( $p_repo, $p_changeset, $p_file ) {
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = $p_changeset->revision;
@@ -116,11 +88,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
 	}
 
-	function update_repo_form( $p_event, $p_repo ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
-
+	public function update_repo_form( $p_repo ) {
 		$t_hub_username = null;
 		$t_hub_reponame = null;
 
@@ -153,11 +121,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <?php
 	}
 
-	function update_repo( $p_event, $p_repo ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
-
+	public function update_repo( $p_repo ) {
 		$f_hub_username = gpc_get_string( 'hub_username' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
@@ -174,7 +138,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return $p_repo;
 	}
 
-	function uri_base( $p_repo ) {
+	private function uri_base( $p_repo ) {
 		$t_uri_base = 'http://github.com/api/v1/json/' .
 			urlencode( $p_repo->info['hub_username'] ) . '/' .
 			urlencode( $p_repo->info['hub_reponame'] ) . '/';
@@ -182,7 +146,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return $t_uri_base;
 	}
 
-	function precommit( $p_event ) {
+	public function precommit() {
 		$f_payload = gpc_get_string( 'payload', null );
 		if ( is_null( $f_payload ) ) {
 			return;
@@ -216,11 +180,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return;
 	}
 
-	function commit( $p_event, $p_repo, $p_data ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
-
+	public function commit( $p_repo, $p_data ) {
 		$t_commits = array();
 
 		foreach( $p_data['commits'] as $t_commit ) {
@@ -235,10 +195,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch );
 	}
 
-	function import_full( $p_event, $p_repo ) {
-		if ( 'github' != $p_repo->type ) {
-			return;
-		}
+	public function import_full( $p_repo ) {
 		echo '<pre>';
 
 		$t_branch = $p_repo->info['master_branch'];
@@ -276,11 +233,11 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return $t_changesets;
 	}
 
-	function import_latest( $p_event, $p_repo ) {
-		return $this->import_full( $p_event, $p_repo );
+	public function import_latest( $p_repo ) {
+		return $this->import_full( $p_repo );
 	}
 
-	function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
+	public function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
 		static $s_parents = array();
 		static $s_counter = 0;
 
@@ -316,7 +273,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return $t_changesets;
 	}
 
-	function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
+	private function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
 
 		echo "processing $p_json->id ... ";
 		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {

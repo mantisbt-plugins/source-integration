@@ -16,7 +16,7 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 }
 
 class SourceSFSVNPlugin extends MantisSourcePlugin {
-	function register() {
+	public function register() {
 		$this->name = lang_get( 'plugin_SourceSFSVN_title' );
 		$this->description = lang_get( 'plugin_SourceSFSVN_description' );
 		$this->page = 'config_page';
@@ -32,87 +32,67 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		$this->url = 'http://leetcode.net';
 	}
 
-	function config() {
+	public function config() {
 		return array(
 			'svnpath' => '',
 		);
 	}
 
-	function errors() {
+	public function errors() {
 		return array(
 			'SVNPathInvalid' => 'Path to Subversion binary invalid or inaccessible',
 		);
 	}
 
-	function get_types( $p_event ) {
-		return array( 'sfsvn' => lang_get( 'plugin_SourceSFSVN_svn' ) );
+	public $type = 'sfsvn';
+
+	public function show_type() {
+		return lang_get( 'plugin_SourceSFSVN_svn' );
 	}
 
-	function show_type( $p_event, $p_type ) {
-		if ( 'sfsvn' == $p_type ) {
-			return lang_get( 'plugin_SourceSFSVN_svn' );
-		}
+	public function show_changeset( $p_repo, $p_changeset ) {
+		return "$p_changeset->branch r$p_changeset->revision";
 	}
 
-	function show_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'sfsvn' == $p_repo->type ) {
-			return "$p_changeset->branch r$p_changeset->revision";
-		}
+	public function show_file( $p_repo, $p_changeset, $p_file ) {
+		return $p_file->action . ' - ' . $p_file->filename;
 	}
 
-	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'sfsvn' == $p_repo->type ) {
-			return $p_file->action . ' - ' . $p_file->filename;
-		}
-	}
-
-	function sf_url( $p_repo ) {
+	private function sf_url( $p_repo ) {
 		$t_project = urlencode( $p_repo->info['sf_project'] );
 		return "http://$t_project.svn.sourceforge.net/viewvc/$t_project";
 	}
 
-	function url_repo( $p_event, $p_repo, $p_changeset=null ) {
-		if ( 'sfsvn' == $p_repo->type ) {
-			if ( !is_null( $p_changeset ) ) {
-				$t_rev = '?pathrev=' . urlencode( $p_changeset->revision );
-			}
-			return $this->sf_url( $p_repo ) . "/$t_rev";
+	public function url_repo( $p_repo, $p_changeset=null ) {
+		if ( !is_null( $p_changeset ) ) {
+			$t_rev = '?pathrev=' . urlencode( $p_changeset->revision );
 		}
+		return $this->sf_url( $p_repo ) . "/$t_rev";
 	}
 
-	function url_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'sfsvn' == $p_repo->type ) {
-			$t_rev = '&revision=' . urlencode( $p_changeset->revision );
-			return $this->sf_url( $p_repo ) . "?view=rev$t_rev";
-		}
+	public function url_changeset( $p_repo, $p_changeset ) {
+		$t_rev = '&revision=' . urlencode( $p_changeset->revision );
+		return $this->sf_url( $p_repo ) . "?view=rev$t_rev";
 	}
 
-	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'sfsvn' == $p_repo->type ) {
-			if ( $p_file->action == 'D' ) {
-				return '';
-			}
-			return $this->sf_url( $p_repo ) . urlencode( $p_file->filename ) .
-				'?view=markup&pathrev=' . urlencode( $p_changeset->revision );
+	public function url_file( $p_repo, $p_changeset, $p_file ) {
+		if ( $p_file->action == 'D' ) {
+			return '';
 		}
+		return $this->sf_url( $p_repo ) . urlencode( $p_file->filename ) .
+			'?view=markup&pathrev=' . urlencode( $p_changeset->revision );
 	}
 
-	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'sfsvn' == $p_repo->type ) {
-			if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
-				return '';
-			}
-			$t_diff = '?r1=' . urlencode( $p_changeset->revision ) . '&r2=' . urlencode( $p_changeset->revision - 1 );
-			return $this->sf_url( $p_repo ) . urlencode( $p_file->filename ) . $t_diff .
-				'&pathrev=' . urlencode( $p_changeset->revision );
+	public function url_diff( $p_repo, $p_changeset, $p_file ) {
+		if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
+			return '';
 		}
+		$t_diff = '?r1=' . urlencode( $p_changeset->revision ) . '&r2=' . urlencode( $p_changeset->revision - 1 );
+		return $this->sf_url( $p_repo ) . urlencode( $p_file->filename ) . $t_diff .
+			'&pathrev=' . urlencode( $p_changeset->revision );
 	}
 
-	function update_repo_form( $p_event, $p_repo ) {
-		if ( 'sfsvn' != $p_repo->type ) {
-			return;
-		}
-
+	public function update_repo_form( $p_repo ) {
 		$t_svn_username = isset( $p_repo->info['svn_username'] ) ? $p_repo->info['svn_username'] : '';
 		$t_svn_password = isset( $p_repo->info['svn_password'] ) ? $p_repo->info['svn_password'] : '';
 		$t_sf_project = isset( $p_repo->info['sf_project'] ) ? $p_repo->info['sf_project'] : '';
@@ -158,7 +138,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 <?php
 	}
 
-	function update_repo( $p_event, $p_repo ) {
+	public function update_repo( $p_repo ) {
 		if (  'sfsvn' != $p_repo->type ) {
 			return;
 		}
@@ -175,11 +155,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		return $p_repo;
 	}
 
-	function commit( $p_event, $p_repo, $p_data ) {
-		if ( 'sfsvn' != $p_repo->type ) {
-			return null;
-		}
-
+	public function commit( $p_repo, $p_data ) {
 		if ( preg_match( '/(\d+)/', $p_data, $p_matches ) ) {
 			$svn = $this->svn_call( $p_repo );
 
@@ -196,11 +172,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
-	function import_full( $p_event, $p_repo ) {
-		if ( 'sfsvn' != $p_repo->type ) {
-			return;
-		}
-
+	public function import_full( $p_repo ) {
 		$this->check_svn();
 		$svn = $this->svn_call( $p_repo );
 
@@ -230,15 +202,11 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
-	function import_latest( $p_event, $p_repo ) {
-		if ( 'sfsvn' != $p_repo->type ) {
-			return;
-		}
-
-		return $this->import_full( $p_event, $p_repo );
+	public function import_latest( $p_repo ) {
+		return $this->import_full( $p_repo );
 	}
 
-	function check_svn() {
+	private function check_svn() {
 		$svn = $this->svn_call();
 
 		if ( is_blank( shell_exec( "$svn help" ) ) ) {
@@ -246,7 +214,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
-	function svn_call( $p_repo=null ) {
+	private function svn_call( $p_repo=null ) {
 		static $s_call;
 
 		# Generate, validate, and cache the SVN binary path
@@ -285,7 +253,7 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		return $t_call;
 	}
 
-	function process_svn_log( $p_repo, $p_svnlog ) {
+	private function process_svn_log( $p_repo, $p_svnlog ) {
 		$t_state = 0;
 		$t_svnline = str_pad( '', 72, '-' );
 

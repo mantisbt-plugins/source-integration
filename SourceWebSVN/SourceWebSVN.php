@@ -16,7 +16,7 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 }
 
 class SourceWebSVNPlugin extends MantisSourcePlugin {
-	function register() {
+	public function register() {
 		$this->name = lang_get( 'plugin_SourceWebSVN_title' );
 		$this->description = lang_get( 'plugin_SourceWebSVN_description' );
 		$this->page = 'config_page';
@@ -32,86 +32,66 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		$this->url = 'http://leetcode.net';
 	}
 
-	function config() {
+	public function config() {
 		return array(
 			'svnpath' => '',
 		);
 	}
 
-	function errors() {
+	public function errors() {
 		return array(
 			'SVNPathInvalid' => 'Path to Subversion binary invalid or inaccessible',
 		);
 	}
 
-	function get_types( $p_event ) {
-		return array( 'svn' => lang_get( 'plugin_SourceWebSVN_svn' ) );
+	public $type = 'svn';
+
+	public function show_type() {
+		return lang_get( 'plugin_SourceWebSVN_svn' );
 	}
 
-	function show_type( $p_event, $p_type ) {
-		if ( 'svn' == $p_type ) {
-			return lang_get( 'plugin_SourceWebSVN_svn' );
-		}
+	public function show_changeset( $p_repo, $p_changeset ) {
+		return "$p_changeset->branch r$p_changeset->revision";
 	}
 
-	function show_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'svn' == $p_repo->type ) {
-			return "$p_changeset->branch r$p_changeset->revision";
-		}
+	public function show_file( $p_repo, $p_changeset, $p_file ) {
+		return $p_file->action . ' - ' . $p_file->filename;
 	}
 
-	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'svn' == $p_repo->type ) {
-			return $p_file->action . ' - ' . $p_file->filename;
+	public function url_repo( $p_repo, $p_changeset=null ) {
+		$t_rev = '';
+		$t_path = '';
+
+		if ( !is_null( $p_changeset ) ) {
+			$t_rev = '&rev=' . urlencode( $p_changeset->revision );
 		}
+		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
+			$t_path = '&path=' . urlencode( $p_repo->info['websvn_path'] );
+		}
+		return $p_repo->info['websvn_url'] . 'listing.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) . "$t_path$t_rev&sc=1";
 	}
 
-	function url_repo( $p_event, $p_repo, $p_changeset=null ) {
-		if ( 'svn' == $p_repo->type ) {
-			$t_rev = '';
-			$t_path = '';
-
-			if ( !is_null( $p_changeset ) ) {
-				$t_rev = '&rev=' . urlencode( $p_changeset->revision );
-			}
-			if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
-				$t_path = '&path=' . urlencode( $p_repo->info['websvn_path'] );
-			}
-			return $p_repo->info['websvn_url'] . 'listing.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) . "$t_path$t_rev&sc=1";
-		}
+	public function url_changeset( $p_repo, $p_changeset ) {
+		return $this->url_repo( $p_repo, $p_changeset );
 	}
 
-	function url_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'svn' == $p_repo->type ) {
-			return $this->url_repo( $p_event, $p_repo, $p_changeset );
+	public function url_file( $p_repo, $p_changeset, $p_file ) {
+		if ( $p_file->action == 'D' ) {
+			return '';
 		}
+		return $p_repo->info['websvn_url'] . 'filedetails.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
+			'&rev=' . urlencode( $p_changeset->revision ) . '&path=' . urlencode( $p_file->filename ) . '&sc=1';
 	}
 
-	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'svn' == $p_repo->type ) {
-			if ( $p_file->action == 'D' ) {
-				return '';
-			}
-			return $p_repo->info['websvn_url'] . 'filedetails.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-				'&rev=' . urlencode( $p_changeset->revision ) . '&path=' . urlencode( $p_file->filename ) . '&sc=1';
+	public function url_diff( $p_repo, $p_changeset, $p_file ) {
+		if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
+			return '';
 		}
+		return $p_repo->info['websvn_url'] . 'diff.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
+			'&rev=' . urlencode( $p_changeset->revision ) . '&path=' . urlencode( $p_file->filename ) . '&sc=1';
 	}
 
-	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'svn' == $p_repo->type ) {
-			if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
-				return '';
-			}
-			return $p_repo->info['websvn_url'] . 'diff.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-				'&rev=' . urlencode( $p_changeset->revision ) . '&path=' . urlencode( $p_file->filename ) . '&sc=1';
-		}
-	}
-
-	function update_repo_form( $p_event, $p_repo ) {
-		if ( 'svn' != $p_repo->type ) {
-			return;
-		}
-
+	public function update_repo_form( $p_repo ) {
 		$t_svn_username = isset( $p_repo->info['svn_username'] ) ? $p_repo->info['svn_username'] : '';
 		$t_svn_password = isset( $p_repo->info['svn_password'] ) ? $p_repo->info['svn_password'] : '';
 		$t_url = isset( $p_repo->info['websvn_url'] ) ? $p_repo->info['websvn_url'] : '';
@@ -167,7 +147,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 <?php
 	}
 
-	function update_repo( $p_event, $p_repo ) {
+	public function update_repo( $p_repo ) {
 		if (  'svn' != $p_repo->type ) {
 			return;
 		}
@@ -186,11 +166,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		return $p_repo;
 	}
 
-	function commit( $p_event, $p_repo, $p_data ) {
-		if ( 'svn' != $p_repo->type ) {
-			return null;
-		}
-
+	public function commit( $p_repo, $p_data ) {
 		if ( preg_match( '/(\d+)/', $p_data, $p_matches ) ) {
 			$svn = $this->svn_call( $p_repo );
 
@@ -207,11 +183,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
-	function import_full( $p_event, $p_repo ) {
-		if ( 'svn' != $p_repo->type ) {
-			return;
-		}
-
+	public function import_full( $p_repo ) {
 		$this->check_svn();
 		$svn = $this->svn_call( $p_repo );
 
@@ -241,15 +213,11 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
-	function import_latest( $p_event, $p_repo ) {
-		if ( 'svn' != $p_repo->type ) {
-			return;
-		}
-
-		return $this->import_full( $p_event, $p_repo );
+	public function import_latest( $p_repo ) {
+		return $this->import_full( $p_repo );
 	}
 
-	function check_svn() {
+	private function check_svn() {
 		$svn = $this->svn_call();
 
 		if ( is_blank( shell_exec( "$svn help" ) ) ) {
@@ -257,7 +225,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
-	function svn_call( $p_repo=null ) {
+	private function svn_call( $p_repo=null ) {
 		static $s_call;
 
 		# Generate, validate, and cache the SVN binary path
@@ -296,7 +264,7 @@ class SourceWebSVNPlugin extends MantisSourcePlugin {
 		return $t_call;
 	}
 
-	function process_svn_log( $p_repo, $p_svnlog ) {
+	private function process_svn_log( $p_repo, $p_svnlog ) {
 		$t_state = 0;
 		$t_svnline = str_pad( '', 72, '-' );
 
