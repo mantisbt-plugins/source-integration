@@ -37,7 +37,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	public $type = 'gitweb';
 
 	public function show_type() {
-		return plugin_lang_get( 'gitweb', 'SourceGitweb' );
+		return plugin_lang_get( 'gitweb' );
 	}
 
 	public function show_changeset( $p_repo, $p_changeset ) {

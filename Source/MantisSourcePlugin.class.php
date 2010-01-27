@@ -19,7 +19,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	public function hooks() {
 		return array(
 			'EVENT_SOURCE_INTEGRATION'		=> 'integration',
-			'EVENT_SOURCE_PRECOMMIT'		=> 'precommit',
+			'EVENT_SOURCE_PRECOMMIT'		=> '_precommit',
 		);
 	}
 
@@ -135,6 +135,14 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	public function import_latest( $p_repo ) {}
 
 	/**
+	 * Post-process changesets from importing latest data.
+	 * Not called after a full import.
+	 * @param object Repository
+	 * @param array Changesets
+	 */
+	public function postimport( $p_repo, $p_changesets ) {}
+
+	/**
 	 * Initialize contact with the integration framework.
 	 * @return object The plugin object
 	 */
@@ -143,13 +151,12 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	}
 
 	/**
-	 * Post-process changesets from importing latest data.
-	 * Not called after a full import.
-	 * @param object Repository
-	 * @param array Changesets
+	 * Pass the precommit event to the interface without the
+	 * event paramater.
 	 */
-	public function postimport( $p_repo, $p_changesets ) {}
-
+	final public function _precommit( $p_event ) {
+		return $this->precommit();
+	}
 }
 
 /**
