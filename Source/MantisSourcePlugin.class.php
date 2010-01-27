@@ -114,13 +114,6 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	public function commit( $p_repo, $p_data ) {}
 
 	/**
-	 * Post-process changesets from checkin.
-	 * @param object Repository
-	 * @param array Changesets
-	 */
-	public function postcommit( $p_repo, $p_changesets ) {}
-
-	/**
 	 * Initiate an import of changeset data for the entire repository.
 	 * @param object Repository
 	 * @return array Changesets
@@ -133,14 +126,6 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	 * @return array Changesets
 	 */
 	public function import_latest( $p_repo ) {}
-
-	/**
-	 * Post-process changesets from importing latest data.
-	 * Not called after a full import.
-	 * @param object Repository
-	 * @param array Changesets
-	 */
-	public function postimport( $p_repo, $p_changesets ) {}
 
 	/**
 	 * Initialize contact with the integration framework.

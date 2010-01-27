@@ -105,9 +105,6 @@ while( true ) {
 	}
 
 	Source_Process_Changesets( $t_changesets );
-
-	# let plugins process this batch of changesets
-	$t_vcs->postimport( $t_repo, $t_changesets );
 }
 
 # only display results when the user is initiating the import

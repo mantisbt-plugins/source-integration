@@ -357,6 +357,10 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	foreach( $p_changesets as $t_changeset ) {
 		$t_changeset->save();
 	}
+
+	# Allow other plugins to post-process commit data
+	event_signal( 'EVENT_SOURCE_COMMITS', array( $p_changesets ) );
+	event_signal( 'EVENT_SOURCE_FIXED', array( $t_fixed_bugs ) );
 }
 
 /**

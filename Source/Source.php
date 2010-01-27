@@ -78,6 +78,10 @@ class SourcePlugin extends MantisPlugin {
 
 			# Allow vcs plugins to pre-process commit data
 			'EVENT_SOURCE_PRECOMMIT' => EVENT_TYPE_FIRST,
+
+			# Allow other plugins to post-process commit data
+			'EVENT_SOURCE_ATTACHED' => EVENT_TYPE_EXECUTE,
+			'EVENT_SOURCE_FIXED' => EVENT_TYPE_EXECUTE,
 		);
 	}
 

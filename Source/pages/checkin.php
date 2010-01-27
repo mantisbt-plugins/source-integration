@@ -99,6 +99,3 @@ if ( count( $t_changesets ) < 1 ) {
 
 Source_Process_Changesets( $t_changesets );
 
-# Allow plugins to handle commits afterwards
-$t_vcs->postcommit( $t_repo, $t_changesets );
-
