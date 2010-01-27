@@ -1,7 +1,7 @@
 
 ## Mantis Source Integration
 
-Copyright (C) 2008	John Reese, LeetCode.net
+Copyright (C) 2010	John Reese, LeetCode.net
 
 ### Description
 
