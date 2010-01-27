@@ -19,12 +19,13 @@ $f_repo_name = gpc_get_string( 'repo_name' );
 $f_repo_url = gpc_get_string( 'repo_url' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
+$t_vcs = SourceVCS::repo( $t_repo );
 $t_type = SourceType($t_repo->type);
 
 $t_repo->name = $f_repo_name;
 $t_repo->url = $f_repo_url;
 
-$t_updated_repo = event_signal( 'EVENT_SOURCE_UPDATE_REPO', array( $t_repo ) );
+$t_updated_repo = $t_vcs->update_repo( $t_repo );
 
 if ( !is_null( $t_updated_repo ) ) {
 	$t_updated_repo->save();

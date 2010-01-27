@@ -20,6 +20,7 @@ $f_offset = gpc_get_int( 'offset', 1 );
 $f_perpage = 25;
 
 $t_repo = SourceRepo::load( $f_repo_id );
+$t_vcs = SourceVCS::repo( $t_repo );
 $t_type = SourceType($t_repo->type);
 
 $t_stats = $t_repo->stats( false );
@@ -39,7 +40,7 @@ html_page_top2();
 if ( access_has_global_level( plugin_config_get( 'manage_threshold' ) ) ) {
 	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'manage' ) );
 }
-if ( $t_url = event_signal( 'EVENT_SOURCE_URL_REPO', $t_repo ) ) {
+if ( $t_url = $t_vcs->url_repo( $t_repo ) ) {
 	print_bracket_link( $t_url, plugin_lang_get( 'browse' ) );
 }
 print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );

@@ -18,6 +18,8 @@ require_once( config_get_global( 'class_path' ) . 'MantisPlugin.class.php' );
  * with the Mantis bug tracker software.
  */ 
 class SourcePlugin extends MantisPlugin {
+	static $cache = array();
+
 	function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -71,33 +73,17 @@ class SourcePlugin extends MantisPlugin {
 
 	function events() {
 		return array(
-			'EVENT_SOURCE_GET_TYPES'		=> EVENT_TYPE_DEFAULT,	# Get a list of registered source control types
+			# Allow source integration plugins to announce themselves
+			'EVENT_SOURCE_INTEGRATION' => EVENT_TYPE_DEFAULT,
 
-			'EVENT_SOURCE_SHOW_TYPE'		=> EVENT_TYPE_FIRST,	# Given a VCS type, return a long name (eg, svn -> Subversion)
-			'EVENT_SOURCE_SHOW_CHANGESET'	=> EVENT_TYPE_FIRST,	# Return an appropriate Type/Revision string for a given changeset
-			'EVENT_SOURCE_SHOW_FILE'		=> EVENT_TYPE_FIRST,	# Return an appropriate Filename/Revision string for a given changeset file
-
-			'EVENT_SOURCE_URL_REPO'			=> EVENT_TYPE_FIRST,	# Return a URL to see data for the repository
-			'EVENT_SOURCE_URL_CHANGESET'	=> EVENT_TYPE_FIRST,	# Return a URL to see data for a single changeset
-			'EVENT_SOURCE_URL_FILE'			=> EVENT_TYPE_FIRST,	# Return a URL to see a given revision of a file
-			'EVENT_SOURCE_URL_FILE_DIFF'	=> EVENT_TYPE_FIRST,	# Return a URL to see a given revision's diff of a file
-
-			'EVENT_SOURCE_UPDATE_REPO_FORM'	=> EVENT_TYPE_FIRST,	# Output HTML form elements for a repository update
-			'EVENT_SOURCE_UPDATE_REPO'		=> EVENT_TYPE_FIRST,	# Handle form data after submitting a repo update form
-
-			'EVENT_SOURCE_PRECOMMIT'		=> EVENT_TYPE_FIRST,	# Allow plugins to try finding commit information before Source looks
-			'EVENT_SOURCE_COMMIT'			=> EVENT_TYPE_FIRST,	# Source control commit handling, passed commit details from checkin script
-			'EVENT_SOURCE_POSTCOMMIT'		=> EVENT_TYPE_EXECUTE,	# Allow processing of the newly-committed changesets
-
-			'EVENT_SOURCE_IMPORT_FULL'		=> EVENT_TYPE_FIRST,	# Import an existing repository from scratch
-			'EVENT_SOURCE_IMPORT_LATEST'	=> EVENT_TYPE_FIRST,	# Import the latest changesets from a repository
-			'EVENT_SOURCE_POSTIMPORT'		=> EVENT_TYPE_EXECUTE,	# Allow processing of the newly-imported changesets
+			# Allow vcs plugins to pre-process commit data
+			'EVENT_SOURCE_PRECOMMIT' => EVENT_TYPE_FIRST,
 		);
 	}
 
 	function hooks() {
 		return array(
-			'EVENT_PLUGIN_INIT' => 'post_init',
+			'EVENT_CORE_READY' => 'core_ready',
 			'EVENT_LAYOUT_RESOURCES' => 'css',
 			'EVENT_MENU_MAIN' => 'menu_main',
 		);
@@ -110,10 +96,15 @@ class SourcePlugin extends MantisPlugin {
 		plugin_child( 'SourceIntegration' );
 	}
 
-	function post_init() {
-		# post-init register the generic source integration child plugin
-		# so that it always has lowest priority.
+	/**
+	 * Register source integration plugins with the framework.
+	 */
+	function core_ready() {
+		# register the generic vcs type
 		plugin_child( 'SourceGeneric' );
+
+		# initialize the vcs type cache
+		SourceVCS::init();
 	}
 
 	function css() {

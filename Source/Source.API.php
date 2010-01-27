@@ -25,9 +25,6 @@ define( 'SOURCE_FAR',			3 );
 define( 'SOURCE_FIRST',			4 );
 define( 'SOURCE_LAST',			5 );
 
-global $g_Source_cache_types;
-$g_Source_cache_types = null;
-
 function SourceType( $p_type ) {
 	$t_types = SourceTypes();
 
@@ -39,25 +36,19 @@ function SourceType( $p_type ) {
 }
 
 function SourceTypes() {
-	global $g_Source_cache_types;
+	static $s_types = null;
 
-	if ( is_null( $g_Source_cache_types ) ) {
-		$t_types = array();
+	if ( is_null( $s_types ) ) {
+		$s_types = array();
 
-		$t_raw_data = event_signal( 'EVENT_SOURCE_GET_TYPES' );
-		foreach ( $t_raw_data as $t_plugin => $t_callbacks ) {
-			foreach ( $t_callbacks as $t_callback => $t_data ) {
-				foreach ( $t_data as $t_type => $t_name ) {
-					$t_types[$t_type] = $t_name;
-				}
-			}
+		foreach( SourceVCS::all() as $t_type => $t_vcs ) {
+			$s_types[ $t_type ] = $t_vcs->show_type();
 		}
 
-		asort( $t_types );
-		$g_Source_cache_types = $t_types;
+		asort( $s_types );
 	}
 
-	return $g_Source_cache_types;
+	return $s_types;
 }
 
 /**
@@ -394,8 +385,8 @@ function Source_Changeset_Link_Callback( $p_matches ) {
 
 		$t_repo = SourceRepo::load( $t_changeset->repo_id );
 
-		$t_url = event_signal( 'EVENT_SOURCE_URL_CHANGESET', array( $t_repo, $t_changeset ) );
-		$t_name = event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) );
+		$t_url = $t_vcs->url_changeset( $t_repo, $t_changeset );
+		$t_name = $t_vcs->show_changeset( $t_repo, $t_changeset );
 
 		if ( !is_blank( $t_url ) ) {
 			$t_string = '<a href="' . $t_url . '">' . $t_name . '</a>';
@@ -403,6 +394,94 @@ function Source_Changeset_Link_Callback( $p_matches ) {
 	}
 
 	return $p_matches[1] . $t_string;
+}
+
+/**
+ * Object for handling registration and retrieval of VCS type extension plugins.
+ */
+class SourceVCS {
+	static private $cache = array();
+
+	/**
+	 * Initialize the extension cache.
+	 */
+	static public function init() {
+		if ( is_array( self::$cache ) && !empty( self::$cache ) ) {
+			return;
+		}
+
+		$t_raw_data = event_signal( 'EVENT_SOURCE_INTEGRATION' );
+		foreach ( $t_raw_data as $t_plugin => $t_callbacks ) {
+			foreach ( $t_callbacks as $t_callback => $t_object ) {
+				if ( is_subclass_of( $t_object, 'MantisSourcePlugin' ) &&
+					is_string( $t_object->type ) && !is_blank( $t_object->type ) ) {
+						$t_type = strtolower($t_object->type);
+						self::$cache[ $t_type ] = new SourceVCSWrapper( $t_object );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Retrieve an extension plugin that can handle the requested repo's VCS type.
+	 * If the requested type is not available, the "generic" type will be returned.
+	 * @param object Repository object
+	 * @return object VCS plugin
+	 */
+	static public function repo( $p_repo ) {
+		return self::type( $p_repo->type );
+	}
+
+	/**
+	 * Retrieve an extension plugin that can handle the requested VCS type.
+	 * If the requested type is not available, the "generic" type will be returned.
+	 * @param string VCS type
+	 * @return object VCS plugin
+	 */
+	static public function type( $p_type ) {
+		$p_type = strtolower( $p_type );
+
+		if ( isset( self::$cache[ $p_type ] ) ) {
+			return self::$cache[ $p_type ];
+		} else {
+			return self::$cache['generic'];
+		}
+	}
+
+	/**
+	 * Retrieve a list of all registered VCS types.
+	 * @return array VCS plugins
+	 */
+	static public function all() {
+		return self::$cache;
+	}
+}
+
+/**
+ * Class for wrapping VCS objects with plugin API calls
+ */
+class SourceVCSWrapper {
+	private $object;
+	private $basename;
+
+	/**
+	 * Build a wrapper around a VCS plugin object.
+	 */
+	function __construct( $p_object ) {
+		$this->object = $p_object;
+		$this->basename = $p_object->basename;
+	}
+
+	/**
+	 * Wrap method calls to the target object in plugin_push/pop calls.
+	 */
+	function __call( $p_method, $p_args ) {
+		plugin_push_current( $this->basename );
+		$value = call_user_func_array( array( $this->object, $p_method ), $p_args );
+		plugin_pop_current();
+
+		return $value;
+	}
 }
 
 /**
@@ -804,6 +883,7 @@ class SourceChangeset {
 		$t_bugs_deleted = array_unique( array_diff( $this->__bugs, $this->bugs ) );
 
 		$this->load_repo();
+		$t_vcs = SourceVCS::repo( $this->repo );
 
 		$t_user_id = (int)$p_user_id;
 		if ( $t_user_id < 1 ) {
@@ -823,7 +903,7 @@ class SourceChangeset {
 
 			foreach( $t_bugs_deleted as $t_bug_id ) {
 				plugin_history_log( $t_bug_id, 'changeset_removed',
-					event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $this->repo, $this ) ),
+					$t_vcs->show_changeset( $this->repo, $this ),
 					'', $t_user_id, 'Source' );
 			}
 		}
@@ -846,7 +926,7 @@ class SourceChangeset {
 
 			foreach( $t_bugs_added as $t_bug_id ) {
 				plugin_history_log( $t_bug_id, 'changeset_attached',
-					event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $this->repo, $this ) ),
+					$t_vcs->show_changeset( $this->repo, $this ),
 					'', $t_user_id, 'Source' );
 			}
 		}

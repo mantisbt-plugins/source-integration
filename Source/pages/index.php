@@ -19,7 +19,6 @@ $t_class = $t_show_stats ? 'width75' : 'width60';
 $t_title_span = $t_show_stats ? 2 : 1;
 $t_links_span = $t_show_stats ? 4 : 2;
 
-$t_types = SourceTypes();
 $t_repos = SourceRepo::load_all();
 
 html_page_top1( plugin_lang_get( 'title' ) );
@@ -62,7 +61,6 @@ if ( $t_can_manage ) { print_bracket_link( plugin_page( 'manage_config_page' ), 
 <td class="center">
 <?php 
 	print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id, plugin_lang_get( 'changesets' ) );
-	#print_bracket_link( event_signal( 'EVENT_SOURCE_URL_REPO', $t_repo ), plugin_lang_get( 'browse' ) );
 	if ( $t_can_manage ) {
 		if ( preg_match( '/^Import \d+-\d+\d+/', $t_repo->name ) ) {
 			print_bracket_link( plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id . form_security_param( 'plugin_Source_repo_delete' ), plugin_lang_get( 'delete' ) );
@@ -96,7 +94,7 @@ if ( $t_can_manage ) { print_bracket_link( plugin_page( 'manage_config_page' ), 
 <td>
 <select name="repo_type">
 	<option value=""><?php echo plugin_lang_get( 'select_one' ) ?></option>
-<?php foreach( $t_types as $t_type => $t_type_name ) { ?>
+<?php foreach( SourceTypes() as $t_type => $t_type_name ) { ?>
 	<option value="<?php echo $t_type ?>"><?php echo string_display( $t_type_name ) ?></option>
 <?php } ?>
 </select>

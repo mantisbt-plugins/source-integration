@@ -82,8 +82,10 @@ if ( is_null( $t_repo ) ) {
 	die( plugin_lang_get( 'invalid_repo' ) );
 }
 
+$t_vcs = SourceVCS::repo( $t_repo );
+
 # Let the plugins handle commit data
-$t_changesets = event_signal( 'EVENT_SOURCE_COMMIT', array( $t_repo, $f_data ) );
+$t_changesets = $t_vcs->commit( $t_repo, $f_data );
 
 # Changesets couldn't be loaded apparently
 if ( !is_array( $t_changesets ) ) {
@@ -98,5 +100,5 @@ if ( count( $t_changesets ) < 1 ) {
 Source_Process_Changesets( $t_changesets );
 
 # Allow plugins to handle commits afterwards
-event_signal( 'EVENT_SOURCE_POSTCOMMIT', array( $t_repo, $t_changesets ) );
+$t_vcs->postcommit( $t_repo, $t_changesets );
 

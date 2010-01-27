@@ -17,6 +17,7 @@ access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 $f_repo_id = gpc_get_string( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
+$t_vcs = SourceVCS::repo( $t_repo );
 
 helper_ensure_confirmed( plugin_lang_get( 'ensure_import_full' ), plugin_lang_get( 'import_full' ) );
 helper_begin_long_process();
@@ -35,7 +36,7 @@ $t_error = false;
 while( true ) {
 
 	# import the next batch of changesets
-	$t_changesets = event_signal( 'EVENT_SOURCE_IMPORT_FULL', array( $t_new_repo ) );
+	$t_changesets = $t_vcs->import_full( $t_new_repo );
 
 	# check for errors
 	if ( !is_array( $t_changesets ) ) {

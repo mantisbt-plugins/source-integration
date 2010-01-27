@@ -16,6 +16,7 @@ access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 $f_repo_id = gpc_get_int( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
+$t_vcs = SourceVCS::repo( $t_repo );
 $t_type = SourceType($t_repo->type);
 
 html_page_top1( plugin_lang_get( 'title' ) );
@@ -48,7 +49,7 @@ html_page_top2();
 <td><input name="repo_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_repo->url ) ?>"/></td>
 </tr>
 
-<?php event_signal( 'EVENT_SOURCE_UPDATE_REPO_FORM', array( $t_repo ) ) ?>
+<?php $t_vcs->update_repo_form( $t_repo ) ?>
 
 <tr>
 <td class="center" colspan="2"><input type="submit" value="<?php echo  plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'repository' ) ?>"/></td>

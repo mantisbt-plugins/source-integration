@@ -16,44 +16,24 @@
  * @author John Reese
  */ 
 abstract class MantisSourcePlugin extends MantisPlugin {
-	function hooks() {
+	public function hooks() {
 		return array(
-			'EVENT_SOURCE_GET_TYPES'		=> 'get_types',
-
-			'EVENT_SOURCE_SHOW_TYPE'		=> 'show_type',
-			'EVENT_SOURCE_SHOW_CHANGESET'	=> 'show_changeset',
-			'EVENT_SOURCE_SHOW_FILE'		=> 'show_file',
-
-			'EVENT_SOURCE_URL_REPO'			=> 'url_repo',
-			'EVENT_SOURCE_URL_CHANGESET'	=> 'url_changeset',
-			'EVENT_SOURCE_URL_FILE'			=> 'url_file',
-			'EVENT_SOURCE_URL_FILE_DIFF'	=> 'url_diff',
-
-			'EVENT_SOURCE_UPDATE_REPO_FORM'	=> 'update_repo_form',
-			'EVENT_SOURCE_UPDATE_REPO'		=> 'update_repo',
-
+			'EVENT_SOURCE_INTEGRATION'		=> 'integration',
 			'EVENT_SOURCE_PRECOMMIT'		=> 'precommit',
-			'EVENT_SOURCE_COMMIT'			=> 'commit',
-
-			'EVENT_SOURCE_IMPORT_FULL'		=> 'import_full',
-			'EVENT_SOURCE_IMPORT_LATEST'	=> 'import_latest',
 		);
 	}
 
 	/**
-	 * Get a short, unique, lowercase string representing the plugin's source
-	 * control type.
-	 * @return string Source control type
+	 * A short, unique, lowercase string representing the plugin's source control type.
 	 */
-	abstract function get_types( $p_event );
+	public $type = null;
 
 	/**
 	 * Get a long, proper string representing the plugin's source control type.
-	 * Should ignore any $p_type not matching the output from get_type()
-	 * @param string Source control type
+	 * Should be localized if possible.
 	 * @return string Source control name
 	 */
-	abstract function show_type( $p_event, $p_type );
+	abstract public function show_type();
 
 	/**
 	 * Get a string representing the given repository and changeset.
@@ -61,7 +41,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	 * @param object Changeset
 	 * @return string Changeset string
 	 */
-	abstract function show_changeset( $p_event, $p_repo, $p_changeset);
+	abstract public function show_changeset( $p_repo, $p_changeset);
 
 	/**
 	 * Get a string representing a file for a given repository and changeset.
@@ -70,7 +50,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	 * @param object File
 	 * @return string File string
 	 */
-	abstract function show_file( $p_event, $p_repo, $p_changeset, $p_file );
+	abstract public function show_file( $p_repo, $p_changeset, $p_file );
 
 	/**
 	 * Get a URL to a view of the repository at the given changeset.
@@ -78,7 +58,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	 * @param object Changeset
 	 * @return string URL
 	 */
-	abstract function url_repo( $p_event, $p_repo, $t_changeset=null );
+	abstract public function url_repo( $p_repo, $t_changeset=null );
 
 	/**
 	 * Get a URL to a diff view of the given changeset.
@@ -86,7 +66,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	 * @param object Changeset
 	 * @return string URL
 	 */
-	abstract function url_changeset( $p_event, $p_repo, $p_changeset );
+	abstract public function url_changeset( $p_repo, $p_changeset );
 
 	/**
 	 * Get a URL to a view of the given file at the given changeset.
@@ -95,7 +75,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	 * @param object File
 	 * @return string URL
 	 */
-	abstract function url_file( $p_event, $p_repo, $p_changeset, $p_file );
+	abstract public function url_file( $p_repo, $p_changeset, $p_file );
 
 	/**
 	 * Get a URL to a diff view of the given file at the given changeset.
@@ -104,16 +84,72 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	 * @param object File
 	 * @return string URL
 	 */
-	abstract function url_diff( $p_event, $p_repo, $p_changeset, $p_file );
+	abstract public function url_diff( $p_repo, $p_changeset, $p_file );
 
-	function update_repo_form( $p_event, $p_repo ) {}
-	function update_repo( $p_event, $p_repo ) {}
+	/**
+	 * Output form elements for custom repository data.
+	 * @param object Repository
+	 */
+	public function update_repo_form( $p_repo ) {}
 
-	function precommit( $p_event ) {}
-	function commit( $p_event, $p_repo, $p_data ) {}
+	/**
+	 * Process formelements for custom repository data.
+	 * @param object Repository
+	 */
+	public function update_repo( $p_repo ) {}
 
-	function import_full( $p_event, $p_repo ) {}
-	function import_latest( $p_event, $p_repo )	{}
+	/**
+	 * If necessary, check GPC inputs to determine if the checkin data
+	 * is for a repository handled by this VCS type.
+	 * @return array Array with "repo"=>Repository, "data"=>...
+	 */
+	public function precommit() {}
+
+	/**
+	 * Translate commit data to Changeset objects for the given repo.
+	 * @param object Repository
+	 * @param mixed Commit data
+	 * @return array Changesets
+	 */
+	public function commit( $p_repo, $p_data ) {}
+
+	/**
+	 * Post-process changesets from checkin.
+	 * @param object Repository
+	 * @param array Changesets
+	 */
+	public function postcommit( $p_repo, $p_changesets ) {}
+
+	/**
+	 * Initiate an import of changeset data for the entire repository.
+	 * @param object Repository
+	 * @return array Changesets
+	 */
+	public function import_full( $p_repo ) {}
+
+	/**
+	 * Initiate an import of changeset data not yet imported.
+	 * @param object Repository
+	 * @return array Changesets
+	 */
+	public function import_latest( $p_repo ) {}
+
+	/**
+	 * Initialize contact with the integration framework.
+	 * @return object The plugin object
+	 */
+	final public function integration( $p_event ) {
+		return $this;
+	}
+
+	/**
+	 * Post-process changesets from importing latest data.
+	 * Not called after a full import.
+	 * @param object Repository
+	 * @param array Changesets
+	 */
+	public function postimport( $p_repo, $p_changesets ) {}
+
 }
 
 /**
@@ -129,39 +165,33 @@ class SourceGenericPlugin extends MantisSourcePlugin {
 		$this->version = plugin_lang_get( 'version', 'Source' );
 	}
 
-	function get_types( $p_event ) {
-		return array('generic' => 'Generic');
+	public $type = 'generic';
+
+	function show_type() {
+		return 'Generic';
 	}
 
-	function show_type( $p_event, $p_type ) {
-		if ( 'generic' == strtolower( $p_type ) ) {
-			return 'Generic';
-		}
-
-		return $p_type;
-	}
-
-	function show_changeset( $p_event, $p_repo, $p_changeset ) {
+	function show_changeset( $p_repo, $p_changeset ) {
 		return $p_repo->type . ' ' . $p_changeset->revision;
 	}
 
-	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
+	function show_file( $p_repo, $p_changeset, $p_file ) {
 		return $p_file->filename . ' (' . $p_file->revision . ')';
 	}
 
-	function url_repo( $p_event, $p_repo, $t_changeset=null ) {
+	function url_repo( $p_repo, $t_changeset=null ) {
 		return $p_repo->url;
 	}
 
-	function url_changeset( $p_event, $p_repo, $p_changeset ) {
+	function url_changeset( $p_repo, $p_changeset ) {
 		return $p_repo->url;
 	}
 
-	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
+	function url_file( $p_repo, $p_changeset, $p_file ) {
 		return $p_repo->url;
 	}
 
-	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
+	function url_diff( $p_repo, $p_changeset, $p_file ) {
 		return $p_repo->url;
 	}
 }

@@ -46,6 +46,7 @@ if ( $t_changeset->parent ) {
 	$t_changeset_parent = null;
 }
 
+$t_vcs = SourceVCS::repo( $t_repo );
 $t_type = SourceType($t_repo->type);
 
 $t_use_porting = plugin_config_get( 'enable_porting' );
@@ -69,10 +70,10 @@ html_page_top2();
 <table class="<?php echo $t_columns > 4 ? 'width90' : 'width75' ?>" cellspacing="1" align="center">
 
 <tr>
-<td class="form-title" colspan="<?php echo $t_columns - 2 ?>"><?php echo string_display_line( $t_repo->name ), ': ', event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) ) ?></td>
+<td class="form-title" colspan="<?php echo $t_columns - 2 ?>"><?php echo string_display_line( $t_repo->name ), ': ', $t_vcs->show_changeset( $t_repo, $t_changeset ) ?></td>
 <td class="right" colspan="2">
 <?php
-	if ( $t_url = event_signal( 'EVENT_SOURCE_URL_CHANGESET', array( $t_repo, $t_changeset ) ) ) {
+	if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) {
 		print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
 	}
 	print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset, "Back to Repository" );
@@ -96,7 +97,7 @@ html_page_top2();
 <td class="center"><?php Source_View_Committer( $t_changeset ) ?></td>
 <td class="center"><?php echo string_display_line( $t_changeset->branch ) ?></td>
 <td class="center"><?php echo string_display_line( $t_changeset->timestamp ) ?></td>
-<td class="center"><?php if ( $t_changeset_parent ) { print_link( plugin_page( 'view' ) . '&id=' . $t_changeset_parent->id, event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset_parent ) ) ); } ?></td>
+<td class="center"><?php if ( $t_changeset_parent ) { print_link( plugin_page( 'view' ) . '&id=' . $t_changeset_parent->id, $t_vcs->show_changeset( $t_repo, $t_changeset_parent ) ); } ?></td>
 <?php if ( $t_use_porting ) { ?>
 <td class="center">
 <select name="ported">
@@ -176,10 +177,10 @@ if ( $t_can_update ) {
 
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="small mono" colspan="<?php echo $t_columns-2 ?>"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
+<td class="small mono" colspan="<?php echo $t_columns-2 ?>"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
 <td class="center"><span class="small-links">
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'diff', 'Source' ) ) ?>
-	<?php print_bracket_link( event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ), plugin_lang_get( 'file', 'Source' ) ) ?>
+	<?php print_bracket_link( $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ), plugin_lang_get( 'diff', 'Source' ) ) ?>
+	<?php print_bracket_link( $t_vcs->url_file( $t_repo, $t_changeset, $t_file ), plugin_lang_get( 'file', 'Source' ) ) ?>
 </span></td>
 </tr>
 

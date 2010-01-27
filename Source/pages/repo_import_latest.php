@@ -77,6 +77,7 @@ if ( !$t_valid ) {
 $f_repo_id = gpc_get_string( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
+$t_vcs = SourceVCS::repo( $t_repo );
 
 if ( !$t_remote ) {
 	html_page_top1();
@@ -90,7 +91,7 @@ $t_error = false;
 while( true ) {
 
 	# import the next batch of changesets
-	$t_changesets = event_signal( 'EVENT_SOURCE_IMPORT_LATEST', array( $t_repo ) );
+	$t_changesets = $t_vcs->import_latest( $t_repo );
 
 	# check for errors
 	if ( !is_array( $t_changesets ) ) {
@@ -106,7 +107,7 @@ while( true ) {
 	Source_Process_Changesets( $t_changesets );
 
 	# let plugins process this batch of changesets
-	event_signal( 'EVENT_SOURCE_POSTIMPORT', array( $t_repo, $t_changesets ) );
+	$t_vcs->postimport( $t_repo, $t_changesets );
 }
 
 # only display results when the user is initiating the import

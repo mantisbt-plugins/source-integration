@@ -32,6 +32,8 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 
 	foreach( $p_changesets as $t_changeset ) {
 		$t_repo = $t_repos[ $t_changeset->repo_id ];
+		$t_vcs = SourceVCS::repo( $t_repo );
+
 		$t_changeset->load_files();
 
 		$t_author = Source_View_Author( $t_changeset, false );
@@ -42,7 +44,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 <td class="category" width="25%" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
 	<?php echo string_display(
 		( $p_show_repos ? $t_repo->name . ': ' : '' ) .
-		event_signal( 'EVENT_SOURCE_SHOW_CHANGESET', array( $t_repo, $t_changeset ) )
+		$t_vcs->show_changeset( $t_repo, $t_changeset )
 		) ?>
 	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
 	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', $t_author ?></span>
@@ -56,7 +58,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 	<br/><span class="small-links">
 		<?php
 		print_bracket_link( plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id, plugin_lang_get( 'details', 'Source' ) );
-		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_CHANGESET', array( $t_repo, $t_changeset ) ) ) {
+		if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) {
 			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
 		}
 		?>
@@ -66,13 +68,13 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 
 		<?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr class="row-2">
-<td class="small mono" colspan="2"><?php echo string_display_line( event_signal( 'EVENT_SOURCE_SHOW_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) ?></td>
+<td class="small mono" colspan="2"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
 <td class="center" width="12%"><span class="small-links">
 		<?php
-		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE_DIFF', array( $t_repo, $t_changeset, $t_file ) ) ) {
+		if ( $t_url = $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ) {
 			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
 		}
-		if ( $t_url = event_signal( 'EVENT_SOURCE_URL_FILE', array( $t_repo, $t_changeset, $t_file ) ) ) {
+		if ( $t_url = $t_vcs->url_file( $t_repo, $t_changeset, $t_file ) ) {
 			print_bracket_link( $t_url, plugin_lang_get( 'file', 'Source' ) );
 		}
 		?>
