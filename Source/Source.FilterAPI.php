@@ -297,7 +297,7 @@ function Source_Generate_Filter() {
 	$t_filter->filters['r.id']->value = $f_repo_id;
 	$t_filter->filters['r.type']->value = $f_repo_type;
 
-	$t_filter->filters['b.bug_id']->value = ( !is_blank( $f_bug_id ) ? split( '[ ,]', $f_bug_id ) : array() );
+	$t_filter->filters['b.bug_id']->value = ( !is_blank( $f_bug_id ) ? explode( '[ ,]', $f_bug_id ) : array() );
 
 	$t_filter->filters['f.filename']->value = $f_filename;
 	$t_filter->filters['f.revision']->value = $f_revision;
