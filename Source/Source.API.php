@@ -117,7 +117,7 @@ function Source_Parse_Bugfixes( $p_string ) {
  * checks the name for a matching username or realname.
  * @param object Changeset object
  */
-function Source_Parse_Users( &$p_changeset ) {
+function Source_Parse_Users( $p_changeset ) {
 	static $s_vcs_names;
 	static $s_names = array();
 	static $s_emails = array();
@@ -208,6 +208,8 @@ function Source_Parse_Users( &$p_changeset ) {
 		# Don't actually loop
 		break;
 	}
+
+	return $p_changeset;
 }
 /**
  * Given a set of changeset objects, parse the bug links
@@ -233,8 +235,8 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	$t_notfixed_threshold = config_get('bug_resolution_not_fixed_threshold');
 
 	# Link author and committer name/email to user accounts
-	foreach( $p_changesets as $t_changeset ) {
-		Source_Parse_Users( $t_changeset );
+	foreach( $p_changesets as $t_key => $t_changeset ) {
+		$p_changesets[ $t_key ] = Source_Parse_Users( $t_changeset );
 	}
 
 	# Parse normal bug links
@@ -1358,7 +1360,7 @@ class SourceMapping {
 		}
 
 		# pull the appropriate versions set from the cache
-		$t_versions = &$s_versions_sorted[ $t_project_id ][ $this->type ];
+		$t_versions = $s_versions_sorted[ $t_project_id ][ $this->type ];
 
 		# handle non-regex mappings
 		if ( is_blank( $this->regex ) ) {
