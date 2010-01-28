@@ -22,10 +22,10 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.13';
+		$this->version = '0.14';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
-			'Source' => '0.13',
+			'Source' => '0.14',
 			'Meta' => '0.1',
 		);
 
@@ -34,80 +34,48 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		$this->url = '';
 	}
 
-	function get_types( $p_event ) {
-		return array( 'hgweb' => plugin_lang_get( 'hgweb' ) );
+	public $type = 'hgweb';
+
+	public function show_type() {
+		return plugin_lang_get( 'hgweb' );
 	}
 
-	function show_type( $p_event, $p_type ) {
-		if ( 'hgweb' == $p_type ) {
-			return plugin_lang_get( 'hgweb' );
-		}
-	}
-
-	function show_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'hgweb' != $p_repo->type ) {
-			return;
-		}
-
+	public function show_changeset( $p_repo, $p_changeset ) {
 		$t_ref = substr( $p_changeset->revision, 0, 8 );
 		$t_branch = $p_changeset->branch;
 
 		return "$t_branch $t_ref";
 	}
 
-	function show_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'hgweb' != $p_repo->type ) {
-			return;
-		}
-
+	function show_file( $p_repo, $p_changeset, $p_file ) {
 		return "$p_file->action - $p_file->filename";
 	}
 
-	function uri_base( $p_repo ) {
+	private function uri_base( $p_repo ) {
 		$t_uri_base = $p_repo->info['hgweb_root'] . $p_repo->info['hgweb_project'] . '/';
 
 		return $t_uri_base;
 	}
 
-	function url_repo( $p_event, $p_repo, $p_changeset=null ) {
-		if ( 'hgweb' != $p_repo->type ) {
-			return;
-		}
-
+	public function url_repo( $p_repo, $p_changeset=null ) {
 		return $this->uri_base( $p_repo ) . ( $p_changeset ? 'rev/' . $p_changeset->revision : '' );
 	}
 
-	function url_changeset( $p_event, $p_repo, $p_changeset ) {
-		if ( 'hgweb' != $p_repo->type ) {
-			return;
-		}
-
-		return $this->url_repo( $p_event, $p_repo, $p_changeset );
+	public function url_changeset( $p_repo, $p_changeset ) {
+		return $this->url_repo( $p_repo, $p_changeset );
 	}
 
-	function url_file( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'hgweb' != $p_repo->type ) {
-			return;
-		}
-
+	public function url_file( $p_repo, $p_changeset, $p_file ) {
 		return $this->uri_base( $p_repo ) . 'raw-file/' .
 			$p_file->revision . '/' . $p_file->filename;
 	}
 
-	function url_diff( $p_event, $p_repo, $p_changeset, $p_file ) {
-		if ( 'hgweb' != $p_repo->type ) {
-			return;
-		}
-
+	public function url_diff( $p_repo, $p_changeset, $p_file ) {
 		return $this->uri_base( $p_repo ) . 'raw-diff/' .
 			$p_file->revision . '/' . $p_file->filename;
 	}
 
-	function update_repo_form( $p_event, $p_repo ) {
-		if ( 'hgweb' != $p_repo->type ) {
-			return;
-		}
-
+	public function update_repo_form( $p_repo ) {
 		$t_hgweb_root = null;
 		$t_hgweb_project = null;
 
@@ -140,11 +108,7 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 <?php
 	}
 
-	function update_repo( $p_event, $p_repo ) {
-		if ( 'hgweb' != $p_repo->type ) {
-			return;
-		}
-
+	public function update_repo( $p_repo ) {
 		$f_hgweb_root = gpc_get_string( 'hgweb_root' );
 		$f_hgweb_project = gpc_get_string( 'hgweb_project' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
@@ -156,34 +120,26 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		return $p_repo;
 	}
 
-	function precommit( $p_event ) {
+	public function precommit() {
 		# TODO: Implement real commit sequence.
 		return;
 	}
 
-	function commit( $p_event, $p_repo, $p_data ) {
-		if ( 'hgweb' != $p_repo->type ) {
+	public function commit( $p_repo, $p_data ) {
+		# The -d option from curl requires you to encode your own data.
+		# Once it reaches here it is decoded. Hence we split by a space
+		# were as the curl command uses a '+' character instead.
+		# i.e. DATA=`echo $INPUT | sed -e 's/ /+/g'`
+		list ( , $t_commit_id, $t_branch ) = split( ' ', $p_data );
+		list ( , , $t_branch ) = split( '/', $t_branch );
+		if ( $t_branch != $p_repo->info['master_branch'] ) {
 			return;
 		}
 
-                # The -d option from curl requires you to encode your own data.
-                # Once it reaches here it is decoded. Hence we split by a space
-                # were as the curl command uses a '+' character instead.
-                # i.e. DATA=`echo $INPUT | sed -e 's/ /+/g'`
-                list ( , $t_commit_id, $t_branch) = split(' ', $p_data);
-                list ( , , $t_branch) = split('/', $t_branch);
-                if ($t_branch != $p_repo->info['master_branch'])
-                {
-                        return;
-                }
-
-                return $this->import_commits($p_repo, null, $t_commit_id, $t_branch);
+		return $this->import_commits($p_repo, null, $t_commit_id, $t_branch);
 	}
 
-	function import_full( $p_event, $p_repo ) {
-		if ( 'hgweb' != $p_repo->type ) {
-			return;
-		}
+	public function import_full( $p_repo ) {
 		echo '<pre>';
 
 		$t_branch = $p_repo->info['master_branch'];
@@ -221,11 +177,11 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		return $t_changesets;
 	}
 
-	function import_latest( $p_event, $p_repo ) {
-		return $this->import_full( $p_event, $p_repo );
+	public function import_latest( $p_repo ) {
+		return $this->import_full( $p_repo );
 	}
 
-	function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
+	private function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
 		static $s_parents = array();
 		static $s_counter = 0;
 
@@ -262,7 +218,7 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		return $t_changesets;
 	}
 
-	function commit_changeset( $p_repo, $p_input, $p_branch='' ) {
+	private function commit_changeset( $p_repo, $p_input, $p_branch='' ) {
 		$t_parents = array();
 		$t_message = array();
 
