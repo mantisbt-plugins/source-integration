@@ -198,9 +198,10 @@ class SourcePlugin extends MantisPlugin {
 				username	C(64)	NOTNULL DEFAULT \" '' \"
 				" ) ),
 			array( 'CreateIndexSQL', array( 'idx_user_username', plugin_table( 'user' ), 'username', array( 'UNIQUE' ) ) ),
+			# 2010-02-11 - Update repo types from svn->websvn
+			array( 'UpdateSQL', array( plugin_table( 'repository' ), ' SET type="websvn" WHERE type="svn"' ) ),
 		);
 	}
 
 }
-
 

@@ -11,7 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 
-form_security_validate( 'plugin_SourceSFSVN_config_update' );
+form_security_validate( 'plugin_SourceSVN_config_update' );
 
 access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 auth_reauthenticate();
@@ -27,15 +27,14 @@ if ( $f_svnpath != $t_svnpath ) {
 
 	} else {
 		# be sure that the path is valid
-		if ( SourceWebSVN::svn_binary( $f_svnpath, true ) != 'svn' ) {
+		if ( SourceSVNPlugin::svn_binary( $f_svnpath, true ) != 'svn' ) {
 			plugin_config_set( 'svnpath', $f_svnpath );
 		} else {
 			plugin_error( 'SVNPathInvalid' );
 		}
-
 	}
 }
 
-form_security_purge( 'plugin_SourceSFSVN_config_update' );
+form_security_purge( 'plugin_SourceSVN_config_update' );
 print_successful_redirect( plugin_page( 'config_page', true ) );
 

@@ -16,18 +16,7 @@ $s_plugin_SourceWebSVN_title = 'Subversion / WebSVN Integration';
 $s_plugin_SourceWebSVN_description = 'Adds Subversion integration to the Source plugin framework using the WebSVN app.';
 
 $s_plugin_SourceWebSVN_svn = 'WebSVN';
-$s_plugin_SourceWebSVN_svn_username = 'SVN Username';
-$s_plugin_SourceWebSVN_svn_password = 'SVN Password';
 $s_plugin_SourceWebSVN_websvn_url = 'WebSVN URL<br/><span class="small">(With trailing slash)</span>';
 $s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br/><span class="small">(Repository directory)</span>';
 $s_plugin_SourceWebSVN_websvn_path = 'WebSVN Path<br/><span class="small">(From repository root)</span>';
-$s_plugin_SourceWebSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</small>';
-$s_plugin_SourceWebSVN_trunk_path = 'Trunk Path<br/><span class="small">(Non-standard repository)</span>';
-$s_plugin_SourceWebSVN_branch_path = 'Branch Path<br/><span class="small">(Non-standard repository)</span>';
-$s_plugin_SourceWebSVN_tag_path = 'Tag Path<br/><span class="small">(Non-standard repository)</span>';
-$s_plugin_SourceWebSVN_ignore_paths = 'Ignore Other Paths<br/><span class="small">(Non-standard repository)</span>';
-
-$s_plugin_SourceWebSVN_configuration = 'Configuration';
-$s_plugin_SourceWebSVN_update = 'Configuration';
-$s_plugin_SourceWebSVN_svnpath = 'Path to Subversion CLI';
 
