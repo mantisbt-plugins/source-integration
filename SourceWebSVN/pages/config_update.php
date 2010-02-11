@@ -27,10 +27,7 @@ if ( $f_svnpath != $t_svnpath ) {
 
 	} else {
 		# be sure that the path is valid
-		if ( is_dir( $f_svnpath ) &&
-			is_file( $f_svnpath . DIRECTORY_SEPARATOR . 'svn' ) &&
-			is_executable( $f_svnpath . DIRECTORY_SEPARATOR . 'svn' ) ) {
-
+		if ( SourceWebSVN::svn_binary( $f_svnpath, true ) != 'svn' ) {
 			plugin_config_set( 'svnpath', $f_svnpath );
 		} else {
 			plugin_error( 'SVNPathInvalid' );

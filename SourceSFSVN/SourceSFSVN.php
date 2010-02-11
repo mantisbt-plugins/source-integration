@@ -217,19 +217,9 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 	private function svn_call( $p_repo=null ) {
 		static $s_call;
 
-		# Generate, validate, and cache the SVN binary path
+		# Get a full binary call, including configured parameters
 		if ( is_null( $s_call ) ) {
-			$t_path = plugin_config_get( 'svnpath' );
-			if ( !is_blank( $t_path ) && is_dir( $t_path ) ) {
-				$s_call = $t_path . DIRECTORY_SEPARATOR . 'svn';
-
-				if ( !is_file( $s_call ) || !is_executable( $s_call ) ) {
-					$s_call = 'svn';
-				}
-
-			} else {
-				$s_call = 'svn';
-			}
+			$s_call = self::svn_binary();
 		}
 
 		# If not given a repo, just return the base SVN binary
@@ -252,6 +242,46 @@ class SourceSFSVNPlugin extends MantisSourcePlugin {
 		# Done
 		return $t_call;
 	}
+
+	/**
+	 * Generate, validate, and cache the SVN binary path.
+	 * @param string Path to SVN
+	 * @param boolean Reset cached value
+	 * @return string SVN binary
+	 */
+	public static function svn_binary( $p_path=null, $p_reset=false ) {
+		static $s_binary;
+
+		if ( is_null( $s_binary ) || $p_reset ) {
+			if ( is_null( $p_path ) ) {
+				$t_path = plugin_config_get( 'svnpath' );
+			} else {
+				$t_path = $p_path;
+			}
+
+			if ( !is_blank( $t_path ) && is_dir( $t_path ) ) {
+
+				# Linux / UNIX paths
+				$t_binary = $t_path . DIRECTORY_SEPARATOR . 'svn';
+				if ( is_file( $t_binary ) && is_executable( $t_binary ) ) {
+					return $s_binary = $t_binary;
+				}
+
+				# Windows paths
+				$t_binary = $t_path . DIRECTORY_SEPARATOR . 'svn.exe';
+				if ( is_file( $t_binary ) && is_executable( $t_binary ) ) {
+					return $s_binary = $t_binary;
+				}
+
+			} else {
+				# Generic pathless call
+				return $s_binary = 'svn';
+			}
+		}
+
+		return $s_binary;
+	}
+
 
 	private function process_svn_log( $p_repo, $p_svnlog ) {
 		$t_state = 0;
