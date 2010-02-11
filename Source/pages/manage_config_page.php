@@ -161,6 +161,15 @@ foreach( $t_import_urls as $t_ip ) {
 ?></textarea></td>
 </tr>
 
+<?php
+foreach( SourceVCS::all() as $t_type => $t_vcs ) {
+	if ( $t_vcs->configuration ) {
+		echo '<tr><td class="spacer"></td></tr>';
+		$t_vcs->update_config_form();
+	}
+}
+?>
+
 <tr>
 <td class="center" colspan="2"><input type="submit" value="<?php echo plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'configuration' ) ?>"/></td>
 </tr>

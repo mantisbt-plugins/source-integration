@@ -426,6 +426,8 @@ class SourceVCS {
 				}
 			}
 		}
+
+		ksort( self::$cache );
 	}
 
 	/**
@@ -487,6 +489,20 @@ class SourceVCSWrapper {
 		plugin_pop_current();
 
 		return $value;
+	}
+
+	/**
+	 * Wrap property reference to target object.
+	 */
+	function __get( $p_name ) {
+		return $this->object->$p_name;
+	}
+
+	/**
+	 * Wrap property mutation to target object.
+	 */
+	function __set( $p_name, $p_value ) {
+		return $this->object->$p_name = $p_value;
 	}
 }
 

@@ -118,6 +118,12 @@ maybe_set_option( 'checkin_urls', serialize( $t_checkin_urls ) );
 maybe_set_option( 'remote_imports', $f_remote_imports );
 maybe_set_option( 'import_urls', serialize( $t_import_urls ) );
 
+foreach( SourceVCS::all() as $t_type => $t_vcs ) {
+	if ( $t_vcs->configuration ) {
+		$t_vcs->update_config();
+	}
+}
+
 form_security_purge( 'plugin_Source_manage_config' );
 
 print_successful_redirect( plugin_page( 'manage_config_page', true ) );

@@ -29,6 +29,11 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	public $type = null;
 
 	/**
+	 * Override this to "true" if there are configuration options for the vcs plugin.
+	 */
+	public $configuration = false;
+
+	/**
 	 * Get a long, proper string representing the plugin's source control type.
 	 * Should be localized if possible.
 	 * @return string Source control name
@@ -93,10 +98,20 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	public function update_repo_form( $p_repo ) {}
 
 	/**
-	 * Process formelements for custom repository data.
+	 * Process form elements for custom repository data.
 	 * @param object Repository
 	 */
 	public function update_repo( $p_repo ) {}
+
+	/**
+	 * Output form elements for configuration options.
+	 */
+	public function update_config_form() {}
+
+	/**
+	 * Process form elements for configuration options.
+	 */
+	public function update_config() {}
 
 	/**
 	 * If necessary, check GPC inputs to determine if the checkin data
