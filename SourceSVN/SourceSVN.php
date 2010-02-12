@@ -34,6 +34,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	public function config() {
 		return array(
 			'svnpath' => '',
+			'svnargs' => '',
+			'svnssl' => false,
 		);
 	}
 
@@ -128,11 +130,21 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			SourceSVNPlugin::$config_form_handled = true;
 
 			$t_svnpath = config_get( 'plugin_SourceSVN_svnpath', '' );
+			$t_svnargs = config_get( 'plugin_SourceSVN_svnargs', '' );
+			$t_svnssl = config_get( 'plugin_SourceSVN_svnssl', '' );
 
 ?>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceSVN_svnpath' ) ?></td>
 <td><input name="plugin_SourceSVN_svnpath" value="<?php echo string_attribute( $t_svnpath ) ?>" size="40"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceSVN_svnargs' ) ?></td>
+<td><input name="plugin_SourceSVN_svnargs" value="<?php echo string_attribute( $t_svnargs ) ?>" size="40"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceSVN_svnssl' ) ?></td>
+<td><input name="plugin_SourceSVN_svnssl" type="checkbox" <?php if ( $t_svnssl ) echo 'checked="checked"' ?>/></td>
 </tr>
 <?php
 		}
@@ -146,7 +158,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			$f_svnpath = gpc_get_string( 'plugin_SourceSVN_svnpath', '' );
 			$t_svnpath = config_get( 'plugin_SourceSVN_svnpath', '' );
 
-			$f_svnpath = rtrim( $f_svnpath, '/' );
+			$f_svnpath = rtrim( $f_svnpath, DIRECTORY_SEPARATOR );
 
 			if ( $f_svnpath != $t_svnpath ) {
 				if ( is_blank( $f_svnpath ) ) {
@@ -160,6 +172,16 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 						plugin_error( 'SVNPathInvalid', ERROR );
 					}
 				}
+			}
+
+			$f_svnargs = gpc_get_string( 'plugin_SourceSVN_svnargs', '' );
+			if ( $f_svnargs != config_get( 'plugin_SourceSVN_svnargs', '' ) ) {
+				config_set( 'plugin_SourceSVN_svnargs', $f_svnargs );
+			}
+
+			$f_svnssl = gpc_get_bool( 'plugin_SourceSVN_svnssl', false );
+			if ( $f_svnssl != config_get( 'plugin_SourceSVN_svnssl', false ) ) {
+				config_set( 'plugin_SourceSVN_svnssl', $f_svnssl );
 			}
 		}
 	}
@@ -228,7 +250,16 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		# Get a full binary call, including configured parameters
 		if ( is_null( $s_call ) ) {
-			$s_call = self::svn_binary();
+			$s_call = self::svn_binary() . ' --non-interactive';
+
+			if ( config_get( 'plugin_SourceSVN_svnssl', false ) ) {
+				$s_call .= ' --trust-server-cert';
+			}
+
+			$t_svnargs = config_get( 'plugin_SourceSVN_svnargs', '' );
+			if ( !is_blank( $t_svnargs ) ) {
+				$s_call .= " $t_svnargs";
+			}
 		}
 
 		# If not given a repo, just return the base SVN binary
@@ -236,8 +267,9 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			return $s_call;
 		}
 
+		$t_call = $s_call;
+
 		# With a repo, add arguments for repo info
-		$t_call = $s_call . ' --non-interactive';
 		$t_username = escapeshellarg($p_repo->info['svn_username']);
 		$t_password = escapeshellarg($p_repo->info['svn_password']);
 

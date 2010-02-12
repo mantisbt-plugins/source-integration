@@ -26,5 +26,7 @@ $s_plugin_SourceSVN_ignore_paths = 'Ignore Other Paths<br/><span class="small">(
 
 $s_plugin_SourceSVN_configuration = 'Configuration';
 $s_plugin_SourceSVN_update = 'Configuration';
-$s_plugin_SourceSVN_svnpath = 'Path to Subversion CLI';
+$s_plugin_SourceSVN_svnpath = 'SVN: Path to binary';
+$s_plugin_SourceSVN_svnargs = 'SVN: Command arguments';
+$s_plugin_SourceSVN_svnssl = 'SVN: Trust All SSL Certs<br/><span class="small">(Requires Subversion 1.5 or newer)</span>';
 
