@@ -19,7 +19,6 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	public function register() {
 		$this->name = lang_get( 'plugin_SourceSVN_title' );
 		$this->description = lang_get( 'plugin_SourceSVN_description' );
-		$this->page = 'config_page';
 
 		$this->version = '0.14';
 		$this->requires = array(
@@ -45,6 +44,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	}
 
 	public $type = 'svn';
+
+	public $configuration = true;
 
 	public function show_type() {
 		return lang_get( 'plugin_SourceSVN_svn' );
@@ -117,6 +118,50 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		$p_repo->info['ignore_paths'] = gpc_get_bool( 'ignore_paths', false );
 
 		return $p_repo;
+	}
+
+	private static $config_form_handled = false;
+
+	public function update_config_form() {
+		# Prevent more than one SVN class from outputting form elements.
+		if ( !SourceSVNPlugin::$config_form_handled ) {
+			SourceSVNPlugin::$config_form_handled = true;
+
+			$t_svnpath = config_get( 'plugin_SourceSVN_svnpath', '' );
+
+?>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceSVN_svnpath' ) ?></td>
+<td><input name="plugin_SourceSVN_svnpath" value="<?php echo string_attribute( $t_svnpath ) ?>" size="40"/></td>
+</tr>
+<?php
+		}
+	}
+
+	public function update_config() {
+		# Prevent more than one SVN class from handling form elements.
+		if ( !SourceSVNPlugin::$config_form_handled ) {
+			SourceSVNPlugin::$config_form_handled = true;
+
+			$f_svnpath = gpc_get_string( 'plugin_SourceSVN_svnpath', '' );
+			$t_svnpath = config_get( 'plugin_SourceSVN_svnpath', '' );
+
+			$f_svnpath = rtrim( $f_svnpath, '/' );
+
+			if ( $f_svnpath != $t_svnpath ) {
+				if ( is_blank( $f_svnpath ) ) {
+					config_delete( 'plugin_SourceSVN_svnpath' );
+
+				} else {
+					# be sure that the path is valid
+					if ( ( $t_binary = SourceSVNPlugin::svn_binary( $f_svnpath, true ) ) != 'svn' ) {
+						config_set( 'plugin_SourceSVN_svnpath', $f_svnpath );
+					} else {
+						plugin_error( 'SVNPathInvalid', ERROR );
+					}
+				}
+			}
+		}
 	}
 
 	public function commit( $p_repo, $p_data ) {
@@ -218,7 +263,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		if ( is_null( $s_binary ) || $p_reset ) {
 			if ( is_null( $p_path ) ) {
-				$t_path = config_get( 'plugin_SourceSVN_svnpath' );
+				$t_path = config_get( 'plugin_SourceSVN_svnpath', '' );
 			} else {
 				$t_path = $p_path;
 			}
@@ -237,10 +282,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 					return $s_binary = $t_binary;
 				}
 
-			} else {
-				# Generic pathless call
-				return $s_binary = 'svn';
 			}
+
+			# Generic pathless call
+			$s_binary = 'svn';
 		}
 
 		return $s_binary;
