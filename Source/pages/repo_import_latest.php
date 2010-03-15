@@ -74,58 +74,99 @@ if ( !$t_valid ) {
 	die( plugin_lang_get( 'invalid_import_url' ) );
 }
 
-$f_repo_id = gpc_get_string( 'id' );
+$f_repo_id = strtolower( gpc_get_string( 'id' ) );
 
-$t_repo = SourceRepo::load( $f_repo_id );
-$t_vcs = SourceVCS::repo( $t_repo );
+# Load an array of repositories to be imported
+if ( $f_repo_id == 'all' ) {
+	$t_repos = SourceRepo::load_all();
 
-if ( !$t_remote ) {
-	html_page_top1();
-	html_page_top2();
+} elseif ( is_numeric( $f_repo_id ) ) {
+	$t_repo_id = (int) $f_repo_id;
+	$t_repos = array( SourceRepo::load( $t_repo_id ) );
 }
 
-$t_pre_stats = $t_repo->stats();
+# Loop through all repos to be imported
+foreach ( $t_repos as $t_repo ) {
+	$t_vcs = SourceVCS::repo( $t_repo );
 
-# keep checking for more changesets to import
-$t_error = false;
-while( true ) {
-
-	# import the next batch of changesets
-	$t_changesets = $t_vcs->import_latest( $t_repo );
-
-	# check for errors
-	if ( !is_array( $t_changesets ) ) {
-		$t_error = true;
-		break;
+	if ( !$t_remote ) {
+		$t_repo->pre_stats = $t_repo->stats();
 	}
 
-	# if no more entries, we're done
-	if ( count( $t_changesets ) < 1 ) {
-		break;
+	# keep checking for more changesets to import
+	$t_repo->import_error = false;
+	while( true ) {
+
+		# import the next batch of changesets
+		$t_changesets = $t_vcs->import_latest( $t_repo );
+
+		# check for errors
+		if ( !is_array( $t_changesets ) ) {
+			$t_repo->import_error = true;
+			break;
+		}
+
+		# if no more entries, we're done
+		if ( count( $t_changesets ) < 1 ) {
+			break;
+		}
+
+		Source_Process_Changesets( $t_changesets );
 	}
 
-	Source_Process_Changesets( $t_changesets );
+	if ( !$t_remote ) {
+		$t_repo->post_stats = $t_repo->stats();
+	}
 }
 
-# only display results when the user is initiating the import
+# Display output to the user
 if ( !$t_remote ) {
+	html_page_top();
 
-	if ( $t_error ) {
-		echo '<br/>', plugin_lang_get( 'import_latest_failed' ), '<br/>';
+?>
+<br/>
+<table class="width60" align="center">
+
+<tr>
+<td class="" colspan="2"><?php echo plugin_lang_get( 'import_results' ) ?></td>
+</tr>
+
+<?php foreach ( $t_repos as $t_repo ) { ?>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo string_display_line( $t_repo->name ) ?></td>
+<td>
+<?php
+	if ( $t_repo->import_error ) {
+		echo plugin_lang_get( 'import_latest_failed' ), '<br/>';
 	}
 
-	$t_stats = $t_repo->stats();
-	$t_stats['changesets'] -= $t_pre_stats['changesets'];
-	$t_stats['files'] -= $t_pre_stats['files'];
-	$t_stats['bugs'] -= $t_pre_stats['bugs'];
+	$t_stats = $t_repo->post_stats;
+	$t_stats['changesets'] -= $t_repo->pre_stats['changesets'];
+	$t_stats['files'] -= $t_repo->pre_stats['files'];
+	$t_stats['bugs'] -= $t_repo->pre_stats['bugs'];
 
-	echo '<br/><div class="center">';
-	echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stats['files'], $t_stats['bugs'] ), '<br/>';
+	echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stats['files'], $t_stats['bugs'] );
+?>
+</td>
+</tr>
+<?php } ?>
 
-	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, 'Return To Repository' );
-	echo '</div>';
+<tr>
+<td colspan="2" class="center">
+<?php
+	if ( $f_repo_id == 'all' ) {
+		print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
+	} else {
+		print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'back_repo' ) );
+	}
+?>
+</td>
+</tr>
 
+</table>
+
+<?php
 	form_security_purge( 'plugin_Source_repo_import_latest' );
-	html_page_bottom1();
+	html_page_bottom();
 }
 
