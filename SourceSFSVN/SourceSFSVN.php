@@ -16,6 +16,7 @@ class SourceSFSVNPlugin extends SourceSVNPlugin {
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 			'Source' => '0.14',
+			'SourceSVN' => '0.14',
 		);
 
 		$this->author = 'John Reese';
