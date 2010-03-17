@@ -1,7 +1,7 @@
 
 ## Mantis Source Integration
 
-Copyright (C) 2010	John Reese, LeetCode.net
+Copyright (C) 2010 John Reese
 
 ### Description
 
@@ -37,7 +37,7 @@ Problems or questions dealing with use and installation should be
 directed to the MantisBT IRC channel #mantishelp:
 
   irc://freenode.net/mantishelp
-  http://leetcode.net/mantis/plugin.php?page=Mibbit/irc
+  http://leetcode.net/mantis/plugin.php?page=IRC/irc
 
 Bug reports or fixes are highly encouraged, and should be directed to
 the bug tracker on LeetCode.net:
