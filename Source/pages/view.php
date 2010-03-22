@@ -23,6 +23,7 @@ foreach( $t_changeset->bugs as $t_bug_id ) {
 
 	$t_bug_rows[$t_bug_id] = $t_bug_row;
 }
+$t_affected_rowspan = count( $t_bug_rows ) + ( $t_can_update ? 1 : 0 );
 
 $t_repos = SourceRepo::load_by_changesets( $t_changeset );
 if ( count( $t_repos ) < 1 ) {
@@ -123,12 +124,14 @@ html_page_top2();
 </form>
 <?php } ?>
 
+<?php if ( $t_affected_rowspan > 0 ) { ?>
 <tr><td class="spacer"></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category" rowspan="<?php echo ( count( $t_bug_rows ) + ( $t_can_update ? 1 : 0 ) ) ?>">
+<td class="category" rowspan="<?php echo $t_affected_rowspan ?>">
 	<?php echo plugin_lang_get( 'affected_issues' ) ?>
 </td>
+<?php } ?>
 
 <?php
 $t_first = true;
