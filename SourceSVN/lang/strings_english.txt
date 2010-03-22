@@ -21,4 +21,5 @@ $s_plugin_SourceSVN_update = 'Configuration';
 $s_plugin_SourceSVN_svnpath = 'SVN: Path to binary';
 $s_plugin_SourceSVN_svnargs = 'SVN: Command arguments';
 $s_plugin_SourceSVN_svnssl = 'SVN: Trust All SSL Certs<br/><span class="small">(Requires Subversion 1.6 or newer)</span>';
+$s_plugin_SourceSVN_winstart = 'SVN: Use Windows `start`<br/><span class="small">(Requires a configured path to binary)</span>';
 

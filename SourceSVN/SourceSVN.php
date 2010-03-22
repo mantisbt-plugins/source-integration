@@ -28,6 +28,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			'svnpath' => '',
 			'svnargs' => '',
 			'svnssl' => false,
+			'winstart' => false,
 		);
 	}
 
@@ -124,6 +125,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			$t_svnpath = config_get( 'plugin_SourceSVN_svnpath', '' );
 			$t_svnargs = config_get( 'plugin_SourceSVN_svnargs', '' );
 			$t_svnssl = config_get( 'plugin_SourceSVN_svnssl', '' );
+			$t_winstart = config_get( 'plugin_SourceSVN_winstart', '' );
 
 ?>
 <tr <?php echo helper_alternate_class() ?>>
@@ -137,6 +139,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceSVN_svnssl' ) ?></td>
 <td><input name="plugin_SourceSVN_svnssl" type="checkbox" <?php if ( $t_svnssl ) echo 'checked="checked"' ?>/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceSVN_winstart' ) ?></td>
+<td><input name="plugin_SourceSVN_winstart" type="checkbox" <?php if ( $t_winstart ) echo 'checked="checked"' ?>/></td>
 </tr>
 <?php
 		}
@@ -174,6 +180,11 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			$f_svnssl = gpc_get_bool( 'plugin_SourceSVN_svnssl', false );
 			if ( $f_svnssl != config_get( 'plugin_SourceSVN_svnssl', false ) ) {
 				config_set( 'plugin_SourceSVN_svnssl', $f_svnssl );
+			}
+
+			$f_winstart = gpc_get_bool( 'plugin_SourceSVN_winstart', false );
+			if ( $f_winstart != config_get( 'plugin_SourceSVN_winstart', false ) ) {
+				config_set( 'plugin_SourceSVN_winstart', $f_winstart );
 			}
 		}
 	}
@@ -303,7 +314,11 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 				# Windows paths
 				$t_binary = $t_path . DIRECTORY_SEPARATOR . 'svn.exe';
 				if ( is_file( $t_binary ) && is_executable( $t_binary ) ) {
-					return $s_binary = $t_binary;
+					if ( config_get( 'plugin_SourceSVN_winstart', '' ) ) {
+						return "start /B /D \"{$t_path}\" svn.exe";
+					} else {
+						return $s_binary = $t_binary;
+					}
 				}
 
 			}
