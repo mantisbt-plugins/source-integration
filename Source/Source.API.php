@@ -316,7 +316,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 		$t_bug = bug_get( $t_bug_id );
 
 		# Resolve any fixed bugs that are not already marked as resolved
-		if ( $t_enable_resolving && $t_bug_data->status < $t_resolved_threshold ) {
+		if ( $t_enable_resolving && $t_bug->status < $t_resolved_threshold ) {
 			bug_resolve( $t_bug_id, $t_resolution, $t_version, $t_message, null, $t_user_id );
 
 		# Optionally update the resoltion, fixed-in version, or add a bugnote
