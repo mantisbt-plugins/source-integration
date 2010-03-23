@@ -163,7 +163,7 @@ foreach( SourceVCS::all() as $t_type => $t_vcs ) {
 ?>
 
 <tr>
-<td class="center" colspan="2"><input type="submit" value="<?php echo plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'configuration' ) ?>"/></td>
+<td class="center" colspan="2"><input type="submit" value="<?php echo plugin_lang_get( 'update_configuration' ) ?>"/></td>
 </tr>
 
 </table>

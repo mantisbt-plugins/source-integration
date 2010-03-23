@@ -57,6 +57,13 @@ $s_plugin_Source_select_any = '[any]';
 $s_plugin_Source_pending = 'Pending';
 $s_plugin_Source_na = 'N/A';
 
+$s_plugin_Source_create_repository = 'Create Repository';
+$s_plugin_Source_manage_repository = 'Manage Repository';
+$s_plugin_Source_update_repository = 'Update Repository';
+$s_plugin_Source_delete_repository = 'Delete Repository';
+$s_plugin_Source_update_configuration = 'Update Configuration';
+$s_plugin_Source_search_changesets = 'Search Changesets';
+
 $s_plugin_Source_back = 'Back to Index';
 $s_plugin_Source_back_repo = 'Back to Repository';
 $s_plugin_Source_import_full = 'Import Everything';

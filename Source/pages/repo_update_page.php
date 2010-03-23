@@ -22,7 +22,7 @@ html_page_top2();
 <table class="width60" align="center" cellspacing="1">
 
 <tr>
-<td class="form-title"><?php echo plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'repository' ) ?></td>
+<td class="form-title"><?php echo plugin_lang_get( 'update_repository' ) ?></td>
 <td class="right"><?php print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, "Back to Repository" ) ?></td>
 </tr>
 
@@ -44,7 +44,7 @@ html_page_top2();
 <?php $t_vcs->update_repo_form( $t_repo ) ?>
 
 <tr>
-<td class="center" colspan="2"><input type="submit" value="<?php echo  plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'repository' ) ?>"/></td>
+<td class="center" colspan="2"><input type="submit" value="<?php echo  plugin_lang_get( 'update_repository' ) ?>"/></td>
 </tr>
 
 </table>

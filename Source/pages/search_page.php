@@ -27,7 +27,7 @@ html_page_top2();
 <table class="width75 SourceFilters" align="center" cellspacing="1">
 
 <tr>
-<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'search' ), ' ', plugin_lang_get( 'changesets' ) ?></td>
+<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'search_changesets' ) ?></td>
 <td class="right" colspan="5">
 <?php
 print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );

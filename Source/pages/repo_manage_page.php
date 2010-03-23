@@ -37,7 +37,7 @@ html_page_top2();
 <table class="width75" align="center" cellspacing="1">
 
 <tr>
-<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'manage' ), ' ', plugin_lang_get( 'repository' ) ?></td>
+<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'manage_repository' ) ?></td>
 <td class="right">
 <?php
 	print_bracket_link( plugin_page( 'list' ) . "&id=$f_repo_id", plugin_lang_get( 'browse' ) );
@@ -80,11 +80,11 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <tr>
 <td colspan="2">
 <form action="<?php echo plugin_page( 'repo_update_page' ) . '&id=' . $t_repo->id ?>" method="post">
-	<input type="submit" value="<?php echo plugin_lang_get( 'update' ), ' ', plugin_lang_get( 'repository' ) ?>"/>
+	<input type="submit" value="<?php echo plugin_lang_get( 'update_repository' ) ?>"/>
 </form>
 <form action="<?php echo plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id ?>" method="post">
 	<?php echo form_security_field( 'plugin_Source_repo_delete' ) ?>
-	<input type="submit" value="<?php echo plugin_lang_get( 'delete' ), ' ', plugin_lang_get( 'repository' ) ?>"/>
+	<input type="submit" value="<?php echo plugin_lang_get( 'delete_repository' ) ?>"/>
 </form>
 </td>
 <td class="right">

@@ -73,7 +73,7 @@ if ( $t_can_manage ) { print_bracket_link( plugin_page( 'manage_config_page' ), 
 <table class="width50" align="center" cellspacing="1">
 
 <tr>
-<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'create' ), ' ', plugin_lang_get( 'repository' ) ?></td>
+<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'create_repository' ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
@@ -94,7 +94,7 @@ if ( $t_can_manage ) { print_bracket_link( plugin_page( 'manage_config_page' ), 
 </tr>
 
 <tr>
-<td class="center" colspan="2"><input type="submit" value="<?php echo plugin_lang_get( 'create' ), ' ', plugin_lang_get( 'repository' ) ?>"/></td>
+<td class="center" colspan="2"><input type="submit" value="<?php echo plugin_lang_get( 'create_repository' ) ?>"/></td>
 </tr>
 
 </table>
