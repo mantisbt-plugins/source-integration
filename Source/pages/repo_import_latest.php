@@ -9,18 +9,9 @@ $t_remote = true;
 
 helper_begin_long_process();
 
-# Allow a logged-in user to import
-if ( auth_is_user_authenticated() && !current_user_is_anonymous() ) {
-	form_security_validate( 'plugin_Source_repo_import_latest' );
-	access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
-	helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
-
-	$t_valid = true;
-	$t_remote = false;
-}
-
 # Always allow the same machine to import
-if ( !$t_valid && ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address ) ) {
+if ( '127.0.0.1' == $t_address || '127.0.1.1' == $t_address
+     || 'localhost' == $t_address || '::1' == $t_address ) {
 	$t_valid = true;
 }
 
@@ -59,6 +50,16 @@ if ( !$t_valid && ON == plugin_config_get( 'remote_imports' ) ) {
 			}
 		}
 	}
+}
+
+# Allow a logged-in user to import
+if ( !$t_valid && auth_is_user_authenticated() && !current_user_is_anonymous() ) {
+	form_security_validate( 'plugin_Source_repo_import_latest' );
+	access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
+	helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
+
+	$t_valid = true;
+	$t_remote = false;
 }
 
 # Not validated by this point gets the boot!
