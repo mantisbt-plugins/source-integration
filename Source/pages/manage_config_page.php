@@ -111,6 +111,15 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'bugfix_status' ) ?></td>
+<td><select name="bugfix_status">
+<option value="0" <?php echo check_selected( 0, plugin_config_get( 'bugfix_status' ) ) ?>><?php echo plugin_lang_get( 'bugfix_status_off' ) ?></option>
+<option value="-1" <?php echo check_selected( -1, plugin_config_get( 'bugfix_status' ) ) ?>><?php echo plugin_lang_get( 'bugfix_status_default' ) ?></option>
+<?php print_enum_string_option_list( 'status', plugin_config_get( 'bugfix_status' ) ) ?>
+</select></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'bugfix_resolution' ) ?></td>
 <td><select name="bugfix_resolution"><?php print_enum_string_option_list( 'resolution', plugin_config_get( 'bugfix_resolution' ) ) ?></select></td>
 </tr>

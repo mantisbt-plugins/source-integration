@@ -259,6 +259,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	$t_enable_message = config_get( 'plugin_Source_enable_message' );
 	$t_enable_mapping = config_get( 'plugin_Source_enable_mapping' );
 
+	$t_bugfix_status = config_get( 'plugin_Source_bugfix_status' );
 	$t_resolution = config_get( 'plugin_Source_bugfix_resolution' );
 	$t_message_template = str_replace(
 		array( '$1', '$2', '$3', '$4', '$5' ),
@@ -316,13 +317,17 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 		$t_bug = bug_get( $t_bug_id );
 
 		# Resolve any fixed bugs that are not already marked as resolved
-		if ( $t_enable_resolving && $t_bug->status < $t_resolved_threshold ) {
+		if ( $t_enable_resolving && $t_bugfix_status == -1 && $t_bug->status < $t_resolved_threshold ) {
 			bug_resolve( $t_bug_id, $t_resolution, $t_version, $t_message, null, $t_user_id );
 
 		# Optionally update the resoltion, fixed-in version, or add a bugnote
 		} else {
 			$t_update = false;
 
+			if ( $t_bugfix_status > 0 && $t_bug->status != $t_bugfix_status ) {
+				$t_bug->status = $t_bugfix_status;
+				$t_update = true;
+			}
 			if ( $t_bug->resolution < $t_fixed_threshold || $t_bug->resolution >= $t_notfixedthreshold ) {
 				$t_bug->resolution = $t_resolution;
 				$t_update = true;
