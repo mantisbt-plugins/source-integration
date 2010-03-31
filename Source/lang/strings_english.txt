@@ -89,6 +89,7 @@ $s_plugin_Source_bugfix_status = 'Bug Fixed Status';
 $s_plugin_Source_bugfix_status_off = '[Disabled]';
 $s_plugin_Source_bugfix_status_default = '[Resolved Status]';
 $s_plugin_Source_bugfix_resolution = 'Bug Fixed Resolution';
+$s_plugin_Source_bugfix_handler = 'Bug Fixed Assign To Committer';
 $s_plugin_Source_bugfix_message = 'Bug Fixed Message Template';
 $s_plugin_Source_bugfix_message_info = '<span class="small">Use $1 for branch, $2 for revision, $3 for timestamp, $4 for commit message, or $5 for repository name.</span>';
 $s_plugin_Source_reset = 'Reset to default';

@@ -130,6 +130,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <?php echo plugin_lang_get( 'bugfix_message_info' ) ?></td>
 </tr>
 
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'bugfix_handler' ) ?></td>
+<td><input name="bugfix_handler" type="checkbox" <?php echo (ON == plugin_config_get( 'bugfix_handler' ) ? 'checked="checked"' : '') ?>></td>
+</tr>
+
 <tr><td class="spacer"></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
