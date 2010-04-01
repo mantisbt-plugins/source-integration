@@ -6,7 +6,7 @@
 $s_plugin_Source_ = '';
 $s_plugin_Source_title = 'Source Control Integration';
 $s_plugin_Source_description = 'Source control integration using an abstract API to support any source control software.';
-$s_plugin_Source_version = '0.14';
+$s_plugin_Source_version = '0.15';
 
 $s_plugin_Source_repository = 'Repository';
 $s_plugin_Source_repositories = 'Repositories';
@@ -98,6 +98,7 @@ $s_plugin_Source_show_repo_link = 'Repositories';
 $s_plugin_Source_show_search_link = 'Search';
 $s_plugin_Source_show_repo_stats = 'Repository Statistics';
 $s_plugin_Source_enabled_features = 'Enabled Features';
+$s_plugin_Source_enable_linking = 'Changeset Linking <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
 $s_plugin_Source_enable_mapping = 'Branch Mappings';
 $s_plugin_Source_enable_resolving = 'Resolve Fixed Issues';
 $s_plugin_Source_enable_message = 'Bug Fixed Message';

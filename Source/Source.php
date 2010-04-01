@@ -42,6 +42,7 @@ class SourcePlugin extends MantisPlugin {
 			'manage_threshold'	=> ADMINISTRATOR,
 			'username_threshold' => DEVELOPER,
 
+			'enable_linking'	=> ON,
 			'enable_mapping'	=> OFF,
 			'enable_porting'	=> OFF,
 			'enable_resolving'	=> OFF,
@@ -92,6 +93,10 @@ class SourcePlugin extends MantisPlugin {
 
 		require_once( 'SourceIntegration.php' );
 		plugin_child( 'SourceIntegration' );
+
+		if ( plugin_config_get( 'enable_linking' ) ) {
+			plugin_event_hook( 'EVENT_DISPLAY_FORMATTED', 'display_formatted' );
+		}
 	}
 
 	/**
@@ -125,6 +130,11 @@ class SourcePlugin extends MantisPlugin {
 		}
 
 		return $t_links;
+	}
+
+	function display_formatted( $p_event, $p_text, $p_multiline ) {
+		$p_text = preg_replace_callback( '/(?:([sv]):([^:\n\t]+):([^:\n\t\s]+):)/i', 'Source_Changeset_Link_Callback', $p_text );
+		return $p_text;
 	}
 
 	function schema() {

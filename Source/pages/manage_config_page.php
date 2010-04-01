@@ -63,6 +63,8 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <td>
 	<label><input type="checkbox" name="show_repo_stats" <?php echo ( plugin_config_get( 'show_repo_stats' ) ? 'checked="checked" ' : '' ) ?>/>
 	<?php echo plugin_lang_get( 'show_repo_stats' ) ?></label><br/>
+	<label><input type="checkbox" name="enable_linking" <?php echo ( plugin_config_get( 'enable_linking' ) ? 'checked="checked" ' : '' ) ?>/>
+	<?php echo plugin_lang_get( 'enable_linking' ) ?></label><br/>
 	<label><input type="checkbox" name="enable_mapping" <?php echo ( plugin_config_get( 'enable_mapping' ) ? 'checked="checked" ' : '' ) ?>/>
 	<?php echo plugin_lang_get( 'enable_mapping' ) ?></label><br/>
 	<label><input type="checkbox" name="enable_resolving" <?php echo ( plugin_config_get( 'enable_resolving' ) ? 'checked="checked" ' : '' ) ?>/>
