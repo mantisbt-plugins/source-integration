@@ -93,10 +93,6 @@ class SourcePlugin extends MantisPlugin {
 
 		require_once( 'SourceIntegration.php' );
 		plugin_child( 'SourceIntegration' );
-
-		if ( plugin_config_get( 'enable_linking' ) ) {
-			plugin_event_hook( 'EVENT_DISPLAY_FORMATTED', 'display_formatted' );
-		}
 	}
 
 	/**
@@ -108,6 +104,10 @@ class SourcePlugin extends MantisPlugin {
 
 		# initialize the vcs type cache
 		SourceVCS::init();
+
+		if ( plugin_config_get( 'enable_linking' ) ) {
+			plugin_event_hook( 'EVENT_DISPLAY_FORMATTED', 'display_formatted' );
+		}
 	}
 
 	function css() {
