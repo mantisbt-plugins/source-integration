@@ -34,10 +34,10 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 
 <tr class="row-1">
 <td class="category" width="25%" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
-	<?php echo string_display(
+	<a name="changeset<?php echo $t_changeset->id ?>"><?php echo string_display(
 		( $p_show_repos ? $t_repo->name . ': ' : '' ) .
 		$t_vcs->show_changeset( $t_repo, $t_changeset )
-		) ?>
+		) ?></a>
 	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
 	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', $t_author ?></span>
 	<?php if ( $t_committer && $t_committer != $t_author ) { ?><br/><span class="small"><?php echo plugin_lang_get( 'committer', 'Source' ), ': ', $t_committer ?></span><?php } ?>
