@@ -1044,13 +1044,7 @@ class SourceChangeset {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
 
-		$t_row = db_fetch_array( $t_result );
-		$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'],
-			$t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'],
-			$t_row['user_id'], $t_row['parent'], $t_row['ported'], $t_row['author_email'] );
-		$t_changeset->id = $t_row['id'];
-
-		return $t_changeset;
+		return array_shift( self::from_result( $t_result ) );
 	}
 
 	/**
@@ -1070,13 +1064,7 @@ class SourceChangeset {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
 
-		$t_row = db_fetch_array( $t_result );
-		$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'],
-			$t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'],
-			$t_row['user_id'], $t_row['parent'], $t_row['ported'], $t_row['author_email'] );
-		$t_changeset->id = $t_row['id'];
-
-		return $t_changeset;
+		return array_shift( self::from_result( $t_result ) );
 	}
 
 	/**
@@ -1095,22 +1083,7 @@ class SourceChangeset {
 			$t_result = db_query_bound( $t_query, array( $p_repo_id ), $p_limit, ($p_page - 1) * $p_limit );
 		}
 
-		$t_changesets = array();
-
-		while ( $t_row = db_fetch_array( $t_result ) ) {
-			$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'],
-				$t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'],
-				$t_row['user_id'], $t_row['parent'], $t_row['ported'], $t_row['author_email'] );
-			$t_changeset->id = $t_row['id'];
-
-			if ( $p_load_files ) {
-				$t_changeset->load_files();
-			}
-
-			$t_changesets[] = $t_changeset;
-		}
-
-		return $t_changesets;
+		return self::from_result( $t_result, $p_load_files );
 	}
 
 	/**
@@ -1129,19 +1102,40 @@ class SourceChangeset {
 				ORDER BY c.timestamp $t_order";
 		$t_result = db_query_bound( $t_query, array( $p_bug_id ) );
 
+		return self::from_result( $t_result, $p_load_files );
+	}
+
+	/**
+	 * Return a set of changeset objects from a database result.
+	 * Assumes selecting * from changeset_table.
+	 * @param object Database result
+	 * @return array Changeset objects
+	 */
+	static function from_result( $p_result, $p_load_files=false ) {
 		$t_changesets = array();
 
-		while ( $t_row = db_fetch_array( $t_result ) ) {
-			$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'],
-				$t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'],
-				$t_row['user_id'], $t_row['parent'], $t_row['ported'], $t_row['author_email'] );
+		while ( $t_row = db_fetch_array( $p_result ) ) {
+			$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'] );
+
 			$t_changeset->id = $t_row['id'];
+			$t_changeset->parent = $t_row['parent'];
+			$t_changeset->branch = $t_row['branch'];
+			$t_changeset->timestamp = $t_row['timestamp'];
+			$t_changeset->user_id = $t_row['user_id'];
+			$t_changeset->author = $t_row['author'];
+			$t_changeset->author_email = $t_row['author_email'];
+			$t_changeset->message = $t_row['message'];
+			$t_changeset->info = $t_row['info'];
+			$t_changeset->ported = $t_row['ported'];
+			$t_changeset->committer = $t_row['committer'];
+			$t_changeset->committer_email = $t_row['committer_email'];
+			$t_changeset->committer_id = $t_row['committer_id'];
 
 			if ( $p_load_files ) {
 				$t_changeset->load_files();
 			}
 
-			$t_changesets[] = $t_changeset;
+			$t_changesets[ $t_changeset->id ] = $t_changeset;
 		}
 
 		return $t_changesets;
