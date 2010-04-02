@@ -48,7 +48,7 @@ $t_columns =
 	( $t_use_porting ? 1 : 0 ) +
 	5;
 
-$t_update_form = $t_use_porting || false;
+$t_update_form = $t_use_porting && $t_can_update;
 
 html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
@@ -69,7 +69,7 @@ html_page_top2();
 	if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) {
 		print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
 	}
-	print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset, "Back to Repository" );
+	print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset, plugin_lang_get( 'back_repo' ) );
 ?>
 </td>
 <tr>
@@ -91,29 +91,20 @@ html_page_top2();
 <td class="center"><?php echo string_display_line( $t_changeset->branch ) ?></td>
 <td class="center"><?php echo string_display_line( $t_changeset->timestamp ) ?></td>
 <td class="center"><?php if ( $t_changeset_parent ) { print_link( plugin_page( 'view' ) . '&id=' . $t_changeset_parent->id, $t_vcs->show_changeset( $t_repo, $t_changeset_parent ) ); } ?></td>
-<?php if ( $t_use_porting ) { ?>
 <td class="center">
+<?php if ( $t_update_form ) { ?>
 <select name="ported">
-<?php
-	echo '<option value=""',
-		( $t_changeset->ported == '' ? ' selected="selected"' : '' ),
-		'>', plugin_lang_get( 'pending' ), '</option>',
-		'<option value="0"',
-		( $t_changeset->ported == '0' ? ' selected="selected"' : '' ),
-		'>', plugin_lang_get( 'na' ), '</option>',
-		'<option value="">--</option>';
-
-	foreach( $t_repo->branches as $t_branch ) {
-		if ( $t_branch == $t_changeset->branch ) { continue; }
-
-		echo '<option value="', $t_branch, '"',
-			( $t_changeset->ported == $t_branch ? ' selected="selected"' : '' ),
-			'>', $t_branch, '</option>';
-	}
-?>
-</select>
-</td>
+<option value="" <?php echo check_selected( "", $t_changeset->ported ) ?>><?php echo plugin_lang_get( 'pending' ) ?></option>
+<option value="0" <?php echo check_selected( "0", $t_changeset->ported ) ?>><?php echo plugin_lang_get( 'na' ) ?></option>
+<option value="">--</option>
+<?php foreach( $t_repo->branches as $t_branch ) { if ( $t_branch == $t_changeset->branch ) { continue; } ?>
+<option value="<?php echo string_attribute( $t_branch ) ?>" <?php echo check_selected( $t_branch, $t_changeset->ported ) ?>><?php echo string_display_line( $t_branch ) ?></option>
 <?php } ?>
+</select>
+<?php } else {
+	echo $t_changeset->ported == "0" ? plugin_lang_get( 'na' ) : $t_changeset->ported == "" ? plugin_lang_get( 'pending' ) : string_display_line( $t_changeset->ported );
+} ?>
+</td>
 </tr>
 
 <?php if ( $t_update_form ) { ?>
@@ -179,6 +170,18 @@ if ( $t_can_update ) {
 </span></td>
 </tr>
 
+<?php } ?>
+
+<?php if ( $t_can_update ) { ?>
+<tr>
+<td class="center" colspan="<?php echo $t_columns ?>">
+<form action="<?php echo helper_mantis_url( 'plugin.php' ) ?>" method="get">
+<input type="hidden" name="page" value="Source/edit_page"/>
+<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
+<input type="submit" value="<?php echo plugin_lang_get( 'edit' ) ?>"/>
+</form>
+</td>
+</tr>
 <?php } ?>
 
 </table>

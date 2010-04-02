@@ -44,6 +44,7 @@ $s_plugin_Source_browse = 'Browse';
 $s_plugin_Source_manage = 'Manage';
 $s_plugin_Source_create = 'Create';
 $s_plugin_Source_import = 'Import';
+$s_plugin_Source_edit = 'Edit';
 $s_plugin_Source_update = 'Update';
 $s_plugin_Source_delete = 'Delete';
 $s_plugin_Source_search = 'Search';
@@ -66,6 +67,7 @@ $s_plugin_Source_search_changesets = 'Search Changesets';
 
 $s_plugin_Source_back = 'Back to Index';
 $s_plugin_Source_back_repo = 'Back to Repository';
+$s_plugin_Source_back_changeset = 'Back to Changeset';
 $s_plugin_Source_import_full = 'Import Everything';
 $s_plugin_Source_import_latest = 'Import Latest Data';
 $s_plugin_Source_related_changesets = 'Related Changesets';
