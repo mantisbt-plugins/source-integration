@@ -220,7 +220,11 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		$t_url = $p_repo->url;
 		$t_rev = ( false === $t_db_revision ? 0 : $t_db_revision + 1 );
 
+		echo "<pre>";
+
 		while( true ) {
+			echo "Requesting svn log for {$p_repo->name} starting with revision {$t_rev}...\n";
+
 			$t_svnlog = explode( "\n", shell_exec( "$svn log -v -r $t_rev:HEAD --limit 200 $t_url" ) );
 
 			$t_changesets = $this->process_svn_log( $p_repo, $t_svnlog );
@@ -234,6 +238,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 				$t_rev = $t_changesets + 1;
 			}
 		}
+
+		echo "</pre>";
 	}
 
 	public function import_latest( $p_repo ) {
@@ -346,6 +352,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		$t_discarded = false;
 
+		echo "Processing svn log...\n";
+
 		foreach( $p_svnlog as $t_line ) {
 
 			# starting state, do nothing
@@ -438,12 +446,17 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		}
 
 		if ( !is_null( $t_changeset ) ) {
+			echo "Parsed to revision {$t_changeset->revision}.\n";
+
 			if ( !is_blank( $t_changeset->branch ) ) {
 				$t_changeset->save();
 				$t_changesets[] = $t_changeset;
 			} else {
 				$t_discarded = $t_changeset->revision;
 			}
+
+		} else {
+			echo "No revisions parsed.\n";
 		}
 
 		if ( count( $t_changesets ) < 1 && $t_discarded !== false ) {
