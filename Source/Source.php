@@ -145,7 +145,8 @@ class SourcePlugin extends MantisPlugin {
 				name		C(128)	NOTNULL DEFAULT \" '' \" PRIMARY,
 				url			C(250)	DEFAULT \" '' \",
 				info		XL		NOTNULL
-				" ) ),
+				",
+				array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
 			array( 'CreateTableSQL', array( plugin_table( 'changeset' ), "
 				id			I		NOTNULL UNSIGNED AUTOINCREMENT PRIMARY,
 				repo_id		I		NOTNULL UNSIGNED PRIMARY,
@@ -156,19 +157,22 @@ class SourcePlugin extends MantisPlugin {
 				author		C(250)	NOTNULL DEFAULT \" '' \",
 				message		XL		NOTNULL,
 				info		XL		NOTNULL
-				" ) ),
+				",
+				array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
 			array( 'CreateIndexSQL', array( 'idx_changeset_stamp_author', plugin_table( 'changeset' ), 'timestamp, author' ) ),
 			array( 'CreateTableSQL', array( plugin_table( 'file' ), "
 				id			I		NOTNULL UNSIGNED AUTOINCREMENT PRIMARY,
 				change_id	I		NOTNULL UNSIGNED,
 				revision	C(250)	NOTNULL,
 				filename	XL		NOTNULL
-				" ) ),
+				",
+				array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
 			array( 'CreateIndexSQL', array( 'idx_file_change_revision', plugin_table( 'file' ), 'change_id, revision' ) ),
 			array( 'CreateTableSQL', array( plugin_table( 'bug' ), "
 				change_id	I		NOTNULL UNSIGNED PRIMARY,
 				bug_id		I		NOTNULL UNSIGNED PRIMARY
-				" ) ),
+				",
+				array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
 			array( 'AddColumnSQL', array( plugin_table( 'file' ), "
 				action		C(8)	NOTNULL DEFAULT \" '' \"
 				" ) ),
@@ -195,12 +199,14 @@ class SourcePlugin extends MantisPlugin {
 				type		I		NOTNULL UNSIGNED DEFAULT '0',
 				version		C(64)	NOTNULL DEFAULT \" '' \",
 				regex		C(128)	NOTNULL DEFAULT \" '' \"
-				" ) ),
+				",
+				array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
 			# 2009-04-15 - Allow a user/admin to specify a user's VCS username
 			array( 'CreateTableSQL', array( plugin_table( 'user' ), "
 				user_id		I		NOTNULL UNSIGNED PRIMARY,
 				username	C(64)	NOTNULL DEFAULT \" '' \"
-				" ) ),
+				",
+				array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
 			array( 'CreateIndexSQL', array( 'idx_user_username', plugin_table( 'user' ), 'username', array( 'UNIQUE' ) ) ),
 			# 2010-02-11 - Update repo types from svn->websvn
 			array( 'UpdateSQL', array( plugin_table( 'repository' ), ' SET type="websvn" WHERE type="svn"' ) ),
