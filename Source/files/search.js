@@ -3,7 +3,7 @@
  * Licensed under the MIT license
  */
 
-$(document).ready( function() {
+jQuery(document).ready( function($) {
 
 	var typeselect = $("table.SourceFilters select.SourceType");
 	var reposelect = $("table.SourceFilters select.SourceRepo");
