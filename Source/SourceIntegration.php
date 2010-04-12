@@ -6,7 +6,7 @@
 final class SourceIntegrationPlugin extends MantisPlugin {
 	function register() {
 		$this->name = plugin_lang_get( 'title', 'Source' );
-		$this->version = '0.15';
+		$this->version = '0.16';
 	}
 
 	function hooks() {

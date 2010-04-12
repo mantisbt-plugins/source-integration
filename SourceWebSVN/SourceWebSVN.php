@@ -12,11 +12,11 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		$this->name = lang_get( 'plugin_SourceWebSVN_title' );
 		$this->description = lang_get( 'plugin_SourceWebSVN_description' );
 
-		$this->version = '0.14';
+		$this->version = '0.16';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
-			'Source' => '0.14',
-			'SourceSVN' => '0.14',
+			'Source' => '0.16',
+			'SourceSVN' => '0.16',
 		);
 
 		$this->author = 'John Reese';
