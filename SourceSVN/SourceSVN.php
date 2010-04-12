@@ -398,28 +398,28 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 						if ( is_blank( $t_changeset->branch) ) {
 							# Look for standard trunk/branches/tags information
 							if ( $p_repo->info['standard_repo'] ) {
-								if ( preg_match( '/\/(?:(trunk)|(?:branches|tags)\/([^\/]+))/', $t_file->filename, $t_matches ) ) {
-									if ( 'trunk' == $t_matches[1] ) {
-										$t_changeset->branch = 'trunk';
+								if ( preg_match( '@/(?:(trunk)|(?:branches|tags)/([^/]+))@i', $t_file->filename, $t_matches ) ) {
+									if ( !is_blank( $t_matches[1] ) ) {
+										$t_changeset->branch = $t_matches[1];
 									} else {
 										$t_changeset->branch = $t_matches[2];
 									}
 								}
 							} else {
 								# Look for non-standard trunk path
-								if ( !is_blank( $t_trunk_path ) && preg_match( '@^' . $t_trunk_path . '@i', $t_file->filename ) ) {
-									$t_changeset->branch = 'trunk';
+								if ( !is_blank( $t_trunk_path ) && preg_match( '@^/*(' . $t_trunk_path . ')@i', $t_file->filename, $t_matches ) ) {
+									$t_changeset->branch = $t_matches[1];
 
 								# Look for non-standard branch path
-								} else if ( !is_blank( $t_branch_path ) && preg_match( '@^' . $t_branch_path . '([^\/]+)@i', $t_file->filename, $t_matches ) ) {
+								} else if ( !is_blank( $t_branch_path ) && preg_match( '@^/*(?:' . $t_branch_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
 									$t_changeset->branch = $t_matches[1];
 
 								# Look for non-standard tag path
-								} else if ( !is_blank( $t_tag_path ) && preg_match( '@^' . $t_tag_path . '([^\/]+)@i', $t_file->filename, $t_matches ) ) {
+								} else if ( !is_blank( $t_tag_path ) && preg_match( '@^/*(?:' . $t_tag_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
 									$t_changeset->branch = $t_matches[1];
 
 								# Fall back to just using the root folder as the branch name
-								} else if ( !$t_ignore_paths && preg_match( '/\/([^\/]+)/', $t_file->filename, $t_matches ) ) {
+								} else if ( !$t_ignore_paths && preg_match( '@/([^/]+)@', $t_file->filename, $t_matches ) ) {
 									$t_changeset->branch = $t_matches[1];
 								}
 							}
