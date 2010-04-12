@@ -161,7 +161,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 class SourceGenericPlugin extends MantisSourcePlugin {
 	function register() {
 		$this->name = plugin_lang_get( 'title', 'Source' );
-		$this->version = plugin_lang_get( 'version', 'Source' );
+		$this->version = SourcePlugin::$framework_version;
 	}
 
 	public $type = 'generic';
