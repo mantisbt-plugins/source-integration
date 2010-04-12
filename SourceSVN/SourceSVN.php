@@ -231,6 +231,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 			# if an array is returned, processing is done
 			if ( is_array( $t_changesets ) ) {
+				echo "</pre>";
 				return $t_changesets;
 
 			# if a number is returned, repeat from given revision
