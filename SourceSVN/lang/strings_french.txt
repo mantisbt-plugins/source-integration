@@ -1,0 +1,26 @@
+<?php
+
+# Copyright (c) 2010 John Reese
+# Translation by Olivier Sannier
+# Licensed under the MIT license
+
+$s_plugin_SourceSVN_ = '';
+$s_plugin_SourceSVN_title = 'Intégration Subversion';
+$s_plugin_SourceSVN_description = 'Ajoute l\'intégration de Subversion au framework du plugin Source.';
+
+$s_plugin_SourceSVN_svn = 'SVN';
+$s_plugin_SourceSVN_svn_username = 'Nom d\'utilisateur SVN';
+$s_plugin_SourceSVN_svn_password = 'Mot de passe SVN';
+$s_plugin_SourceSVN_standard_repo = 'Dépôt standard<br/><span class="small">(trunk/branches/tags)</small>';
+$s_plugin_SourceSVN_trunk_path = 'Chemin du tronc<br/><span class="small">(Dépôt non standard)</span>';
+$s_plugin_SourceSVN_branch_path = 'Chemin des branches<br/><span class="small">(Dépôt non standard)</span>';
+$s_plugin_SourceSVN_tag_path = 'Chemin des tags<br/><span class="small">(Dépôt non standard)</span>';
+$s_plugin_SourceSVN_ignore_paths = 'Ignorer les autres chemins<br/><span class="small">(Dépôt non standard)</span>';
+
+$s_plugin_SourceSVN_configuration = 'Configuration';
+$s_plugin_SourceSVN_update = 'Configuration';
+$s_plugin_SourceSVN_svnpath = 'SVN: Chemin de l\'éxécutable';
+$s_plugin_SourceSVN_svnargs = 'SVN: Arguments de ligne de commande';
+$s_plugin_SourceSVN_svnssl = 'SVN: Faire confiance à tous les certificats SSL<br/><span class="small">(Nécessite Subversion 1.6 ou plus récent)</span>';
+$s_plugin_SourceSVN_winstart = 'SVN: Utiliser la commande Windows `start`<br/><span class="small">(Nécessite un chemin d\'éxécutable configuré correctement)</span>';
+

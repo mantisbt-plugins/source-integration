@@ -1,0 +1,140 @@
+<?php
+
+# Copyright (c) 2010 John Reese
+# Translation by Olivier Sannier
+# Licensed under the MIT license
+
+$s_plugin_Source_ = '';
+$s_plugin_Source_title = 'Intégration contrôle de source';
+$s_plugin_Source_description = 'Intégration de contrôle de source utilisant une API abstraite pour supporter tout logiciel de contrôle de source.';
+
+$s_plugin_Source_repository = 'Dépôt';
+$s_plugin_Source_repositories = 'Dépôts';
+$s_plugin_Source_changeset = 'Jeu de modifications';
+$s_plugin_Source_changesets = 'Jeux de modifications';
+$s_plugin_Source_file = 'Fichier';
+$s_plugin_Source_files = 'Fichiers';
+$s_plugin_Source_diff = 'Diff';
+
+$s_plugin_Source_name = 'Nom';
+$s_plugin_Source_type = 'Type';
+$s_plugin_Source_branch = 'Branche';
+$s_plugin_Source_action = 'Action';
+$s_plugin_Source_author = 'Auteur';
+$s_plugin_Source_committer = 'Soumissionneur';
+$s_plugin_Source_username = 'Nom d\'utilisateur';
+$s_plugin_Source_timestamp = 'Horodatage';
+$s_plugin_Source_parent = 'Parent';
+$s_plugin_Source_url = 'URL';
+$s_plugin_Source_info = 'Info supplémentaire';
+$s_plugin_Source_revision = 'Révision';
+$s_plugin_Source_date_begin = 'Date de début';
+$s_plugin_Source_date_end = 'Date de fin';
+$s_plugin_Source_message = 'Message';
+$s_plugin_Source_filename = 'Nom de fichier';
+$s_plugin_Source_ported = 'Porté';
+$s_plugin_Source_vcs_username = 'Nom d\'utilisateur de contrôle de source';
+
+$s_plugin_Source_issue = 'Demande';
+$s_plugin_Source_issues = 'Demandes';
+$s_plugin_Source_actions = 'Actions';
+
+$s_plugin_Source_details = 'Détails';
+$s_plugin_Source_browse = 'Parcourir';
+$s_plugin_Source_manage = 'Gérer';
+$s_plugin_Source_create = 'Créer';
+$s_plugin_Source_import = 'Importer';
+$s_plugin_Source_edit = 'Editer';
+$s_plugin_Source_update = 'Mettre à jour';
+$s_plugin_Source_delete = 'Supprimer';
+$s_plugin_Source_search = 'Rechercher';
+$s_plugin_Source_attach = 'Attacher';
+$s_plugin_Source_detach = 'Détacher';
+$s_plugin_Source_modify_search = 'Modifier la recherche';
+$s_plugin_Source_new_search = 'Nouvelle recherche';
+$s_plugin_Source_permalink = 'Permalien';
+$s_plugin_Source_select_one = '(Sélectionner un élément)';
+$s_plugin_Source_select_any = '[tous]';
+$s_plugin_Source_pending = 'En attente';
+$s_plugin_Source_na = 'N/A';
+
+$s_plugin_Source_create_repository = 'Créer un dépôt';
+$s_plugin_Source_manage_repository = 'Gérer le dépôt';
+$s_plugin_Source_update_repository = 'Mettre à jour le dépôt';
+$s_plugin_Source_delete_repository = 'Supprimer le dépôt';
+$s_plugin_Source_update_configuration = 'Mettre à jour la configuration';
+$s_plugin_Source_search_changesets = 'Rechercher des jeux de changements';
+
+$s_plugin_Source_back = 'Retour à l\'index';
+$s_plugin_Source_back_repo = 'Retour au dépôt';
+$s_plugin_Source_back_changeset = 'Retour au jeu de changements';
+$s_plugin_Source_import_full = 'Tout importer';
+$s_plugin_Source_import_latest = 'Importer les dernières données';
+$s_plugin_Source_related_changesets = 'Jeux de changements liés';
+$s_plugin_Source_affected_issues = 'Demandes affectées';
+$s_plugin_Source_attach_to_issue = 'Attacher des demandes :';
+
+$s_plugin_Source_configuration = 'Configuration';
+$s_plugin_Source_allow_remote_checkin = 'Autoriser une soumission à distance';
+$s_plugin_Source_remote_checkin_urls = 'Adresses autorisées';
+$s_plugin_Source_allow_remote_import = 'Autoriser les imports à distance';
+$s_plugin_Source_remote_import_urls = 'Adresses autorisées';
+$s_plugin_Source_view_threshold = 'Seuil de visibilité';
+$s_plugin_Source_update_threshold = 'Seuil de mise à jour';
+$s_plugin_Source_manage_threshold = 'Seuil de gestion';
+$s_plugin_Source_username_threshold = 'Seuil de changement de nom d\'utilisateur';
+$s_plugin_Source_buglink_regex_1 = 'Regex de lien de demande, Passe 1';
+$s_plugin_Source_buglink_regex_2 = 'Regex de lien de demande, Passe 2';
+$s_plugin_Source_bugfix_regex_1 = 'Regex de résolution de demande, Passe 1';
+$s_plugin_Source_bugfix_regex_2 = 'Regex de résolution de demande, Passe 2';
+$s_plugin_Source_bugfix_status = 'Status de résolution de la demande';
+$s_plugin_Source_bugfix_status_off = '[Désactivé]';
+$s_plugin_Source_bugfix_status_default = '[Statut résolu]';
+$s_plugin_Source_bugfix_resolution = 'Niveau de résolution de demande';
+$s_plugin_Source_bugfix_handler = 'Affecter la demande résolue au soumissionneur';
+$s_plugin_Source_bugfix_message = 'Modèle de message de résolution';
+$s_plugin_Source_bugfix_message_info = '<span class="small">Utilisez $1 pour la branche, $2 pour la révision, $3 pour l\'horodatage, $4 pour le message de soumission, ou $5 pour le nom du dépôt.</span>';
+$s_plugin_Source_reset = 'Réinitialiser';
+$s_plugin_Source_menu_links = 'Liens du menu principal';
+$s_plugin_Source_show_repo_link = 'Dépôts';
+$s_plugin_Source_show_search_link = 'Rechercher';
+$s_plugin_Source_show_repo_stats = 'Statistiques du dépôt';
+$s_plugin_Source_enabled_features = 'Fonctionnalités activées';
+$s_plugin_Source_enable_linking = 'Liaison de jeu de changements <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
+$s_plugin_Source_enable_mapping = 'Association de branche';
+$s_plugin_Source_enable_resolving = 'Résoudre les demandes résolues';
+$s_plugin_Source_enable_message = 'Message de résolution';
+$s_plugin_Source_enable_porting = 'Etat de portage';
+
+$s_plugin_Source_branch_mapping = 'Associations de branche';
+$s_plugin_Source_mapping_update = 'Mettre à jour les associations';
+$s_plugin_Source_mapping_strategy = 'Stratégie';
+$s_plugin_Source_mapping_version = 'Version';
+$s_plugin_Source_mapping_version_info = '<acronym title="Uniquement utilisé avec la stragéie de version explicite.">?</acronym>';
+$s_plugin_Source_mapping_regex = 'Expression régulière';
+$s_plugin_Source_mapping_regex_info = '<acronym title="N\'appliquer la stratégie sélectionnée qu\'aux versions correspondant à l\'expression régulière donnée.">?</acronym>';
+$s_plugin_Source_mapping_create = 'Créer une association';
+$s_plugin_Source_mapping_explicit = 'Version explicite';
+$s_plugin_Source_mapping_near = 'Date de livraison la plus proche';
+$s_plugin_Source_mapping_far = 'Date de livraison la plus éloignée';
+$s_plugin_Source_mapping_first = 'Version triée en premier';
+$s_plugin_Source_mapping_last = 'Version triée en dernier';
+
+$s_plugin_Source_changeset_attached = 'Jeu de changement attaché';
+$s_plugin_Source_changeset_removed = 'Jeu de changement détaché';
+
+$s_plugin_Source_ensure_delete = 'Voulez-vous vraiment supprimer le dépôt "%s" et tout son historique ?';
+$s_plugin_Source_ensure_import_full = 'Ceci va importer une nouvelle copie de votre dépôt, puis détruira les vieilles données de dépôt et pourrait avoir besoin d\'un accès au shell. Voulez-vous continuer ?';
+$s_plugin_Source_ensure_import_latest = 'Ceci va tenter d\'importer les données récentes dans votre dépôt et pourrait avoir besoin d\'un accès au shell. Voulez-vous continuer ?';
+$s_plugin_Source_import_results = 'Résultats de l\'import';
+$s_plugin_Source_import_stats = '%s jeux de changements importés, %s fichiers, et %s références de demande.';
+$s_plugin_Source_import_repo_error = 'Le processus d\'import a rencontré une erreur.';
+$s_plugin_Source_ = '';
+
+$s_plugin_Source_invalid_checkin_url = 'Adresse de soumission à distance invalide';
+$s_plugin_Source_invalid_import_url = 'Adresse d\'import à distance invalide';
+$s_plugin_Source_invalid_repo = 'Nom de dépôt invalide';
+$s_plugin_Source_invalid_changeset = 'Les informations du jeu de changement n\'ont pas pû être chargées';
+
+$s_plugin_Source_import_full_failed = 'L\'import complet du dépôt a échoué.';
+

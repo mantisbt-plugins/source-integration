@@ -1,0 +1,15 @@
+<?php
+
+# Copyright (c) 2010 John Reese
+# Translation by Olivier Sannier
+# Licensed under the MIT license
+
+$s_plugin_SourceWebSVN_ = '';
+$s_plugin_SourceWebSVN_title = 'Intégration Subversion / WebSVN';
+$s_plugin_SourceWebSVN_description = 'Ajoute l\'intégration de Subversion au framework du plugin Source en utilisant l\'application WebSVN.';
+
+$s_plugin_SourceWebSVN_svn = 'WebSVN';
+$s_plugin_SourceWebSVN_websvn_url = 'URL WebSVN<br/><span class="small">(Avec le slash final)</span>';
+$s_plugin_SourceWebSVN_websvn_name = 'Nom WebSVN<br/><span class="small">(Répertoire dans le dépôt)</span>';
+$s_plugin_SourceWebSVN_websvn_path = 'Chemin WebSVN<br/><span class="small">(Depuis la racine du dépôt)</span>';
+
