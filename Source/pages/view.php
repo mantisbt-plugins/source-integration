@@ -91,6 +91,7 @@ html_page_top2();
 <td class="center"><?php echo string_display_line( $t_changeset->branch ) ?></td>
 <td class="center"><?php echo string_display_line( $t_changeset->timestamp ) ?></td>
 <td class="center"><?php if ( $t_changeset_parent ) { print_link( plugin_page( 'view' ) . '&id=' . $t_changeset_parent->id, $t_vcs->show_changeset( $t_repo, $t_changeset_parent ) ); } ?></td>
+<?php if ( $t_use_porting ) { ?>
 <td class="center">
 <?php if ( $t_update_form ) { ?>
 <select name="ported">
@@ -105,6 +106,7 @@ html_page_top2();
 	echo $t_changeset->ported == "0" ? plugin_lang_get( 'na' ) : $t_changeset->ported == "" ? plugin_lang_get( 'pending' ) : string_display_line( $t_changeset->ported );
 } ?>
 </td>
+<?php } ?>
 </tr>
 
 <?php if ( $t_update_form ) { ?>
