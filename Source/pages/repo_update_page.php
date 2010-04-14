@@ -23,7 +23,7 @@ html_page_top2();
 
 <tr>
 <td class="form-title"><?php echo plugin_lang_get( 'update_repository' ) ?></td>
-<td class="right"><?php print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, "Back to Repository" ) ?></td>
+<td class="right"><?php print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'back_repo' ) ) ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>

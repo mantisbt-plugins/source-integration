@@ -68,18 +68,18 @@ print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 <tr class="spacer"><td></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category">Beginning Date</td>
+<td class="category"><?php echo plugin_lang_get( 'date_begin' ) ?></td>
 <td colspan="3"><?php Source_Date_Select( 'date_start', $t_date_start ); ?></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category">Ending Date</td>
+<td class="category"><?php echo plugin_lang_get( 'date_end' ) ?></td>
 <td colspan="3"><?php Source_Date_Select( 'date_end', $t_date_end ); ?></td>
 </tr>
 
 <?php if ( plugin_config_get( 'enable_porting' ) ): ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category">Porting Status</td>
+<td class="category"><?php echo plugin_lang_get( 'enable_porting' ) ?></td>
 <td colspan="3"><?php Source_Ported_Select( $t_filter->filters['c.ported']->value ); ?></td>
 </tr>
 <?php endif ?>
