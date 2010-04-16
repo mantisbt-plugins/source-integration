@@ -1,0 +1,138 @@
+<?php
+
+# Copyright (c) 2010 John Reese
+# Licensed under the MIT license
+
+$s_plugin_Source_ = '';
+$s_plugin_Source_title = 'VCS Basisintegration';
+$s_plugin_Source_description = 'Die VCS Basisintegration nutzt eine abstrakte API zur Unterstützung beliebiger Versionskontrollsysteme (VCS)';								
+
+$s_plugin_Source_repository = 'Projektarchiv';
+$s_plugin_Source_repositories = 'Projektarchive';
+$s_plugin_Source_changeset = 'Änderungssatz';
+$s_plugin_Source_changesets = 'Änderungssätze';
+$s_plugin_Source_file = 'Datei';
+$s_plugin_Source_files = 'Dateien';
+$s_plugin_Source_diff = 'Änderungen';
+
+$s_plugin_Source_name = 'Name';
+$s_plugin_Source_type = 'Typ';
+$s_plugin_Source_branch = 'Zweig';
+$s_plugin_Source_action = 'Aktion';
+$s_plugin_Source_author = 'Autor';
+$s_plugin_Source_committer = 'Übertragen von';
+$s_plugin_Source_username = 'Benutzer';
+$s_plugin_Source_timestamp = 'Datum';
+$s_plugin_Source_parent = 'Vorgänger';
+$s_plugin_Source_url = 'URL';
+$s_plugin_Source_info = 'Zusatzinfos';
+$s_plugin_Source_revision = 'Revision';
+$s_plugin_Source_date_begin = 'Beginn';
+$s_plugin_Source_date_end = 'Ende';
+$s_plugin_Source_message = 'Nachricht';
+$s_plugin_Source_filename = 'Dateiname';
+$s_plugin_Source_ported = 'Portiert';
+$s_plugin_Source_vcs_username = 'Benutzername im VCS';
+
+$s_plugin_Source_issue = 'Eintrag';
+$s_plugin_Source_issues = 'Einträge';
+$s_plugin_Source_actions = 'Aktionen';
+
+$s_plugin_Source_details = 'Details';
+$s_plugin_Source_browse = 'Browse';
+$s_plugin_Source_manage = 'Verwalten';
+$s_plugin_Source_create = 'Anlegen';
+$s_plugin_Source_import = 'Importieren';
+$s_plugin_Source_edit = 'Bearbeiten';
+$s_plugin_Source_update = 'Aktualisieren';
+$s_plugin_Source_delete = 'Löschen';
+$s_plugin_Source_search = 'Suchen';
+$s_plugin_Source_attach = 'Verknüpfen';
+$s_plugin_Source_detach = 'Verknüpfung löschen';
+$s_plugin_Source_modify_search = 'Suche ändern';
+$s_plugin_Source_new_search = 'Neue Suche';
+$s_plugin_Source_permalink = 'Permanenten Link';
+$s_plugin_Source_select_one = '(Bitte wählen)';
+$s_plugin_Source_select_any = '[Alle]';
+$s_plugin_Source_pending = 'Unerledigt';
+$s_plugin_Source_na = 'N/A';
+
+$s_plugin_Source_create_repository = 'Erstelle Projektarchiv';
+$s_plugin_Source_manage_repository = 'Verwalte Projektarchiv';
+$s_plugin_Source_update_repository = 'Aktualisiere Projektarchiv';
+$s_plugin_Source_delete_repository = 'Lösche Projektarchiv';
+$s_plugin_Source_update_configuration = 'Aktualisiere Konfiguration';
+$s_plugin_Source_search_changesets = 'Suche Änderungssätze';
+
+$s_plugin_Source_back = 'Zurück zum Index';
+$s_plugin_Source_back_repo = 'Zurück zum Projektarchiv';
+$s_plugin_Source_back_changeset = 'Zurück zum Änderungssatz';
+$s_plugin_Source_import_full = 'Alles importieren';
+$s_plugin_Source_import_latest = 'Letzte Änderungen importieren';
+$s_plugin_Source_related_changesets = 'Verknüpfte Änderungssätze';
+$s_plugin_Source_affected_issues = 'Betroffene Einträge';
+$s_plugin_Source_attach_to_issue = 'Zu Eintrag hinzufügen:';
+
+$s_plugin_Source_configuration = 'Konfiguration';
+$s_plugin_Source_allow_remote_checkin = 'Übertragung vom Fremdrechner erlauben';
+$s_plugin_Source_remote_checkin_urls = 'Erlaubte Adressen';
+$s_plugin_Source_allow_remote_import = 'Importe vom Fremdrechner erlauben';
+$s_plugin_Source_remote_import_urls = 'Erlaubte Adressen';
+$s_plugin_Source_view_threshold = 'Ansichts-Schwellenwert';
+$s_plugin_Source_update_threshold = 'Aktualisierungs-Schwellenwert';
+$s_plugin_Source_manage_threshold = 'Verwaltungs-Schwellenwert';
+$s_plugin_Source_username_threshold = 'Schwellenwert zum Anpassen des VCS-Benutzernamens';
+$s_plugin_Source_buglink_regex_1 = '<acronym title="Regulärer Ausdruck">RegEx</acronym> für die automatische Zuordnung zu einem Eintrag #1<br/><span class="small">Dieser reguläre Ausdruck erkennt die Anweisung in der Übertragungsmeldung, z.B. "Issue #123"</span>';
+$s_plugin_Source_buglink_regex_2 = '<acronym title="Regulärer Ausdruck">RegEx</acronym> für die automatische Zuordnung zu einem Eintrag #2<br/><span class="small">Dieser reguläre Ausdruck wird auf das Ergebnis von #1 angewandt und ermittelt daraus die Eintrags-ID</span>';
+$s_plugin_Source_bugfix_regex_1 = '<acronym title="Regulärer Ausdruck">RegEx</acronym> für die automatische Zuordnung und Erledigung eines Eintrags #1<br/><span class="small">Dieser reguläre Ausdruck erkennt die Anweisung in der Übertragungsmeldung, z.B. "Fixed #123"</span>';
+$s_plugin_Source_bugfix_regex_2 = '<acronym title="Regulärer Ausdruck">RegEx</acronym> für die automatische Zuordnung und Erledigung eines Eintrags #2<br/><span class="small">Dieser reguläre Ausdruck wird auf das Ergebnis von #1 angewandt und ermittelt daraus die Eintrags-ID</span>';
+$s_plugin_Source_bugfix_status = 'Automatische Erledigung: Status';
+$s_plugin_Source_bugfix_status_off = '[Deaktiviert]';
+$s_plugin_Source_bugfix_status_default = '[Standardstatus für \'Erledigt\']';
+$s_plugin_Source_bugfix_resolution = 'Automatische Erledigung: Lösung';
+$s_plugin_Source_bugfix_handler = 'Automatische Erledigung: Zum Autor der Übertragung zuweisen';
+$s_plugin_Source_bugfix_message = 'Automatische Erledigung: Text der automatischen Eintragsnotiz';
+$s_plugin_Source_bugfix_message_info = '<span class="small">Platzhalter: $1 für Zweig, $2 für Revision, $3 für Datum/Uhrzeit, $4 für die Übertragungsmeldung, $5 für den Namen des Projektarchivs oder $6 für die ID des Änderungssatzes.</span>';
+$s_plugin_Source_reset = 'Zurücksetzen';
+$s_plugin_Source_menu_links = 'Hauptmenüeinträge';
+$s_plugin_Source_show_repo_link = 'Projektarchive';
+$s_plugin_Source_show_search_link = 'Suchen';
+$s_plugin_Source_show_repo_stats = 'Statistiken zum Projektarchiv';
+$s_plugin_Source_enabled_features = 'Aktivierte Funktionen';
+$s_plugin_Source_enable_linking = 'Änderungssätze automatisch verknüpfen <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
+$s_plugin_Source_enable_mapping = 'Automatische Versionszuordnung';
+$s_plugin_Source_enable_resolving = 'Eintrag automatisch auf "Erledigt" setzen';
+$s_plugin_Source_enable_message = 'Nach dem automatischen Erledigen eine Eintragsnotiz hinzufügen';
+$s_plugin_Source_enable_porting = 'Portierungsstatus';
+
+$s_plugin_Source_branch_mapping = 'Automatische Versionszuordnung';
+$s_plugin_Source_mapping_update = 'Aktualisiere Zuordnung';
+$s_plugin_Source_mapping_strategy = 'Strategie';
+$s_plugin_Source_mapping_version = 'Version';
+$s_plugin_Source_mapping_version_info = '<acronym title="Wird nur bei der Strategie \'Explizite Versionsangabe\' genutzt">?</acronym>';
+$s_plugin_Source_mapping_regex = 'Regulärer Ausdruck';
+$s_plugin_Source_mapping_regex_info = '<acronym title="Diese Zuordnung nur anwenden, wenn der reguläre Ausdruck zutrifft">?</acronym>';
+$s_plugin_Source_mapping_create = 'Erzeuge Zuordnung';
+$s_plugin_Source_mapping_explicit = 'Explizite Versionsangabe';
+$s_plugin_Source_mapping_near = 'Nächstes Veröffentlichungsdatum';
+$s_plugin_Source_mapping_far = 'Entferntestes Veröffentlichungsdatum';
+$s_plugin_Source_mapping_first = 'Erste Version in der sortierten Liste';
+$s_plugin_Source_mapping_last = 'Letzte Version in der sortierten Liste';
+
+$s_plugin_Source_changeset_attached = 'Änderungssatz hinzugefügt';
+$s_plugin_Source_changeset_removed = 'Änderungssatz entfernt';
+
+$s_plugin_Source_ensure_delete = 'Wollen Sie das Projektarchiv "%s" wirklich komplett (inkl. Historie) löschen?';
+$s_plugin_Source_ensure_import_full = 'Dies importiert eine neue Kopie des Projektarchives und löscht danach die alte Kopie. Evtl. werden für den Import Programme auf dem Webserver ausgeführt. Wollen Sie fortfahren?'; 
+$s_plugin_Source_ensure_import_latest = 'Dies importiert die letzten Änderungen am dem Projektarchiv. Evtl. werden für den Import Programme auf dem Webserver ausgeführt. Wollen Sie fortfahren?';
+$s_plugin_Source_import_results = 'Ergebnis des Imports';
+$s_plugin_Source_import_stats = 'Import beendet: %s Änderungssätze, %s Dateien und %s Eintragsreferenzen.';
+$s_plugin_Source_import_repo_error = 'Beim Import ist ein Fehler aufgetreten.';
+$s_plugin_Source_ = '';
+
+$s_plugin_Source_invalid_checkin_url = 'Ungültige Adresse für Übertragung vom Fremdrechner';
+$s_plugin_Source_invalid_import_url = 'Ungültige Adresse für Import vom Fremdrechner';
+$s_plugin_Source_invalid_repo = 'Ungültige Bezeichnung für das Projektarchiv';
+$s_plugin_Source_invalid_changeset = 'Die Informationen zu dem Änderungssatz konnten nicht ermittelt werden';
+
+$s_plugin_Source_import_full_failed = 'Vollständiger Import des Projektarchivs fehlgeschlagen.';

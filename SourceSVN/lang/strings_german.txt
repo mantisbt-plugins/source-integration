@@ -1,0 +1,24 @@
+<?php
+
+# Copyright (c) 2010 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceSVN_ = '';
+$s_plugin_SourceSVN_title = 'Subversion Integration';
+$s_plugin_SourceSVN_description = 'Subversionintegration über die VCS Basisintegration';
+
+$s_plugin_SourceSVN_svn = 'SVN';
+$s_plugin_SourceSVN_svn_username = 'SVN Benutzername';
+$s_plugin_SourceSVN_svn_password = 'SVN Passwort';
+$s_plugin_SourceSVN_standard_repo = 'Standardprojektarchiv<br /><span class="small">(trunk/branches/tags)</small>';
+$s_plugin_SourceSVN_trunk_path = 'Pfad zu \'Trunk\'<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+$s_plugin_SourceSVN_branch_path = 'Pfad zu \'Branch\'<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+$s_plugin_SourceSVN_tag_path = 'Pfad zu \'Tag\'<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+$s_plugin_SourceSVN_ignore_paths = 'Andere Pfade ignorieren<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+
+$s_plugin_SourceSVN_configuration = 'Konfiguration';
+$s_plugin_SourceSVN_update = 'Konfiguration';
+$s_plugin_SourceSVN_svnpath = 'SVN: Pfad zur Programmdatei';
+$s_plugin_SourceSVN_svnargs = 'SVN: Kommandozeilenargumente';
+$s_plugin_SourceSVN_svnssl = 'SVN: Allen SSL-Zertifikaten vertrauen<br /><span class="small">(Verfügbar ab Subversion 1.6 oder neuer)</span>';
+$s_plugin_SourceSVN_winstart = 'SVN: Nutze `start`-Befehl der Kommandozeile von Windows<br /><span class="small">(Benötigt den Pfad zur Programmdatei)</span>';

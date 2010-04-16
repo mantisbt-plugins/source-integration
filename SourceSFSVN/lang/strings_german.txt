@@ -1,0 +1,12 @@
+<?php
+
+# Copyright (c) 2010 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceSFSVN_ = '';
+$s_plugin_SourceSFSVN_title = 'Subversion / SourceForge Integration';
+$s_plugin_SourceSFSVN_description = 'Subversionintegration für SourceForge.net über die VCS Basisintegration.';
+
+$s_plugin_SourceSFSVN_svn = 'SourceForge SVN';
+$s_plugin_SourceSFSVN_sf_project = 'SourceForge Projekt';
+
