@@ -252,7 +252,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	}
 
 	# Precache information for resolved bugs
-	bug_cache_array_rows( $t_fixed_bugs );
+	bug_cache_array_rows( array_keys( $t_fixed_bugs ) );
 
 	$t_current_user_id = $g_cache_current_user_id;
 	$t_enable_resolving = config_get( 'plugin_Source_enable_resolving' );
@@ -329,7 +329,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 				$t_bug->status = $t_bugfix_status;
 				$t_update = true;
 			}
-			if ( $t_bug->resolution < $t_fixed_threshold || $t_bug->resolution >= $t_notfixedthreshold ) {
+			if ( $t_bug->resolution < $t_fixed_threshold || $t_bug->resolution >= $t_notfixed_threshold ) {
 				$t_bug->resolution = $t_resolution;
 				$t_update = true;
 			}
