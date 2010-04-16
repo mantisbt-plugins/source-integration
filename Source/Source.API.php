@@ -934,7 +934,7 @@ class SourceChangeset {
 
 			foreach( $t_bugs_deleted as $t_bug_id ) {
 				plugin_history_log( $t_bug_id, 'changeset_removed',
-					$t_repo->name . ' ' . $t_vcs->show_changeset( $this->repo, $this ),
+					$this->repo->name . ' ' . $t_vcs->show_changeset( $this->repo, $this ),
 					'', $t_user_id, 'Source' );
 			}
 		}
@@ -957,7 +957,7 @@ class SourceChangeset {
 
 			foreach( $t_bugs_added as $t_bug_id ) {
 				plugin_history_log( $t_bug_id, 'changeset_attached',
-					$t_repo->name . ' ' . $t_vcs->show_changeset( $this->repo, $this ),
+					$this->repo->name . ' ' . $t_vcs->show_changeset( $this->repo, $this ),
 					'', $t_user_id, 'Source' );
 			}
 		}
