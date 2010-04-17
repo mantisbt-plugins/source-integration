@@ -83,6 +83,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	public function update_repo_form( $p_repo ) {
 		$t_hub_username = null;
 		$t_hub_reponame = null;
+		$t_hub_api_token = null;
 
 		if ( isset( $p_repo->info['hub_username'] ) ) {
 			$t_hub_username = $p_repo->info['hub_username'];
@@ -90,6 +91,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		if ( isset( $p_repo->info['hub_reponame'] ) ) {
 			$t_hub_reponame = $p_repo->info['hub_reponame'];
+		}
+
+		if ( isset( $p_repo->info['hub_api_token'] ) ) {
+			$t_hub_api_token = $p_repo->info['hub_api_token'];
 		}
 
 		if ( isset( $p_repo->info['master_branch'] ) ) {
@@ -107,6 +112,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'hub_api_token' ) ?></td>
+<td><input name="hub_api_token" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_api_token ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 <td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
 </tr>
@@ -116,6 +125,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	public function update_repo( $p_repo ) {
 		$f_hub_username = gpc_get_string( 'hub_username' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
+		$f_hub_api_token = gpc_get_string( 'hub_api_token' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
 		if ( !preg_match( '/^[a-zA-Z0-9_\., -]*$/', $f_master_branch ) ) {
@@ -125,6 +135,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$p_repo->info['hub_username'] = $f_hub_username;
 		$p_repo->info['hub_reponame'] = $f_hub_reponame;
+		$p_repo->info['hub_api_token'] = $f_hub_api_token;
 		$p_repo->info['master_branch'] = $f_master_branch;
 
 		return $p_repo;
