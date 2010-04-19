@@ -956,9 +956,9 @@ class SourceChangeset {
 			db_query_bound( $t_query, $t_params );
 
 			foreach( $t_bugs_added as $t_bug_id ) {
-				plugin_history_log( $t_bug_id, 'changeset_attached',
+				plugin_history_log( $t_bug_id, 'changeset_attached', '',
 					$this->repo->name . ' ' . $t_vcs->show_changeset( $this->repo, $this ),
-					'', $t_user_id, 'Source' );
+					$t_user_id, 'Source' );
 			}
 		}
 	}
