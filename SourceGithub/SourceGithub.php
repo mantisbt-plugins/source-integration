@@ -43,9 +43,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return  "$p_file->action - $p_file->filename";
 	}
 
-	public function url_repo( $p_repo, $t_changeset=null ) {
+	public function url_repo( $p_repo, $p_changeset=null ) {
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
+		$t_ref = "";
 
 		if ( !is_null( $p_changeset ) ) {
 			$t_ref = "/$p_changeset->revision";
