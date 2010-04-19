@@ -158,7 +158,7 @@ if ( $t_can_update ) {
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
-	<?php echo "Changeset" ?>
+	<?php echo plugin_lang_get( 'changeset' ) ?>
 </td>
 <td colspan="<?php echo $t_columns-1 ?>"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>

@@ -26,7 +26,7 @@ html_page_top2();
 <table class="width100" cellspacing="1" align="center">
 
 <tr>
-<td class="form-title" colspan="2"><?php echo "Changesets: ", $t_repo->name ?></td>
+<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'changesets' ), ': ', $t_repo->name ?></td>
 <td class="right" colspan="2">
 <?php
 if ( access_has_global_level( plugin_config_get( 'manage_threshold' ) ) ) {
