@@ -937,6 +937,7 @@ class SourceChangeset {
 				plugin_history_log( $t_bug_id, 'changeset_removed',
 					$this->repo->name . ' ' . $t_vcs->show_changeset( $this->repo, $this ),
 					'', $t_user_id, 'Source' );
+				bug_update_date( $t_bug_id );
 			}
 		}
 
@@ -960,6 +961,7 @@ class SourceChangeset {
 				plugin_history_log( $t_bug_id, 'changeset_attached', '',
 					$this->repo->name . ' ' . $t_vcs->show_changeset( $this->repo, $this ),
 					$t_user_id, 'Source' );
+				bug_update_date( $t_bug_id );
 			}
 		}
 	}
