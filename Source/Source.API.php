@@ -253,6 +253,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 
 	# Save changeset data before processing their consequences
 	foreach( $p_changesets as $t_changeset ) {
+		$t_changeset->repo = $p_repo;
 		$t_changeset->save();
 	}
 
