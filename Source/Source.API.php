@@ -251,6 +251,11 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 		$t_changeset->bugs = array_unique( array_merge( $t_changeset->bugs, $t_bugs ) );
 	}
 
+	# Save changeset data before processing their consequences
+	foreach( $p_changesets as $t_changeset ) {
+		$t_changeset->save();
+	}
+
 	# Precache information for resolved bugs
 	bug_cache_array_rows( array_keys( $t_fixed_bugs ) );
 
@@ -355,11 +360,6 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 
 	# reset the user ID
 	$g_cache_current_user_id = $t_current_user_id;
-
-	# Save changes
-	foreach( $p_changesets as $t_changeset ) {
-		$t_changeset->save();
-	}
 
 	# Allow other plugins to post-process commit data
 	event_signal( 'EVENT_SOURCE_COMMITS', array( $p_changesets ) );
