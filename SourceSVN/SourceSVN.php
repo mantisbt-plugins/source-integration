@@ -449,21 +449,13 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		if ( !is_null( $t_changeset ) ) {
 			echo "Parsed to revision {$t_changeset->revision}.\n";
 
-			if ( !is_blank( $t_changeset->branch ) ) {
-				$t_changeset->save();
-				$t_changesets[] = $t_changeset;
-			} else {
-				$t_discarded = $t_changeset->revision;
-			}
+			$t_changeset->save();
+			$t_changesets[] = $t_changeset;
 
 		} else {
 			echo "No revisions parsed.\n";
 		}
 
-		if ( count( $t_changesets ) < 1 && $t_discarded !== false ) {
-			return $t_discarded;
-		} else {
-			return $t_changesets;
-		}
+		return $t_changesets;
 	}
 }
