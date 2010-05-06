@@ -210,7 +210,7 @@ class SourcePlugin extends MantisPlugin {
 				array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
 			array( 'CreateIndexSQL', array( 'idx_source_user_username', plugin_table( 'user' ), 'username', array( 'UNIQUE' ) ) ),
 			# 2010-02-11 - Update repo types from svn->websvn
-			array( 'UpdateSQL', array( plugin_table( 'repository' ), ' SET type="websvn" WHERE type="svn"' ) ),
+			array( 'UpdateSQL', array( plugin_table( 'repository' ), " SET type='websvn' WHERE type='svn'" ) ),
 		);
 	}
 
