@@ -86,6 +86,7 @@ class SourcePlugin extends MantisPlugin {
 			'EVENT_CORE_READY' => 'core_ready',
 			'EVENT_LAYOUT_RESOURCES' => 'css',
 			'EVENT_MENU_MAIN' => 'menu_main',
+			'EVENT_FILTER_COLUMNS' => 'filter_columns',
 		);
 	}
 
@@ -109,6 +110,14 @@ class SourcePlugin extends MantisPlugin {
 		if ( plugin_config_get( 'enable_linking' ) ) {
 			plugin_event_hook( 'EVENT_DISPLAY_FORMATTED', 'display_formatted' );
 		}
+	}
+
+	function filter_columns()
+	{
+		require_once( 'classes/RelatedChangesetsColumn.class.php' );
+		return array(
+			'SourceRelatedChangesetsColumn',
+		);
 	}
 
 	function css() {
