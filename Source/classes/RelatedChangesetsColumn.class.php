@@ -5,11 +5,18 @@
 
 class SourceRelatedChangesetsColumn extends MantisColumn {
 
-	public $title = "Related Changesets";
 	public $column = "related_changesets";
 	public $sortable = false;
 
 	private $changeset_cache = array();
+
+	public function __construct() {
+		plugin_push_current( 'Source' );
+
+		$this->title = plugin_lang_get( 'changesets' );
+
+		plugin_pop_current();
+	}
 
 	public function cache( $p_bugs ) {
 		$t_bug_table = plugin_table( 'bug', 'Source' );
@@ -35,7 +42,11 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 	}
 
 	public function display( $p_bug, $p_columns_target ) {
-		echo $this->changeset_cache[ $p_bug->id ];
+		plugin_push_current( 'Source' );
+
+		echo '<a href="', plugin_page( 'search' ), '&bug_id=', $p_bug->id, '">', $this->changeset_cache[ $p_bug->id ], '</a>';
+
+		plugin_pop_current();
 	}
 
 }
