@@ -13,7 +13,7 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 	public function __construct() {
 		plugin_push_current( 'Source' );
 
-		$this->title = plugin_lang_get( 'changesets' );
+		$this->title = plugin_lang_get( 'changeset_column_title' );
 
 		plugin_pop_current();
 	}

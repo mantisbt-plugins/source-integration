@@ -137,3 +137,5 @@ $s_plugin_Source_invalid_changeset = 'Changeset information could not be loaded'
 
 $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
 
+$s_plugin_Source_changeset_column_title = 'C';
+
