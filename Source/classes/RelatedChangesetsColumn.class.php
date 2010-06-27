@@ -44,7 +44,9 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 	public function display( $p_bug, $p_columns_target ) {
 		plugin_push_current( 'Source' );
 
-		echo '<a href="', plugin_page( 'search' ), '&bug_id=', $p_bug->id, '">', $this->changeset_cache[ $p_bug->id ], '</a>';
+		if ( isset( $this->changeset_cache[ $p_bug->id ] ) ) {
+			echo '<a href="', plugin_page( 'search' ), '&bug_id=', $p_bug->id, '">', $this->changeset_cache[ $p_bug->id ], '</a>';
+		}
 
 		plugin_pop_current();
 	}
