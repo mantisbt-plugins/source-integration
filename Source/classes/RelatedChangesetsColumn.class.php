@@ -19,6 +19,10 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 	}
 
 	public function cache( $p_bugs ) {
+		if ( count( $p_bugs ) < 1 ) {
+			return;
+		}
+
 		$t_bug_table = plugin_table( 'bug', 'Source' );
 
 		$t_bug_ids = array();
