@@ -49,7 +49,7 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 		plugin_push_current( 'Source' );
 
 		if ( isset( $this->changeset_cache[ $p_bug->id ] ) ) {
-			echo '<a href="view.php&id=', $p_bug->id, '">', $this->changeset_cache[ $p_bug->id ], '</a>';
+			echo '<a href="view.php?id=', $p_bug->id, '">', $this->changeset_cache[ $p_bug->id ], '</a>';
 		}
 
 		plugin_pop_current();
