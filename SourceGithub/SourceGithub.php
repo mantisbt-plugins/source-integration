@@ -84,6 +84,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	public function update_repo_form( $p_repo ) {
 		$t_hub_username = null;
 		$t_hub_reponame = null;
+		$t_hub_api_login = null;
 		$t_hub_api_token = null;
 
 		if ( isset( $p_repo->info['hub_username'] ) ) {
@@ -92,6 +93,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		if ( isset( $p_repo->info['hub_reponame'] ) ) {
 			$t_hub_reponame = $p_repo->info['hub_reponame'];
+		}
+
+		if ( isset( $p_repo->info['hub_api_login'] ) ) {
+			$t_hub_api_token = $p_repo->info['hub_api_login'];
 		}
 
 		if ( isset( $p_repo->info['hub_api_token'] ) ) {
@@ -113,6 +118,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'hub_api_login' ) ?></td>
+<td><input name="hub_api_login" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_api_login ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'hub_api_token' ) ?></td>
 <td><input name="hub_api_token" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_api_token ) ?>"/></td>
 </tr>
@@ -126,6 +135,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	public function update_repo( $p_repo ) {
 		$f_hub_username = gpc_get_string( 'hub_username' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
+		$f_hub_api_login = gpc_get_string( 'hub_api_login' );
 		$f_hub_api_token = gpc_get_string( 'hub_api_token' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
@@ -136,18 +146,28 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$p_repo->info['hub_username'] = $f_hub_username;
 		$p_repo->info['hub_reponame'] = $f_hub_reponame;
+		$p_repo->info['hub_api_login'] = $f_hub_api_login;
 		$p_repo->info['hub_api_token'] = $f_hub_api_token;
 		$p_repo->info['master_branch'] = $f_master_branch;
 
 		return $p_repo;
 	}
 
-	private function uri_base( $p_repo ) {
-		$t_uri_base = 'http://github.com/api/v1/json/' .
-			urlencode( $p_repo->info['hub_username'] ) . '/' .
-			urlencode( $p_repo->info['hub_reponame'] ) . '/';
+	private function api_uri( $p_repo, $p_path ) {
+		$t_uri = 'http://github.com/api/v2/json/' . $p_path;
 
-		return $t_uri_base;
+		if ( !is_blank( $p_repo->info['hub_api_token'] ) ) {
+			$t_token = $p_repo->info['hub_api_token'];
+			$t_login = $p_repo->info['hub_username'];
+
+			if ( !is_blank( $p_repo->info['hub_api_login'] ) ) {
+				$t_login = $p_repo->info['hub_api_login'];
+			}
+
+			$t_uri .= '?login=' . $t_login . '&token=' . $t_token;
+		}
+
+		return $t_uri;
 	}
 
 	public function precommit() {
@@ -196,7 +216,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_branch = $t_matches[1];
 		}
 
-		return $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch );
+		return $this->import_commits( $p_repo, $t_commits, $t_branch );
 	}
 
 	public function import_full( $p_repo ) {
@@ -229,7 +249,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 				}
 			}
 
-			$t_changesets = array_merge( $t_changesets, $this->import_commits( $p_repo, $this->uri_base( $p_repo ), $t_commits, $t_branch ) );
+			$t_changesets = array_merge( $t_changesets, $this->import_commits( $p_repo, $t_commits, $t_branch ) );
 		}
 
 		echo '</pre>';
@@ -241,9 +261,12 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		return $this->import_full( $p_repo );
 	}
 
-	public function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
+	public function import_commits( $p_repo, $p_commit_ids, $p_branch='' ) {
 		static $s_parents = array();
 		static $s_counter = 0;
+
+		$t_username = $p_repo->info['hub_username'];
+		$t_reponame = $p_repo->info['hub_reponame'];
 
 		if ( is_array( $p_commit_ids ) ) {
 			$s_parents = array_merge( $s_parents, $p_commit_ids );
@@ -257,7 +280,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_commit_id = array_shift( $s_parents );
 
 			echo "Retrieving $t_commit_id ... ";
-			$t_uri = $p_uri_base . 'commit/' . $t_commit_id;
+			$t_uri = $this->api_uri( $p_repo, "commits/show/{$t_username}/{$t_reponame}/{$t_commit_id}" );
 			$t_json = json_url( $t_uri, 'commit' );
 
 			if ( false === $t_json || is_null( $t_json ) ) {
@@ -289,20 +312,31 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->id, $p_branch,
 				$p_json->authored_date, $p_json->author->name, $p_json->message );
 
+			if ( count( $p_json->parents ) > 0 ) {
+				$t_parent = $p_json->parents[0];
+				$t_changeset->parent = $t_parent->id;
+			}
+
 			$t_changeset->author_email = $p_json->author->email;
 			$t_changeset->committer = $p_json->committer->name;
 			$t_changeset->committer_email = $p_json->committer->email;
 
-			foreach( $p_json->added as $t_added ) {
-				$t_changeset->files[] = new SourceFile( 0, '', $t_added->filename, 'add' );
+			if ( isset( $p_json->added ) ) {
+				foreach( $p_json->added as $t_added ) {
+					$t_changeset->files[] = new SourceFile( 0, '', $t_added, 'add' );
+				}
 			}
 
-			foreach( $p_json->removed as $t_removed ) {
-				$t_changeset->files[] = new SourceFile( 0, '', $t_removed->filename, 'rm' );
+			if ( isset( $p_json->removed ) ) {
+				foreach( $p_json->removed as $t_removed ) {
+					$t_changeset->files[] = new SourceFile( 0, '', $t_removed, 'rm' );
+				}
 			}
 
-			foreach( $p_json->modified as $t_modified ) {
-				$t_changeset->files[] = new SourceFile( 0, '', $t_modified->filename, 'mod' );
+			if ( isset( $p_json->modified ) ) {
+				foreach( $p_json->modified as $t_modified ) {
+					$t_changeset->files[] = new SourceFile( 0, '', $t_modified->filename, 'mod' );
+				}
 			}
 
 			$t_changeset->save();
