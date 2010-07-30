@@ -73,6 +73,10 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	<?php echo plugin_lang_get( 'enable_message' ) ?></label><br/>
 	<label><input type="checkbox" name="enable_porting" <?php echo ( plugin_config_get( 'enable_porting' ) ? 'checked="checked" ' : '' ) ?>/>
 	<?php echo plugin_lang_get( 'enable_porting' ) ?></label><br/>
+<?php if ( plugin_is_installed( 'ProductMatrix' ) || plugin_config_get( 'enable_product_matrix' ) ) { ?>
+	<label><input type="checkbox" name="enable_product_matrix" <?php echo ( plugin_config_get( 'enable_product_matrix' ) ? 'checked="checked" ' : '' ) ?>/>
+	<?php echo plugin_lang_get( 'enable_product_matrix' ) ?></label><br/>
+<?php } ?>
 </td>
 </tr>
 

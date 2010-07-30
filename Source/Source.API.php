@@ -44,6 +44,24 @@ function SourceTypes() {
 }
 
 /**
+ * Determine if the Product Matrix integration is enabled, and trigger
+ * an error if integration is enabled but the plugin is not running.
+ * @param boolean Trigger error
+ * @return boolean Integration enabled
+ */
+function Source_PVM( $p_trigger_error=true ) {
+	if ( config_get( 'plugin_Source_enable_product_matrix' ) ) {
+		if ( plugin_is_loaded( 'ProductMatrix' ) || !$p_trigger_error ) {
+			return true;
+		} else {
+			trigger_error( ERROR_GENERIC, ERROR );
+		}
+	} else {
+		return false;
+	}
+}
+
+/**
  * Parse basic bug links from a changeset commit message
  * and return a list of referenced bug IDs.
  * @param string Changeset commit message
@@ -1264,6 +1282,7 @@ class SourceMapping {
 
 	var $version;
 	var $regex;
+	var $pvm_version_id;
 
 	/**
 	 * Initialize a mapping object.
@@ -1271,12 +1290,13 @@ class SourceMapping {
 	 * @param string Branch name
 	 * @param int Mapping type
 	 */
-	function __construct( $p_repo_id, $p_branch, $p_type, $p_version='', $p_regex='' ) {
+	function __construct( $p_repo_id, $p_branch, $p_type, $p_version='', $p_regex='', $p_pvm_version_id=0 ) {
 		$this->repo_id = $p_repo_id;
 		$this->branch = $p_branch;
 		$this->type = $p_type;
 		$this->version = $p_version;
 		$this->regex = $p_regex;
+		$this->pvm_version_id = $p_pvm_version_id;
 	}
 
 	/**
@@ -1286,15 +1306,15 @@ class SourceMapping {
 		$t_branch_table = plugin_table( 'branch' );
 
 		if ( $this->_new ) {
-			$t_query = "INSERT INTO $t_branch_table ( repo_id, branch, type, version, regex ) VALUES (" .
-				db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .    db_param() . ')';
-			db_query_bound( $t_query, array( $this->repo_id, $this->branch, $this->type, $this->version, $this->regex ) );
+			$t_query = "INSERT INTO $t_branch_table ( repo_id, branch, type, version, regex, pvm_version_id ) VALUES (" .
+				db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .    db_param() . ', ' .    db_param() . ')';
+			db_query_bound( $t_query, array( $this->repo_id, $this->branch, $this->type, $this->version, $this->regex, $this->pvm_version_id ) );
 
 		} else {
 			$t_query = "UPDATE $t_branch_table SET branch=" . db_param() . ', type=' . db_param() . ', version=' . db_param() .
-				', regex=' . db_param() . ' WHERE repo_id=' . db_param() . ' AND branch=' . db_param();
+				', regex=' . db_param() . ', pvm_version_id=' . db_param() . ' WHERE repo_id=' . db_param() . ' AND branch=' . db_param();
 			db_query_bound( $t_query, array( $this->branch, $this->type, $this->version,
-				$this->regex, $this->repo_id, $this->branch ) );
+				$this->regex, $this->pvm_version_id, $this->repo_id, $this->branch ) );
 		}
 	}
 
@@ -1326,7 +1346,7 @@ class SourceMapping {
 		$t_mappings = array();
 
 		while( $t_row = db_fetch_array( $t_result ) ) {
-			$t_mapping = new SourceMapping( $t_row['repo_id'], $t_row['branch'], $t_row['type'], $t_row['version'], $t_row['regex'] );
+			$t_mapping = new SourceMapping( $t_row['repo_id'], $t_row['branch'], $t_row['type'], $t_row['version'], $t_row['regex'], $t_row['pvm_version_id'] );
 			$t_mapping->_new = false;
 
 			$t_mappings[$t_mapping->branch] = $t_mapping;

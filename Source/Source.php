@@ -48,6 +48,7 @@ class SourcePlugin extends MantisPlugin {
 			'enable_porting'	=> OFF,
 			'enable_resolving'	=> OFF,
 			'enable_message'	=> OFF,
+			'enable_product_matrix' => OFF,
 
 			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s+(?:#(?:\d+)[,\.\s]*)+/i',
 			'buglink_regex_2'	=> '/#?(\d+)/',
@@ -220,6 +221,10 @@ class SourcePlugin extends MantisPlugin {
 			array( 'CreateIndexSQL', array( 'idx_source_user_username', plugin_table( 'user' ), 'username', array( 'UNIQUE' ) ) ),
 			# 2010-02-11 - Update repo types from svn->websvn
 			array( 'UpdateSQL', array( plugin_table( 'repository' ), " SET type='websvn' WHERE type='svn'" ) ),
+			# 2010-07-29 - Integrate with the Product Matrix plugin
+			array( 'AddColumnSQL', array( plugin_table( 'branch' ), "
+				pvm_version_id	I		NOTNULL UNSIGNED DEFAULT '0'
+				" ) ),
 		);
 	}
 

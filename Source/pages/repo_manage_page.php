@@ -18,15 +18,36 @@ function display_strategies( $p_type=null ) {
 	}
 
 	echo '<option value="', SOURCE_EXPLICIT, '"', ( $p_type == SOURCE_EXPLICIT ? ' selected="selected"' : '' ),
-		'>', plugin_lang_get( 'mapping_explicit' ), '</option>',
-		'<option value="', SOURCE_NEAR, '"', ( $p_type == SOURCE_NEAR ? ' selected="selected"' : '' ),
+		'>', plugin_lang_get( 'mapping_explicit' ), '</option>';
+	if ( !Source_PVM() ) {
+	echo '<option value="', SOURCE_NEAR, '"', ( $p_type == SOURCE_NEAR ? ' selected="selected"' : '' ),
 		'>', plugin_lang_get( 'mapping_near' ), '</option>',
 		'<option value="', SOURCE_FAR, '"', ( $p_type == SOURCE_FAR ? ' selected="selected"' : '' ),
-		'>', plugin_lang_get( 'mapping_far' ), '</option>',
-		'<option value="', SOURCE_FIRST, '"', ( $p_type == SOURCE_FIRST ? ' selected="selected"' : '' ),
+		'>', plugin_lang_get( 'mapping_far' ), '</option>';
+	}
+	echo '<option value="', SOURCE_FIRST, '"', ( $p_type == SOURCE_FIRST ? ' selected="selected"' : '' ),
 		'>', plugin_lang_get( 'mapping_first' ), '</option>',
 		'<option value="', SOURCE_LAST, '"', ( $p_type == SOURCE_LAST ? ' selected="selected"' : '' ),
 		'>', plugin_lang_get( 'mapping_last' ), '</option>';
+}
+
+function display_pvm_versions($t_version_id=null) {
+	static $s_products = null;
+
+	if ( is_null( $s_products ) ) {
+		$s_products = PVMProduct::load_all( true );
+	}
+
+	if ( is_null( $t_version_id ) ) {
+		echo "<option value=\"\"></option>";
+	}
+
+	foreach( $s_products as $t_product ) {
+		foreach( $t_product->versions as $t_version ) {
+			echo "<option value=\"{$t_version->id}\"", $t_version->id == $t_version_id ? ' selected="selected"' : '',
+				">{$t_product->name} {$t_version->name}</option>";
+		}
+	}
 }
 
 html_page_top1( plugin_lang_get( 'title' ) );
@@ -125,7 +146,11 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <tr <?php echo helper_alternate_class() ?>>
 <td><input name="<?php echo $t_branch ?>_branch" value="<?php echo string_attribute( $t_mapping->branch ) ?>" size="12" maxlength="128"/></td>
 <td><select name="<?php echo $t_branch ?>_type"><?php display_strategies( $t_mapping->type ) ?></select></td>
+<?php if ( Source_PVM() ) { ?>
+<td><select name="<?php echo $t_branch ?>_pvm_version_id"><?php display_pvm_versions( $t_mapping->pvm_version_id ) ?></select></td>
+<?php } else { ?>
 <td><select name="<?php echo $t_branch ?>_version"><?php print_version_option_list( $t_mapping->version, ALL_PROJECTS, false, true, true ) ?></select></td>
+<?php } ?>
 <td><input name="<?php echo $t_branch ?>_regex" value="<?php echo string_attribute( $t_mapping->regex ) ?>" size="18" maxlength="128"/></td>
 <td><input name="<?php echo $t_branch ?>_delete" type="checkbox" value="1"/></td>
 </tr>
@@ -136,7 +161,11 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 <tr <?php echo helper_alternate_class() ?>>
 <td><input name="_branch" size="12" maxlength="128"/></td>
 <td><select name="_type"><?php display_strategies(); ?></select></td>
+<?php if ( Source_PVM() ) { ?>
+<td><select name="_pvm_version_id"><?php display_pvm_versions() ?></select></td>
+<?php } else { ?>
 <td><select name="_version"><?php print_version_option_list( '', ALL_PROJECTS, false, true, true ) ?></td>
+<?php } ?>
 <td><input name="_regex" size="18" maxlength="128"/></td>
 <td></td>
 </tr>

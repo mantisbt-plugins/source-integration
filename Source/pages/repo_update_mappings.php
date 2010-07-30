@@ -25,7 +25,11 @@ foreach( $t_mappings as $t_mapping ) {
 
 	$f_mapping_branch = gpc_get_string( $t_posted_branch . '_branch', $t_mapping->branch );
 	$f_mapping_type = gpc_get_int( $t_posted_branch . '_type', $t_mapping->type );
-	$f_mapping_version = gpc_get_string( $t_posted_branch . '_version', $t_mapping->version );
+	if ( Source_PVM() ) {
+		$f_mapping_pvm_version_id = gpc_get_int( $t_posted_branch . '_pvm_version_id', $t_mapping->pvm_version_id );
+	} else {
+		$f_mapping_version = gpc_get_string( $t_posted_branch . '_version', $t_mapping->version );
+	}
 	$f_mapping_regex = gpc_get_string( $t_posted_branch . '_regex', $t_mapping->regex );
 
 	$t_update = false;
@@ -39,9 +43,16 @@ foreach( $t_mappings as $t_mapping ) {
 		$t_mapping->type = $f_mapping_type;
 		$t_update = true;
 	}
-	if ( $t_mapping->version != $f_mapping_version ) {
-		$t_mapping->version = $f_mapping_version;
-		$t_update = true;
+	if ( Source_PVM() ) {
+		if ( $t_mapping->pvm_version_id != $f_mapping_pvm_version_id ) {
+			$t_mapping->pvm_version_id = $f_mapping_pvm_version_id;
+			$t_update = true;
+		}
+	} else {
+		if ( $t_mapping->version != $f_mapping_version ) {
+			$t_mapping->version = $f_mapping_version;
+			$t_update = true;
+		}
 	}
 	if ( $t_mapping->regex != $f_mapping_regex && false !== preg_match( $f_mapping_regex, '' ) ) {
 		$t_mapping->regex = $f_mapping_regex;
@@ -57,7 +68,13 @@ foreach( $t_mappings as $t_mapping ) {
 # process the form elements for creating a new mapping
 $f_mapping_branch = gpc_get_string( '_branch', '' );
 $f_mapping_type = gpc_get_int( '_type', 0 );
-$f_mapping_version = gpc_get_string( '_version', '' );
+if ( Source_PVM() ) {
+	$f_mapping_pvm_version_id = gpc_get_int( '_pvm_version_id', 0 );
+	$f_mapping_version = '';
+} else {
+	$f_mapping_pvm_version_id = 0;
+	$f_mapping_version = gpc_get_string( '_version', '' );
+}
 $f_mapping_regex = gpc_get_string( '_regex', '' );
 
 if ( !is_blank( $f_mapping_branch ) ) {
@@ -69,11 +86,19 @@ if ( !is_blank( $f_mapping_branch ) ) {
 		die( 'error type' );
 	}
 
-	if ( $f_mapping_type == SOURCE_EXPLICIT && is_blank( $f_mapping_version ) ) {
-		die( 'error version' );
+	if ( $f_mapping_type == SOURCE_EXPLICIT ) {
+		if ( Source_PVM() ) {
+			if ( $f_mapping_pvm_version_id < 1 ) {
+				die( 'error product version' );
+			}
+		} else {
+			if ( is_blank( $f_mapping_version ) ) {
+				die( 'error version' );
+			}
+		}
 	}
 
-	$t_mapping = new SourceMapping( $t_repo->id, $f_mapping_branch, $f_mapping_type, $f_mapping_version, $f_mapping_regex );
+	$t_mapping = new SourceMapping( $t_repo->id, $f_mapping_branch, $f_mapping_type, $f_mapping_version, $f_mapping_regex, $f_mapping_pvm_version_id );
 	$t_mapping->save();
 }
 
