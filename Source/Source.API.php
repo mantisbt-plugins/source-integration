@@ -284,6 +284,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	$t_enable_mapping = config_get( 'plugin_Source_enable_mapping' );
 
 	$t_bugfix_status = config_get( 'plugin_Source_bugfix_status' );
+	$t_bugfix_status_pvm = config_get( 'plugin_Source_bugfix_status_pvm' );
 	$t_resolution = config_get( 'plugin_Source_bugfix_resolution' );
 	$t_handler = config_get( 'plugin_Source_bugfix_handler' );
 	$t_message_template = str_replace(
@@ -317,8 +318,9 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 			$g_cache_current_user_id = 0;
 		}
 
-		# generate the branch mapping
+		# generate the branch mappings
 		$t_version = '';
+		$t_pvm_version_id = 0;
 		if ( $t_enable_mapping ) {
 			$t_repo_id = $t_changeset->repo_id;
 
@@ -328,7 +330,11 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 
 			if ( isset( $t_mappings[ $t_repo_id ][ $t_changeset->branch ] ) ) {
 				$t_mapping = $t_mappings[ $t_repo_id ][ $t_changeset->branch ];
-				$t_version = $t_mapping->apply( $t_bug_id );
+				if ( Source_PVM() ) {
+					$t_pvm_version_id = $t_mapping->apply_pvm( $t_bug_id );
+				} else {
+					$t_version = $t_mapping->apply( $t_bug_id );
+				}
 			}
 		}
 
@@ -341,39 +347,49 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 
 		$t_bug = bug_get( $t_bug_id );
 
-		# Resolve any fixed bugs that are not already marked as resolved
-		if ( $t_enable_resolving && $t_bugfix_status == -1 && $t_bug->status < $t_resolved_threshold ) {
-			bug_resolve( $t_bug_id, $t_resolution, $t_version, $t_message, null, $t_handler == ON ? $t_user_id : null );
+		# Update the resoltion, fixed-in version, or add a bugnote
+		$t_update = false;
 
-		# Optionally update the resoltion, fixed-in version, or add a bugnote
+		if ( Source_PVM() ) {
+			if ( $t_bugfix_status_pvm > 0 && $t_pvm_version_id > 0 ) {
+				$t_matrix = new ProductMatrix( $t_bug_id );
+				if ( isset( $t_matrix->status[ $t_pvm_version_id ] ) ) {
+					$t_matrix->status[ $t_pvm_version_id ] = $t_bugfix_status_pvm;
+					$t_matrix->save();
+				}
+			}
+
 		} else {
-			$t_update = false;
-
 			if ( $t_bugfix_status > 0 && $t_bug->status != $t_bugfix_status ) {
 				$t_bug->status = $t_bugfix_status;
 				$t_update = true;
+			} else if ( $t_bugfix_status == -1 && $t_bug->status < $t_resolved_threshold ) {
+				$t_bug->status = $t_resolved_threshold;
+				$t_update = true;
 			}
+
 			if ( $t_bug->resolution < $t_fixed_threshold || $t_bug->resolution >= $t_notfixed_threshold ) {
 				$t_bug->resolution = $t_resolution;
 				$t_update = true;
-			}
-			if ( $t_handler && !is_null( $t_user_id ) ) {
-				$t_bug->handler_id = $t_user_id;
 			}
 			if ( is_blank( $t_bug->fixed_in_version ) ) {
 				$t_bug->fixed_in_version = $t_version;
 				$t_update = true;
 			}
+		}
 
-			if ( $t_update ) {
-				if ( $t_message ) {
-					bugnote_add( $t_bug_id, $t_message, '0:00', false, 0, '', null, false );
-				}
-				$t_bug->update();
+		if ( $t_handler && !is_null( $t_user_id ) ) {
+			$t_bug->handler_id = $t_user_id;
+		}
 
-			} else if ( $t_message ) {
-				bugnote_add( $t_bug_id, $t_message );
+		if ( $t_update ) {
+			if ( $t_message ) {
+				bugnote_add( $t_bug_id, $t_message, '0:00', false, 0, '', null, false );
 			}
+			$t_bug->update();
+
+		} else if ( $t_message ) {
+			bugnote_add( $t_bug_id, $t_message );
 		}
 	}
 
@@ -1418,6 +1434,22 @@ class SourceMapping {
 
 		# no version matches the regex
 		return '';
+	}
+
+	/**
+	 * Given a bug ID, apply the appropriate branch mapping algorithm
+	 * to find and return the appropriate product matrix version ID.
+	 * @param int Bug ID
+	 * @return int Product version ID
+	 */
+	function apply_pvm( $p_bug_id ) {
+		# if it's explicit, return the version_id before doing anything else
+		if ( $this->type == SOURCE_EXPLICIT ) {
+			return $this->pvm_version_id;
+		}
+
+		# no version matches the regex
+		return 0;
 	}
 
 	function cmp_near( $a, $b ) {

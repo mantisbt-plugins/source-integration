@@ -24,11 +24,11 @@ function display_strategies( $p_type=null ) {
 		'>', plugin_lang_get( 'mapping_near' ), '</option>',
 		'<option value="', SOURCE_FAR, '"', ( $p_type == SOURCE_FAR ? ' selected="selected"' : '' ),
 		'>', plugin_lang_get( 'mapping_far' ), '</option>';
-	}
 	echo '<option value="', SOURCE_FIRST, '"', ( $p_type == SOURCE_FIRST ? ' selected="selected"' : '' ),
 		'>', plugin_lang_get( 'mapping_first' ), '</option>',
 		'<option value="', SOURCE_LAST, '"', ( $p_type == SOURCE_LAST ? ' selected="selected"' : '' ),
 		'>', plugin_lang_get( 'mapping_last' ), '</option>';
+	}
 }
 
 function display_pvm_versions($t_version_id=null) {

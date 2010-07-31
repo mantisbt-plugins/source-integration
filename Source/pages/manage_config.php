@@ -34,6 +34,7 @@ $f_bugfix_regex_2 = gpc_get_string( 'bugfix_regex_2' );
 $f_bugfix_reset_2 = gpc_get_string( 'bugfix_reset_2', OFF );
 $f_bugfix_status = gpc_get_int( 'bugfix_status' );
 $f_bugfix_resolution = gpc_get_int( 'bugfix_resolution' );
+$f_bugfix_status_pvm = gpc_get_int( 'bugfix_status_pvm' );
 $f_bugfix_handler = gpc_get_bool( 'bugfix_handler' );
 $f_bugfix_message = gpc_get_string( 'bugfix_message' );
 
@@ -110,6 +111,7 @@ if ( ! $f_bugfix_reset_2 ) {
 
 maybe_set_option( 'bugfix_status', $f_bugfix_status );
 maybe_set_option( 'bugfix_resolution', $f_bugfix_resolution );
+maybe_set_option( 'bugfix_status_pvm', $f_bugfix_status_pvm );
 maybe_set_option( 'bugfix_handler', $f_bugfix_handler );
 maybe_set_option( 'bugfix_message', $f_bugfix_message );
 

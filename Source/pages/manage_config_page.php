@@ -130,6 +130,18 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <td><select name="bugfix_resolution"><?php print_enum_string_option_list( 'resolution', plugin_config_get( 'bugfix_resolution' ) ) ?></select></td>
 </tr>
 
+<?php if ( plugin_is_installed( 'ProductMatrix' ) || plugin_config_get( 'enable_product_matrix' ) ) { ?>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'bugfix_status_pvm' ) ?></td>
+<td><select name="bugfix_status_pvm">
+<option value="0" <?php echo check_selected( 0, plugin_config_get( 'bugfix_status_pvm' ) ) ?>><?php echo plugin_lang_get( 'bugfix_status_off' ) ?></option>
+<?php foreach( config_get( 'plugin_ProductMatrix_status' ) as $t_status => $t_name ) { ?>
+<option value="<?php echo string_attribute( $t_status ) ?>" <?php echo check_selected( $t_status, plugin_config_get( 'bugfix_status_pvm' ) ) ?>><?php echo string_display_line( $t_name ) ?></option>
+<?php } ?>
+</select></td>
+</tr>
+<?php } ?>
+
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'bugfix_message' ) ?></td>
 <td><input name="bugfix_message" size="50" value="<?php echo string_attribute( plugin_config_get( 'bugfix_message' ) ) ?>"/><br/>

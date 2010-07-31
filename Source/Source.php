@@ -57,6 +57,7 @@ class SourcePlugin extends MantisPlugin {
 			'bugfix_regex_2'	=> '/#?(\d+)/',
 			'bugfix_status'		=> -1,
 			'bugfix_resolution'	=> FIXED,
+			'bugfix_status_pvm'	=> 0,
 			'bugfix_handler'	=> ON,
 			'bugfix_message'	=> 'Fix committed to $1 branch.',
 
