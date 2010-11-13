@@ -96,7 +96,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		}
 
 		if ( isset( $p_repo->info['hub_api_login'] ) ) {
-			$t_hub_api_token = $p_repo->info['hub_api_login'];
+			$t_hub_api_login = $p_repo->info['hub_api_login'];
 		}
 
 		if ( isset( $p_repo->info['hub_api_token'] ) ) {
