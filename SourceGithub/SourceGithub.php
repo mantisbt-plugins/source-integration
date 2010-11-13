@@ -7,7 +7,7 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 	return;
 }
 
-require_once( config_get( 'core_path' ) . 'json_api.php' );
+require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceGithubPlugin extends MantisSourcePlugin {
 	public function register() {
@@ -260,6 +260,17 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	public function import_latest( $p_repo ) {
 		return $this->import_full( $p_repo );
 	}
+	
+	public function call_json_url_utf8( $p_url, $p_member = null ) {
+		$t_data = url_get( $p_url );
+		$t_json = json_decode( utf8_encode($t_data) );
+	
+		if( is_null( $p_member ) ) {
+			return $t_json;
+		} else {
+			return $t_json->$p_member;
+		}
+	}
 
 	public function import_commits( $p_repo, $p_commit_ids, $p_branch='' ) {
 		static $s_parents = array();
@@ -281,7 +292,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 			echo "Retrieving $t_commit_id ... ";
 			$t_uri = $this->api_uri( $p_repo, "commits/show/{$t_username}/{$t_reponame}/{$t_commit_id}" );
-			$t_json = json_url( $t_uri, 'commit' );
+			$t_json = $this->call_json_url_utf8( $t_uri, 'commit' );
 
 			if ( false === $t_json || is_null( $t_json ) ) {
 				echo "failed.\n";
@@ -310,7 +321,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			}
 
 			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->id, $p_branch,
-				$p_json->authored_date, $p_json->author->name, $p_json->message );
+				$p_json->authored_date, $p_json->author->name, utf8_decode($p_json->message) );
 
 			if ( count( $p_json->parents ) > 0 ) {
 				$t_parent = $p_json->parents[0];
