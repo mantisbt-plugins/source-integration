@@ -49,7 +49,7 @@ if ( !$t_valid && ON == plugin_config_get( 'remote_checkin' ) ) {
 	}
 }
 
-if ( gpc_get_string( 'api_key' ) == plugin_config_get( 'api_key' ) ) {
+if ( gpc_get_string( 'api_key' ) == plugin_config_get( 'api_key' ) && trim(plugin_config_get( 'api_key' )) != '') {
 	$t_valid = true;
 }
 
