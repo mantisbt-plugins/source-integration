@@ -49,6 +49,10 @@ if ( !$t_valid && ON == plugin_config_get( 'remote_checkin' ) ) {
 	}
 }
 
+if ( gpc_get_string( 'api_key' ) == plugin_config_get( 'api_key' ) ) {
+	$t_valid = true;
+}
+
 # Not validated by this point gets the boot!
 if ( !$t_valid ) {
 	die( plugin_lang_get( 'invalid_checkin_url' ) );
