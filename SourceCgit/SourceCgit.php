@@ -28,7 +28,7 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 
 		$this->author = 'Alexander';
 		$this->contact = 'iam.asm89@gmail.com';
-		$this->url = '-';
+		$this->url = 'http://leetcode.net/';
 	}
 
 	public $type = 'cgit';
