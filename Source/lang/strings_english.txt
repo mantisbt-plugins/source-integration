@@ -74,9 +74,11 @@ $s_plugin_Source_affected_issues = 'Affected Issues';
 $s_plugin_Source_attach_to_issue = 'Attach Issues:';
 
 $s_plugin_Source_configuration = 'Configuration';
-$s_plugin_Source_allow_remote_checkin = 'Allow Remote Check-In';
+$s_plugin_Source_api_key = 'API Key';
+$s_plugin_Source_api_key_info = '<span class="small">This is a secret password to be used for GitHub and similar cloud-hosted sites that do not have a strict set of IP Addresses to allow.<br/>To generate a random key, run <code>openssl rand -hex 12</code> or similar.</span>';
+$s_plugin_Source_allow_remote_checkin = 'Allow Remote Check-In<br/><span class="small">(Deprecated)</span>';
 $s_plugin_Source_remote_checkin_urls = 'Allowed Addresses';
-$s_plugin_Source_allow_remote_import = 'Allow Remote Imports';
+$s_plugin_Source_allow_remote_import = 'Allow Remote Imports<br/><span class="small">(Deprecated)</span>';
 $s_plugin_Source_remote_import_urls = 'Allowed Addresses';
 $s_plugin_Source_view_threshold = 'View Threshold';
 $s_plugin_Source_update_threshold = 'Update Threshold';
@@ -141,5 +143,3 @@ $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
 
 $s_plugin_Source_changeset_column_title = 'C';
 
-$s_plugin_Source_api_key = 'API Key';
-$s_plugin_Source_api_key_info = '<span class="small">This is a secret password to be used for GitHub and similar cloud-hosted sites that do not have a strict set of IP Addresses to allow.<br/>To generate a random key, run <code>openssl rand -hex 12</code> or similar.</span>';
