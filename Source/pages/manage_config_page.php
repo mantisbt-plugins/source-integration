@@ -156,6 +156,14 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <tr><td class="spacer"></td></tr>
 
 <tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'api_key' ) ?></td>
+<td><input name="api_key" size="50" value="<?php echo string_attribute( plugin_config_get( 'api_key' ) ) ?>"/><br/>
+<?php echo plugin_lang_get( 'api_key_info' ) ?></td>
+</tr>
+
+<tr><td class="spacer"></td></tr>
+
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'allow_remote_checkin' ) ?></td>
 <td><input name="remote_checkin" type="checkbox" <?php echo (ON == $t_remote_checkin ? 'checked="checked"' : '') ?>></td>
 </tr>
@@ -183,12 +191,6 @@ foreach( $t_import_urls as $t_ip ) {
 	echo string_textarea( $t_ip ),"\n";
 }
 ?></textarea></td>
-</tr>
-
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'api_key' ) ?></td>
-<td><input name="api_key" size="50" value="<?php echo string_attribute( plugin_config_get( 'api_key' ) ) ?>"/><br/>
-<?php echo plugin_lang_get( 'api_key_info' ) ?></td>
 </tr>
 
 <?php
