@@ -141,3 +141,5 @@ $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
 
 $s_plugin_Source_changeset_column_title = 'C';
 
+$s_plugin_Source_api_key = 'Secret API Key';
+$s_plugin_Source_api_key_info = 'This is a password to be used for GitHub and similar cloud-hosted sites that do not have a strict set of IP Addresses to allow.';

@@ -66,6 +66,8 @@ class SourcePlugin extends MantisPlugin {
 
 			'remote_imports'	=> OFF,
 			'import_urls'		=> serialize( array( 'localhost' ) ),
+			
+			'api_key'           => '',
 		);
 	}
 
