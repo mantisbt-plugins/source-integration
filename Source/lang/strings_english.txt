@@ -75,7 +75,7 @@ $s_plugin_Source_attach_to_issue = 'Attach Issues:';
 
 $s_plugin_Source_configuration = 'Configuration';
 $s_plugin_Source_api_key = 'API Key';
-$s_plugin_Source_api_key_info = '<span class="small">This is a secret password to be used for GitHub and similar cloud-hosted sites that do not have a strict set of IP Addresses to allow.<br/>To generate a random key, run <code>openssl rand -hex 12</code> or similar.</span>';
+$s_plugin_Source_api_key_info = '<span class="small">This is a secret password to be used by services sending commit data to Mantis.<br/>To generate a random key, run <code>openssl rand -hex 12</code> or similar.</span>';
 $s_plugin_Source_allow_remote_checkin = 'Allow Remote Check-In<br/><span class="small">(Deprecated)</span>';
 $s_plugin_Source_remote_checkin_urls = 'Allowed Addresses';
 $s_plugin_Source_allow_remote_import = 'Allow Remote Imports<br/><span class="small">(Deprecated)</span>';
