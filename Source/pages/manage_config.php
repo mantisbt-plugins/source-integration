@@ -63,6 +63,8 @@ $f_import_urls = gpc_get_string( 'import_urls' );
 $t_checkin_urls = check_urls( $f_checkin_urls );
 $t_import_urls = check_urls( $f_import_urls );
 
+$f_api_key = gpc_get_string( 'api_key' );
+
 function maybe_set_option( $name, $value ) {
 	if ( $value != plugin_config_get( $name ) ) {
 		plugin_config_set( $name, $value );
@@ -119,6 +121,8 @@ maybe_set_option( 'remote_checkin', $f_remote_checkin );
 maybe_set_option( 'checkin_urls', serialize( $t_checkin_urls ) );
 maybe_set_option( 'remote_imports', $f_remote_imports );
 maybe_set_option( 'import_urls', serialize( $t_import_urls ) );
+
+maybe_set_option( 'api_key', $f_api_key );
 
 foreach( SourceVCS::all() as $t_type => $t_vcs ) {
 	if ( $t_vcs->configuration ) {

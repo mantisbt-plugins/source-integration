@@ -185,6 +185,12 @@ foreach( $t_import_urls as $t_ip ) {
 ?></textarea></td>
 </tr>
 
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'api_key' ) ?></td>
+<td><input name="api_key" size="50" value="<?php echo string_attribute( plugin_config_get( 'api_key' ) ) ?>"/><br/>
+<?php echo plugin_lang_get( 'api_key_info' ) ?></td>
+</tr>
+
 <?php
 foreach( SourceVCS::all() as $t_type => $t_vcs ) {
 	if ( $t_vcs->configuration ) {
