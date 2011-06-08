@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Copyright (c) 2010 John Reese
+# Licensed under the MIT license
+
+read LINE
+LINE=`echo $LINE | sed -e 's/ /+/g'`
+
+URL="http://git.tritarget.org/mantisbt/plugin.php?page=Source/checkin"
+PROJECT="test"
+
+CURL=/usr/bin/curl
+
+echo "Updating Changeset to Mantis Bug Tracker"
+${CURL} -s -S -d "repo_name=${PROJECT}" -d "data=${LINE}" ${URL}

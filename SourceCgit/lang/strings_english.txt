@@ -1,0 +1,13 @@
+<?php
+
+# Copyright (c) 2011 asm89
+# Licensed under the MIT license
+
+$s_plugin_SourceCgit_ = '';
+$s_plugin_SourceCgit_cgit = 'Cgit';
+$s_plugin_SourceCgit_title = 'Cgit Integration';
+$s_plugin_SourceCgit_description = 'Adds Cgit integration to the Source Integration framework.';
+
+$s_plugin_SourceCgit_cgit_root = 'Cgit Root URL<br/><span class="small">(including trailing /)</span>';
+$s_plugin_SourceCgit_cgit_project = 'Cgit Project';
+$s_plugin_SourceCgit_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list)</span>';
