@@ -211,10 +211,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_commits[] = $t_commit['id'];
 		}
 
-		$t_branch = '';
-		if ( preg_match( '@refs/heads/([a-zA-Z0-9_-]*)@', $p_data['ref'], $t_matches ) ) {
-			$t_branch = $t_matches[1];
-		}
+		$t_branch = $p_data['ref_name'];
 
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );
 	}
