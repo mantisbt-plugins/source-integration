@@ -21,9 +21,7 @@ integration framework and API.
 ### Requirements
 
 The Source Integration framework requires Mantis version 1.2.0 or
-higher, and requires the following additional plugins:
-
-- [Meta, version 0.1+](http://git.mantisforge.org/w/meta.git)
+higher.
 
 ### Installation
 
@@ -46,5 +44,5 @@ the bug tracker on LeetCode.net:
 
 The latest source code can be found on MantisForge.org:
 
-  http://git.mantisforge.org/w/source-integration.git
+  http://github.com/mantisbt-plugins/source-integration
 
