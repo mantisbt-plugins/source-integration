@@ -83,7 +83,7 @@ if ( $t_count > $f_perpage ) {
 		echo $t_page_link( $f_offset-1, '<<' ), '&nbsp;&nbsp;';
 	}
 
-	$t_page_set = map( $t_page_link, $t_page_set );
+	$t_page_set = array_map( $t_page_link, $t_page_set );
 	echo join( ' ', $t_page_set );
 
 	if ( $t_current < $t_pages ) {

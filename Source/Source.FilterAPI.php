@@ -6,6 +6,17 @@
 define( 'SOURCE_ANY', 0 );
 define( 'SOURCE_NONE', 1 );
 
+function Source_Twomap( $func, $list ) {
+    $new_list2 = array();
+    $new_list = array();
+
+    foreach( $list as $key => $item ) {
+        list( $new_list[$key], $new_list2[$key] ) = call_user_func( $func, $key, $item );
+    }
+
+    return array( $new_list, $new_list2 );
+}
+
 class SourceFilterOption {
 	var $how = SOURCE_ANY;
 	var $value;
@@ -53,7 +64,7 @@ class SourceFilter {
 	}
 
 	function find( $p_page=1, $p_limit=25 ) {
-		list( $t_filters, $t_filter_params ) = twomap( 'Source_Process_FilterOption', $this->filters );
+		list( $t_filters, $t_filter_params ) = Source_Twomap( 'Source_Process_FilterOption', $this->filters );
 		list ( $t_query_tail, $t_params ) = Source_Process_Filters( $t_filters, $t_filter_params );
 
 		$t_count_query = "SELECT COUNT(c.id) $t_query_tail";
@@ -177,9 +188,9 @@ function Source_Process_FilterOption( $key, $option ) {
 			$value = explode( ' ', $value );
 		}
 
-		$wc = map( 'db_param', $value );
-		$wc = map( create_function( '$item','return "' . $key . ' LIKE $item";' ), $wc );
-		$value = map( create_function( '$item', 'return "%$item%";' ), $value );
+		$wc = array_map( 'db_param', $value );
+		$wc = array_map( create_function( '$item','return "' . $key . ' LIKE $item";' ), $wc );
+		$value = array_map( create_function( '$item', 'return "%$item%";' ), $value );
 
 		$sql = '(' . implode( ' OR ', $wc ) . ')';
 
@@ -222,7 +233,7 @@ function Source_Process_FilterOption( $key, $option ) {
 
 	# Standard values
 	if ( is_array( $value ) ) {
-		$wc = map( 'db_param', $value );
+		$wc = array_map( 'db_param', $value );
 
 		$count = count( $value );
 		if ( $count > 1 ) {
@@ -549,7 +560,7 @@ function Source_Date_StampArray( $t_input ) {
 		return null;
 	}
 
-	return map( create_function( '$in', 'return (int) $in;' ), array_slice( $t_matches, 1, 3 ) );
+	return array_map( create_function( '$in', 'return (int) $in;' ), array_slice( $t_matches, 1, 3 ) );
 }
 
 function Source_Date_Select( $p_name, $p_selected=null ) {
@@ -562,7 +573,7 @@ function Source_Date_Select( $p_name, $p_selected=null ) {
 		$t_result = db_query_bound( $t_query );
 
 		$t_row = db_fetch_array( $t_result );
-		$t_row = map( 'Source_Date_StampArray', $t_row );
+		$t_row = array_map( 'Source_Date_StampArray', $t_row );
 
 		$s_min = $t_row['min'][0];
 		$s_max = $t_row['max'][0];
