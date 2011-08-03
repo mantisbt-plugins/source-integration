@@ -23,7 +23,6 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 			'Source' => '0.16',
-			'Meta' => '0.1',
 		);
 
 		$this->author = 'Alexander';
