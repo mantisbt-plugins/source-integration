@@ -11,7 +11,7 @@ $s_plugin_SourceSVN_description = 'Ajoute l\'intégration de Subversion au frame
 $s_plugin_SourceSVN_svn = 'SVN';
 $s_plugin_SourceSVN_svn_username = 'Nom d\'utilisateur SVN';
 $s_plugin_SourceSVN_svn_password = 'Mot de passe SVN';
-$s_plugin_SourceSVN_standard_repo = 'Dépôt standard<br/><span class="small">(trunk/branches/tags)</small>';
+$s_plugin_SourceSVN_standard_repo = 'Dépôt standard<br/><span class="small">(trunk/branches/tags)</span>';
 $s_plugin_SourceSVN_trunk_path = 'Chemin du tronc<br/><span class="small">(Dépôt non standard)</span>';
 $s_plugin_SourceSVN_branch_path = 'Chemin des branches<br/><span class="small">(Dépôt non standard)</span>';
 $s_plugin_SourceSVN_tag_path = 'Chemin des tags<br/><span class="small">(Dépôt non standard)</span>';
