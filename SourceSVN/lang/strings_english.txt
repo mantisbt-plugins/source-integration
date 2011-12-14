@@ -10,7 +10,7 @@ $s_plugin_SourceSVN_description = 'Adds Subversion integration to the Source plu
 $s_plugin_SourceSVN_svn = 'SVN';
 $s_plugin_SourceSVN_svn_username = 'SVN Username';
 $s_plugin_SourceSVN_svn_password = 'SVN Password';
-$s_plugin_SourceSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</small>';
+$s_plugin_SourceSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</span>';
 $s_plugin_SourceSVN_trunk_path = 'Trunk Path<br/><span class="small">(Non-standard repository)</span>';
 $s_plugin_SourceSVN_branch_path = 'Branch Path<br/><span class="small">(Non-standard repository)</span>';
 $s_plugin_SourceSVN_tag_path = 'Tag Path<br/><span class="small">(Non-standard repository)</span>';

@@ -100,20 +100,20 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 
 <tr>
 <td colspan="2">
-<form action="<?php echo plugin_page( 'repo_update_page' ) . '&id=' . $t_repo->id ?>" method="post">
+<form action="<?php echo plugin_page( 'repo_update_page' ) . '&amp;id=' . $t_repo->id ?>" method="post">
 	<input type="submit" value="<?php echo plugin_lang_get( 'update_repository' ) ?>"/>
 </form>
-<form action="<?php echo plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id ?>" method="post">
+<form action="<?php echo plugin_page( 'repo_delete' ) . '&amp;id=' . $t_repo->id ?>" method="post">
 	<?php echo form_security_field( 'plugin_Source_repo_delete' ) ?>
 	<input type="submit" value="<?php echo plugin_lang_get( 'delete_repository' ) ?>"/>
 </form>
 </td>
 <td class="right">
-<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&id=' . $t_repo->id ?>" method="post">
+<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&amp;id=' . $t_repo->id ?>" method="post">
 	<?php echo form_security_field( 'plugin_Source_repo_import_latest' ) ?>
 	<input type="submit" value="<?php echo plugin_lang_get( 'import_latest' ) ?>"/>
 </form>
-<form action="<?php echo plugin_page( 'repo_import_full' ) . '&id=' . $t_repo->id ?>" method="post">
+<form action="<?php echo plugin_page( 'repo_import_full' ) . '&amp;id=' . $t_repo->id ?>" method="post">
 	<?php echo form_security_field( 'plugin_Source_repo_import_full' ) ?>
 	<input type="submit" value="<?php echo plugin_lang_get( 'import_full' ) ?>"/>
 </form>
@@ -121,7 +121,6 @@ foreach( $t_repo->info as $t_key => $t_value ) {
 </tr>
 
 </table>
-</form>
 
 <?php if ( plugin_config_get( 'enable_mapping' ) ) { ?>
 <br/>
