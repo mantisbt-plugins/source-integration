@@ -10,7 +10,7 @@ $s_plugin_SourceSVN_description = 'Subversionintegration über die VCS Basisinte
 $s_plugin_SourceSVN_svn = 'SVN';
 $s_plugin_SourceSVN_svn_username = 'SVN Benutzername';
 $s_plugin_SourceSVN_svn_password = 'SVN Passwort';
-$s_plugin_SourceSVN_standard_repo = 'Standardprojektarchiv<br /><span class="small">(trunk/branches/tags)</small>';
+$s_plugin_SourceSVN_standard_repo = 'Standardprojektarchiv<br /><span class="small">(trunk/branches/tags)</span>';
 $s_plugin_SourceSVN_trunk_path = 'Pfad zu \'Trunk\'<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
 $s_plugin_SourceSVN_branch_path = 'Pfad zu \'Branch\'<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
 $s_plugin_SourceSVN_tag_path = 'Pfad zu \'Tag\'<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';

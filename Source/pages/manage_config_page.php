@@ -150,7 +150,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'bugfix_handler' ) ?></td>
-<td><input name="bugfix_handler" type="checkbox" <?php echo (ON == plugin_config_get( 'bugfix_handler' ) ? 'checked="checked"' : '') ?>></td>
+<td><input name="bugfix_handler" type="checkbox" <?php echo (ON == plugin_config_get( 'bugfix_handler' ) ? 'checked="checked"' : '') ?>/></td>
 </tr>
 
 <tr><td class="spacer"></td></tr>
@@ -165,7 +165,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'allow_remote_checkin' ) ?></td>
-<td><input name="remote_checkin" type="checkbox" <?php echo (ON == $t_remote_checkin ? 'checked="checked"' : '') ?>></td>
+<td><input name="remote_checkin" type="checkbox" <?php echo (ON == $t_remote_checkin ? 'checked="checked"' : '') ?>/></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
@@ -181,7 +181,7 @@ foreach( $t_checkin_urls as $t_ip ) {
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'allow_remote_import' ) ?></td>
-<td><input name="remote_imports" type="checkbox" <?php echo (ON == $t_remote_imports ? 'checked="checked"' : '') ?>></td>
+<td><input name="remote_imports" type="checkbox" <?php echo (ON == $t_remote_imports ? 'checked="checked"' : '') ?>/></td>
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>>
