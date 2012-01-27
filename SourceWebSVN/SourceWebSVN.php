@@ -52,7 +52,8 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			return '';
 		}
 		return $p_repo->info['websvn_url'] . 'filedetails.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&path=' . urlencode( $p_file->filename ) . '&sc=1';
+			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) .
+			'&path=' . urlencode( $p_file->filename ) . '&sc=1';
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
@@ -60,7 +61,8 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			return '';
 		}
 		return $p_repo->info['websvn_url'] . 'diff.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&path=' . urlencode( $p_file->filename ) . '&sc=1';
+			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) .
+			'&path=' . urlencode( $p_file->filename ) . '&sc=1';
 	}
 
 	public function update_repo_form( $p_repo ) {
