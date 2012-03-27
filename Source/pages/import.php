@@ -67,6 +67,9 @@ if ( $f_repo_id == 'all' ) {
 } elseif ( is_numeric( $f_repo_id ) ) {
 	$t_repo_id = (int) $f_repo_id;
 	$t_repos = array( SourceRepo::load( $t_repo_id ) );
+} else {
+	$f_repo_name = $f_repo_id;
+	$t_repos = array( SourceRepo::load_from_name( $f_repo_name ) );
 }
 
 # Loop through all repos to be imported
