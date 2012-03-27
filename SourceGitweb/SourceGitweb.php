@@ -246,13 +246,13 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		if ( !SourceChangeset::exists( $p_repo->id, $t_commit['revision'] ) ) {
 
 			# Parse for commit data
-			preg_match( '#<tr><td>author</td><td>([^<>]*) <([^<>]*)></td></tr>'.
+			preg_match( '#<tr><td>author</td><td>(?:<a[^>]*>)?([^<>]*)(?:</a>)? *(?:<a[^>]*>)?<([^<>]*)>(?:</a>)?</td>(?:<[^<>]*>\s*)*?</tr>'.
 				'<tr><td></td><td> \w*, (\d* \w* \d* \d*:\d*:\d*)#', $t_gitweb_data, $t_matches );
 			$t_commit['author'] = $t_matches[1];
 			$t_commit['author_email'] = $t_matches[2];
 			$t_commit['date'] = date( 'Y-m-d H:i:s', strtotime( $t_matches[3] ) );
 
-			if( preg_match( '#<tr><td>committer</td><td>([^<>]*) <([^<>]*)></td></tr>#', $t_gitweb_data, $t_matches ) ) {
+			if( preg_match( '#<tr><td>committer</td><td>(?:<a[^>]*>)?([^<>]*)(?:</a>)? *(?:<a[^>]*>)?<([^<>]*)>(?:</a>)?</td>(?:<[^<>]*>\s*)*?</tr>#', $t_gitweb_data, $t_matches ) ) {
 				$t_commit['committer'] = $t_matches[1];
 				$t_commit['committer_email'] = $t_matches[2];
 			}
