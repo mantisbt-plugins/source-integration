@@ -138,7 +138,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$f_hub_api_token = gpc_get_string( 'hub_api_token' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		if ( !preg_match( '/^[a-zA-Z0-9_\., -]*$/', $f_master_branch ) ) {
+		if ( !preg_match( '/\*|^[a-zA-Z0-9_\., -]*$/', $f_master_branch ) ) {
 			echo 'Invalid parameter: \'Primary Branch\'';
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
@@ -224,7 +224,25 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_branch = 'master';
 		}
 
-		$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
+		if ($t_branch != '*')
+		{
+			$t_branches = map( 'trim', explode( ',', $t_branch ) );
+		}
+		else
+		{
+
+			$t_username = $p_repo->info['hub_username'];
+			$t_reponame = $p_repo->info['hub_reponame'];
+
+			$t_uri = $this->api_uri( $p_repo, "repos/show/{$t_username}/{$t_reponame}/branches" );
+			$t_json = json_url( $t_uri, 'branches' );
+
+			$t_branches = array();
+			foreach (array_keys(get_object_vars($t_json)) as $t_branch)
+			{
+				$t_branches[] = $t_branch;
+			}
+		}
 		$t_changesets = array();
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );

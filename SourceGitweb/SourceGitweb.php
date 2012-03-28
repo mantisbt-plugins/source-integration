@@ -138,10 +138,36 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		if ( is_blank( $t_branch ) ) {
 			$t_branch = 'master';
 		}
+		
+		if ($t_branch != '*')
+		{
+			$t_branches = map( 'trim', explode( ',', $t_branch ) );
+		}
+		else
+		{
+			$t_heads_url = $this->uri_base( $p_repo ) . 'a=heads';
+			$t_branches_input = url_get( $t_heads_url );
+			
+			$t_branches_input = str_replace( array(PHP_EOL, '&lt;', '&gt;', '&nbsp;'), array('', '<', '>', ' '), $t_branches_input );
+			
+			$t_branches_input_p1 = strpos( $t_branches_input, '<table class="heads">' );
+			$t_branches_input_p2 = strpos( $t_branches_input, '<div class="page_footer">' );
+			$t_gitweb_heads = substr( $t_branches_input, $t_branches_input_p1, $t_branches_input_p2 - $t_branches_input_p1 );
+			preg_match_all( '/<a class="list name".*>(.*)<\/a>/iU', $t_gitweb_heads, $t_matches, PREG_SET_ORDER );
+			
+			$t_branches = array();
+			foreach ($t_matches as $match)
+			{
+				$t_branch = trim($match[1]);
+				if ($match[1] != 'origin' and !in_array($t_branch,$t_branches))
+				{
+					$t_branches[] = $t_branch;
+				}
+			}
+		}
 
-		$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
 		$t_changesets = array();
-
+		
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		foreach( $t_branches as $t_branch ) {
