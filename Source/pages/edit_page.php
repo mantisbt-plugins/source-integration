@@ -1,6 +1,6 @@
 <?php
 
-# Copyright (c) 2010 John Reese
+# Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
 access_ensure_global_level( plugin_config_get( 'update_threshold' ) );

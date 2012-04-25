@@ -1,7 +1,7 @@
 
 ## Mantis Source Integration
 
-Copyright (C) 2010 John Reese
+Copyright (C) 2012 John Reese
 
 ### Description
 

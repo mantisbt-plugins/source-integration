@@ -1,6 +1,6 @@
 <?php
 
-# Copyright (c) 2010 John Reese
+# Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
 require_once( config_get( 'plugin_path' ) . 'Source/Source.ViewAPI.php' );

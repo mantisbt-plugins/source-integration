@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 John Reese
+ * Copyright (c) 2012 John Reese
  * Licensed under the MIT license
  */
 

@@ -1,6 +1,6 @@
 <?php
 
-# Copyright (c) 2010 John Reese
+# Copyright (c) 2012 John Reese
 # Translation by Olivier Sannier
 # Licensed under the MIT license
 
