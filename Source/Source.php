@@ -28,7 +28,7 @@ class SourcePlugin extends MantisPlugin {
 
 		$this->author	= 'John Reese';
 		$this->contact	= 'john@noswap.com';
-		$this->url		= 'http://leetcode.net';
+		$this->url		= 'http://noswap.com';
 	}
 
 	function config() {

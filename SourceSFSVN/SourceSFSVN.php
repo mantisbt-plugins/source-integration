@@ -21,7 +21,7 @@ class SourceSFSVNPlugin extends SourceSVNPlugin {
 
 		$this->author = 'John Reese';
 		$this->contact = 'john@noswap.com';
-		$this->url = 'http://leetcode.net';
+		$this->url = 'http://noswap.com';
 	}
 
 	public $type = 'sfsvn';
