@@ -21,7 +21,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		);
 
 		$this->author = 'John Reese';
-		$this->contact = 'jreese@leetcode.net';
+		$this->contact = 'john@noswap.com';
 		$this->url = 'http://leetcode.net';
 	}
 
