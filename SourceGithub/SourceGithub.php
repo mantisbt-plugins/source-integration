@@ -190,7 +190,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		if ( db_num_rows( $t_result ) < 1 ) {
 			return;
 		}
-	
+
 		while ( $t_row = db_fetch_array( $t_result ) ) {
 			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
 			$t_repo->id = $t_row['id'];
@@ -226,7 +226,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		if ($t_branch != '*')
 		{
-			$t_branches = map( 'trim', explode( ',', $t_branch ) );
+			$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
 		}
 		else
 		{
