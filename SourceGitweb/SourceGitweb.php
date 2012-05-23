@@ -141,7 +141,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		
 		if ($t_branch != '*')
 		{
-			$t_branches = map( 'trim', explode( ',', $t_branch ) );
+			$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
 		}
 		else
 		{
