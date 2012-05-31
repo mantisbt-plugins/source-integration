@@ -153,7 +153,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	}
 
 	private function api_uri( $p_repo, $p_path ) {
-		$t_uri = 'http://github.com/api/v2/json/' . $p_path;
+		$t_uri = 'https://api.github.com/' . $p_path;
 
 		if ( !is_blank( $p_repo->info['hub_api_token'] ) ) {
 			$t_token = $p_repo->info['hub_api_token'];
@@ -234,13 +234,13 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_username = $p_repo->info['hub_username'];
 			$t_reponame = $p_repo->info['hub_reponame'];
 
-			$t_uri = $this->api_uri( $p_repo, "repos/show/{$t_username}/{$t_reponame}/branches" );
-			$t_json = json_url( $t_uri, 'branches' );
+			$t_uri = $this->api_uri( $p_repo, "repos/$t_username/$t_reponame/branches" );
+			$t_json = json_url( $t_uri );
 
 			$t_branches = array();
-			foreach (array_keys(get_object_vars($t_json)) as $t_branch)
+			foreach ($t_json as $t_branch)
 			{
-				$t_branches[] = $t_branch;
+				$t_branches[] = $t_branch->name;
 			}
 		}
 		$t_changesets = array();
@@ -295,14 +295,14 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_commit_id = array_shift( $s_parents );
 
 			echo "Retrieving $t_commit_id ... ";
-			$t_uri = $this->api_uri( $p_repo, "commits/show/{$t_username}/{$t_reponame}/{$t_commit_id}" );
-			$t_json = json_url( $t_uri, 'commit' );
-
+			$t_uri = $this->api_uri( $p_repo, "repos/$t_username/$t_reponame/commits/$t_commit_id" );
+			$t_json = json_url( $t_uri );
+			
 			if ( false === $t_json || is_null( $t_json ) ) {
 				echo "failed.\n";
 				continue;
 			}
-
+			
 			list( $t_changeset, $t_commit_parents ) = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
 			if ( $t_changeset ) {
 				$t_changesets[] = $t_changeset;
@@ -318,39 +318,37 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	private function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
 
 		echo "processing $p_json->id ... ";
-		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
+		if ( !SourceChangeset::exists( $p_repo->id, $p_json->sha ) ) {
 			$t_parents = array();
 			foreach( $p_json->parents as $t_parent ) {
-				$t_parents[] = $t_parent->id;
+				$t_parents[] = $t_parent->sha;
 			}
 
-			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->id, $p_branch,
-				$p_json->authored_date, $p_json->author->name, $p_json->message );
+			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->sha, $p_branch,
+				$p_json->commit->author->date, $p_json->commit->author->name, $p_json->commit->message );
 
 			if ( count( $p_json->parents ) > 0 ) {
 				$t_parent = $p_json->parents[0];
-				$t_changeset->parent = $t_parent->id;
+				$t_changeset->parent = $t_parent->sha;
 			}
 
-			$t_changeset->author_email = $p_json->author->email;
-			$t_changeset->committer = $p_json->committer->name;
-			$t_changeset->committer_email = $p_json->committer->email;
-
-			if ( isset( $p_json->added ) ) {
-				foreach( $p_json->added as $t_added ) {
-					$t_changeset->files[] = new SourceFile( 0, '', $t_added, 'add' );
-				}
-			}
-
-			if ( isset( $p_json->removed ) ) {
-				foreach( $p_json->removed as $t_removed ) {
-					$t_changeset->files[] = new SourceFile( 0, '', $t_removed, 'rm' );
-				}
-			}
-
-			if ( isset( $p_json->modified ) ) {
-				foreach( $p_json->modified as $t_modified ) {
-					$t_changeset->files[] = new SourceFile( 0, '', $t_modified->filename, 'mod' );
+			$t_changeset->author_email = $p_json->commit->author->email;
+			$t_changeset->committer = $p_json->commit->committer->name;
+			$t_changeset->committer_email = $p_json->commit->committer->email;
+			
+			if ( isset( $p_json->files ) ) {
+				foreach ( $p_json->files as $t_file ) {
+					switch ( $t_file->status ) {
+						case 'added':
+							$t_changeset->files[] = new SourceFile( 0, '', $t_file->filename, 'add' );
+							break;
+						case 'modified':
+							$t_changeset->files[] = new SourceFile( 0, '', $t_file->filename, 'mod' );
+							break;
+						case 'removed':
+							$t_changeset->files[] = new SourceFile( 0, '', $t_file->filename, 'rm' );
+							break;
+					}
 				}
 			}
 
