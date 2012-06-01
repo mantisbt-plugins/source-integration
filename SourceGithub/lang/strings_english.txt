@@ -10,6 +10,11 @@ $s_plugin_SourceGithub_description = 'Adds GitHub integration to the Source Inte
 
 $s_plugin_SourceGithub_hub_username = 'GitHub Username';
 $s_plugin_SourceGithub_hub_reponame = 'GitHub Repository<br/><span class="small">(lowercase, dashed name)</span>';
-$s_plugin_SourceGithub_hub_api_login = 'GitHub API Login<br/><span class="small">For private repositories</span>';
-$s_plugin_SourceGithub_hub_api_token = 'GitHub API Token<br/><span class="small">For private repositories</span>';
+$s_plugin_SourceGithub_hub_app_client_id = 'GitHub Application Client ID<br /><span class="small">For private repositories. Create a new <a href="https://github.com/settings/applications">GitHub Application</a> if needed</span>';
+$s_plugin_SourceGithub_hub_app_secret = 'GitHub Application Secret<br /><span class="small">For private repositories</span>';
+$s_plugin_SourceGithub_hub_app_access_token = 'GitHub Application Access Token<br /><span class="small">For private repositories</span>';
 $s_plugin_SourceGithub_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list)</span>';
+
+$s_plugin_SourceGithub_hub_app_client_id_secret_missing = 'N/A<br /><span class="small">You must enter the GitHub Application Client ID &amp; Secret and update before you can authorize</span>';
+$s_plugin_SourceGithub_hub_app_authorize = 'Click to Authorize';
+$s_plugin_SourceGithub_hub_app_authorized = 'Authorized';
