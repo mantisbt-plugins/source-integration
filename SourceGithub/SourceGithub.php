@@ -397,18 +397,10 @@ endif; ?></td>
 		$t_post_data = array( 'client_id' => $p_repo->info['hub_app_client_id'],
 			'client_secret' => $p_repo->info['hub_app_secret'],
 			'code' => $p_code );
-		$t_data = url_post( $t_url, $t_post_data );
+		$t_data = self::url_post( $t_url, $t_post_data );
 		
 		$t_access_token = '';
 		if ( !empty( $t_data ) ) {
-			/*
-			$t_reader = new XMLReader;
-			if ( $t_reader->xml( $t_data ) === true ) {
-				if ( $t_reader->moveToAttribute( 'access_token' ) === true ) {
-					$t_access_token = $t_reader->readString();
-				}
-			}
-			*/
 			$t_response = array();
 			parse_str( $t_data, $t_response );
 			if ( isset( $t_response['access_token'] ) === true ) {
@@ -426,5 +418,29 @@ endif; ?></td>
 			return false;
 		}
 	}
-
+	
+	public static function url_post( $p_url, $p_post_data ) {
+		$t_post_data = http_build_query( $p_post_data );
+		error_log( 't_post_data = ' . $t_post_data );
+		
+		# Use the PHP cURL extension
+		if( function_exists( 'curl_init' ) ) {
+			$t_curl = curl_init( $p_url );
+			curl_setopt( $t_curl, CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $t_curl, CURLOPT_POST, true );
+			curl_setopt( $t_curl, CURLOPT_POSTFIELDS, $t_post_data );
+	
+			$t_data = curl_exec( $t_curl );
+			error_log( 't_data = ' . $t_data );
+			curl_close( $t_curl );
+			
+			return $t_data;
+		} else {
+			# Last resort system call
+			$t_url = escapeshellarg( $p_url );
+			$t_post_data = escapeshellarg( $t_post_data );
+			return shell_exec( 'curl ' . $t_url . ' -d ' . $t_post_data );
+		}
+	}
+	
 }
