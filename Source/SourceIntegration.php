@@ -93,7 +93,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 
 		echo '<tr ', helper_alternate_class(), '><td class="category">', plugin_lang_get( 'vcs_username', 'Source' ),
 			'<input type="hidden" name="Source_vcs" value="1"/></td><td>',
-			'<input name="Source_vcs_username" value="', $t_user->username, '"/></td>';
+			'<input name="Source_vcs_username" value="', $t_user->username, '"/></td></tr>';
 	}
 
 	/**
