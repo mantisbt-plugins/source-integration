@@ -83,8 +83,9 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	public function update_repo_form( $p_repo ) {
 		$t_hub_username = null;
 		$t_hub_reponame = null;
-		$t_hub_api_login = null;
-		$t_hub_api_token = null;
+		$t_hub_app_client_id = null;
+		$t_hub_app_secret = null;
+		$t_hub_app_access_token = null;
 
 		if ( isset( $p_repo->info['hub_username'] ) ) {
 			$t_hub_username = $p_repo->info['hub_username'];
@@ -94,12 +95,16 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_hub_reponame = $p_repo->info['hub_reponame'];
 		}
 
-		if ( isset( $p_repo->info['hub_api_login'] ) ) {
-			$t_hub_api_login = $p_repo->info['hub_api_login'];
+		if ( isset( $p_repo->info['hub_app_client_id'] ) ) {
+			$t_hub_app_client_id = $p_repo->info['hub_app_client_id'];
 		}
 
-		if ( isset( $p_repo->info['hub_api_token'] ) ) {
-			$t_hub_api_token = $p_repo->info['hub_api_token'];
+		if ( isset( $p_repo->info['hub_app_secret'] ) ) {
+			$t_hub_app_secret = $p_repo->info['hub_app_secret'];
+		}
+
+		if ( isset( $p_repo->info['hub_app_access_token'] ) ) {
+			$t_hub_app_access_token = $p_repo->info['hub_app_access_token'];
 		}
 
 		if ( isset( $p_repo->info['master_branch'] ) ) {
@@ -117,12 +122,22 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_api_login' ) ?></td>
-<td><input name="hub_api_login" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_api_login ) ?>"/></td>
+<td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
+<td><input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_api_token' ) ?></td>
-<td><input name="hub_api_token" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_api_token ) ?>"/></td>
+<td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>
+<td><input name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></td>
+<td><?php if ( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ):
+echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
+elseif ( empty( $t_hub_app_access_token ) ):
+print_link( $this->oauth_authorize_uri( $p_repo ), plugin_lang_get( 'hub_app_authorize' ) );
+else:
+echo plugin_lang_get( 'hub_app_authorized' );
+endif; ?></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
@@ -134,8 +149,8 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	public function update_repo( $p_repo ) {
 		$f_hub_username = gpc_get_string( 'hub_username' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
-		$f_hub_api_login = gpc_get_string( 'hub_api_login' );
-		$f_hub_api_token = gpc_get_string( 'hub_api_token' );
+		$f_hub_app_client_id = gpc_get_string( 'hub_app_client_id' );
+		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
 		if ( !preg_match( '/\*|^[a-zA-Z0-9_\., -]*$/', $f_master_branch ) ) {
@@ -145,8 +160,8 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$p_repo->info['hub_username'] = $f_hub_username;
 		$p_repo->info['hub_reponame'] = $f_hub_reponame;
-		$p_repo->info['hub_api_login'] = $f_hub_api_login;
-		$p_repo->info['hub_api_token'] = $f_hub_api_token;
+		$p_repo->info['hub_app_client_id'] = $f_hub_app_client_id;
+		$p_repo->info['hub_app_secret'] = $f_hub_app_secret;
 		$p_repo->info['master_branch'] = $f_master_branch;
 
 		return $p_repo;
@@ -154,19 +169,36 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	private function api_uri( $p_repo, $p_path ) {
 		$t_uri = 'https://api.github.com/' . $p_path;
-
-		if ( !is_blank( $p_repo->info['hub_api_token'] ) ) {
-			$t_token = $p_repo->info['hub_api_token'];
-			$t_login = $p_repo->info['hub_username'];
-
-			if ( !is_blank( $p_repo->info['hub_api_login'] ) ) {
-				$t_login = $p_repo->info['hub_api_login'];
-			}
-
-			$t_uri .= '?login=' . $t_login . '&token=' . $t_token;
+		
+		$t_access_token = $p_repo->info['hub_app_access_token'];
+		if ( !is_blank( $t_access_token ) ) {
+			$t_uri .= '?access_token=' . $t_access_token;
 		}
 
 		return $t_uri;
+	}
+	
+	private function api_json_url( $p_repo, $p_url, $p_member = null ) {
+		static $t_start_time;
+		if ( $t_start_time === null ) {
+			$t_start_time = microtime( true );
+		} else if ( ( microtime( true ) - $t_start_time ) >= 3600.0 ) {
+			$t_start_time = microtime( true );
+		}
+		
+		$t_uri = $this->api_uri( $p_repo, 'rate_limit' );
+		$t_json = json_url( $t_uri, 'rate' );
+		if ( false !== $t_json && !is_null( $t_json ) ) {
+			if ( $t_json->remaining <= 0 ) {
+				// do we need to do something here?
+			} else if ( $t_json->remaining < ( $t_json->limit / 2 ) ) {
+				$t_time_remaining = 3600.0 - ( microtime( true ) - $t_start_time );
+				$t_sleep_time = ( $t_time_remaining / $t_json->remaining ) * 1000000;
+				usleep( $t_sleep_time );
+			}
+		}
+		
+		return json_url( $p_url, $p_member );
 	}
 
 	public function precommit() {
@@ -235,7 +267,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_reponame = $p_repo->info['hub_reponame'];
 
 			$t_uri = $this->api_uri( $p_repo, "repos/$t_username/$t_reponame/branches" );
-			$t_json = json_url( $t_uri );
+			$t_json = $this->api_json_url( $p_repo, $t_uri );
 
 			$t_branches = array();
 			foreach ($t_json as $t_branch)
@@ -296,7 +328,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 			echo "Retrieving $t_commit_id ... ";
 			$t_uri = $this->api_uri( $p_repo, "repos/$t_username/$t_reponame/commits/$t_commit_id" );
-			$t_json = json_url( $t_uri );
+			$t_json = $this->api_json_url( $p_repo, $t_uri );
 			
 			if ( false === $t_json || is_null( $t_json ) ) {
 				echo "failed.\n";
@@ -361,4 +393,75 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			return array( null, array() );
 		}
 	}
+	
+	private function oauth_authorize_uri( $p_repo ) {
+		$t_hub_app_client_id = null;
+		$t_hub_app_secret = null;
+		$t_hub_app_access_token = null;
+		
+		if ( isset( $p_repo->info['hub_app_client_id'] ) ) {
+			$t_hub_app_client_id = $p_repo->info['hub_app_client_id'];
+		}
+
+		if ( isset( $p_repo->info['hub_app_secret'] ) ) {
+			$t_hub_app_secret = $p_repo->info['hub_app_secret'];
+		}
+		
+		if ( !empty( $t_hub_app_client_id ) && !empty( $t_hub_app_secret ) ) {
+			return 'https://github.com/login/oauth/authorize?client_id=' . $t_hub_app_client_id . '&redirect_uri=' . urlencode(config_get('path') . 'plugin.php?page=SourceGithub/oauth_authorize&id=' . $p_repo->id ) . '&scope=repo';
+		} else {
+			return '';
+		}
+	}
+	
+	public static function oauth_get_access_token( $p_repo, $p_code ) {
+		# build the GitHub URL & POST data
+		$t_url = 'https://github.com/login/oauth/access_token';
+		$t_post_data = array( 'client_id' => $p_repo->info['hub_app_client_id'],
+			'client_secret' => $p_repo->info['hub_app_secret'],
+			'code' => $p_code );
+		$t_data = self::url_post( $t_url, $t_post_data );
+		
+		$t_access_token = '';
+		if ( !empty( $t_data ) ) {
+			$t_response = array();
+			parse_str( $t_data, $t_response );
+			if ( isset( $t_response['access_token'] ) === true ) {
+				$t_access_token = $t_response['access_token'];
+			}
+		}
+		
+		if ( !empty( $t_access_token ) ) {
+			if ( $t_access_token != $p_repo->info['hub_app_access_token'] ) {
+				$p_repo->info['hub_app_access_token'] = $t_access_token;
+				$p_repo->save();
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static function url_post( $p_url, $p_post_data ) {
+		$t_post_data = http_build_query( $p_post_data );
+		
+		# Use the PHP cURL extension
+		if( function_exists( 'curl_init' ) ) {
+			$t_curl = curl_init( $p_url );
+			curl_setopt( $t_curl, CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $t_curl, CURLOPT_POST, true );
+			curl_setopt( $t_curl, CURLOPT_POSTFIELDS, $t_post_data );
+	
+			$t_data = curl_exec( $t_curl );
+			curl_close( $t_curl );
+			
+			return $t_data;
+		} else {
+			# Last resort system call
+			$t_url = escapeshellarg( $p_url );
+			$t_post_data = escapeshellarg( $t_post_data );
+			return shell_exec( 'curl ' . $t_url . ' -d ' . $t_post_data );
+		}
+	}
+	
 }
