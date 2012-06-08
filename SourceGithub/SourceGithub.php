@@ -177,6 +177,29 @@ endif; ?></td>
 
 		return $t_uri;
 	}
+	
+	private function api_json_url( $p_repo, $p_url, $p_member = null ) {
+		static $t_start_time;
+		if ( $t_start_time === null ) {
+			$t_start_time = microtime( true );
+		} else if ( ( microtime( true ) - $t_start_time ) >= 3600.0 ) {
+			$t_start_time = microtime( true );
+		}
+		
+		$t_uri = $this->api_uri( $p_repo, 'rate_limit' );
+		$t_json = json_url( $t_uri, 'rate' );
+		if ( false !== $t_json && !is_null( $t_json ) ) {
+			if ( $t_json->remaining <= 0 ) {
+				// do we need to do something here?
+			} else if ( $t_json->remaining < ( $t_json->limit / 2 ) ) {
+				$t_time_remaining = 3600.0 - ( microtime( true ) - $t_start_time );
+				$t_sleep_time = ( $t_time_remaining / $t_json->remaining ) * 1000000;
+				usleep( $t_sleep_time );
+			}
+		}
+		
+		return json_url( $p_url, $p_member );
+	}
 
 	public function precommit() {
 		$f_payload = gpc_get_string( 'payload', null );
@@ -244,7 +267,7 @@ endif; ?></td>
 			$t_reponame = $p_repo->info['hub_reponame'];
 
 			$t_uri = $this->api_uri( $p_repo, "repos/$t_username/$t_reponame/branches" );
-			$t_json = json_url( $t_uri );
+			$t_json = $this->api_json_url( $p_repo, $t_uri );
 
 			$t_branches = array();
 			foreach ($t_json as $t_branch)
@@ -305,7 +328,7 @@ endif; ?></td>
 
 			echo "Retrieving $t_commit_id ... ";
 			$t_uri = $this->api_uri( $p_repo, "repos/$t_username/$t_reponame/commits/$t_commit_id" );
-			$t_json = json_url( $t_uri );
+			$t_json = $this->api_json_url( $p_repo, $t_uri );
 			
 			if ( false === $t_json || is_null( $t_json ) ) {
 				echo "failed.\n";
@@ -421,7 +444,6 @@ endif; ?></td>
 	
 	public static function url_post( $p_url, $p_post_data ) {
 		$t_post_data = http_build_query( $p_post_data );
-		error_log( 't_post_data = ' . $t_post_data );
 		
 		# Use the PHP cURL extension
 		if( function_exists( 'curl_init' ) ) {
@@ -431,7 +453,6 @@ endif; ?></td>
 			curl_setopt( $t_curl, CURLOPT_POSTFIELDS, $t_post_data );
 	
 			$t_data = curl_exec( $t_curl );
-			error_log( 't_data = ' . $t_data );
 			curl_close( $t_curl );
 			
 			return $t_data;
