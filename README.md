@@ -5,18 +5,32 @@ Copyright (C) 2012 John Reese
 
 ## Description
 
-This plugin provides a flexible framework for fully integrating any
-sort of version control system with Mantis, including support for
+The **Source** plugin provides a flexible framework for fully integrating any
+sort of Version Control System (VCS) with Mantis, including support for
 multiple repositories, changesets or revisions, and file path tracking.
 It has many features already, such as importing repository history and
 optional support for remote check-ins or imports, and utilizes a 
 class-based API to access objects in the database.
 
-Initial support is included, using extension plugins, for Subversion
-repositories using [WebSVN](http://www.websvn.info/), and Git repositories 
-hosted on [GitHub](http://github.com/). Support for more source control 
-tools is planned, but should be rather  straightforward to implement, due 
-to the flexibility inherent in the integration framework and API.
+Initial support is included for [Subversion](http://subversion.apache.org/) 
+and [Git](http://git-scm.com/) repositories using the following extension 
+plugins:
+
+* **SourceCgit**: Git repositories accessible via a 
+  [cgit](http://hjemli.net/git/cgit/) web frontend installation.
+* **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).
+* **SourceGitWeb**: Git repositories accessible via a 
+  [GitWeb](https://git.wiki.kernel.org/index.php/Gitweb) web frontend 
+  installation.
+* **SourceSFSVN**: SVN repositories hosted on 
+  [SourceForge](http://sourceforge.net/).
+* **SourceSVN**: SVN repositories locally accessible by the SVN binaries.
+* **SourceWebSVN**: SVN repositories accessible via a 
+  [WebSVN](http://www.websvn.info/) web frontend installation.
+
+Support for more source control tools is planned and should be rather 
+straightforward to implement due to the flexibility inherent in the
+integration framework and API.
 
 ## Requirements
 
