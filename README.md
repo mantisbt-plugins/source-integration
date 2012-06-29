@@ -69,9 +69,9 @@ version 1.2.0 or higher.
 ## Support
 
 Problems or questions dealing with use and installation should be
-directed to the MantisBT IRC channel #mantishelp:
+directed to the MantisBT IRC channel #mantisbt-help on freenode:
 
-  irc://freenode.net/mantishelp
+  irc://freenode.net/mantisbt-help
 
 Bug reports or fixes are highly encouraged, and should be directed to
 the bug tracker on GitHub:
