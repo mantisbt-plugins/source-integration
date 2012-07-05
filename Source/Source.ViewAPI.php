@@ -41,7 +41,6 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
 	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', $t_author ?></span>
 	<?php if ( $t_committer && $t_committer != $t_author ) { ?><br/><span class="small"><?php echo plugin_lang_get( 'committer', 'Source' ), ': ', $t_committer ?></span><?php } ?>
-	<?php if ( $t_changeset->committer ) { ?><br/><span class="small"><?php echo plugin_lang_get( 'committer', 'Source' ), ': ', string_display_line( $t_changeset->committer ) ?></span><?php } ?>
 	<?php if ( $t_use_porting ) { ?>
 	<br/><span class="small"><?php echo plugin_lang_get( 'ported', 'Source' ), ': ',
 		( $t_changeset->ported ? string_display_line( $t_changeset->ported ) :
