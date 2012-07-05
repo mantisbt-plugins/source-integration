@@ -121,9 +121,11 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		# Once it reaches here it is decoded. Hence we split by a space
 		# were as the curl command uses a '+' character instead.
 		# i.e. DATA=`echo $INPUT | sed -e 's/ /+/g'`
-		list ( , $t_commit_id, $t_branch) = split(' ', $p_data);
-		list ( , , $t_branch) = split('/', $t_branch);
-		if ($t_branch != $p_repo->info['master_branch'])
+		list ( , $t_commit_id, $t_branch) = explode(' ', $p_data);
+		list ( , , $t_branch) = explode('/', $t_branch);
+		# master_branch contains comma-separated list of branches
+		$t_branches = explode(',', $p_repo->info['master_branch']);
+		if (!in_array($t_branch, $t_branches))
 		{
 				return;
 		}
@@ -327,7 +329,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				$t_commit['date'], $t_commit['author'], $t_commit['message'], 0,
 				( isset( $t_commit['parent'] ) ? $t_commit['parent'] : '' ) );
 
-			$t_changeset->author_email = $t_commit['author'];
+			$t_changeset->author_email = $t_commit['author_email'];
 			$t_changeset->committer = $t_commit['committer'];
 			$t_changeset->committer_email = $t_commit['committer_email'];
 
