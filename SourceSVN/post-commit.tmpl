@@ -7,10 +7,11 @@ REV="$2"
 
 URL="http://localhost/mantisbt/plugin.php?page=Source/checkin"
 PROJECT="Repository Name"
+API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 LOG_FILE=`mktemp /tmp/svn_${PROJECT}_${REV}_log.XXX`
 
 CURL=/usr/bin/curl
 
-${CURL} -d "repo_name=${PROJECT}" -d "data=${REV}" ${URL} >> ${LOG_FILE}
+${CURL} -d "repo_name=${PROJECT}" -d "data=${REV}" -d "api_key=${API_KEY}" ${URL} >> ${LOG_FILE}
 
