@@ -131,7 +131,8 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 		# i.e. DATA=`echo $INPUT | sed -e 's/ /+/g'`
 		list ( , $t_commit_id, $t_branch) = split(' ', $p_data);
 		list ( , , $t_branch) = split('/', $t_branch);
-		if ($t_branch != $p_repo->info['master_branch'])
+		$master_branches = map( 'trim', explode( ',', $p_repo->info['master_branch']));
+		if (!in_array($t_branch,$master_branches) )
 		{
 				return;
 		}
