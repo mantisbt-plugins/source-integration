@@ -353,7 +353,7 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 				$t_commit['date'], $t_commit['author'], $t_commit['message'], 0,
 				( isset( $t_commit['parent'] ) ? $t_commit['parent'] : '' ) );
 
-			$t_changeset->author_email = $t_commit['author'];
+			$t_changeset->author_email = $t_commit['author_email'];
 			$t_changeset->committer = $t_commit['committer'];
 			$t_changeset->committer_email = $t_commit['committer_email'];
 
