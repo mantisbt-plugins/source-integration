@@ -131,7 +131,8 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 		# i.e. DATA=`echo $INPUT | sed -e 's/ /+/g'`
 		list ( , $t_commit_id, $t_branch) = split(' ', $p_data);
 		list ( , , $t_branch) = split('/', $t_branch);
-		if ($t_branch != $p_repo->info['master_branch'])
+		$master_branches = map( 'trim', explode( ',', $p_repo->info['master_branch']));
+		if (!in_array($t_branch,$master_branches) )
 		{
 				return;
 		}
@@ -352,7 +353,7 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 				$t_commit['date'], $t_commit['author'], $t_commit['message'], 0,
 				( isset( $t_commit['parent'] ) ? $t_commit['parent'] : '' ) );
 
-			$t_changeset->author_email = $t_commit['author'];
+			$t_changeset->author_email = $t_commit['author_email'];
 			$t_changeset->committer = $t_commit['committer'];
 			$t_changeset->committer_email = $t_commit['committer_email'];
 
