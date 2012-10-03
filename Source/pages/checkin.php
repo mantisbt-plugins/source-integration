@@ -58,19 +58,16 @@ if ( !$t_valid ) {
 	die( plugin_lang_get( 'invalid_checkin_url' ) );
 }
 
-# Let plugins try to intepret POST data before we do
-$t_predata = event_signal( 'EVENT_SOURCE_PRECOMMIT' );
+# Interpret payload-data provided by service hook
+$t_payload = json_decode(stripslashes($_POST['payload']), TRUE);
 
 # Expect plugin data in form of array( repo_name, data )
-if ( is_array( $t_predata ) && count( $t_predata ) == 2 ) {
-	$t_repo = $t_predata['repo'];
-	$f_data = $t_predata['data'];
-} else {
-        $f_repo_name = gpc_get_string('repo_name','');
-	$f_data = gpc_get_string( 'data' );
-	# Try to find the repository by name
-	$t_repo = SourceRepo::load_by_name( $f_repo_name );
-}
+$f_repo_name = $t_payload['repository']['name'];
+$f_data = $t_payload;
+
+# Try to find the repository by name
+$t_repo = SourceRepo::load_by_name( $f_repo_name );
+
 # Repo not found
 if ( is_null( $t_repo ) ) {
 	die( plugin_lang_get( 'invalid_repo' ) );
@@ -90,6 +87,7 @@ if ( !is_array( $t_changesets ) ) {
 if ( count( $t_changesets ) < 1 ) {
 	return;
 }
+
 
 Source_Process_Changesets( $t_changesets );
 
