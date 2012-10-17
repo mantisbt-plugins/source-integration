@@ -308,10 +308,12 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 				$t_file['revision'] = $t_file_matches[1];
 
 				if ( isset( $t_file_matches[3] ) ) {
-					if ( 'new' == $t_file_matches[3] ) {
+					if ( $t_file_matches[3] == 'new' or $t_file_matches[3] == 'moved' ) {
 						$t_file['action'] = 'add';
-					} else if ( 'deleted' == $t_file_matches[3] ) {
+					} else if ( $t_file_matches[3] == 'deleted' or $t_file_matches[3] == 'similarity' ) {
 						$t_file['action'] = 'rm';
+					} else {
+						$t_file['action'] = 'mod';
 					}
 				} else {
 					$t_file['action'] = 'mod';
