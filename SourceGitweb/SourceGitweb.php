@@ -232,6 +232,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			}
 
 			$s_parents = array_merge( $s_parents, $t_commit_parents );
+			$s_counter += 1;
 		}
 
 		$s_counter = 0;
