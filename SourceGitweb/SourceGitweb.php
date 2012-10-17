@@ -275,37 +275,31 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		if ( !SourceChangeset::exists( $p_repo->id, $t_commit['revision'] ) ) {
 
 			# Parse for commit data
-			preg_match( '#<tr><td>author</td><td>(?:<a[^>]*>)?([^<>]*)(?:</a>)? *(?:<a[^>]*>)?<([^<>]*)>(?:</a>)?</td>(?:<[^<>]*>\s*)*?</tr>\n<tr><td></td><td><span class="datetime">\w*, (\d* \w* \d* \d*:\d*:\d*)#', $t_gitweb_data, $t_matches );
+			preg_match( '#authored by ([^"]*).*?authored by ([^"]*).*?>([^<]*\d*:\d*:\d*[^(<]*)'
+					. '.*?committed by ([^"]*).*?committed by ([^"]*).*?page_body">(.*?)</div>#',
+				$t_gitweb_data, $t_matches );
 			$t_commit['author'] = $t_matches[1];
 			$t_commit['author_email'] = $t_matches[2];
 			$t_commit['date'] = date( 'Y-m-d H:i:s', strtotime( $t_matches[3] ) );
-
-			if( preg_match( '#<tr><td>committer</td><td>(?:<a[^>]*>)?([^<>]*)(?:</a>)? *(?:<a[^>]*>)?<([^<>]*)>(?:</a>)?</td>(?:<[^<>]*>\s*)*?</tr>#', $t_gitweb_data, $t_matches ) ) {
-				$t_commit['committer'] = $t_matches[1];
-				$t_commit['committer_email'] = $t_matches[2];
-			}
+			$t_commit['committer'] = $t_matches[4];
+			$t_commit['committer_email'] = $t_matches[5];
+			$t_commit['message'] = trim( str_replace( '<br/>', PHP_EOL, $t_matches[6] ) );
 
 			$t_parents = array();
-			if( preg_match_all( '#<tr><td>parent</td><td class="sha1"><a [^<>]*>([a-f0-9]*)</a></td>#', $t_gitweb_data, $t_matches ) ) {
+			if ( preg_match_all( '#parent</td><td class="sha1"><[^>]*h=([0-9a-f]*)#', $t_gitweb_data, $t_matches ) ) {
 				foreach( $t_matches[1] as $t_match ) {
 					$t_parents[] = $t_commit['parent'] = $t_match;
 				}
 			}
 
-			preg_match( '#<div class="page_body">\n(.*)\n</div>#', $t_gitweb_data, $t_matches );
-			$t_commit['message'] = trim( str_replace( '<br/>', PHP_EOL, $t_matches[1] ) );
-
 			# Strip ref links and signoff spans from commit message
-			$t_commit['message'] = preg_replace( array(
-					'@<a[^>]*>([^<]*)<\/a>@',
-					'@<span[^>]*>([^<]*<[^>]*>[^<]*)<\/span>@', #finds <span..>signed-off by <email></span>
-				), '$1', $t_commit['message'] );
+			$t_commit['message'] = preg_replace( array( '#<a[^>]*>([^<]*)</a>#', '#<span[^>]*>(.*?)</span>#' ),
+				'$1', $t_commit['message'] );
 
 			# Parse for changed file data
 			$t_commit['files'] = array();
 
-			preg_match_all( '#<tr class="(?:light|dark)">\n<td><a class="list" href="[^"]*;h=(\w+);[^"]*">([^<>]+)</a></td>'.
-				'\n<td>(?:<span class="file_status (\w+)">[^<>]*</span>)?</td>#',
+			preg_match_all( '#class="list".*?h=(\w*)[^>]*>([^<]*)</a>(?:(?:</td><td><span class="file_status|[^%]*%) (\w*))?#',
 				$t_gitweb_files, $t_matches, PREG_SET_ORDER );
 
 			foreach( $t_matches as $t_file_matches ) {
