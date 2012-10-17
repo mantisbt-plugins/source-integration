@@ -296,6 +296,9 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_commit['message'] = preg_replace( array( '#<a[^>]*>([^<]*)</a>#', '#<span[^>]*>(.*?)</span>#' ),
 				'$1', $t_commit['message'] );
 
+			# Prepend a # sign to mantis number
+			$t_commit['message'] = preg_replace( '#(mantis)\s+(\d+)#i', '$1 #$2',$t_commit['message'] );
+
 			# Parse for changed file data
 			$t_commit['files'] = array();
 
