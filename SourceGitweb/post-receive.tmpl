@@ -4,6 +4,10 @@
 # Licensed under the MIT license
 
 read LINE
+
+# Handle branch names with '+' character
+LINE=`echo $LINE | sed -e 's/+/_plus_/g'`
+
 LINE=`echo $LINE | sed -e 's/ /+/g'`
 
 URL="http://localhost/mantisbt/plugin.php?page=Source/checkin"

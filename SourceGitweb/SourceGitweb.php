@@ -117,6 +117,9 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	}
 
 	public function commit( $p_repo, $p_data ) {
+		# Handle branch names with '+' character
+		$p_data = str_replace('_plus_', '+', $p_data);
+
 		# The -d option from curl requires you to encode your own data.
 		# Once it reaches here it is decoded. Hence we split by a space
 		# were as the curl command uses a '+' character instead.
