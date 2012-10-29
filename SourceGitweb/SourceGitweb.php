@@ -222,11 +222,14 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 			echo "Retrieving $t_commit_id ... ";
 
-			$t_commit_url = $this->uri_base( $p_repo ) . 'a=commit;h=' . $t_commit_id;
+			# Handle branch names with '+' character
+			$t_fixed_id = str_replace('+', '%2B', $t_commit_id);
+			$t_commit_url = $this->uri_base( $p_repo ) . 'a=commit;h=' . $t_fixed_id;
 			$t_input = url_get( $t_commit_url );
 
 			if ( false === $t_input ) {
 				echo "failed.\n";
+				echo "$t_commit_url\n"; # DEBUG
 				continue;
 			}
 
