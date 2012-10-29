@@ -8,8 +8,9 @@ LINE=`echo $LINE | sed -e 's/ /+/g'`
 
 URL="http://localhost/mantisbt/plugin.php?page=Source/checkin"
 PROJECT="test"
+API_KEY="test"
 
 CURL=/usr/bin/curl
 
 echo "Updating Changeset to Mantis Bug Tracker"
-${CURL} -s -S -d "repo_name=${PROJECT}" -d "data=${LINE}" ${URL}
+${CURL} -sS -d "api_key=${API_KEY}" -d "repo_name=${PROJECT}" -d "data=${LINE}" ${URL}
