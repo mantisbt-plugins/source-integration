@@ -126,9 +126,9 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 		# master_branch contains comma-separated list of branches
 		$t_branches = explode(',', $p_repo->info['master_branch']);
-		if (!in_array($t_branch, $t_branches))
+		if (!in_array('*', $t_branches) and !in_array($t_branch, $t_branches))
 		{
-				return;
+			return;
 		}
 
 		return $this->import_commits($p_repo, null, $t_commit_id, $t_branch);
