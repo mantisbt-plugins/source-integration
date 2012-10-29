@@ -122,7 +122,8 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		# were as the curl command uses a '+' character instead.
 		# i.e. DATA=`echo $INPUT | sed -e 's/ /+/g'`
 		list ( , $t_commit_id, $t_branch) = explode(' ', $p_data);
-		list ( , , $t_branch) = explode('/', $t_branch);
+		list ( , , $t_branch) = explode('/', $t_branch, 3);
+
 		# master_branch contains comma-separated list of branches
 		$t_branches = explode(',', $p_repo->info['master_branch']);
 		if (!in_array($t_branch, $t_branches))
