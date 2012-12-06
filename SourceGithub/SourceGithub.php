@@ -356,8 +356,14 @@ endif; ?></td>
 				$t_parents[] = $t_parent->sha;
 			}
 
-			$t_changeset = new SourceChangeset( $p_repo->id, $p_json->sha, $p_branch,
-				$p_json->commit->author->date, $p_json->commit->author->name, $p_json->commit->message );
+			$t_changeset = new SourceChangeset(
+				$p_repo->id,
+				$p_json->sha,
+				$p_branch,
+				date( 'Y-m-d H:i:s', strtotime( $p_json->commit->author->date ) ),
+				$p_json->commit->author->name,
+				$p_json->commit->message
+			);
 
 			if ( count( $p_json->parents ) > 0 ) {
 				$t_parent = $p_json->parents[0];
