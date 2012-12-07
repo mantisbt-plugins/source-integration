@@ -63,12 +63,18 @@ class SourceFilter {
 		}
 	}
 
+	/**
+	 * Retrieves the data based on current filter
+	 * @param int $p_page page to display; defaults to 1, use null for all pages
+	 * @param int $p_limit number of records per page, defaults to 25
+	 * @return array containing list of changesets and number of records
+	 */
 	function find( $p_page=1, $p_limit=25 ) {
 		list( $t_filters, $t_filter_params ) = Source_Twomap( 'Source_Process_FilterOption', $this->filters );
-		list ( $t_query_tail, $t_params ) = Source_Process_Filters( $t_filters, $t_filter_params );
+		list( $t_query_tail, $t_order, $t_params ) = Source_Process_Filters( $t_filters, $t_filter_params );
 
 		$t_count_query = "SELECT COUNT(c.id) $t_query_tail";
-		$t_full_query = "SELECT DISTINCT( c.id ), c.* $t_query_tail";
+		$t_full_query = "SELECT DISTINCT( c.id ), c.* $t_query_tail $t_order";
 
 		$t_count = db_result( db_query_bound( $t_count_query, $t_params ) );
 
@@ -91,6 +97,13 @@ class SourceFilter {
 	}
 }
 
+/**
+ * Processes the filter criteria to define the query join/where clause, order by
+ * clause and parameters
+ * @param string $p_filters
+ * @param array $p_filter_params
+ * @return array query join+where clause, order clause and parameters
+ */
 function Source_Process_Filters( $p_filters, $p_filter_params ) {
 	$t_changeset_table = plugin_table( 'changeset', 'Source' );
 	$t_repo_table = plugin_table( 'repository', 'Source' );
@@ -139,7 +152,7 @@ function Source_Process_Filters( $p_filters, $p_filter_params ) {
 
 	$t_order = 'ORDER BY c.timestamp DESC';
 
-	return array( "$t_join $t_where $t_order", $t_params );
+	return array( "$t_join $t_where", $t_order, $t_params );
 }
 
 function Source_Process_FilterOption( $key, $option ) {
@@ -604,4 +617,3 @@ function Source_Date_Select( $p_name, $p_selected=null ) {
 	print_day_option_list( $t_selected[2] );
 	echo '</select> ';
 }
-
