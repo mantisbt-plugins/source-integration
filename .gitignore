@@ -1,3 +1,5 @@
 *.swp
 ._*
 .DS_Store
+*.buildpath
+*.project
