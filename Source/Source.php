@@ -8,9 +8,9 @@ require_once( config_get_global( 'class_path' ) . 'MantisPlugin.class.php' );
 /**
  * Creates an extensible API for integrating source control applications
  * with the Mantis bug tracker software.
- */ 
+ */
 class SourcePlugin extends MantisPlugin {
-	static $framework_version = '0.16.4';
+	static $framework_version = '0.17';
 	static $cache = array();
 
 	function register() {
@@ -65,7 +65,7 @@ class SourcePlugin extends MantisPlugin {
 
 			'remote_imports'	=> OFF,
 			'import_urls'		=> serialize( array( 'localhost' ) ),
-			
+
 			'api_key'           => '',
 		);
 	}
