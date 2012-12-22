@@ -154,7 +154,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_heads_url = $this->uri_base( $p_repo ) . 'a=heads';
 			$t_branches_input = url_get( $t_heads_url );
 			
-			$t_branches_input = str_replace( array(PHP_EOL, '&lt;', '&gt;', '&nbsp;'), array('', '<', '>', ' '), $t_branches_input );
+			$t_branches_input = str_replace( array("\r", "\n", '&lt;', '&gt;', '&nbsp;'), array('', '', '<', '>', ' '), $t_branches_input );
 			
 			$t_branches_input_p1 = strpos( $t_branches_input, '<table class="heads">' );
 			$t_branches_input_p2 = strpos( $t_branches_input, '<div class="page_footer">' );
@@ -248,7 +248,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 	private function commit_changeset( $p_repo, $p_input, $p_branch='' ) {
 
-		$t_input = str_replace( array(PHP_EOL, '&lt;', '&gt;', '&nbsp;'), array('', '<', '>', ' '), $p_input );
+		$t_input = str_replace( array("\r", "\n", '&lt;', '&gt;', '&nbsp;'), array('', '', '<', '>', ' '), $p_input );
 
 		# Exract sections of commit data and changed files
 		$t_input_p1 = strpos( $t_input, '<div class="title_text">' );
