@@ -129,7 +129,6 @@ $s_plugin_Source_ensure_import_latest = 'Ceci va tenter d\'importer les données
 $s_plugin_Source_import_results = 'Résultats de l\'import';
 $s_plugin_Source_import_stats = '%s jeux de changements importés, %s fichiers, et %s références de demande.';
 $s_plugin_Source_import_repo_error = 'Le processus d\'import a rencontré une erreur.';
-$s_plugin_Source_ = '';
 
 $s_plugin_Source_invalid_checkin_url = 'Adresse de soumission à distance invalide';
 $s_plugin_Source_invalid_import_url = 'Adresse d\'import à distance invalide';

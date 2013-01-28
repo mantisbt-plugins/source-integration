@@ -5,7 +5,7 @@
 
 $s_plugin_Source_ = '';
 $s_plugin_Source_title = 'VCS Basisintegration';
-$s_plugin_Source_description = 'Die VCS Basisintegration nutzt eine abstrakte API zur Unterstützung beliebiger Versionskontrollsysteme (VCS)';								
+$s_plugin_Source_description = 'Die VCS Basisintegration nutzt eine abstrakte API zur Unterstützung beliebiger Versionskontrollsysteme (VCS)';
 
 $s_plugin_Source_repository = 'Projektarchiv';
 $s_plugin_Source_repositories = 'Projektarchive';
@@ -123,12 +123,11 @@ $s_plugin_Source_changeset_attached = 'Änderungssatz hinzugefügt';
 $s_plugin_Source_changeset_removed = 'Änderungssatz entfernt';
 
 $s_plugin_Source_ensure_delete = 'Wollen Sie das Projektarchiv "%s" wirklich komplett (inkl. Historie) löschen?';
-$s_plugin_Source_ensure_import_full = 'Dies importiert eine neue Kopie des Projektarchives und löscht danach die alte Kopie. Evtl. werden für den Import Programme auf dem Webserver ausgeführt. Wollen Sie fortfahren?'; 
+$s_plugin_Source_ensure_import_full = 'Dies importiert eine neue Kopie des Projektarchives und löscht danach die alte Kopie. Evtl. werden für den Import Programme auf dem Webserver ausgeführt. Wollen Sie fortfahren?';
 $s_plugin_Source_ensure_import_latest = 'Dies importiert die letzten Änderungen am dem Projektarchiv. Evtl. werden für den Import Programme auf dem Webserver ausgeführt. Wollen Sie fortfahren?';
 $s_plugin_Source_import_results = 'Ergebnis des Imports';
 $s_plugin_Source_import_stats = 'Import beendet: %s Änderungssätze, %s Dateien und %s Eintragsreferenzen.';
 $s_plugin_Source_import_repo_error = 'Beim Import ist ein Fehler aufgetreten.';
-$s_plugin_Source_ = '';
 
 $s_plugin_Source_invalid_checkin_url = 'Ungültige Adresse für Übertragung vom Fremdrechner';
 $s_plugin_Source_invalid_import_url = 'Ungültige Adresse für Import vom Fremdrechner';
