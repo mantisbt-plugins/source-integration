@@ -30,17 +30,21 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		return lang_get( 'plugin_SourceWebSVN_svn' );
 	}
 
+	protected function websvn_url($p_repo) {
+		$t_path = '';
+		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
+			$t_path = '/' . urlencode( $p_repo->info['websvn_path'] );
+		}
+		return $p_repo->info['websvn_url'] . $p_repo->info['websvn_name'] . $t_path;
+	}
+
 	public function url_repo( $p_repo, $p_changeset=null ) {
 		$t_rev = '';
-		$t_path = '';
 
 		if ( !is_null( $p_changeset ) ) {
-			$t_rev = '&rev=' . urlencode( $p_changeset->revision );
+			$t_rev = '?rev=' . urlencode( $p_changeset->revision );
 		}
-		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
-			$t_path = '&path=' . urlencode( $p_repo->info['websvn_path'] );
-		}
-		return $p_repo->info['websvn_url'] . 'listing.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) . "$t_path$t_rev&sc=1";
+		return $this->websvn_url($p_repo) . $t_rev;
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
@@ -51,18 +55,16 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		if ( $p_file->action == 'D' ) {
 			return '';
 		}
-		return $p_repo->info['websvn_url'] . 'filedetails.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) .
-			'&path=' . urlencode( $p_file->filename ) . '&sc=1';
+		return $this->websvn_url($p_repo) . $p_file->filename . '?op=filedetails' .
+			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) ;
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
 		if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
 			return '';
 		}
-		return $p_repo->info['websvn_url'] . 'diff.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) .
-			'&path=' . urlencode( $p_file->filename ) . '&sc=1';
+		return $this->websvn_url( $p_repo ) . $p_file->filename . '?op=diff' .
+			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) ;
 	}
 
 	public function update_repo_form( $p_repo ) {
