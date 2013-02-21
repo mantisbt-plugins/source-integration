@@ -48,7 +48,9 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
-		return $this->url_repo( $p_repo, $p_changeset );
+		return $this->websvn_url($p_repo) . '?op=comp' .
+			'&compare[]=/@' . urlencode( $p_changeset->revision-1 ) .
+			'&compare[]=/@' . urlencode( $p_changeset->revision);
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
