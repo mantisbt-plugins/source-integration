@@ -188,7 +188,7 @@ function Source_Parse_Users( $p_changeset ) {
 		}
 
 		# Look up the email address if given
-		if ( $t_email = $t_email ) {
+		if ( $t_email = $p_changeset->committer_email ) {
 			if ( isset( $s_emails[ $t_email ] ) ) {
 				$p_changeset->committer_id = $s_emails[ $t_email ];
 				break;
