@@ -648,7 +648,7 @@ class SourceRepo {
 	 */
 	function stats( $p_all=true ) {
 		$t_stats = array();
-		
+
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 		$t_file_table = plugin_table( 'file', 'Source' );
 		$t_bug_table = plugin_table( 'bug', 'Source' );
@@ -775,7 +775,7 @@ class SourceRepo {
 	 * @param array Changeset objects
 	 * @return array Repository objects
 	 */
-	static function load_by_changesets( $p_changesets ) { 
+	static function load_by_changesets( $p_changesets ) {
 		if ( !is_array( $p_changesets ) ) {
 			$p_changesets = array( $p_changesets );
 		}
@@ -786,7 +786,7 @@ class SourceRepo {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_repos = array();
-		
+
 		foreach ( $p_changesets as $t_changeset ) {
 			if ( !isset( $t_repos[$t_changeset->repo_id] ) ) {
 				$t_repos[$t_changeset->repo_id] = true;
