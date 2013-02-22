@@ -9,5 +9,5 @@ $s_plugin_SourceGithub_title = 'GitHub Integration';
 $s_plugin_SourceGithub_description = 'Integration für GitHub über die VCS Basisintegration.';
 
 $s_plugin_SourceGithub_hub_username = 'GitHub Benutzername';
-$s_plugin_SourceGithub_hub_reponame = 'GitHub Projektarchiv<br/><span class="small">(Kleingeschrieben, Unterstrich statt Leerzeichen)</span>';
+$s_plugin_SourceGithub_hub_reponame = 'GitHub Projektarchiv<br/><span class="small">(Klein Leerzeichen)</span>';
 $s_plugin_SourceGithub_master_branch = 'Hauptzweige<br/><span class="small">(kommaseparierte Liste)</span>';

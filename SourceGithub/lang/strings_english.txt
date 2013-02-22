@@ -9,7 +9,7 @@ $s_plugin_SourceGithub_title = 'GitHub Integration';
 $s_plugin_SourceGithub_description = 'Adds GitHub integration to the Source Integration framework.';
 
 $s_plugin_SourceGithub_hub_username = 'GitHub Username';
-$s_plugin_SourceGithub_hub_reponame = 'GitHub Repository<br/><span class="small">(lowercase, dashed name)</span>';
+$s_plugin_SourceGithub_hub_reponame = 'GitHub Repository Name<br/><span class="small">(no spaces; must match the name as received from the webservice\'s payload)</span>';
 $s_plugin_SourceGithub_hub_app_client_id = 'GitHub Application Client ID<br /><span class="small">For private repositories. Create a new <a href="https://github.com/settings/applications">GitHub Application</a> if needed</span>';
 $s_plugin_SourceGithub_hub_app_secret = 'GitHub Application Secret<br /><span class="small">For private repositories</span>';
 $s_plugin_SourceGithub_hub_app_access_token = 'GitHub Application Access Token<br /><span class="small">For private repositories</span>';
