@@ -14,10 +14,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.16';
+		$this->version = '0.17';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
-			'Source' => '0.16',
+			'Source' => '0.18',
 		);
 
 		$this->author = 'John Reese';
@@ -169,7 +169,7 @@ endif; ?></td>
 
 	private function api_uri( $p_repo, $p_path ) {
 		$t_uri = 'https://api.github.com/' . $p_path;
-		
+
 		$t_access_token = $p_repo->info['hub_app_access_token'];
 		if ( !is_blank( $t_access_token ) ) {
 			$t_uri .= '?access_token=' . $t_access_token;
@@ -177,7 +177,7 @@ endif; ?></td>
 
 		return $t_uri;
 	}
-	
+
 	private function api_json_url( $p_repo, $p_url, $p_member = null ) {
 		static $t_start_time;
 		if ( $t_start_time === null ) {
@@ -185,7 +185,7 @@ endif; ?></td>
 		} else if ( ( microtime( true ) - $t_start_time ) >= 3600.0 ) {
 			$t_start_time = microtime( true );
 		}
-		
+
 		$t_uri = $this->api_uri( $p_repo, 'rate_limit' );
 		$t_json = json_url( $t_uri, 'rate' );
 		if ( false !== $t_json && !is_null( $t_json ) ) {
@@ -197,7 +197,7 @@ endif; ?></td>
 				usleep( $t_sleep_time );
 			}
 		}
-		
+
 		return json_url( $p_url, $p_member );
 	}
 
@@ -329,12 +329,12 @@ endif; ?></td>
 			echo "Retrieving $t_commit_id ... ";
 			$t_uri = $this->api_uri( $p_repo, "repos/$t_username/$t_reponame/commits/$t_commit_id" );
 			$t_json = $this->api_json_url( $p_repo, $t_uri );
-			
+
 			if ( false === $t_json || is_null( $t_json ) ) {
 				echo "failed.\n";
 				continue;
 			}
-			
+
 			list( $t_changeset, $t_commit_parents ) = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
 			if ( $t_changeset ) {
 				$t_changesets[] = $t_changeset;
@@ -373,7 +373,7 @@ endif; ?></td>
 			$t_changeset->author_email = $p_json->commit->author->email;
 			$t_changeset->committer = $p_json->commit->committer->name;
 			$t_changeset->committer_email = $p_json->commit->committer->email;
-			
+
 			if ( isset( $p_json->files ) ) {
 				foreach ( $p_json->files as $t_file ) {
 					switch ( $t_file->status ) {
@@ -399,12 +399,12 @@ endif; ?></td>
 			return array( null, array() );
 		}
 	}
-	
+
 	private function oauth_authorize_uri( $p_repo ) {
 		$t_hub_app_client_id = null;
 		$t_hub_app_secret = null;
 		$t_hub_app_access_token = null;
-		
+
 		if ( isset( $p_repo->info['hub_app_client_id'] ) ) {
 			$t_hub_app_client_id = $p_repo->info['hub_app_client_id'];
 		}
@@ -412,14 +412,14 @@ endif; ?></td>
 		if ( isset( $p_repo->info['hub_app_secret'] ) ) {
 			$t_hub_app_secret = $p_repo->info['hub_app_secret'];
 		}
-		
+
 		if ( !empty( $t_hub_app_client_id ) && !empty( $t_hub_app_secret ) ) {
 			return 'https://github.com/login/oauth/authorize?client_id=' . $t_hub_app_client_id . '&redirect_uri=' . urlencode(config_get('path') . 'plugin.php?page=SourceGithub/oauth_authorize&id=' . $p_repo->id ) . '&scope=repo';
 		} else {
 			return '';
 		}
 	}
-	
+
 	public static function oauth_get_access_token( $p_repo, $p_code ) {
 		# build the GitHub URL & POST data
 		$t_url = 'https://github.com/login/oauth/access_token';
@@ -427,7 +427,7 @@ endif; ?></td>
 			'client_secret' => $p_repo->info['hub_app_secret'],
 			'code' => $p_code );
 		$t_data = self::url_post( $t_url, $t_post_data );
-		
+
 		$t_access_token = '';
 		if ( !empty( $t_data ) ) {
 			$t_response = array();
@@ -436,7 +436,7 @@ endif; ?></td>
 				$t_access_token = $t_response['access_token'];
 			}
 		}
-		
+
 		if ( !empty( $t_access_token ) ) {
 			if ( $t_access_token != $p_repo->info['hub_app_access_token'] ) {
 				$p_repo->info['hub_app_access_token'] = $t_access_token;
@@ -447,20 +447,20 @@ endif; ?></td>
 			return false;
 		}
 	}
-	
+
 	public static function url_post( $p_url, $p_post_data ) {
 		$t_post_data = http_build_query( $p_post_data );
-		
+
 		# Use the PHP cURL extension
 		if( function_exists( 'curl_init' ) ) {
 			$t_curl = curl_init( $p_url );
 			curl_setopt( $t_curl, CURLOPT_RETURNTRANSFER, true );
 			curl_setopt( $t_curl, CURLOPT_POST, true );
 			curl_setopt( $t_curl, CURLOPT_POSTFIELDS, $t_post_data );
-	
+
 			$t_data = curl_exec( $t_curl );
 			curl_close( $t_curl );
-			
+
 			return $t_data;
 		} else {
 			# Last resort system call
@@ -469,5 +469,5 @@ endif; ?></td>
 			return shell_exec( 'curl ' . $t_url . ' -d ' . $t_post_data );
 		}
 	}
-	
+
 }

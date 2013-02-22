@@ -14,7 +14,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.16';
+		$this->version = '0.17';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 			'Source' => '0.16',
@@ -144,7 +144,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		if ( is_blank( $t_branch ) ) {
 			$t_branch = 'master';
 		}
-		
+
 		if ($t_branch != '*')
 		{
 			$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
@@ -153,14 +153,14 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		{
 			$t_heads_url = $this->uri_base( $p_repo ) . 'a=heads';
 			$t_branches_input = url_get( $t_heads_url );
-			
+
 			$t_branches_input = str_replace( array("\r", "\n", '&lt;', '&gt;', '&nbsp;'), array('', '', '<', '>', ' '), $t_branches_input );
-			
+
 			$t_branches_input_p1 = strpos( $t_branches_input, '<table class="heads">' );
 			$t_branches_input_p2 = strpos( $t_branches_input, '<div class="page_footer">' );
 			$t_gitweb_heads = substr( $t_branches_input, $t_branches_input_p1, $t_branches_input_p2 - $t_branches_input_p1 );
 			preg_match_all( '/<a class="list name".*>(.*)<\/a>/iU', $t_gitweb_heads, $t_matches, PREG_SET_ORDER );
-			
+
 			$t_branches = array();
 			foreach ($t_matches as $match)
 			{
@@ -173,7 +173,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		}
 
 		$t_changesets = array();
-		
+
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		foreach( $t_branches as $t_branch ) {
