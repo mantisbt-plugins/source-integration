@@ -122,105 +122,91 @@ function Source_Parse_Bugfixes( $p_string ) {
 }
 
 /**
- * Determine the user ID for both the author and committer.
- * First checks the email address for a matching user, then
- * checks the name for a matching username or realname.
- * @param object Changeset object
+ * Sets the changeset's user id by looking up email address or name
+ * Generic code for both Author and Committer, based on the given properties
+ * @param object $p_changeset
+ * @param string $p_user_type 'author' or 'committer'
  */
-function Source_Parse_Users( $p_changeset ) {
+function Source_set_changeset_user( &$p_changeset, $p_user_type ) {
 	static $s_vcs_names;
 	static $s_names = array();
 	static $s_emails = array();
 
+	# Set the fields
+	switch( $p_user_type ) {
+		case 'committer':
+			list( $t_id_prop, $t_name_prop, $t_email_prop ) = explode( ' ', 'committer_id committer committer_email' );
+			break;
+
+		case 'author':
+		default:
+			list( $t_id_prop, $t_name_prop, $t_email_prop ) = explode( ' ', 'user_id author author_email' );
+			break;
+	}
+
+	# The user's id is already set, nothing to do
+	if( $p_changeset->$t_id_prop ) {
+		return;
+	}
+
 	# cache the vcs username mappings
-	if ( is_null( $s_vcs_names ) ) {
+	if( is_null( $s_vcs_names ) ) {
 		$s_vcs_names = SourceUser::load_mappings();
 	}
 
-	# Handle the changeset author
-	while ( !$p_changeset->user_id ) {
-
-		# Check username associations
-		if ( isset( $s_vcs_names[ $p_changeset->author ] ) ) {
-			$p_changeset->user_id = $s_vcs_names[ $p_changeset->author ];
-			break;
-		}
-
-		# Look up the email address if given
-		if ( $t_email = $p_changeset->author_email ) {
-			if ( isset( $s_emails[ $t_email ] ) ) {
-				$p_changeset->user_id = $s_emails[ $t_email ];
-				break;
-
-			} else if ( false !== ( $t_email_id = user_get_id_by_email( $t_email ) ) ) {
-				$s_emails[ $t_email ] = $p_changeset->user_id = $t_email_id;
-				break;
-			}
-		}
-
-		# Look up the name if the email failed
-		if ( $t_name = $p_changeset->author ) {
-			if ( isset( $s_names[ $t_name ] ) ) {
-				$p_changeset->user_id = $s_names[ $t_name ];
-				break;
-
-			} else if ( false !== ( $t_user_id = user_get_id_by_realname( $t_name ) ) ) {
-				$s_names[ $t_name ] = $p_changeset->user_id = $t_user_id;
-				break;
-
-			} else if ( false !== ( $t_user_id = user_get_id_by_name( $p_changeset->author ) ) ) {
-				$s_names[ $t_name ] = $p_changeset->user_id = $t_user_id;
-				break;
-			}
-		}
-
-		# Don't actually loop
-		break;
+	# Check username associations
+	if( isset( $s_vcs_names[ $p_changeset->$t_name_prop ] ) ) {
+		$p_changeset->$t_id_prop = $s_vcs_names[ $p_changeset->$t_name_prop ];
+		return;
 	}
+
+	# Look up the email address if given
+	if( $t_email = $p_changeset->$t_email_prop ) {
+		if( isset( $s_emails[ $t_email ] ) ) {
+			$p_changeset->$t_id_prop = $s_emails[ $t_email ];
+			return;
+
+		} else if( false !== ( $t_email_id = user_get_id_by_email( $t_email ) ) ) {
+			$s_emails[ $t_email ] = $p_changeset->$t_id_prop = $t_email_id;
+			return;
+		}
+	}
+
+	# Look up the name if the email failed
+	if( $t_name = $p_changeset->$t_name_prop ) {
+		if( isset( $s_names[ $t_name ] ) ) {
+			$p_changeset->$t_id_prop = $s_names[ $t_name ];
+			return;
+
+		} else if( false !== ( $t_user_id = user_get_id_by_realname( $t_name ) ) ) {
+			$s_names[ $t_name ] = $p_changeset->$t_id_prop = $t_user_id;
+			return;
+
+		} else if( false !== ( $t_user_id = user_get_id_by_name( $p_changeset->$t_name_prop ) ) ) {
+			$s_names[ $t_name ] = $p_changeset->$t_id_prop = $t_user_id;
+			return;
+		}
+	}
+}
+
+/**
+ * Determine the user ID for both the author and committer.
+ * First checks the email address for a matching user, then
+ * checks the name for a matching username or realname.
+ * @param object Changeset object
+ * @return object updated Changeset object
+ */
+function Source_Parse_Users( $p_changeset ) {
+
+	# Handle the changeset author
+	Source_set_changeset_user( $p_changeset, 'author' );
 
 	# Handle the changeset committer
-	while ( !$p_changeset->committer_id ) {
-
-		# Check username associations
-		if ( isset( $s_vcs_names[ $p_changeset->committer ] ) ) {
-			$p_changeset->user_id = $s_vcs_names[ $p_changeset->committer ];
-			break;
-		}
-
-		# Look up the email address if given
-		if ( $t_email = $p_changeset->committer_email ) {
-			if ( isset( $s_emails[ $t_email ] ) ) {
-				$p_changeset->committer_id = $s_emails[ $t_email ];
-				break;
-
-			} else if ( false !== ( $t_email_id = user_get_id_by_email( $t_email ) ) ) {
-				$s_emails[ $t_email ] = $p_changeset->committer_id = $t_email_id;
-				break;
-			}
-		}
-
-		# Look up the name if the email failed
-		if ( $t_name = $p_changeset->committer ) {
-			if ( isset( $s_names[ $t_name ] ) ) {
-				$p_changeset->committer_id = $s_names[ $t_name ];
-				break;
-
-			} else if ( false !== ( $t_user_id = user_get_id_by_realname( $t_name ) ) ) {
-				$s_names[ $t_name ] = $p_changeset->committer_id = $t_user_id;
-				break;
-
-			} else if ( false !== ( $t_user_id = user_get_id_by_name( $t_name ) ) ) {
-				$s_names[ $t_name ] = $p_changeset->committer_id = $t_user_id;
-				break;
-			}
-		}
-
-		# Don't actually loop
-		break;
-	}
+	Source_set_changeset_user( $p_changeset, 'committer' );
 
 	return $p_changeset;
 }
+
 /**
  * Given a set of changeset objects, parse the bug links
  * and save the changes.
