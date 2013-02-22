@@ -170,9 +170,11 @@ endif; ?></td>
 	private function api_uri( $p_repo, $p_path ) {
 		$t_uri = 'https://api.github.com/' . $p_path;
 
-		$t_access_token = $p_repo->info['hub_app_access_token'];
-		if ( !is_blank( $t_access_token ) ) {
-			$t_uri .= '?access_token=' . $t_access_token;
+		if( isset( $p_repo->info['hub_app_access_token'] ) ) {
+			$t_access_token = $p_repo->info['hub_app_access_token'];
+			if ( !is_blank( $t_access_token ) ) {
+				$t_uri .= '?access_token=' . $t_access_token;
+			}
 		}
 
 		return $t_uri;
@@ -349,7 +351,7 @@ endif; ?></td>
 
 	private function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
 
-		echo "processing $p_json->id ... ";
+		echo "processing $p_json->sha ... ";
 		if ( !SourceChangeset::exists( $p_repo->id, $p_json->sha ) ) {
 			$t_parents = array();
 			foreach( $p_json->parents as $t_parent ) {
