@@ -42,6 +42,24 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			: false;
 	}
 
+	public function get_websvn_url( $p_repo ) {
+		return isset( $p_repo->info['websvn_url'] )
+			? $p_repo->info['websvn_url']
+			: '';
+	}
+
+	public function get_websvn_name( $p_repo ) {
+		return isset( $p_repo->info['websvn_name'] )
+			? $p_repo->info['websvn_name']
+			: '';
+	}
+
+	public function get_websvn_path( $p_repo ) {
+		return isset( $p_repo->info['websvn_path'] )
+			? $p_repo->info['websvn_path']
+			: '';
+	}
+
 	protected function websvn_url($p_repo) {
 		$t_path = '';
 		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
@@ -82,9 +100,9 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	}
 
 	public function update_repo_form( $p_repo ) {
-		$t_url = isset( $p_repo->info['websvn_url'] ) ? $p_repo->info['websvn_url'] : '';
-		$t_name = isset( $p_repo->info['websvn_name'] ) ? $p_repo->info['websvn_name'] : '';
-		$t_path = isset( $p_repo->info['websvn_path'] ) ? $p_repo->info['websvn_path'] : '';
+		$t_url  = $this->get_websvn_url( $p_repo );
+		$t_name = $this->get_websvn_name( $p_repo );
+		$t_path = $this->get_websvn_path( $p_repo );
 
 ?>
 <tr <?php echo helper_alternate_class() ?>>
