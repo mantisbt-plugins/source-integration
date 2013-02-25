@@ -30,39 +30,66 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		return lang_get( 'plugin_SourceWebSVN_svn' );
 	}
 
+	private function websvn_geturl( $p_repo, $p_op, $p_path, $p_opts=array()) {
+		$t_path = '';
+		$t_opts = $p_opts;
+		if ( $p_repo->info['websvn_multiviews'] ) {
+			// in case of multiviews 'op' is an option and 'path' is part of URL path
+			$t_opts['op'] = $p_op;
+			$t_path = urlencode( $p_repo->info['websvn_name'] ) . $p_path;
+		} else {
+			// in case of non-multivies, 'op' is a script to run, and 'path' and 'repo' are options to script
+			$t_path = urlencode( $p_op ) . '.php';
+			$t_opts['repname'] = $p_repo->info['websvn_name'];
+			if ( !is_blank( $p_path ) ) {
+				$t_opts['path'] = $p_path;
+			}
+		}
+		return $p_repo->info['websvn_url'] . $t_path . "?" . http_build_query( $t_opts );
+	}
+
 	public function url_repo( $p_repo, $p_changeset=null ) {
-		$t_rev = '';
+		$t_opts = array();
 		$t_path = '';
 
 		if ( !is_null( $p_changeset ) ) {
-			$t_rev = '&rev=' . urlencode( $p_changeset->revision );
+			$t_opts['rev'] = $p_changeset->revision;
 		}
 		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
-			$t_path = '&path=' . urlencode( $p_repo->info['websvn_path'] );
+			$t_path = $p_repo->info['websvn_path'];
 		}
-		return $p_repo->info['websvn_url'] . 'listing.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) . "$t_path$t_rev&sc=1";
+		return $this->websvn_geturl( $p_repo, 'listing', $t_path, $t_opts );
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
-		return $this->url_repo( $p_repo, $p_changeset );
+		$t_path = '/';
+		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
+			$t_path = $p_repo->info['websvn_path'];
+		}
+		return $this->websvn_geturl( $p_repo, 'comp', null, array(
+					'compare[0]' => $t_path . '@' . ($p_changeset->revision-1),
+					'compare[1]' => $t_path . '@' . $p_changeset->revision
+					) );
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
 		if ( $p_file->action == 'D' ) {
 			return '';
 		}
-		return $p_repo->info['websvn_url'] . 'filedetails.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) .
-			'&path=' . urlencode( $p_file->filename ) . '&sc=1';
+		return $this->websvn_geturl( $p_repo, 'filedetails', $p_file->filename, array(
+					'rev' => $p_changeset->revision,
+					'peg' => $p_changeset->revision
+					) );
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
 		if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
 			return '';
 		}
-		return $p_repo->info['websvn_url'] . 'diff.php?repname=' . urlencode( $p_repo->info['websvn_name'] ) .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) .
-			'&path=' . urlencode( $p_file->filename ) . '&sc=1';
+		return $this->websvn_geturl( $p_repo, 'diff', $p_file->filename, array(
+					'rev' => $p_changeset->revision,
+					'peg' => $p_changeset->revision
+					) );
 	}
 
 	public function update_repo_form( $p_repo ) {
