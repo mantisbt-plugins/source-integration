@@ -84,12 +84,7 @@ html_page_top2();
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'info' ) ?></td>
-<td colspan="2"><pre><?php
-foreach( $t_repo->info as $t_key => $t_value ) {
-	echo string_display( $t_key . ' => ' );
-	var_dump( $t_value );
-}
-?></pre></td>
+<td colspan="2"><pre><?php var_dump($t_repo->info) ?></pre></td>
 </tr>
 
 <tr>
