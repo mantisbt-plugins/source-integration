@@ -30,47 +30,71 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		return lang_get( 'plugin_SourceWebSVN_svn' );
 	}
 
-	protected function websvn_url($p_repo) {
+	private function websvn_geturl( $p_repo, $p_op, $p_path, $p_opts=array()) {
 		$t_path = '';
-		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
-			$t_path = '/' . urlencode( $p_repo->info['websvn_path'] );
+		$t_opts = $p_opts;
+		if ( $p_repo->info['websvn_multiviews'] ) {
+			// in case of multiviews 'op' is an option and 'path' is part of URL path
+			$t_opts['op'] = $p_op;
+			$t_path = urlencode( $p_repo->info['websvn_name'] ) . $p_path;
+		} else {
+			// in case of non-multivies, 'op' is a script to run, and 'path' and 'repo' are options to script
+			$t_path = urlencode( $p_op ) . '.php';
+			$t_opts['repname'] = $p_repo->info['websvn_name'];
+			if ( !is_blank( $p_path ) ) {
+				$t_opts['path'] = $p_path;
+			}
 		}
-		return $p_repo->info['websvn_url'] . $p_repo->info['websvn_name'] . $t_path;
+		return $p_repo->info['websvn_url'] . $t_path . "?" . http_build_query( $t_opts );
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
-		$t_rev = '';
+		$t_opts = array();
+		$t_path = '';
 
 		if ( !is_null( $p_changeset ) ) {
-			$t_rev = '?rev=' . urlencode( $p_changeset->revision );
+			$t_opts['rev'] = $p_changeset->revision;
 		}
-		return $this->websvn_url($p_repo) . $t_rev;
+		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
+			$t_path = $p_repo->info['websvn_path'];
+		}
+		return $this->websvn_geturl( $p_repo, 'listing', $t_path, $t_opts );
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
-		return $this->websvn_url($p_repo) . '?op=comp' .
-			'&compare[]=/@' . urlencode( $p_changeset->revision-1 ) .
-			'&compare[]=/@' . urlencode( $p_changeset->revision);
+		$t_path = '/';
+		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
+			$t_path = $p_repo->info['websvn_path'];
+		}
+		return $this->websvn_geturl( $p_repo, 'comp', null, array(
+					'compare[0]' => $t_path . '@' . ($p_changeset->revision-1),
+					'compare[1]' => $t_path . '@' . $p_changeset->revision
+					) );
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
 		if ( $p_file->action == 'D' ) {
 			return '';
 		}
-		return $this->websvn_url($p_repo) . $p_file->filename . '?op=filedetails' .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) ;
+		return $this->websvn_geturl( $p_repo, 'filedetails', $p_file->filename, array(
+					'rev' => $p_changeset->revision,
+					'peg' => $p_changeset->revision
+					) );
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
 		if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
 			return '';
 		}
-		return $this->websvn_url( $p_repo ) . $p_file->filename . '?op=diff' .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) ;
+		return $this->websvn_geturl( $p_repo, 'diff', $p_file->filename, array(
+					'rev' => $p_changeset->revision,
+					'peg' => $p_changeset->revision
+					) );
 	}
 
 	public function update_repo_form( $p_repo ) {
 		$t_url = isset( $p_repo->info['websvn_url'] ) ? $p_repo->info['websvn_url'] : '';
+		$t_multiviews = isset( $p_repo->info['websvn_multiviews'] ) ? $p_repo->info['websvn_multiviews'] : false;
 		$t_name = isset( $p_repo->info['websvn_name'] ) ? $p_repo->info['websvn_name'] : '';
 		$t_path = isset( $p_repo->info['websvn_path'] ) ? $p_repo->info['websvn_path'] : '';
 
@@ -78,6 +102,10 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_url' ) ?></td>
 <td><input name="websvn_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_multiviews' ) ?></td>
+<td><input name="websvn_multiviews" type="checkbox" <?php echo ($t_multiviews ? 'checked="checked"' : '') ?>/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_name' ) ?></td>
@@ -94,9 +122,10 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 
 	public function update_repo( $p_repo ) {
 		$p_repo->info['websvn_url'] = gpc_get_string( 'websvn_url' );
+		$p_repo->info['websvn_multiviews'] = gpc_get_bool( 'websvn_multiviews', false );
 		$p_repo->info['websvn_name'] = gpc_get_string( 'websvn_name' );
 		$p_repo->info['websvn_path'] = gpc_get_string( 'websvn_path' );
-
+		
 		return parent::update_repo( $p_repo );
 	}
 }
