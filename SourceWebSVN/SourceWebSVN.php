@@ -30,6 +30,18 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		return lang_get( 'plugin_SourceWebSVN_svn' );
 	}
 
+	/**
+	 * Retrieves the repository's multiviews setting (set to true if WebSVN is
+	 * configured to use Apache Multiviews link format)
+	 * @param object $p_repo repository
+	 * @return bool
+	 */
+	public function is_multiviews( $p_repo ) {
+		return isset( $p_repo->info['websvn_multiviews'] )
+			? $p_repo->info['websvn_multiviews']
+			: false;
+	}
+
 	protected function websvn_url($p_repo) {
 		$t_path = '';
 		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
@@ -71,7 +83,6 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 
 	public function update_repo_form( $p_repo ) {
 		$t_url = isset( $p_repo->info['websvn_url'] ) ? $p_repo->info['websvn_url'] : '';
-		$t_multiviews = isset( $p_repo->info['websvn_multiviews'] ) ? $p_repo->info['websvn_multiviews'] : false;
 		$t_name = isset( $p_repo->info['websvn_name'] ) ? $p_repo->info['websvn_name'] : '';
 		$t_path = isset( $p_repo->info['websvn_path'] ) ? $p_repo->info['websvn_path'] : '';
 
@@ -82,7 +93,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_multiviews' ) ?></td>
-<td><input name="websvn_multiviews" type="checkbox" <?php check_checked( $t_multiviews ) ?>/></td>
+<td><input name="websvn_multiviews" type="checkbox" <?php check_checked( $this->is_multiviews( $p_repo ) ) ?>/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_name' ) ?></td>
