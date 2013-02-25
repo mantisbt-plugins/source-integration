@@ -60,43 +60,105 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			: '';
 	}
 
-	protected function websvn_url($p_repo) {
-		$t_path = '';
-		if ( !is_blank( $p_repo->info['websvn_path'] ) ) {
-			$t_path = '/' . urlencode( $p_repo->info['websvn_path'] );
+	/**
+	 * Builds the WebSVN URL base string
+	 * @param object $p_repo repository
+	 * @param string $p_op optional WebSVN operation
+	 * @param string $p_file optional filename (as absolute path from root)
+	 * @return string WebSVN URL
+	 */
+	protected function url_base( $p_repo, $p_op = '', $p_file = '' ) {
+		$t_name = urlencode( $this->get_websvn_name( $p_repo ) );
+
+		if( $this->is_multiviews( $p_repo ) ) {
+			$t_url = $this->get_websvn_url( $p_repo ) . $t_name;
+
+			if( is_blank( $p_file ) ) {
+				$t_url .= $this->get_websvn_path( $p_repo );
+			} else {
+				$t_url .= $p_file;
+			}
+
+			$t_url = rtrim( $t_url, '/' );
+
+			if( !is_blank( $p_op ) ) {
+				$t_url .= "?op=$p_op";
+			}
+
+			return $t_url;
+		} else {
+			$t_url = $this->get_websvn_url( $p_repo );
+
+			if( !is_blank( $p_op ) ) {
+				$t_url .= "$p_op.php";
+			}
+
+			if( !is_blank( $p_file ) ) {
+				$t_path = urlencode( $p_file );
+			} else {
+				$t_path = urlencode( $this->get_websvn_path( $p_repo ) );
+			}
+			if( !is_blank( $t_path ) ) {
+				$t_path = "&path=$t_path";
+			}
+
+			return $t_url . "?repname=$t_name" . $t_path;
 		}
-		return $p_repo->info['websvn_url'] . $p_repo->info['websvn_name'] . $t_path;
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
 		$t_rev = '';
 
 		if ( !is_null( $p_changeset ) ) {
-			$t_rev = '?rev=' . urlencode( $p_changeset->revision );
+			$t_rev = '&rev=' . urlencode( $p_changeset->revision );
 		}
-		return $this->websvn_url($p_repo) . $t_rev;
+
+		if( $this->is_multiviews( $p_repo ) ) {
+			return $this->url_base( $p_repo ) . "?$t_rev";
+		} else {
+			return $this->url_base( $p_repo, 'listing' ) . "$t_rev&sc=1";
+		}
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
-		return $this->websvn_url($p_repo) . '?op=comp' .
-			'&compare[]=/@' . urlencode( $p_changeset->revision-1 ) .
-			'&compare[]=/@' . urlencode( $p_changeset->revision);
+		if( $this->is_multiviews( $p_repo ) ) {
+			$t_rev = $p_changeset->revision;
+			return $this->url_base( $p_repo, 'comp' )
+				. '&compare[]=/@' . urlencode( $t_rev - 1 )
+				. '&compare[]=/@' . urlencode( $t_rev );
+		} else {
+			return $this->url_repo( $p_repo, $p_changeset );
+		}
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
 		if ( $p_file->action == 'D' ) {
 			return '';
 		}
-		return $this->websvn_url($p_repo) . $p_file->filename . '?op=filedetails' .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) ;
+
+		$t_rev = urlencode( $p_changeset->revision );
+		$t_url = $this->url_base( $p_repo, 'filedetails', $p_file->filename )
+			. "&rev=$t_rev&peg=$t_rev";
+
+		if( !$this->is_multiviews( $p_repo ) ) {
+			$t_url .= "&sc=1";
+		}
+		return $t_url;
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
 		if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
 			return '';
 		}
-		return $this->websvn_url( $p_repo ) . $p_file->filename . '?op=diff' .
-			'&rev=' . urlencode( $p_changeset->revision ) . '&peg=' . urlencode( $p_changeset->revision ) ;
+
+		$t_rev = urlencode( $p_changeset->revision );
+		$t_url = $this->url_base( $p_repo, 'diff', $p_file->filename )
+			. "&rev=$t_rev&peg=$t_rev";
+
+		if( !$this->is_multiviews( $p_repo ) ) {
+			$t_url .= "&sc=1";
+		}
+		return $t_url;
 	}
 
 	public function update_repo_form( $p_repo ) {
