@@ -367,15 +367,17 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 		if ( $t_handler && !is_null( $t_user_id ) ) {
 			$t_bug->handler_id = $t_user_id;
 		}
+		
+		$t_private = false
 
 		if ( $t_update ) {
 			if ( $t_message ) {
-				bugnote_add( $t_bug_id, $t_message, '0:00', false, 0, '', null, false );
+				bugnote_add( $t_bug_id, $t_message, '0:00', $t_private, 0, '', null, false );
 			}
 			$t_bug->update();
 
 		} else if ( $t_message ) {
-			bugnote_add( $t_bug_id, $t_message );
+			bugnote_add( $t_bug_id, $t_message, '0:00', $t_private );
 		}
 	}
 
