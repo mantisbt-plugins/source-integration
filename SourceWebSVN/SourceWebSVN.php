@@ -67,6 +67,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 
 	public function update_repo_form( $p_repo ) {
 		$t_url = isset( $p_repo->info['websvn_url'] ) ? $p_repo->info['websvn_url'] : '';
+		$t_multiviews = isset( $p_repo->info['websvn_multiviews'] ) ? $p_repo->info['websvn_multiviews'] : false;
 		$t_name = isset( $p_repo->info['websvn_name'] ) ? $p_repo->info['websvn_name'] : '';
 		$t_path = isset( $p_repo->info['websvn_path'] ) ? $p_repo->info['websvn_path'] : '';
 
@@ -74,6 +75,10 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_url' ) ?></td>
 <td><input name="websvn_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_multiviews' ) ?></td>
+<td><input name="websvn_multiviews" type="checkbox" <?php echo ($t_multiviews ? 'checked="checked"' : '') ?>/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_name' ) ?></td>
@@ -90,9 +95,10 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 
 	public function update_repo( $p_repo ) {
 		$p_repo->info['websvn_url'] = gpc_get_string( 'websvn_url' );
+		$p_repo->info['websvn_multiviews'] = gpc_get_bool( 'websvn_multiviews', false );
 		$p_repo->info['websvn_name'] = gpc_get_string( 'websvn_name' );
 		$p_repo->info['websvn_path'] = gpc_get_string( 'websvn_path' );
-
+		
 		return parent::update_repo( $p_repo );
 	}
 }
