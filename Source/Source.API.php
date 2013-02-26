@@ -50,7 +50,7 @@ function SourceTypes() {
  * @return boolean Integration enabled
  */
 function Source_PVM( $p_trigger_error=true ) {
-	if ( config_get( 'plugin_Source_enable_product_matrix' ) ) {
+	if ( plugin_config_get( 'enable_product_matrix' ) ) {
 		if ( plugin_is_loaded( 'ProductMatrix' ) || !$p_trigger_error ) {
 			return true;
 		} else {
@@ -73,8 +73,8 @@ function Source_Parse_Buglinks( $p_string ) {
 	$t_bugs = array();
 
 	if ( is_null( $s_regex1 ) ) {
-		$s_regex1 = config_get( 'plugin_Source_buglink_regex_1' );
-		$s_regex2 = config_get( 'plugin_Source_buglink_regex_2' );
+		$s_regex1 = plugin_config_get( 'buglink_regex_1' );
+		$s_regex2 = plugin_config_get( 'buglink_regex_2' );
 	}
 
 	preg_match_all( $s_regex1, $p_string, $t_matches_all );
@@ -103,8 +103,8 @@ function Source_Parse_Bugfixes( $p_string ) {
 	$t_bugs = array();
 
 	if ( is_null( $s_regex1 ) ) {
-		$s_regex1 = config_get( 'plugin_Source_bugfix_regex_1' );
-		$s_regex2 = config_get( 'plugin_Source_bugfix_regex_2' );
+		$s_regex1 = plugin_config_get( 'bugfix_regex_1' );
+		$s_regex2 = plugin_config_get( 'bugfix_regex_2' );
 	}
 
 	preg_match_all( $s_regex1, $p_string, $t_matches_all );
@@ -265,18 +265,18 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	bug_cache_array_rows( array_keys( $t_fixed_bugs ) );
 
 	$t_current_user_id = $g_cache_current_user_id;
-	$t_enable_resolving = config_get( 'plugin_Source_enable_resolving' );
-	$t_enable_message = config_get( 'plugin_Source_enable_message' );
-	$t_enable_mapping = config_get( 'plugin_Source_enable_mapping' );
+	$t_enable_resolving = plugin_config_get( 'enable_resolving' );
+	$t_enable_message = plugin_config_get( 'enable_message' );
+	$t_enable_mapping = plugin_config_get( 'enable_mapping' );
 
-	$t_bugfix_status = config_get( 'plugin_Source_bugfix_status' );
-	$t_bugfix_status_pvm = config_get( 'plugin_Source_bugfix_status_pvm' );
-	$t_resolution = config_get( 'plugin_Source_bugfix_resolution' );
-	$t_handler = config_get( 'plugin_Source_bugfix_handler' );
+	$t_bugfix_status = plugin_config_get( 'bugfix_status' );
+	$t_bugfix_status_pvm = plugin_config_get( 'bugfix_status_pvm' );
+	$t_resolution = plugin_config_get( 'bugfix_resolution' );
+	$t_handler = plugin_config_get( 'bugfix_handler' );
 	$t_message_template = str_replace(
 		array( '$1', '$2', '$3', '$4', '$5', '$6' ),
 		array( '%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s' ),
-		config_get( 'plugin_Source_bugfix_message' ) );
+		plugin_config_get( 'bugfix_message' ) );
 
 	$t_mappings = array();
 

@@ -33,7 +33,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 	function display_bug( $p_event, $p_bug_id ) {
 		require_once( 'Source.ViewAPI.php' );
 
-		if ( !access_has_global_level( config_get( 'plugin_Source_view_threshold' ) ) ) {
+		if ( !access_has_global_level( plugin_config_get( 'view_threshold' ) ) ) {
 			return;
 		}
 
@@ -85,7 +85,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 	 * @param int User ID
 	 */
 	function account_update_form( $p_event, $p_user_id ) {
-		if ( !access_has_global_level( config_get( 'plugin_Source_username_threshold' ) ) ) {
+		if ( !access_has_global_level( plugin_config_get( 'username_threshold' ) ) ) {
 			return;
 		}
 
@@ -103,7 +103,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 	 * @param int User ID
 	 */
 	function account_update( $p_event, $p_user_id ) {
-		if ( !access_has_global_level( config_get( 'plugin_Source_username_threshold' ) ) ) {
+		if ( !access_has_global_level( plugin_config_get( 'username_threshold' ) ) ) {
 			return;
 		}
 
