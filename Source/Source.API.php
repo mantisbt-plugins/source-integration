@@ -368,7 +368,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 			$t_bug->handler_id = $t_user_id;
 		}
 		
-		$t_private = config_get( 'plugin_Source_bugfix_message_private' );
+		$t_private = plugin_config_get( 'bugfix_message_private' );
 
 		if ( $t_update ) {
 			if ( $t_message ) {
