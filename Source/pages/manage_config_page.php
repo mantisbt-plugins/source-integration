@@ -146,9 +146,16 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <td class="category"><?php echo plugin_lang_get( 'bugfix_message' ) ?></td>
 <td>
 	<input name="bugfix_message" size="50" value="<?php echo string_attribute( plugin_config_get( 'bugfix_message' ) ) ?>"/><br/>
-<?php echo plugin_lang_get( 'bugfix_message_info' ) ?><br/>
-	<label><input type="checkbox" name="bugfix_message_private" <?php echo ( plugin_config_get( 'bugfix_message_private' ) ? 'checked="checked" ' : '' ) ?>/>
-	<?php echo plugin_lang_get( 'bugfix_message_private' ) ?></label><br/>
+	<?php echo plugin_lang_get( 'bugfix_message_info' ) ?><br/>
+</td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'bugfix_message_view_status' ) ?></td>
+<td>
+	<select name="bugfix_message_view_status">
+		<?php print_enum_string_option_list( 'view_state', plugin_config_get( 'bugfix_message_view_status' ) ) ?>
+	</select>
 </td>
 </tr>
 
