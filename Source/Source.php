@@ -59,6 +59,7 @@ class SourcePlugin extends MantisPlugin {
 			'bugfix_status_pvm'	=> 0,
 			'bugfix_handler'	=> ON,
 			'bugfix_message'	=> 'Fix committed to $1 branch.',
+			'bugfix_message_private'	=> OFF,
 
 			'remote_checkin'	=> OFF,
 			'checkin_urls'		=> serialize( array( 'localhost' ) ),
