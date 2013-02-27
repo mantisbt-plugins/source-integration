@@ -155,7 +155,8 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <td>
 	<select name="bugfix_message_view_status">
 		<?php print_enum_string_option_list( 'view_state', plugin_config_get( 'bugfix_message_view_status' ) ) ?>
-	</select>
+	</select><br />
+	<span class="small"><?php echo plugin_lang_get( 'bugfix_message_view_status_info' ) ?></span><br/>
 </td>
 </tr>
 

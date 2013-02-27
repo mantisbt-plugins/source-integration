@@ -97,6 +97,7 @@ $s_plugin_Source_bugfix_handler = 'Bug Fixed Assign To Committer';
 $s_plugin_Source_bugfix_message = 'Bug Fixed Message Template';
 $s_plugin_Source_bugfix_message_info = '<span class="small">Use $1 for branch, $2 for revision, $3 for timestamp, $4 for commit message, $5 for repository name, or $6 for changeset ID.</span>';
 $s_plugin_Source_bugfix_message_view_status = 'Bug Fixed Message View State';
+$s_plugin_Source_bugfix_message_view_status_info = 'Note: if the changeset\'s author/committer does not have <em>private_bugnote_threshold</em>, the note will be Public regardless of this setting.';
 $s_plugin_Source_reset = 'Reset to default';
 $s_plugin_Source_menu_links = 'Main Menu Links';
 $s_plugin_Source_show_repo_link = 'Repositories';
