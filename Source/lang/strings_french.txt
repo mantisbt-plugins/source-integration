@@ -93,7 +93,7 @@ $s_plugin_Source_bugfix_status_default = '[Statut résolu]';
 $s_plugin_Source_bugfix_resolution = 'Niveau de résolution de demande';
 $s_plugin_Source_bugfix_handler = 'Affecter la demande résolue au soumissionneur';
 $s_plugin_Source_bugfix_message = 'Modèle de message de résolution';
-$s_plugin_Source_bugfix_message_info = '<span class="small">Utilisez $1 pour la branche, $2 pour la révision, $3 pour l\'horodatage, $4 pour le message de soumission, ou $5 pour le nom du dépôt.</span>';
+$s_plugin_Source_bugfix_message_info = 'Utilisez $1 pour la branche, $2 pour la révision, $3 pour l\'horodatage, $4 pour le message de soumission, ou $5 pour le nom du dépôt.';
 $s_plugin_Source_reset = 'Réinitialiser';
 $s_plugin_Source_menu_links = 'Liens du menu principal';
 $s_plugin_Source_show_repo_link = 'Dépôts';

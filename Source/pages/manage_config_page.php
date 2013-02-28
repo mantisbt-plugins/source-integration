@@ -146,7 +146,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 <td class="category"><?php echo plugin_lang_get( 'bugfix_message' ) ?></td>
 <td>
 	<input name="bugfix_message" size="50" value="<?php echo string_attribute( plugin_config_get( 'bugfix_message' ) ) ?>"/><br/>
-	<?php echo plugin_lang_get( 'bugfix_message_info' ) ?><br/>
+	<span class="small"><?php echo plugin_lang_get( 'bugfix_message_info' ) ?></span><br/>
 </td>
 </tr>
 
@@ -169,8 +169,10 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'api_key' ) ?></td>
-<td><input name="api_key" size="50" value="<?php echo string_attribute( plugin_config_get( 'api_key' ) ) ?>"/><br/>
-<?php echo plugin_lang_get( 'api_key_info' ) ?></td>
+<td>
+	<input name="api_key" size="50" value="<?php echo string_attribute( plugin_config_get( 'api_key' ) ) ?>"/><br/>
+	<span class="small"><?php echo plugin_lang_get( 'api_key_info' ) ?></span>
+</td>
 </tr>
 
 <tr><td class="spacer"></td></tr>

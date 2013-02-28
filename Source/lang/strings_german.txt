@@ -92,7 +92,7 @@ $s_plugin_Source_bugfix_status_default = '[Standardstatus für \'Erledigt\']';
 $s_plugin_Source_bugfix_resolution = 'Automatische Erledigung: Lösung';
 $s_plugin_Source_bugfix_handler = 'Automatische Erledigung: Zum Autor der Übertragung zuweisen';
 $s_plugin_Source_bugfix_message = 'Automatische Erledigung: Text der automatischen Eintragsnotiz';
-$s_plugin_Source_bugfix_message_info = '<span class="small">Platzhalter: $1 für Zweig, $2 für Revision, $3 für Datum/Uhrzeit, $4 für die Übertragungsmeldung, $5 für den Namen des Projektarchivs oder $6 für die ID des Änderungssatzes.</span>';
+$s_plugin_Source_bugfix_message_info = 'Platzhalter: $1 für Zweig, $2 für Revision, $3 für Datum/Uhrzeit, $4 für die Übertragungsmeldung, $5 für den Namen des Projektarchivs oder $6 für die ID des Änderungssatzes.';
 $s_plugin_Source_reset = 'Zurücksetzen';
 $s_plugin_Source_menu_links = 'Hauptmenüeinträge';
 $s_plugin_Source_show_repo_link = 'Projektarchive';

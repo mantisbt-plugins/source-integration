@@ -75,7 +75,7 @@ $s_plugin_Source_attach_to_issue = 'Attach Issues:';
 
 $s_plugin_Source_configuration = 'Configuration';
 $s_plugin_Source_api_key = 'API Key';
-$s_plugin_Source_api_key_info = '<span class="small">This is a secret password to be used by services sending commit data to Mantis.<br/>To generate a random key, run <code>openssl rand -hex 12</code> or similar.</span>';
+$s_plugin_Source_api_key_info = 'This is a secret password to be used by services sending commit data to Mantis.<br/>To generate a random key, run <code>openssl rand -hex 12</code> or similar.';
 $s_plugin_Source_allow_remote_checkin = 'Allow Remote Check-In<br/><span class="small">(Deprecated)</span>';
 $s_plugin_Source_remote_checkin_urls = 'Allowed Addresses';
 $s_plugin_Source_allow_remote_import = 'Allow Remote Imports<br/><span class="small">(Deprecated)</span>';
@@ -95,7 +95,7 @@ $s_plugin_Source_bugfix_status_default = '[Resolved Status]';
 $s_plugin_Source_bugfix_resolution = 'Bug Fixed Resolution';
 $s_plugin_Source_bugfix_handler = 'Bug Fixed Assign To Committer';
 $s_plugin_Source_bugfix_message = 'Bug Fixed Message Template';
-$s_plugin_Source_bugfix_message_info = '<span class="small">Use $1 for branch, $2 for revision, $3 for timestamp, $4 for commit message, $5 for repository name, or $6 for changeset ID.</span>';
+$s_plugin_Source_bugfix_message_info = 'Use $1 for branch, $2 for revision, $3 for timestamp, $4 for commit message, $5 for repository name, or $6 for changeset ID.';
 $s_plugin_Source_bugfix_message_view_status = 'Bug Fixed Message View State';
 $s_plugin_Source_bugfix_message_view_status_info = 'Note: if the changeset\'s author/committer does not have <em>private_bugnote_threshold</em>, the note will be Public regardless of this setting.';
 $s_plugin_Source_reset = 'Reset to default';
