@@ -131,7 +131,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
-		if ( $p_file->action == 'D' ) {
+		if ( $p_file->action == 'rm' ) {
 			return '';
 		}
 		
@@ -143,7 +143,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
-		if ( $p_file->action == 'D' || $p_file->action == 'A' ) {
+		if ( $p_file->action == 'rm' || $p_file->action == 'add' ) {
 			return '';
 		}
 
