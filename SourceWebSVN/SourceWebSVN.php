@@ -123,9 +123,10 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 
 	public function url_changeset( $p_repo, $p_changeset ) {
 		$t_rev = $p_changeset->revision;
+		$t_path = get_websvn_path( $p_repo );
 		$t_opts = array();
-		$t_opts['compare[0]'] = $t_rev - 1;
-		$t_opts['compare[1]'] = $t_rev;
+		$t_opts['compare[0]'] = $t_path . '@' . ($t_rev - 1);
+		$t_opts['compare[1]'] = $t_path . '@' . $t_rev;
 		return $this->url_base( $p_repo, 'comp', '', $t_opts );
 	}
 
