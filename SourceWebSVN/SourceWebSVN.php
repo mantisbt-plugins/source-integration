@@ -121,7 +121,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		return $this->url_base( $p_repo, $t_op, '', $t_opts);
 	}
 
-	public function url_changeset( $t_rev, $p_changeset ) {
+	public function url_changeset( $p_repo, $p_changeset ) {
 		$t_rev = $p_changeset->revision;
 		$t_opts = array();
 		$t_opts['compare[0]'] = $t_rev - 1;
