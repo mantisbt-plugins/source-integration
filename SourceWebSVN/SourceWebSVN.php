@@ -65,9 +65,10 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	 * @param object $p_repo repository
 	 * @param string $p_op optional WebSVN operation
 	 * @param string $p_file optional filename (as absolute path from root)
+	 * @param array $p_opts optional additional WebSVN URL parameters
 	 * @return string WebSVN URL
 	 */
-	protected function url_base( $p_repo, $p_op = '', $p_file = '', $p_opts=array()) {
+	protected function url_base( $p_repo, $p_op = '', $p_file = '', $p_opts=array() ) {
 		$t_name = urlencode( $this->get_websvn_name( $p_repo ) );
 
 		if( $this->is_multiviews( $p_repo ) ) {
@@ -82,15 +83,13 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			$t_url = rtrim( $t_url, '/' );
 
 			if( !is_blank( $p_op ) ) {
-				$p_opts["op"] = $p_op;
+				$p_opts['op'] = $p_op;
 			}
-
-			return $t_url . "?" . http_build_query( $p_opts );
 		} else {
 			$t_url = $this->get_websvn_url( $p_repo );
 
 			if( !is_blank( $p_op ) ) {
-				$t_url .= "$p_op.php";
+				$t_url .= '$p_op.php';
 			}
 
 			if( is_blank( $p_file ) ) {
@@ -98,22 +97,21 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			} else {
 				$t_path = $p_file;
 			}
-			
 			if( !is_blank( $t_path ) ) {
-				$p_opts["path"] = $t_path;
+				$p_opts['path'] = $t_path;
 			}
-			
-			$p_opts["repname"] = $t_name;;
 
-			return $t_url . "?" . http_build_query( $p_opts );
+			$p_opts['repname'] = $t_name;
 		}
+
+		return $t_url . '?' . http_build_query( $p_opts );
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
 		$t_opts = array();
-		
+
 		if ( !is_null( $p_changeset ) ) {
-			$t_opts["rev"] = $p_changeset->revision;
+			$t_opts['rev'] = $p_changeset->revision;
 		}
 
 		$t_op = $this->is_multiviews( $p_repo ) ? '' : 'listing';
@@ -127,17 +125,18 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		$t_opts = array();
 		$t_opts['compare[0]'] = $t_path . '@' . ($t_rev - 1);
 		$t_opts['compare[1]'] = $t_path . '@' . $t_rev;
+
 		return $this->url_base( $p_repo, 'comp', '', $t_opts );
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
-		
-		# if the file has been removed, it doesn't exists in current revision
+
+		# if the file has been removed, it doesn't exist in current revision
 		# so we generate a link to (current revision - 1)
-		$t_revision = ($p_file->action == 'rm') 
+		$t_revision = ($p_file->action == 'rm')
 					? $p_changeset->revision - 1
 					: $p_changeset->revision;
-		
+
 		$t_opts = array();
 		$t_opts['rev'] = $t_revision;
 		$t_opts['peg'] = $t_revision;
