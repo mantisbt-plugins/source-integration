@@ -116,12 +116,8 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			$t_opts["rev"] = $p_changeset->revision;
 		}
 
-		if( $this->is_multiviews( $p_repo ) ) {
-			$t_op = '';
-		} else {
-			$t_op = 'listing';
-			$t_opts["sc"] = 1;
-		}
+		$t_op = $this->is_multiviews( $p_repo ) ? '' : 'listing';
+
 		return $this->url_base( $p_repo, $t_op, '', $t_opts);
 	}
 
@@ -141,9 +137,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		$t_opts = array();
 		$t_opts['rev'] = $p_changeset->revision;
 		$t_opts['peg'] = $p_changeset->revision;
-		if( !$this->is_multiviews( $p_repo ) ) {
-			$t_opts['sc'] = 1;
-		}
+
 		return $this->url_base( $p_repo, 'filedetails', $p_file->filename, $t_opts );
 	}
 
@@ -155,9 +149,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		$t_opts = array();
 		$t_opts['rev'] = $p_changeset->revision;
 		$t_opts['peg'] = $p_changeset->revision;
-		if( !$this->is_multiviews( $p_repo ) ) {
-			$t_opts['sc'] = 1;
-		}
+
 		return $this->url_base( $p_repo, 'diff', $p_file->filename, $t_opts );
 	}
 
