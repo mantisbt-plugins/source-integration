@@ -333,7 +333,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 
 		$t_bug = bug_get( $t_bug_id );
 
-		# Update the resoltion, fixed-in version, or add a bugnote
+		# Update the resolution, fixed-in version, and/or add a bugnote
 		$t_update = false;
 
 		if ( Source_PVM() ) {
@@ -349,7 +349,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 			if ( $t_bugfix_status > 0 && $t_bug->status != $t_bugfix_status ) {
 				$t_bug->status = $t_bugfix_status;
 				$t_update = true;
-			} else if ( $t_bugfix_status == -1 && $t_bug->status < $t_resolved_threshold ) {
+			} else if ( $t_enable_resolving && $t_bugfix_status == -1 && $t_bug->status < $t_resolved_threshold ) {
 				$t_bug->status = $t_resolved_threshold;
 				$t_update = true;
 			}
