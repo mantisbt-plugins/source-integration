@@ -126,15 +126,11 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	}
 
 	public function url_changeset( $t_rev, $p_changeset ) {
-		if( $this->is_multiviews( $p_repo ) ) {
-			$t_rev = $p_changeset->revision;
-			$t_opts = array();
-			$t_opts['compare[0]'] = $t_rev - 1;
-			$t_opts['compare[1]'] = $t_rev;
-			return $this->url_base( $p_repo, 'comp', '', $t_opts );
-		} else {
-			return $this->url_repo( $p_repo, $p_changeset );
-		}
+		$t_rev = $p_changeset->revision;
+		$t_opts = array();
+		$t_opts['compare[0]'] = $t_rev - 1;
+		$t_opts['compare[1]'] = $t_rev;
+		return $this->url_base( $p_repo, 'comp', '', $t_opts );
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
