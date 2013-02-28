@@ -131,13 +131,16 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
-		if ( $p_file->action == 'rm' ) {
-			return '';
-		}
+		
+		# if the file has been removed, it doesn't exists in current revision
+		# so we generate a link to (current revision - 1)
+		$t_revision = ($p_file->action == 'rm') 
+					? $p_changeset->revision - 1
+					: $p_changeset->revision;
 		
 		$t_opts = array();
-		$t_opts['rev'] = $p_changeset->revision;
-		$t_opts['peg'] = $p_changeset->revision;
+		$t_opts['rev'] = $t_revision;
+		$t_opts['peg'] = $t_revision;
 
 		return $this->url_base( $p_repo, 'filedetails', $p_file->filename, $t_opts );
 	}
