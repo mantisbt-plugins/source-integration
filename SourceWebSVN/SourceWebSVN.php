@@ -71,6 +71,12 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	protected function url_base( $p_repo, $p_op = '', $p_file = '', $p_opts=array() ) {
 		$t_name = urlencode( $this->get_websvn_name( $p_repo ) );
 
+		# The 'sc' (show change) option is obsolete since WebSVN 2.1.0 (r621)
+		# we keep it for Compatibility with oder releases
+		if( !isset( $p_opts['sc'] ) ) {
+			$p_opts['sc'] = 1;
+		}
+
 		if( $this->is_multiviews( $p_repo ) ) {
 			$t_url = $this->get_websvn_url( $p_repo ) . $t_name;
 
