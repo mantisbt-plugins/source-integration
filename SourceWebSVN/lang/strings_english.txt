@@ -9,6 +9,7 @@ $s_plugin_SourceWebSVN_description = 'Adds Subversion integration to the Source 
 
 $s_plugin_SourceWebSVN_svn = 'WebSVN';
 $s_plugin_SourceWebSVN_websvn_url = 'WebSVN URL<br/><span class="small">(With trailing slash)</span>';
+$s_plugin_SourceWebSVN_websvn_multiviews = 'WebSVN Multiviews Mode<br/><span class="small" display>(Check if WebSVN runs under<br />&nbsp;Apache in Multiviews mode)</span>';
 $s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br/><span class="small">(Repository directory)</span>';
 $s_plugin_SourceWebSVN_websvn_path = 'WebSVN Path<br/><span class="small">(From repository root)</span>';
 
