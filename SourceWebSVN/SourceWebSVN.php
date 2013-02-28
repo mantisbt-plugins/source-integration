@@ -95,7 +95,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			$t_url = $this->get_websvn_url( $p_repo );
 
 			if( !is_blank( $p_op ) ) {
-				$t_url .= '$p_op.php';
+				$t_url .= "$p_op.php";
 			}
 
 			if( is_blank( $p_file ) ) {
