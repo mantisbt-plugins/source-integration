@@ -85,7 +85,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 				$p_opts["op"] = $p_op;
 			}
 
-			return $t_url . "?" . http_build_query( $t_opts );
+			return $t_url . "?" . http_build_query( $p_opts );
 		} else {
 			$t_url = $this->get_websvn_url( $p_repo );
 
@@ -105,7 +105,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			
 			$p_opts["repname"] = $t_name;;
 
-			return $t_url . "?" . http_build_query( $t_opts );
+			return $t_url . "?" . http_build_query( $p_opts );
 		}
 	}
 
