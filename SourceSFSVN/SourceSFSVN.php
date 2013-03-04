@@ -48,11 +48,13 @@ class SourceSFSVNPlugin extends SourceSVNPlugin {
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
-		if ( $p_file->action == 'rm' ) {
-			return '';
-		}
+		# if the file has been removed, it doesn't exist in current revision
+		# so we generate a link to (current revision - 1)
+		$t_revision = ($p_file->action == 'rm')
+					? $p_changeset->revision - 1
+					: $p_changeset->revision;
 		return $this->sf_url( $p_repo ) . urlencode( $p_file->filename ) .
-			'?view=markup&pathrev=' . urlencode( $p_changeset->revision );
+			'?view=markup&pathrev=' . urlencode( $t_revision );
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
