@@ -33,7 +33,9 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 	function display_bug( $p_event, $p_bug_id ) {
 		require_once( 'Source.ViewAPI.php' );
 
-		if ( !access_has_global_level( config_get( 'plugin_Source_view_threshold' ) ) ) {
+		$t_project_id = bug_get_field( $p_bug_id, 'project_id' );
+		$t_view_threshold = config_get( 'plugin_Source_view_threshold' );
+		if ( !access_has_project_level( $t_view_threshold, $t_project_id ) ) {
 			return;
 		}
 
