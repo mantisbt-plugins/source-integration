@@ -229,7 +229,7 @@ endif; ?></td>
 			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
 			$t_repo->id = $t_row['id'];
 
-			if ( $t_row['name'] == $t_reponame ) {
+			if ( $t_repo->info['hub_reponame'] == $t_reponame ) {
 				return array( 'repo' => $t_repo, 'data' => $t_data );
 			}
 		}
