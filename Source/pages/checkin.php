@@ -66,9 +66,9 @@ if ( is_array( $t_predata ) && count( $t_predata ) == 2 ) {
 	$t_repo = $t_predata['repo'];
 	$f_data = $t_predata['data'];
 } else {
-        $f_repo_name = gpc_get_string('repo_name','');
 	$f_data = gpc_get_string( 'data' );
 	# Try to find the repository by name
+	$f_repo_name = gpc_get_string( 'repo_name', '' );
 	$t_repo = SourceRepo::load_by_name( $f_repo_name );
 }
 # Repo not found
