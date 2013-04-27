@@ -14,9 +14,9 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.17';
+		$this->version = '0.18';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.2.16',
 			'Source' => '0.18',
 		);
 
