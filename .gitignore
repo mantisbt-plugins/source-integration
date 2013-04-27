@@ -1,4 +1,5 @@
 *.swp
+*.bak
 ._*
 .DS_Store
 *.buildpath
