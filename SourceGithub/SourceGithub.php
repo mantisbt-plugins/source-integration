@@ -190,6 +190,7 @@ endif; ?></td>
 
 		$t_uri = $this->api_uri( $p_repo, 'rate_limit' );
 		$t_json = json_url( $t_uri, 'rate' );
+
 		if ( false !== $t_json && !is_null( $t_json ) ) {
 			if ( $t_json->remaining <= 0 ) {
 				// do we need to do something here?
@@ -333,7 +334,11 @@ endif; ?></td>
 			$t_json = $this->api_json_url( $p_repo, $t_uri );
 
 			if ( false === $t_json || is_null( $t_json ) ) {
+				# Some error occured retrieving the commit
 				echo "failed.\n";
+				continue;
+			} else if ( !property_exists( $t_json, 'sha' ) ) {
+				echo "failed ($t_json->message).\n";
 				continue;
 			}
 
