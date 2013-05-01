@@ -140,6 +140,7 @@ $s_plugin_Source_invalid_import_url = 'Invalid remote import address';
 $s_plugin_Source_invalid_repo = 'Invalid repository name';
 $s_plugin_Source_invalid_changeset = 'Changeset information could not be loaded';
 
+$s_plugin_Source_import_latest_failed = 'Repository latest data importing failed.';
 $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
 
 $s_plugin_Source_changeset_column_title = 'C';
