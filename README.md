@@ -37,6 +37,14 @@ integration framework and API.
 The Source Integration framework requires [Mantis](http://www.mantisbt.org/) 
 version 1.2.0 or higher.
 
+**NOTE:** As of this writing the **SourceGithub** plugin requires either Mantis
+1.2.16 (not yet released) or Mantis 1.2.15 with the 
+[mantisbt/mantisbt@8df9d5f](http://github.com/mantisbt/mantisbt/commit/8df9d5fa221bb85f9f8c1ca6b698d75b740d6449)
+patch applied. This is due to a new requirement in GitHub API v3 ([User Agent header is
+mandatory for all API
+requests](http://developer.github.com/changes/2013-04-24-user-agent-required/))
+enforced as of 2013-04-24.
+
 ## Installation
 
 1. Download or clone a copy of the [Source Integration source
