@@ -1,0 +1,26 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceGithub_ = '';
+$s_plugin_SourceGithub_github = 'GitHub';
+$s_plugin_SourceGithub_title = 'Integración GitHub';
+$s_plugin_SourceGithub_description = 'Añade la integración con GitHub al framework de Integración de Código.';
+
+$s_plugin_SourceGithub_hub_username = 'Nombre de usuario en GitHub';
+$s_plugin_SourceGithub_hub_reponame = 'Repositorio GitHub<br/><span class="small">(minúsculas, nombre espaciado)</span>';
+$s_plugin_SourceGithub_hub_app_client_id = 'Identificador GitHub <br /><span class="small">Para repositorios privados. Crear una nueva <a href="https://github.com/settings/applications">aplicación GitHub</a> si es necesario</span>';
+$s_plugin_SourceGithub_hub_app_secret = 'Contraseña de GitHub <br /><span class="small">Para repositorios privados</span>';
+$s_plugin_SourceGithub_hub_app_access_token = 'Token de acceso a GitHub<br /><span class="small">Para repositorios privados</span>';
+$s_plugin_SourceGithub_master_branch = 'Ramas principales<br/><span class="small">(lista separada por comas)</span>';
+
+$s_plugin_SourceGithub_hub_app_client_id_secret_missing = 'N/D<br /><span class="small">Debes introducir el identificador de GitHub y la contraseña, y actualizar antes de poder ser autorizado</span>';
+$s_plugin_SourceGithub_hub_app_authorize = 'Pulsa para autorizar';
+$s_plugin_SourceGithub_hub_app_authorized = 'Autorizado';
+
+$s_plugin_SourceGithub_repo_authorized = '<p>MantisBT ahora está autorizado a acceder a este repositorio GitHub.</p>';
+$s_plugin_SourceGithub_repo_authorization_failed = '<p style="color: red;">MantisBT no ha sido autorizado para acceder a este repositorio GitHub.</p>';
+
+$s_plugin_SourceGithub_oauth_authorization = 'Autorización OAuth GitHub';
+$s_plugin_SourceGithub_back_repo = 'Volver al repositorio';
