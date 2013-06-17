@@ -1,0 +1,26 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceGithub_ = '';
+$s_plugin_SourceGithub_github = 'GitHub';
+$s_plugin_SourceGithub_title = 'Integració GitHub';
+$s_plugin_SourceGithub_description = 'Afegeix la integració amb GitHub al framework d\'Integració de Codi.';
+
+$s_plugin_SourceGithub_hub_username = 'Nom d\'usuari a GitHub';
+$s_plugin_SourceGithub_hub_reponame = 'Repositori GitHub<br/><span class="small">(minúscules, nom amb espais)</span>';
+$s_plugin_SourceGithub_hub_app_client_id = 'Identificador GitHub <br /><span class="small">Per a repositoris privats. Crear una nova <a href="https://github.com/settings/applications">aplicació GitHub</a> si és necessari</span>';
+$s_plugin_SourceGithub_hub_app_secret = 'Contrasenya de GitHub <br /><span class="small">Per a repositoris privats</span>';
+$s_plugin_SourceGithub_hub_app_access_token = 'Token d\'accés a GitHub<br /><span class="small">Per a repositoris privats</span>';
+$s_plugin_SourceGithub_master_branch = 'Branques principals<br/><span class="small">(llista separada per comes)</span>';
+
+$s_plugin_SourceGithub_hub_app_client_id_secret_missing = 'N/D<br /><span class="small">Has d\'introduir l\'identificador de GitHub i la contrasenya, i actualitzar abans de poder ser autoritzat</span>';
+$s_plugin_SourceGithub_hub_app_authorize = 'Polsa per autoritzar';
+$s_plugin_SourceGithub_hub_app_authorized = 'Autoritzat';
+
+$s_plugin_SourceGithub_repo_authorized = '<p>MantisBT ara és autoritzat a accedir a aquest repositori GitHub.</p>';
+$s_plugin_SourceGithub_repo_authorization_failed = '<p style="color: red;">MantisBT no ha estat autoritzat per accedir a aquest repositori GitHub.</p>';
+
+$s_plugin_SourceGithub_oauth_authorization = 'Autorització OAuth GitHub';
+$s_plugin_SourceGithub_back_repo = 'Tornar al repositori';

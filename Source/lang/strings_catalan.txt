@@ -1,0 +1,144 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_Source_ = '';
+$s_plugin_Source_title = 'Integració de Control de Codi';
+$s_plugin_Source_description = 'Integració de control de codi fent servir una API abstracta per soportar qualsevol control de codi software.';
+
+$s_plugin_Source_repository = 'Repositori';
+$s_plugin_Source_repositories = 'Repositoris';
+$s_plugin_Source_changeset = 'Canvi';
+$s_plugin_Source_changesets = 'Canvis';
+$s_plugin_Source_file = 'Arxiu';
+$s_plugin_Source_files = 'Arxius';
+$s_plugin_Source_diff = 'Diferències';
+
+$s_plugin_Source_name = 'Nom';
+$s_plugin_Source_type = 'Tipus';
+$s_plugin_Source_branch = 'Branca';
+$s_plugin_Source_action = 'Acció';
+$s_plugin_Source_author = 'Autor';
+$s_plugin_Source_committer = 'Committer';
+$s_plugin_Source_username = 'Usuari';
+$s_plugin_Source_timestamp = 'Data';
+$s_plugin_Source_parent = 'Pare';
+$s_plugin_Source_url = 'URL';
+$s_plugin_Source_info = 'Info extra';
+$s_plugin_Source_revision = 'Revisió';
+$s_plugin_Source_date_begin = 'Data d\'inici';
+$s_plugin_Source_date_end = 'Data final';
+$s_plugin_Source_message = 'Missatge';
+$s_plugin_Source_filename = 'Nom de l\'arxiu';
+$s_plugin_Source_ported = 'Portat';
+$s_plugin_Source_vcs_username = 'Nom d\'usuari del Control de Codi';
+
+$s_plugin_Source_issue = 'Incidència';
+$s_plugin_Source_issues = 'Incidències';
+$s_plugin_Source_actions = 'Accions';
+
+$s_plugin_Source_details = 'Detalls';
+$s_plugin_Source_browse = 'Navegar';
+$s_plugin_Source_manage = 'Gestionar';
+$s_plugin_Source_create = 'Crear';
+$s_plugin_Source_import = 'Importar';
+$s_plugin_Source_edit = 'Editar';
+$s_plugin_Source_update = 'Actualitzar';
+$s_plugin_Source_delete = 'Eliminar';
+$s_plugin_Source_search = 'Buscar en repositoris';
+$s_plugin_Source_attach = 'Adjuntar';
+$s_plugin_Source_detach = 'Eliminar adjunt';
+$s_plugin_Source_modify_search = 'Modificar cerca';
+$s_plugin_Source_new_search = 'Nova cerca';
+$s_plugin_Source_permalink = 'Enllaç permanent';
+$s_plugin_Source_select_one = '(Selecciona un)';
+$s_plugin_Source_select_any = '[qualsevol]';
+$s_plugin_Source_pending = 'Pendent';
+$s_plugin_Source_na = 'N/D';
+
+$s_plugin_Source_create_repository = 'Crear repositori';
+$s_plugin_Source_manage_repository = 'Gestionar repositori';
+$s_plugin_Source_update_repository = 'Actualitzar repositori';
+$s_plugin_Source_delete_repository = 'Eliminar repositori';
+$s_plugin_Source_update_configuration = 'Actualitzar configuració';
+$s_plugin_Source_search_changesets = 'Cercar canvis';
+
+$s_plugin_Source_back = 'Tornar a l\'índex';
+$s_plugin_Source_back_repo = 'Tornar al repositori';
+$s_plugin_Source_back_changeset = 'Tornar als canvis';
+$s_plugin_Source_import_full = 'Importar tot';
+$s_plugin_Source_import_latest = 'Importar l\'última data';
+$s_plugin_Source_related_changesets = 'Canvis relacionats';
+$s_plugin_Source_affected_issues = 'Incidències afectades';
+$s_plugin_Source_attach_to_issue = 'Incidències adjuntes:';
+
+$s_plugin_Source_configuration = 'Configuració';
+$s_plugin_Source_api_key = 'Clau API';
+$s_plugin_Source_api_key_info = '<span class="small">Aquesta és una contrasenya secreta per al serveis que envien dades de canvis a Mantis.<br/>Per generar una clau aleatòria, executa <code>openssl rand -hex 12</code> o similar.</span>';
+$s_plugin_Source_allow_remote_checkin = 'Permetre check-in remot<br/><span class="small">(Obsolet)</span>';
+$s_plugin_Source_remote_checkin_urls = 'Adreçes permeses';
+$s_plugin_Source_allow_remote_import = 'Permetre importacions remotes<br/><span class="small">(Obsolet)</span>';
+$s_plugin_Source_remote_import_urls = 'Adreçes permitidas';
+$s_plugin_Source_view_threshold = 'Perfil de visualització';
+$s_plugin_Source_update_threshold = 'Perfil d\'actualització';
+$s_plugin_Source_manage_threshold = 'Perfil de gestió';
+$s_plugin_Source_username_threshold = 'Perfil configuració de noms d\'usuari';
+$s_plugin_Source_buglink_regex_1 = 'Expressió regular per a detectar enllaç a un error (pas 1)';
+$s_plugin_Source_buglink_regex_2 = 'Expressió regular per a detectar enllaç a un error (pas 2)';
+$s_plugin_Source_bugfix_regex_1 = 'Expressió regular per a detectar error arreglat (pas 1)';
+$s_plugin_Source_bugfix_regex_2 = 'Expressió regular per a detectar error arreglat (pas 2)';
+$s_plugin_Source_bugfix_status = 'Estat per incidència arreglada';
+$s_plugin_Source_bugfix_status_pvm = 'Estat per incidència de producte arreglada';
+$s_plugin_Source_bugfix_status_off = '[Desactivat]';
+$s_plugin_Source_bugfix_status_default = '[Estat resolt]';
+$s_plugin_Source_bugfix_resolution = 'Resolució per incidència arreglada';
+$s_plugin_Source_bugfix_handler = 'Assignar incidència arreglada a usuari que puja el canvi';
+$s_plugin_Source_bugfix_message = 'Plantilla del missatge per una incidència arreglada';
+$s_plugin_Source_bugfix_message_info = '<span class="small">Utilitza $1 per la branca, $2 per la revisió, $3 per la data, $4 pel missatge de commit, $5 pel nom del repositori, o $6 pel ID del canvi.</span>';
+$s_plugin_Source_reset = 'Reiniciar al valor per defecte';
+$s_plugin_Source_menu_links = 'Enllaços al menú principal';
+$s_plugin_Source_show_repo_link = 'Repositoris';
+$s_plugin_Source_show_search_link = 'Cercar en repositoris';
+$s_plugin_Source_show_repo_stats = 'Estadístiques de repositori';
+$s_plugin_Source_enabled_features = 'Característiques habilitades';
+$s_plugin_Source_enable_linking = 'Enllaç a canvis <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
+$s_plugin_Source_enable_mapping = 'Mapeig de branques';
+$s_plugin_Source_enable_resolving = 'Resoldre incidèncias arreglades';
+$s_plugin_Source_enable_message = 'Missatge d\'incidència resolta';
+$s_plugin_Source_enable_porting = 'Estat de portabilitat';
+$s_plugin_Source_enable_product_matrix = 'Integració de la Matriu de Producte';
+
+$s_plugin_Source_branch_mapping = 'Mapejos de branques';
+$s_plugin_Source_mapping_update = 'Actualitzar mapejats';
+$s_plugin_Source_mapping_strategy = 'Estratègia';
+$s_plugin_Source_mapping_version = 'Versió';
+$s_plugin_Source_mapping_version_info = '<acronym title="Només es fa servir amb la estratègia de Versió Explícita.">?</acronym>';
+$s_plugin_Source_mapping_regex = 'Expressió regular';
+$s_plugin_Source_mapping_regex_info = '<acronym title="Només s\'aplica la estratègia seleccionada sobre les versions coincidents amb l\'expressió regular d\'estil PCRE donada.">?</acronym>';
+$s_plugin_Source_mapping_create = 'Crear mapeig';
+$s_plugin_Source_mapping_explicit = 'Versió explícita';
+$s_plugin_Source_mapping_near = 'Data d\'entrega més propera';
+$s_plugin_Source_mapping_far = 'Data d\'entrega més llunyana';
+$s_plugin_Source_mapping_first = 'Ordenar per versió ascendent';
+$s_plugin_Source_mapping_last = 'Ordenar per versió descendent';
+
+$s_plugin_Source_changeset_attached = 'Canvis adjunts';
+$s_plugin_Source_changeset_removed = 'Canvis eliminats';
+
+$s_plugin_Source_ensure_delete = '¿Vosl eliminar el repositori "%s" i tota la seva història?';
+$s_plugin_Source_ensure_import_full = 'S\'importarà la informació a una nova còpia del repositori, destruint totes les dades al repositori actual, i pot requerir permissos d\'accés al sistema. Vols continuar?';
+$s_plugin_Source_ensure_import_latest = 'S\'importarà la informació a una nova còpia del repositori, i pot requerir permissos d\'accés al sistema. Vols continuar?';
+$s_plugin_Source_import_results = 'Importar resultats';
+$s_plugin_Source_import_stats = 'S\'han importat %s canvis, %s arxius, i %s referències a incidències.';
+$s_plugin_Source_import_repo_error = 'S\'ha produït un error al procés d\'importació.';
+$s_plugin_Source_ = '';
+
+$s_plugin_Source_invalid_checkin_url = 'Adreça remota de check-in no vàlida';
+$s_plugin_Source_invalid_import_url = 'Adreça remota d\'importació no vàlida';
+$s_plugin_Source_invalid_repo = 'Nom de repositori no vàlid';
+$s_plugin_Source_invalid_changeset = 'No s\'ha pogut carregar la informació de canvis';
+
+$s_plugin_Source_import_full_failed = 'La importació complerta de dades al repositori ha fallat.';
+
+$s_plugin_Source_changeset_column_title = 'C';
