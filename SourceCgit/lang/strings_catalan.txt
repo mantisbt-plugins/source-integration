@@ -1,0 +1,13 @@
+<?php
+
+# Copyright (c) 2011 asm89
+# Licensed under the MIT license
+
+$s_plugin_SourceCgit_ = '';
+$s_plugin_SourceCgit_cgit = 'Cgit';
+$s_plugin_SourceCgit_title = 'Integració Cgit';
+$s_plugin_SourceCgit_description = 'Afegeix la integració amb Cgit al framework d\'Integració de Codi.';
+
+$s_plugin_SourceCgit_cgit_root = 'URL arrel de Cgit<br/><span class="small">(incloent / al final)</span>';
+$s_plugin_SourceCgit_cgit_project = 'Projecte Cgit';
+$s_plugin_SourceCgit_master_branch = 'Branques principals<br/><span class="small">(llista separada per comes)</span>';
