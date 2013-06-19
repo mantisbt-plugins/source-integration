@@ -1,0 +1,21 @@
+<?php
+# Copyright (C) 2010 David Hicks
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+
+$s_plugin_SourceHgWeb_ = '';
+$s_plugin_SourceHgWeb_hgweb = 'HgWeb';
+$s_plugin_SourceHgWeb_title = 'Integración HgWeb';
+$s_plugin_SourceHgWeb_description = 'Añade la integración con HgWeb al framework de Integración de Código.';
+
+$s_plugin_SourceHgWeb_hgweb_root = 'URL raíz de HgWeb';
+$s_plugin_SourceHgWeb_hgweb_project = 'Proyecto HgWeb<br/><span class="small">(sólo el nombre)</span>';
+$s_plugin_SourceHgWeb_master_branch = 'Ramas principales<br/><span class="small">(lista separada por comas)</span>';

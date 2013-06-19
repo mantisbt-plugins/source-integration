@@ -1,0 +1,25 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceSVN_ = '';
+$s_plugin_SourceSVN_title = 'Integració Subversion';
+$s_plugin_SourceSVN_description = 'Afegeix la integració amb Subversion al framework d\'Integració de Codi.';
+
+$s_plugin_SourceSVN_svn = 'SVN';
+$s_plugin_SourceSVN_svn_username = 'Usuari de SVN';
+$s_plugin_SourceSVN_svn_password = 'Contrasenya de SVN';
+$s_plugin_SourceSVN_standard_repo = 'Repositori estàndar<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceSVN_trunk_path = 'Directori Trunk<br/><span class="small">(Per repositoris no estàndar)</span>';
+$s_plugin_SourceSVN_branch_path = 'Directori Branch<br/><span class="small">(Per repositoris no estàndar)</span>';
+$s_plugin_SourceSVN_tag_path = 'Directori Tag<br/><span class="small">(Per repositoris no estàndar)</span>';
+$s_plugin_SourceSVN_ignore_paths = 'Ignorar altres rutes<br/><span class="small">(Per repositoris no estándar)</span>';
+
+$s_plugin_SourceSVN_configuration = 'Configuració';
+$s_plugin_SourceSVN_update = 'Configuració';
+$s_plugin_SourceSVN_svnpath = 'SVN: Ruta a arxius binaris';
+$s_plugin_SourceSVN_svnargs = 'SVN: Arguments del comandament';
+$s_plugin_SourceSVN_svnssl = 'SVN: Confiar en tots els certificats SSL<br/><span class="small">(Requereix Subversion 1.6 o superior)</span>';
+$s_plugin_SourceSVN_winstart = 'SVN: Utilitzar Windows `start`<br/><span class="small">(Requereix la ruta als arxius binaris)</span>';
+
