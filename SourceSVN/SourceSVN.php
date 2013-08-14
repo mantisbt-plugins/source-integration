@@ -195,7 +195,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 			$t_url = $p_repo->url;
 			$t_revision = $p_matches[1];
-			$$t_svnlog_xml = shell_exec( "$svn log -v $t_url -r$t_revision --xml" );
+			$t_svnlog_xml = shell_exec( "$svn log -v $t_url -r$t_revision --xml" );
 
 			if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
 				echo "Revision $t_revision already committed!\n";
