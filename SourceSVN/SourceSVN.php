@@ -195,14 +195,14 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 			$t_url = $p_repo->url;
 			$t_revision = $p_matches[1];
-			$t_svnlog = explode( "\n", shell_exec( "$svn log -v $t_url -r$t_revision" ) );
+			$$t_svnlog_xml = shell_exec( "$svn log -v $t_url -r$t_revision --xml" );
 
 			if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
 				echo "Revision $t_revision already committed!\n";
 				return null;
 			}
 
-			return $this->process_svn_log( $p_repo, $t_svnlog );
+			return $this->process_svn_log_xml( $p_repo, $t_svnlog_xml );
 		}
 	}
 
@@ -222,12 +222,22 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		echo "<pre>";
 
+		# finding max revision
+		$t_svninfo_xml = shell_exec( "$svn info $t_url --xml" );
+		$t_max_rev = (integer) (new SimpleXMLElement($t_svninfo_xml))->entry->commit["revision"];
+		
+		if ($t_rev > $t_max_rev)
+		{
+			echo "Next lookup revision ($t_rev) exceeds head revision ($t_max_rev), exiting...";
+			return array();
+		}
+		
 		while( true ) {
 			echo "Requesting svn log for {$p_repo->name} starting with revision {$t_rev}...\n";
 
-			$t_svnlog = explode( "\n", shell_exec( "$svn log -v -r $t_rev:HEAD --limit 200 $t_url" ) );
+			$t_svnlog_xml = shell_exec( "$svn log -v -r $t_rev:HEAD --limit 200 $t_url --xml" );
 
-			$t_changesets = $this->process_svn_log( $p_repo, $t_svnlog );
+			$t_changesets = $this->process_svn_log_xml( $p_repo, $t_svnlog_xml );
 
 			# if an array is returned, processing is done
 			if ( is_array( $t_changesets ) ) {
@@ -336,11 +346,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		return $s_binary;
 	}
-
-	private function process_svn_log( $p_repo, $p_svnlog ) {
-		$t_state = 0;
-		$t_svnline = str_pad( '', 72, '-' );
-
+	
+	private function process_svn_log_xml( $p_repo, $p_svnlog_xml ) {
 		$t_changesets = array();
 		$t_changeset = null;
 		$t_comments = '';
@@ -351,111 +358,92 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		$t_tag_path = $p_repo->info['tag_path'];
 		$t_ignore_paths = $p_repo->info['ignore_paths'];
 
-		$t_discarded = false;
+		echo "Processing svn log (xml)...\n";
+		# empty log?
+		if (trim($p_svnlog_xml) === "")
+			return array();
 
-		echo "Processing svn log...\n";
+		# parse XML
+		$t_xml = new SimpleXMLElement($p_svnlog_xml);
+		
+		# timezone for conversions in loca
+		$t_utc = new DateTimeZone("UTC");
+		$t_localtz = new DateTimeZone( date_default_timezone_get() );
 
-		foreach( $p_svnlog as $t_line ) {
+		foreach ( $t_xml->logentry as $t_entry)
+		{
+			# time conversion to local time
+			$t_dt = new DateTime($t_entry->date, $t_utc);
+			$t_dt->setTimeZone($t_localtz);
 
-			# starting state, do nothing
-			if ( 0 == $t_state ) {
-				if ( $t_line == $t_svnline ) {
-					$t_state = 1;
+			# create the changeset
+			$t_changeset = new SourceChangeset( $p_repo->id, $t_entry['revision'], '', $t_dt->format('Y-m-d H:i:s'), (string)$t_entry->author, '');
+			
+			# files
+			foreach ($t_entry->paths->path as $t_path)
+			{
+				switch( (string)$t_path["action"] ) {
+					case 'A': $t_action = 'add'; break;
+					case 'D': $t_action = 'rm'; break;
+					case 'M': $t_action = 'mod'; break;
+					case 'R': $t_action = 'mv'; break;
+					default: $t_action = (string)$t_path["action"];
 				}
-
-			# Changeset info
-			} elseif ( 1 == $t_state && preg_match( '/^r([0-9]+) \| ([^|]+) \| ([0-9\-]+) ([0-9:]+)/', $t_line, $t_matches ) ) {
-				if ( !is_null( $t_changeset ) ) {
-					if ( !is_blank( $t_changeset->branch ) ) {
-						$t_changeset->save();
-						$t_changesets[] = $t_changeset;
-					} else {
-						$t_discarded = $t_changeset->revision;
-					}
-				}
-
-				$t_changeset = new SourceChangeset( $p_repo->id, $t_matches[1], '', $t_matches[3] . ' ' . $t_matches[4], $t_matches[2], '' );
-
-				$t_state = 2;
-
-			# Changed paths
-			} elseif ( 2 == $t_state ) {
-				if ( strlen( $t_line ) == 0 ) {
-					$t_state = 3;
-				} else {
-					if ( preg_match( '/^\s+([a-zA-Z])\s+([^\(]+)(?: \(from [^\)]+\))?/', $t_line, $t_matches ) ) {
-						switch( $t_matches[1] ) {
-							case 'A': $t_action = 'add'; break;
-							case 'D': $t_action = 'rm'; break;
-							case 'M': $t_action = 'mod'; break;
-							case 'R': $t_action = 'mv'; break;
-							default: $t_action = $t_matches[1];
-						}
-
-						$t_file = new SourceFile( $t_changeset->id, '', trim( $t_matches[2] ), $t_action );
-						$t_changeset->files[] = $t_file;
-
-						# Branch-checking
-						if ( is_blank( $t_changeset->branch) ) {
-							# Look for standard trunk/branches/tags information
-							if ( $p_repo->info['standard_repo'] ) {
-								if ( preg_match( '@/(?:(trunk)|(?:branches|tags)/([^/]+))@i', $t_file->filename, $t_matches ) ) {
-									if ( !is_blank( $t_matches[1] ) ) {
-										$t_changeset->branch = $t_matches[1];
-									} else {
-										$t_changeset->branch = $t_matches[2];
-									}
-								}
+				
+				$t_file = new SourceFile( $t_changeset->id, '', (string)$t_path, $t_action);
+				$t_changeset->files[] = $t_file;
+				
+				# Branch-checking
+				if ( is_blank( $t_changeset->branch) ) {
+					# Look for standard trunk/branches/tags information
+					if ( $p_repo->info['standard_repo'] ) {
+						if ( preg_match( '@/(?:(trunk)|(?:branches|tags)/([^/]+))@i', $t_file->filename, $t_matches ) ) {
+							if ( !is_blank( $t_matches[1] ) ) {
+								$t_changeset->branch = $t_matches[1];
 							} else {
-								# Look for non-standard trunk path
-								if ( !is_blank( $t_trunk_path ) && preg_match( '@^/*(' . $t_trunk_path . ')@i', $t_file->filename, $t_matches ) ) {
-									$t_changeset->branch = $t_matches[1];
-
-								# Look for non-standard branch path
-								} else if ( !is_blank( $t_branch_path ) && preg_match( '@^/*(?:' . $t_branch_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
-									$t_changeset->branch = $t_matches[1];
-
-								# Look for non-standard tag path
-								} else if ( !is_blank( $t_tag_path ) && preg_match( '@^/*(?:' . $t_tag_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
-									$t_changeset->branch = $t_matches[1];
-
-								# Fall back to just using the root folder as the branch name
-								} else if ( !$t_ignore_paths && preg_match( '@/([^/]+)@', $t_file->filename, $t_matches ) ) {
-									$t_changeset->branch = $t_matches[1];
-								}
+								$t_changeset->branch = $t_matches[2];
 							}
 						}
-					}
-				}
-
-			# Changeset comments
-			} elseif ( 3 == $t_state ) {
-				if ( $t_line == $t_svnline ) {
-					$t_state = 1;
-				} else {
-					if ( !is_blank($t_changeset->message) ) {
-						$t_changeset->message .= "\n$t_line";
 					} else {
-						$t_changeset->message .= $t_line;
-					}
-				}
+						# Look for non-standard trunk path
+						if ( !is_blank( $t_trunk_path ) && preg_match( '@^/*(' . $t_trunk_path . ')@i', $t_file->filename, $t_matches ) ) {
+							$t_changeset->branch = $t_matches[1];
 
-			# Should only happen at the end...
-			} else {
-				break;
+						# Look for non-standard branch path
+						} else if ( !is_blank( $t_branch_path ) && preg_match( '@^/*(?:' . $t_branch_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
+							$t_changeset->branch = $t_matches[1];
+
+						# Look for non-standard tag path
+						} else if ( !is_blank( $t_tag_path ) && preg_match( '@^/*(?:' . $t_tag_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
+							$t_changeset->branch = $t_matches[1];
+
+						# Fall back to just using the root folder as the branch name
+						} else if ( !$t_ignore_paths && preg_match( '@/([^/]+)@', $t_file->filename, $t_matches ) ) {
+							$t_changeset->branch = $t_matches[1];
+						}
+					}
+				}				
+			}
+			
+			# get the log message
+			$t_changeset->message = (string)$t_entry->msg;
+			
+			
+			// Save changeset and append to array
+			if (!is_null( $t_changeset) ) {
+				if (!is_blank( $t_changeset->branch )) {
+					$t_changeset->save();
+					$t_changesets[] = $t_changeset;
+				}
 			}
 		}
-
+		
 		if ( !is_null( $t_changeset ) ) {
 			echo "Parsed to revision {$t_changeset->revision}.\n";
-
-			$t_changeset->save();
-			$t_changesets[] = $t_changeset;
-
 		} else {
 			echo "No revisions parsed.\n";
 		}
 
-		return $t_changesets;
+		return $t_changesets;	
 	}
 }
