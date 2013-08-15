@@ -220,37 +220,38 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		$t_url = $p_repo->url;
 		$t_rev = ( false === $t_db_revision ? 0 : $t_db_revision + 1 );
 
-		echo "<pre>";
 
 		# finding max revision
 		$t_svninfo_xml = shell_exec( "$svn info $t_url --xml" );
-		$t_max_rev = (integer) (new SimpleXMLElement($t_svninfo_xml))->entry->commit["revision"];
+		try {
+			# create parser
+			$t_svninfo_parsed_xml = new SimpleXMLElement($t_svninfo_xml); 
+		}
+		catch( Exception $e ) {
+			# parsing error - no success here
+			echo '<pre>svn info returned invalid xml code</pre>';
+			return array();
+		}
+		$t_max_rev = (integer) $t_svninfo_parsed_xml->entry->commit['revision'];
 		
-		if ($t_rev > $t_max_rev)
-		{
-			echo "Next lookup revision ($t_rev) exceeds head revision ($t_max_rev), exiting...";
+		# this is required because invalid revision number render invalid xml output for svn log 
+		if($t_rev > $t_max_rev) {
+			echo "<pre>Next lookup revision ($t_rev) exceeds head revision ($t_max_rev), skipping...</pre>";
 			return array();
 		}
 		
-		while( true ) {
-			echo "Requesting svn log for {$p_repo->name} starting with revision {$t_rev}...\n";
 
-			$t_svnlog_xml = shell_exec( "$svn log -v -r $t_rev:HEAD --limit 200 $t_url --xml" );
+		echo '<pre>';
+		echo "Requesting svn log for {$p_repo->name} starting with revision {$t_rev}...\n";
 
-			$t_changesets = $this->process_svn_log_xml( $p_repo, $t_svnlog_xml );
+		# get the svn log in xml format
+		$t_svnlog_xml = shell_exec( "$svn log -v -r $t_rev:HEAD --limit 200 $t_url --xml" );
 
-			# if an array is returned, processing is done
-			if ( is_array( $t_changesets ) ) {
-				echo "</pre>";
-				return $t_changesets;
-
-			# if a number is returned, repeat from given revision
-			} else if ( is_numeric( $t_changesets ) ) {
-				$t_rev = $t_changesets + 1;
-			}
-		}
+		# parse the changesets
+		$t_changesets = $this->process_svn_log_xml( $p_repo, $t_svnlog_xml );
 
 		echo "</pre>";
+		return $t_changesets;
 	}
 
 	public function import_latest( $p_repo ) {
@@ -347,6 +348,13 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		return $s_binary;
 	}
 	
+
+	/**
+	 * Parse the svn log output (with --xml option)
+	 * @param SourceRepo SVN repository object
+	 * @param string SVN log (XML formated)
+	 * @return SourceChangeset[] Changesets for the provided input (empty on error)
+	 */
 	private function process_svn_log_xml( $p_repo, $p_svnlog_xml ) {
 		$t_changesets = array();
 		$t_changeset = null;
@@ -360,45 +368,50 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		echo "Processing svn log (xml)...\n";
 		# empty log?
-		if (trim($p_svnlog_xml) === "")
+		if( trim($p_svnlog_xml) === '' )
 			return array();
 
 		# parse XML
-		$t_xml = new SimpleXMLElement($p_svnlog_xml);
+		try {
+			$t_xml = new SimpleXMLElement($p_svnlog_xml);
+		}
+		catch( Exception $e ) {
+			echo 'Parsing error of xml log...';
+			return array();
+		}
 		
 		# timezone for conversions in loca
-		$t_utc = new DateTimeZone("UTC");
+		$t_utc = new DateTimeZone('UTC');
 		$t_localtz = new DateTimeZone( date_default_timezone_get() );
 
-		foreach ( $t_xml->logentry as $t_entry)
-		{
+		foreach( $t_xml->logentry as $t_entry ) {
 			# time conversion to local time
-			$t_dt = new DateTime($t_entry->date, $t_utc);
-			$t_dt->setTimeZone($t_localtz);
+			$t_date = new DateTime( $t_entry->date, $t_utc );
+			$t_date->setTimeZone($t_localtz);
 
 			# create the changeset
-			$t_changeset = new SourceChangeset( $p_repo->id, $t_entry['revision'], '', $t_dt->format('Y-m-d H:i:s'), (string)$t_entry->author, '');
+			$t_str_date = $t_date->format('Y-m-d H:i:s');
+			$t_changeset = new SourceChangeset( $p_repo->id, $t_entry['revision'], '', $t_str_date, (string)$t_entry->author, '');
 			
 			# files
-			foreach ($t_entry->paths->path as $t_path)
-			{
-				switch( (string)$t_path["action"] ) {
+			foreach( $t_entry->paths->path as $t_path ) {
+				switch( (string)$t_path['action'] ) {
 					case 'A': $t_action = 'add'; break;
 					case 'D': $t_action = 'rm'; break;
 					case 'M': $t_action = 'mod'; break;
 					case 'R': $t_action = 'mv'; break;
-					default: $t_action = (string)$t_path["action"];
+					default: $t_action = (string)$t_path['action'];
 				}
-				
-				$t_file = new SourceFile( $t_changeset->id, '', (string)$t_path, $t_action);
+
+				$t_file = new SourceFile( $t_changeset->id, '', (string)$t_path, $t_action );
 				$t_changeset->files[] = $t_file;
 				
 				# Branch-checking
-				if ( is_blank( $t_changeset->branch) ) {
+				if( is_blank( $t_changeset->branch ) ) {
 					# Look for standard trunk/branches/tags information
-					if ( $p_repo->info['standard_repo'] ) {
-						if ( preg_match( '@/(?:(trunk)|(?:branches|tags)/([^/]+))@i', $t_file->filename, $t_matches ) ) {
-							if ( !is_blank( $t_matches[1] ) ) {
+					if( $p_repo->info['standard_repo'] ) {
+						if( preg_match( '@/(?:(trunk)|(?:branches|tags)/([^/]+))@i', $t_file->filename, $t_matches ) ) {
+							if( !is_blank( $t_matches[1] ) ) {
 								$t_changeset->branch = $t_matches[1];
 							} else {
 								$t_changeset->branch = $t_matches[2];
@@ -406,44 +419,43 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 						}
 					} else {
 						# Look for non-standard trunk path
-						if ( !is_blank( $t_trunk_path ) && preg_match( '@^/*(' . $t_trunk_path . ')@i', $t_file->filename, $t_matches ) ) {
+						if( !is_blank( $t_trunk_path ) && preg_match( '@^/*(' . $t_trunk_path . ')@i', $t_file->filename, $t_matches ) ) {
 							$t_changeset->branch = $t_matches[1];
 
 						# Look for non-standard branch path
-						} else if ( !is_blank( $t_branch_path ) && preg_match( '@^/*(?:' . $t_branch_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
+						} else if( !is_blank( $t_branch_path ) && preg_match( '@^/*(?:' . $t_branch_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
 							$t_changeset->branch = $t_matches[1];
 
 						# Look for non-standard tag path
-						} else if ( !is_blank( $t_tag_path ) && preg_match( '@^/*(?:' . $t_tag_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
+						} else if( !is_blank( $t_tag_path ) && preg_match( '@^/*(?:' . $t_tag_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
 							$t_changeset->branch = $t_matches[1];
 
 						# Fall back to just using the root folder as the branch name
-						} else if ( !$t_ignore_paths && preg_match( '@/([^/]+)@', $t_file->filename, $t_matches ) ) {
+						} else if( !$t_ignore_paths && preg_match( '@/([^/]+)@', $t_file->filename, $t_matches ) ) {
 							$t_changeset->branch = $t_matches[1];
 						}
 					}
-				}				
-			}
-			
+				} # end is_blank( $t_changeset->branch ) if
+			} # end files in revision ($t_path) foreach
+
 			# get the log message
 			$t_changeset->message = (string)$t_entry->msg;
 			
-			
 			// Save changeset and append to array
-			if (!is_null( $t_changeset) ) {
-				if (!is_blank( $t_changeset->branch )) {
+			if( !is_null( $t_changeset) ) {
+				if( !is_blank( $t_changeset->branch ) ) {
 					$t_changeset->save();
 					$t_changesets[] = $t_changeset;
 				}
 			}
 		}
-		
-		if ( !is_null( $t_changeset ) ) {
+
+		if( !is_null( $t_changeset ) ) {
 			echo "Parsed to revision {$t_changeset->revision}.\n";
 		} else {
 			echo "No revisions parsed.\n";
 		}
 
-		return $t_changesets;	
+		return $t_changesets;
 	}
 }
