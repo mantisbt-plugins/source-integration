@@ -1,0 +1,24 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceSVN_ = '';
+$s_plugin_SourceSVN_title = 'Subversion интеграция';
+$s_plugin_SourceSVN_description = 'Добавляет интеграцию Subversion в плагин Source.';
+
+$s_plugin_SourceSVN_svn = 'SVN';
+$s_plugin_SourceSVN_svn_username = 'SVN имя пользователя';
+$s_plugin_SourceSVN_svn_password = 'SVN пароль';
+$s_plugin_SourceSVN_standard_repo = 'Стандартный репозитарий<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceSVN_trunk_path = 'Путь к Trunk<br/><span class="small">(нестандартный репозитарий)</span>';
+$s_plugin_SourceSVN_branch_path = 'Путь к Branch<br/><span class="small">(нестандартный репозитарий)</span>';
+$s_plugin_SourceSVN_tag_path = 'Путь к Tag<br/><span class="small">(нестандартный репозитарий)</span>';
+$s_plugin_SourceSVN_ignore_paths = 'Игнорировать остальные пути<br/><span class="small">(нестандартный репозитарий)</span>';
+
+$s_plugin_SourceSVN_configuration = 'Настройка';
+$s_plugin_SourceSVN_update = 'Обновить';
+$s_plugin_SourceSVN_svnpath = 'SVN: Путь к исполняемому файлу';
+$s_plugin_SourceSVN_svnargs = 'SVN: Аргументы запуска команды';
+$s_plugin_SourceSVN_svnssl = 'SVN: Доверять всем сертификатам SSL<br/><span class="small">(Необходима версия Subversion 1.6 или новее)</span>';
+$s_plugin_SourceSVN_winstart = 'SVN: Использовать команду Windows `start`<br/><span class="small">(Необходимо настроить путь к исполняемому файлу)</span>';

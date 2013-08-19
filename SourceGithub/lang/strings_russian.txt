@@ -1,0 +1,27 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceGithub_ = '';
+$s_plugin_SourceGithub_github = 'GitHub';
+$s_plugin_SourceGithub_title = 'GitHub интегратор';
+$s_plugin_SourceGithub_description = 'Добавляет интеграцию GitHub в Source Integration framework.';
+
+$s_plugin_SourceGithub_hub_username = 'Имя пользователя GitHub';
+$s_plugin_SourceGithub_hub_reponame = 'Имя репозитария GitHub<br/><span class="small">(только имя в нижней раскладке)</span>';
+$s_plugin_SourceGithub_hub_api_login = 'GitHub API Логин<br/><span class="small">Только для частных репозитариев</span>';
+$s_plugin_SourceGithub_hub_api_token = 'GitHub API Токен<br/><span class="small">Только для частных репозитариев</span>';
+$s_plugin_SourceGithub_hub_app_client_id = 'ID приложения GitHub <br /><span class="small">Для частных репозитариев. Создать новый в <a href="https://github.com/settings/applications">GitHub Application</a> если надо</span><br />Application OAuth callback должен быть вида: http://адрес к вашему MantisBT/plugin.php?page=SourceGithub/SourceGithub.php';
+$s_plugin_SourceGithub_hub_app_secret = 'GitHub Application Secret<br /><span class="small">Для частных репозитариев</span>';
+$s_plugin_SourceGithub_hub_app_access_token = 'GitHub Application Access Token<br /><span class="small">Для частных репозитариев</span>';
+$s_plugin_SourceGithub_master_branch = 'Главные ветки<br/><span class="small">(список разделенный запятыми)</span>';
+$s_plugin_SourceGithub_hub_app_client_id_secret_missing = 'Н/Д<br /><span class="small">Вы должны ввести ID приложение GitHub &amp; Secret и обновить прежде чем сможете авторизоваться</span>';
+$s_plugin_SourceGithub_hub_app_authorize = 'Авторизоваться';
+$s_plugin_SourceGithub_hub_app_authorized = 'Авторизовано';
+
+$s_plugin_SourceGithub_repo_authorized = '<p>MantisBT авторизован в репозитарии GitHub.</p>';
+$s_plugin_SourceGithub_repo_authorization_failed = '<p style="color: red;">Извините, MantisBT не может авторизоваться к этому репозитарию GitHub.</p>';
+
+$s_plugin_SourceGithub_oauth_authorization = 'OAuth авторизация GitHub';
+$s_plugin_SourceGithub_back_repo = 'назад в репозитарии';
