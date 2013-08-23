@@ -225,7 +225,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		$t_svninfo_xml = shell_exec( "$svn info $t_url --xml" );
 		try {
 			# create parser
-			$t_svninfo_parsed_xml = new SimpleXMLElement($t_svninfo_xml); 
+			$t_svninfo_parsed_xml = new SimpleXMLElement($t_svninfo_xml);
 		}
 		catch( Exception $e ) {
 			# parsing error - no success here
@@ -233,13 +233,13 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			return array();
 		}
 		$t_max_rev = (integer) $t_svninfo_parsed_xml->entry->commit['revision'];
-		
-		# this is required because invalid revision number render invalid xml output for svn log 
+
+		# this is required because invalid revision number render invalid xml output for svn log
 		if($t_rev > $t_max_rev) {
 			echo "<pre>Next lookup revision ($t_rev) exceeds head revision ($t_max_rev), skipping...</pre>";
 			return array();
 		}
-		
+
 
 		echo '<pre>';
 		echo "Requesting svn log for {$p_repo->name} starting with revision {$t_rev}...\n";
@@ -347,7 +347,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		return $s_binary;
 	}
-	
+
 
 	/**
 	 * Parse the svn log output (with --xml option)
@@ -379,7 +379,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			echo 'Parsing error of xml log...';
 			return array();
 		}
-		
+
 		# timezone for conversions in loca
 		$t_utc = new DateTimeZone('UTC');
 		$t_localtz = new DateTimeZone( date_default_timezone_get() );
@@ -392,7 +392,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			# create the changeset
 			$t_str_date = $t_date->format('Y-m-d H:i:s');
 			$t_changeset = new SourceChangeset( $p_repo->id, $t_entry['revision'], '', $t_str_date, (string)$t_entry->author, '');
-			
+
 			# files
 			foreach( $t_entry->paths->path as $t_path ) {
 				switch( (string)$t_path['action'] ) {
@@ -405,7 +405,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 				$t_file = new SourceFile( $t_changeset->id, '', (string)$t_path, $t_action );
 				$t_changeset->files[] = $t_file;
-				
+
 				# Branch-checking
 				if( is_blank( $t_changeset->branch ) ) {
 					# Look for standard trunk/branches/tags information
@@ -440,7 +440,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 			# get the log message
 			$t_changeset->message = (string)$t_entry->msg;
-			
+
 			// Save changeset and append to array
 			if( !is_null( $t_changeset) ) {
 				if( !is_blank( $t_changeset->branch ) ) {
