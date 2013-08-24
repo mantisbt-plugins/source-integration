@@ -391,7 +391,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 			# create the changeset
 			$t_str_date = $t_date->format('Y-m-d H:i:s');
-			$t_changeset = new SourceChangeset( $p_repo->id, $t_entry['revision'], '', $t_str_date, (string)$t_entry->author, '');
+			$t_changeset = new SourceChangeset( $p_repo->id, (integer)$t_entry['revision'], '', $t_str_date, (string)$t_entry->author, '');
 
 			# files
 			foreach( $t_entry->paths->path as $t_path ) {
