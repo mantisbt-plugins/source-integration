@@ -10,4 +10,4 @@ $s_plugin_SourceWebSVN_description = 'Subversionintegration über die VCS Basisi
 $s_plugin_SourceWebSVN_svn = 'WebSVN';
 $s_plugin_SourceWebSVN_websvn_url = 'WebSVN URL<br /><span class="small">(mit abschließendem Pfadtrenner)</span>';
 $s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br /><span class="small">(Name des Projektarchivs)</span>';
-$s_plugin_SourceWebSVN_websvn_path = 'WebSVN Path<br /><span class="small">(Relativ zum Projektarchiv)</span>';
+$s_plugin_SourceWebSVN_websvn_path = 'WebSVN Pfad<br /><span class="small">(Relativ zum Projektarchiv)</span>';
