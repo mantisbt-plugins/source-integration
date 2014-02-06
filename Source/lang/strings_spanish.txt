@@ -132,7 +132,6 @@ $s_plugin_Source_ensure_import_latest = 'Se va a intentar importar los datos má
 $s_plugin_Source_import_results = 'Importar resultados';
 $s_plugin_Source_import_stats = 'Se han importado %s cambios, %s archivos, y %s referencias a incidencias.';
 $s_plugin_Source_import_repo_error = 'Se ha producido un error en el proceso de importación.';
-$s_plugin_Source_ = '';
 
 $s_plugin_Source_invalid_checkin_url = 'Dirección remota de check-in no válida';
 $s_plugin_Source_invalid_import_url = 'Dirección remota de importación no válida';

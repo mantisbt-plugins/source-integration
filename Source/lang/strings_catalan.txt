@@ -132,7 +132,6 @@ $s_plugin_Source_ensure_import_latest = 'S\'importarà la informació a una nova
 $s_plugin_Source_import_results = 'Importar resultats';
 $s_plugin_Source_import_stats = 'S\'han importat %s canvis, %s arxius, i %s referències a incidències.';
 $s_plugin_Source_import_repo_error = 'S\'ha produït un error al procés d\'importació.';
-$s_plugin_Source_ = '';
 
 $s_plugin_Source_invalid_checkin_url = 'Adreça remota de check-in no vàlida';
 $s_plugin_Source_invalid_import_url = 'Adreça remota d\'importació no vàlida';
