@@ -207,7 +207,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	}
 
 	public function import_full( $p_repo ) {
-		$this->check_svn();
+		$this->svn_check();
 		$svn = $this->svn_call( $p_repo );
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
@@ -258,7 +258,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		return $this->import_full( $p_repo );
 	}
 
-	private function check_svn() {
+	private function svn_check() {
 		$svn = self::svn_binary();
 
 		if ( is_blank( shell_exec( "$svn help" ) ) ) {
