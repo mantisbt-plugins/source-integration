@@ -993,14 +993,25 @@ class SourceChangeset {
 			$t_params = array();
 
 			foreach( $t_bugs_added as $t_bug_id ) {
-				$t_query .= ( $t_count == 0 ? '' : ', ' ) .
-					'(' . db_param() . ', ' . db_param() . ')';
-				$t_params[] = $this->id;
-				$t_params[] = $t_bug_id;
-				$t_count++;
+				$t_params_2 = array();
+				$t_query_2 = "SELECT COUNT(*) AS b FROM $t_bug_table WHERE change_id=" . db_param() . " AND bug_id=" . db_param();
+				$t_params_2[] = $this->id;
+				$t_params_2[] = $t_bug_id;
+				$t_result = db_query_bound( $t_query_2, $t_params_2 );
+				$t_row = db_fetch_array( $t_result );
+				if ( $t_row['b'] < 1 ) {
+					// Wrap this in a "is this already in the DB?" test...
+					$t_query .= ( $t_count == 0 ? '' : ', ' ) .
+						'(' . db_param() . ', ' . db_param() . ')';
+					$t_params[] = $this->id;
+					$t_params[] = $t_bug_id;
+					$t_count++;
+				}
 			}
 
-			db_query_bound( $t_query, $t_params );
+			if ( substr( $t_query, -1)==")" ) {
+				db_query_bound( $t_query, $t_params );
+			}
 
 			foreach( $t_bugs_added as $t_bug_id ) {
 				plugin_history_log( $t_bug_id, 'changeset_attached', '',
