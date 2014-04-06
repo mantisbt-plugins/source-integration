@@ -18,6 +18,7 @@ if ( !$t_valid ) {
 # Get a list of the bug IDs which were referenced in the commit comment
 $t_bug_list = Source_Parse_Buglinks( gpc_get_string( 'commit_comment', '' ));
 $t_resolved_threshold = config_get('bug_resolved_status_threshold');
+$t_bug_count = 0;
 
 foreach( $t_bug_list as $t_bug_id )
 {
@@ -31,7 +32,9 @@ foreach( $t_bug_list as $t_bug_id )
         printf("Issue-%s-Project: '%s'\r\n",$t_bug_id_str,project_get_name( $t_bug->project_id ) );
         printf("Issue-%s-User: '%s'\r\n",$t_bug_id_str,user_get_name( $t_bug->handler_id ) );
         printf("Issue-%s-Resolved: '%s'\r\n",$t_bug_id_str,$t_bug->status < $t_resolved_threshold );
+	$t_bug_count++;
     }
 }
+printf("Issue-Count: %s\r\n",$t_bug_count );
 
 ?>
