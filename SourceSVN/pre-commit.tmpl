@@ -1,0 +1,87 @@
+#!/bin/sh
+
+# Copyright (c) 2014 John Bailey
+# Licensed under the MIT license
+# Requires GNU grep with PCRE
+
+URL="http://localhost/mantis/plugin.php?page=Source/issue_query"
+API_KEY="dd"
+SVNLOOK=/usr/bin/svnlook
+CURL=/usr/bin/curl
+
+MY_PROJECT="Tep"
+
+REPOS="$1"
+TXN="$2"
+LOG_FILE=`mktemp /tmp/svn_log.XXX`
+COMMENT_FILE=`mktemp /tmp/svn_comment.XXX`
+
+# Exit as soon as an error is encountered
+#set -e
+
+
+check_commit()
+{
+    COMMITTER=$1
+    PROJECT=$2
+    TICKET_OWNER=$3
+    # TODO: Check the ticket's status
+
+    echo "Checking $COMMITTER:$PROJECT:$TICKET_OWNER" 1>&2
+    # You will probably need to modify the checks below depending on your requirements
+    if [ "x$MY_PROJECT" != "x$PROJECT" ]; then
+        echo "Ticket belongs to project '$PROJECT'.  Was expecting this to be '$MY_PROJECT'" 1>&2
+        exit 1
+    fi;  
+    if [ "x$COMMITTER" != "x$TICKET_OWNER" ]; then
+        echo "Ticket is assigned to '$TICKET_OWNER'.  You're attempting to commit as '$COMMITTER'" 1>&2
+        exit 1
+    fi;  
+}
+
+if [ ! -x "$SVNLOOK" ]; then
+  echo "You need to update the script at $0 to point to svnlook" 1>&2
+  exit 1
+fi
+
+if [ ! -x "$CURL" ]; then
+  echo "You need to update the script at $0 to point to curl" 1>&2
+  exit 1
+fi
+
+echo 'commit_comment="' >> ${COMMENT_FILE}
+"${SVNLOOK}" log -t "${TXN}" "${REPOS}" >> ${COMMENT_FILE}
+echo '"' >> ${COMMENT_FILE}
+"${CURL}" -d @${COMMENT_FILE} -d "api_key=${API_KEY}" ${URL} >> ${LOG_FILE}
+COMMITTING_USER=$("${SVNLOOK}" author -t "${TXN}" "${REPOS}")
+
+COUNT=$(grep -oP 'Issue-Count: \K([0-9]+)' ${LOG_FILE})
+
+if [ "x$COUNT" = "x" ]; then
+    echo "Didn't get a valid response from Mantis SourceIntegration" 1>&2
+    exit 1
+elif [ $COUNT -eq 0 ]; then
+    echo "You need to reference at least one issue in your commit comment" 1>&2
+    exit 1
+else
+    i=0
+    for i in $(seq 1 $COUNT)
+    do
+        NUM=$(printf "%08d" $i)
+        ID=$(grep -oP "Issue-$NUM-ID: \K([a-zA-Z0-9_]+)" ${LOG_FILE})
+        EXISTS=$(grep -oP "Issue-$NUM-Exists: \K([a-zA-Z0-9_]+)" ${LOG_FILE})
+
+        if [ $EXISTS -eq 1 ]; then
+            PROJECT=$(grep -oP "Issue-$NUM-Project: '\K(.+)(?=')" ${LOG_FILE})
+            USER=$(grep -oP "Issue-$NUM-User: '\K([a-zA-Z0-9_.+-]+)(?=')" ${LOG_FILE})
+            # TODO: Sanity check all the parameters before calling check_commit
+	    check_commit "$COMMITTING_USER" "$PROJECT" "$USER"
+        else
+            echo "Issue ID $ID doesn't seem to exist in Mantis (exists:'$EXISTS')" 1>&2
+            exit 1
+        fi
+    done
+fi
+
+exit 1
+
