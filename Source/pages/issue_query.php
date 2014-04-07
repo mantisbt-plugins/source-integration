@@ -22,17 +22,24 @@ $t_bug_count = 0;
 
 foreach( $t_bug_list as $t_bug_id )
 {
+    $t_bug_count++;
+    $t_bug_id_str = sprintf( "%08d", $t_bug_count );
+
+    printf("Issue-%s-ID: %d\r\n",$t_bug_id_str, $t_bug_id );
+
     # Check existence first to prevent API throwing an error
     if( bug_exists( $t_bug_id ) )
     {
         $t_bug = bug_get( $t_bug_id );
 
-        $t_bug_id_str = sprintf( "%08d", $t_bug_id );
-
+        printf("Issue-%s-Exists: 1\r\n",$t_bug_id_str );
         printf("Issue-%s-Project: '%s'\r\n",$t_bug_id_str,project_get_name( $t_bug->project_id ) );
         printf("Issue-%s-User: '%s'\r\n",$t_bug_id_str,user_get_name( $t_bug->handler_id ) );
         printf("Issue-%s-Resolved: '%s'\r\n",$t_bug_id_str,$t_bug->status < $t_resolved_threshold );
-	$t_bug_count++;
+    }
+    else
+    {
+        printf("Issue-%s-Exists: 0\r\n",$t_bug_id_str );
     }
 }
 printf("Issue-Count: %s\r\n",$t_bug_count );
