@@ -27,6 +27,7 @@ if ( is_null( $t_repo ) ) {
         die( plugin_lang_get( 'invalid_repo' ) );
 }
 $t_repo_commit_needs_issue = isset( $t_repo->info['repo_commit_needs_issue'] ) ? $t_repo->info['repo_commit_needs_issue'] : false;
+$t_repo_commit_issues_must_exist = isset( $t_repo->info['repo_commit_issues_must_exist'] ) ? $t_repo->info['repo_commit_issues_must_exist'] : false;
 
 $t_all_ok = true;
 
@@ -39,28 +40,25 @@ if(( sizeof( $t_bug_list ) == 0 ) && $t_repo_commit_needs_issue )
 else
 {
 
-foreach( $t_bug_list as $t_bug_id )
-{
-    $t_bug_count++;
-    $t_bug_id_str = sprintf( "%08d", $t_bug_count );
-
-    printf("Issue-%s-ID: %d\r\n",$t_bug_id_str, $t_bug_id );
-
-    # Check existence first to prevent API throwing an error
-    if( bug_exists( $t_bug_id ) )
+    foreach( $t_bug_list as $t_bug_id )
     {
-        $t_bug = bug_get( $t_bug_id );
+        $t_bug_count++;
 
-        printf("Issue-%s-Exists: 1\r\n",$t_bug_id_str );
-        printf("Issue-%s-Project: '%s'\r\n",$t_bug_id_str,project_get_name( $t_bug->project_id ) );
-        printf("Issue-%s-User: '%s'\r\n",$t_bug_id_str,user_get_name( $t_bug->handler_id ) );
-        printf("Issue-%s-Resolved: '%s'\r\n",$t_bug_id_str,$t_bug->status < $t_resolved_threshold );
+        # Check existence first to prevent API throwing an error
+        if( bug_exists( $t_bug_id ) )
+        {
+            $t_bug = bug_get( $t_bug_id );
+        }
+        else
+        {
+            if( $t_repo_commit_issues_must_exist )
+	    {
+                printf("Check-Message: '%s : %d'\r\n",plugin_lang_get( 'error_commit_nonexistent_issue' ), $t_bug_id );
+		$t_all_ok = false;
+		break;
+	    }
+        }
     }
-    else
-    {
-        printf("Issue-%s-Exists: 0\r\n",$t_bug_id_str );
-    }
-}
 }
 printf("Check-OK: %d\r\n",$t_all_ok );
 

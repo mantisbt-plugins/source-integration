@@ -10,6 +10,7 @@ $f_repo_id = gpc_get_int( 'repo_id' );
 $f_repo_name = gpc_get_string( 'repo_name' );
 $f_repo_url = gpc_get_string( 'repo_url' );
 $f_repo_commit_needs_issue = gpc_get_bool( 'repo_commit_needs_issue', false );
+$f_repo_commit_issues_must_exist = gpc_get_bool( 'repo_commit_issues_must_exist', false );
 
 $t_repo = SourceRepo::load( $f_repo_id );
 $t_vcs = SourceVCS::repo( $t_repo );
@@ -18,6 +19,7 @@ $t_type = SourceType($t_repo->type);
 $t_repo->name = $f_repo_name;
 $t_repo->url = $f_repo_url;
 $t_repo->info['repo_commit_needs_issue'] = $f_repo_commit_needs_issue;
+$t_repo->info['repo_commit_issues_must_exist'] = $f_repo_commit_issues_must_exist;
 
 $t_updated_repo = $t_vcs->update_repo( $t_repo );
 
