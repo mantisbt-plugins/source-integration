@@ -10,6 +10,7 @@ $f_repo_id = gpc_get_int( 'id' );
 $t_repo = SourceRepo::load( $f_repo_id );
 $t_vcs = SourceVCS::repo( $t_repo );
 $t_type = SourceType($t_repo->type);
+$t_repo_commit_needs_issue = isset( $t_repo->info['repo_commit_needs_issue'] ) ? $t_repo->info['repo_commit_needs_issue'] : '';
 
 html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
@@ -39,6 +40,11 @@ html_page_top2();
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'url' ) ?></td>
 <td><input name="repo_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_repo->url ) ?>"/></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'commit_needs_issue' ); ?></td>
+<td><input name="repo_commit_needs_issue" type="checkbox" <?php echo ($t_repo_commit_needs_issue ? 'checked="checked"' : '') ?>/></td>
 </tr>
 
 <?php $t_vcs->update_repo_form( $t_repo ) ?>

@@ -25,6 +25,7 @@ $s_plugin_Source_username = 'Username';
 $s_plugin_Source_timestamp = 'Timestamp';
 $s_plugin_Source_parent = 'Parent';
 $s_plugin_Source_url = 'URL';
+$s_plugin_Source_commit_needs_issue = 'Commit Requires Issue Reference(s)';
 $s_plugin_Source_info = 'Extra Info';
 $s_plugin_Source_revision = 'Revision';
 $s_plugin_Source_date_begin = 'Beginning Date';
@@ -143,6 +144,8 @@ $s_plugin_Source_invalid_key = 'Invalid API Key';
 
 $s_plugin_Source_import_latest_failed = 'Repository latest data importing failed.';
 $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
+
+$s_plugin_Source_error_commit_needs_issue = 'Commit comments needs to reference one or more issues';
 
 $s_plugin_Source_changeset_column_title = 'C';
 
