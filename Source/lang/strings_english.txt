@@ -27,6 +27,7 @@ $s_plugin_Source_parent = 'Parent';
 $s_plugin_Source_url = 'URL';
 $s_plugin_Source_commit_needs_issue = 'Commit Requires Issue Reference(s)';
 $s_plugin_Source_commit_issues_must_exist = 'Referenced Issue(s) Must Exist';
+$s_plugin_Source_commit_ownership_must_match = 'Referenced Issue(s) Must Be Owned By Committer';
 $s_plugin_Source_info = 'Extra Info';
 $s_plugin_Source_revision = 'Revision';
 $s_plugin_Source_date_begin = 'Beginning Date';
@@ -148,6 +149,7 @@ $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
 
 $s_plugin_Source_error_commit_needs_issue = 'Commit comments needs to reference one or more issues';
 $s_plugin_Source_error_commit_nonexistent_issue = 'Commit comment references non-existent issue';
+$s_plugin_Source_error_commit_issue_ownership = 'Issues referenced in commit need to be assigned to the committer';
 
 $s_plugin_Source_changeset_column_title = 'C';
 

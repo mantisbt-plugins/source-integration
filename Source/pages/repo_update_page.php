@@ -12,6 +12,7 @@ $t_vcs = SourceVCS::repo( $t_repo );
 $t_type = SourceType($t_repo->type);
 $t_repo_commit_needs_issue = isset( $t_repo->info['repo_commit_needs_issue'] ) ? $t_repo->info['repo_commit_needs_issue'] : '';
 $t_repo_commit_issues_must_exist = isset( $t_repo->info['repo_commit_issues_must_exist'] ) ? $t_repo->info['repo_commit_issues_must_exist'] : '';
+$t_repo_commit_ownership_must_match = isset( $t_repo->info['repo_commit_ownership_must_match'] ) ? $t_repo->info['repo_commit_ownership_must_match'] : '';
 
 html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
@@ -51,6 +52,11 @@ html_page_top2();
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'commit_issues_must_exist' ); ?></td>
 <td><input name="repo_commit_issues_must_exist" type="checkbox" <?php echo ($t_repo_commit_issues_must_exist ? 'checked="checked"' : '') ?>/></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'commit_ownership_must_match' ); ?></td>
+<td><input name="repo_commit_ownership_must_match" type="checkbox" <?php echo ($t_repo_commit_ownership_must_match ? 'checked="checked"' : '') ?>/></td>
 </tr>
 
 <?php $t_vcs->update_repo_form( $t_repo ) ?>

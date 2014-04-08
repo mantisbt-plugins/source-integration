@@ -20,6 +20,7 @@ $t_bug_list = Source_Parse_Buglinks( gpc_get_string( 'commit_comment', '' ));
 $t_resolved_threshold = config_get('bug_resolved_status_threshold');
 $t_bug_count = 0;
 
+$f_committer_name = gpc_get_string( 'committer', '' );
 $f_repo_name = gpc_get_string( 'repo_name', '' );
 $t_repo = SourceRepo::load_by_name( $f_repo_name );
 # Repo not found
@@ -28,6 +29,7 @@ if ( is_null( $t_repo ) ) {
 }
 $t_repo_commit_needs_issue = isset( $t_repo->info['repo_commit_needs_issue'] ) ? $t_repo->info['repo_commit_needs_issue'] : false;
 $t_repo_commit_issues_must_exist = isset( $t_repo->info['repo_commit_issues_must_exist'] ) ? $t_repo->info['repo_commit_issues_must_exist'] : false;
+$t_repo_commit_ownership_must_match = isset( $t_repo->info['repo_commit_ownership_must_match'] ) ? $t_repo->info['repo_commit_ownership_must_match'] : false;
 
 $t_all_ok = true;
 
@@ -48,15 +50,28 @@ else
         if( bug_exists( $t_bug_id ) )
         {
             $t_bug = bug_get( $t_bug_id );
+
+            if( $t_repo_commit_ownership_must_match )
+            {
+                $t_user_name = user_get_name( $t_bug->handler_id );
+                $t_user_email = user_get_email( $t_bug->handler_id );
+                if(!( strlen( $f_committer_name ) && ( $t_user_name == $f_committer_name )))
+                {
+                     printf("Check-Message: '%s : %d (%s vs %s)'\r\n",plugin_lang_get( 'error_commit_issue_ownership' ), $t_bug_id, $t_user_name, $f_committer_name );
+                     $t_all_ok = false;
+                     break;
+                }
+            }
         }
         else
         {
-            if( $t_repo_commit_issues_must_exist )
-	    {
+            /* If the issue doesn't exist, then the ownership can't match */
+            if( $t_repo_commit_issues_must_exist || $t_repo_commit_ownership_must_match )
+            {
                 printf("Check-Message: '%s : %d'\r\n",plugin_lang_get( 'error_commit_nonexistent_issue' ), $t_bug_id );
-		$t_all_ok = false;
-		break;
-	    }
+                $t_all_ok = false;
+                break;
+            }
         }
     }
 }
