@@ -67,7 +67,18 @@ else
             {
                 if( !in_array( $t_bug->status, $t_repo_commit_status_allowed ))
                 {
-                     printf("Check-Message: '%s : %d (%s)'\r\n", plugin_lang_get( 'error_commit_issue_wrong_status' ), $t_bug_id,  get_enum_element( 'status', $t_bug->status ));
+                     printf("Check-Message: '%s : %d (%s vs ", plugin_lang_get( 'error_commit_issue_wrong_status' ), $t_bug_id,  get_enum_element( 'status', $t_bug->status ));
+		     $t_first = true;
+		     foreach( $t_repo_commit_status_allowed as $t_allowed_status )
+		     {
+			     if( !$t_first )
+			     {
+				     printf(",");
+			     }
+			     printf( get_enum_element( 'status', $t_allowed_status ));
+			     $t_first = false;
+		     }
+                     printf(")'\r\n");
                      $t_all_ok = false;
                 }
             }
