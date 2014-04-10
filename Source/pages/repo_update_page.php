@@ -15,6 +15,8 @@ $t_repo_commit_issues_must_exist = isset( $t_repo->info['repo_commit_issues_must
 $t_repo_commit_ownership_must_match = isset( $t_repo->info['repo_commit_ownership_must_match'] ) ? $t_repo->info['repo_commit_ownership_must_match'] : '';
 $t_repo_commit_status_restricted = isset( $t_repo->info['repo_commit_status_restricted'] ) ? $t_repo->info['repo_commit_status_restricted'] : '';
 $t_repo_commit_status_allowed = isset( $t_repo->info['repo_commit_status_allowed'] ) ? $t_repo->info['repo_commit_status_allowed'] : '';
+$t_repo_commit_project_restricted = isset( $t_repo->info['repo_commit_project_restricted'] ) ? $t_repo->info['repo_commit_project_restricted'] : '';
+$t_repo_commit_project_allowed = isset( $t_repo->info['repo_commit_project_allowed'] ) ? $t_repo->info['repo_commit_project_allowed'] : '';
 
 html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
@@ -75,8 +77,18 @@ html_page_top2();
 </tr>
 
 <tr <?php echo helper_alternate_class() ?>><!-- TODO: Javascript enable/disable of this based on repo_commit_status_restricted? -->
-<td class="category"><?php echo plugin_lang_get( 'commit_status_restricted' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'commit_status_restricted_list' ) ?></td>
 <td><select multiple="multiple" name="repo_commit_status_allowed[]"><?php print_enum_string_option_list( 'status', $t_repo_commit_status_allowed ) ?></select></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'commit_project_restricted' ); ?></td>
+<td><input name="repo_commit_project_restricted" type="checkbox" <?php echo ($t_repo_commit_project_restricted ? 'checked="checked"' : '') ?>/></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>><!-- TODO: Javascript enable/disable of this based on repo_commit_project_restricted? -->
+<td class="category"><?php echo plugin_lang_get( 'commit_project_restricted_list' ) ?></td>
+<td><select multiple="multiple" name="repo_commit_project_allowed[]"><?php print_project_option_list( $t_repo_commit_project_allowed ) ?></select></td>
 </tr>
 
 <tr>

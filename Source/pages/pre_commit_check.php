@@ -32,6 +32,8 @@ $t_repo_commit_issues_must_exist = isset( $t_repo->info['repo_commit_issues_must
 $t_repo_commit_ownership_must_match = isset( $t_repo->info['repo_commit_ownership_must_match'] ) ? $t_repo->info['repo_commit_ownership_must_match'] : false;
 $t_repo_commit_status_restricted = isset( $t_repo->info['repo_commit_status_restricted'] ) ? $t_repo->info['repo_commit_status_restricted'] : false;
 $t_repo_commit_status_allowed = isset( $t_repo->info['repo_commit_status_allowed'] ) ? $t_repo->info['repo_commit_status_allowed'] : '';
+$t_repo_commit_project_restricted = isset( $t_repo->info['repo_commit_project_restricted'] ) ? $t_repo->info['repo_commit_project_restricted'] : '';
+$t_repo_commit_project_allowed = isset( $t_repo->info['repo_commit_project_allowed'] ) ? $t_repo->info['repo_commit_project_allowed'] : '';
 
 $t_all_ok = true;
 
@@ -68,16 +70,38 @@ else
                 if( !in_array( $t_bug->status, $t_repo_commit_status_allowed ))
                 {
                      printf("Check-Message: '%s : %d (%s vs ", plugin_lang_get( 'error_commit_issue_wrong_status' ), $t_bug_id,  get_enum_element( 'status', $t_bug->status ));
-		     $t_first = true;
-		     foreach( $t_repo_commit_status_allowed as $t_allowed_status )
-		     {
-			     if( !$t_first )
-			     {
-				     printf(",");
-			     }
-			     printf( get_enum_element( 'status', $t_allowed_status ));
-			     $t_first = false;
-		     }
+                     $t_first = true;
+                     # Output the list of statuses for which commit is allowed
+                     foreach( $t_repo_commit_status_allowed as $t_allowed_status )
+                     {
+                         if( !$t_first )
+                         {
+                             printf(", ");
+                         }
+                         printf( get_enum_element( 'status', $t_allowed_status ));
+                         $t_first = false;
+                     }
+                     printf(")'\r\n");
+                     $t_all_ok = false;
+                }
+            }
+            if( 1|| $t_repo_commit_project_restricted )
+            {
+		if( !in_array( 0, $t_repo_commit_project_allowed ) &&
+                    !in_array( $t_bug->project_id, $t_repo_commit_project_allowed ))
+                {
+                     printf("Check-Message: '%s : %d (%s vs ", plugin_lang_get( 'error_commit_issue_wrong_project' ), $t_bug_id,  project_get_field( $t_bug->project_id, 'name' ));
+                     $t_first = true;
+                     # Output the list of projects for which commit is allowed
+                     foreach( $t_repo_commit_project_allowed as $t_allowed_project )
+                     {
+                         if( !$t_first )
+                         {
+                             printf(", ");
+                         }
+                         printf( project_get_field( $t_allowed_project, 'name' ) );
+                         $t_first = false;
+                     }
                      printf(")'\r\n");
                      $t_all_ok = false;
                 }
