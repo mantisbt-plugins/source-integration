@@ -12,6 +12,8 @@ $f_repo_url = gpc_get_string( 'repo_url' );
 $f_repo_commit_needs_issue = gpc_get_bool( 'repo_commit_needs_issue', false );
 $f_repo_commit_issues_must_exist = gpc_get_bool( 'repo_commit_issues_must_exist', false );
 $f_repo_commit_ownership_must_match = gpc_get_bool( 'repo_commit_ownership_must_match', false );
+$f_repo_commit_status_restricted = gpc_get_bool( 'repo_commit_status_restricted', false );
+$f_repo_commit_status_allowed = gpc_get_int_array( 'repo_commit_status_allowed', Array() );
 
 $t_repo = SourceRepo::load( $f_repo_id );
 $t_vcs = SourceVCS::repo( $t_repo );
@@ -22,6 +24,8 @@ $t_repo->url = $f_repo_url;
 $t_repo->info['repo_commit_needs_issue'] = $f_repo_commit_needs_issue;
 $t_repo->info['repo_commit_issues_must_exist'] = $f_repo_commit_issues_must_exist;
 $t_repo->info['repo_commit_ownership_must_match'] = $f_repo_commit_ownership_must_match;
+$t_repo->info['repo_commit_status_restricted'] = $f_repo_commit_status_restricted;
+$t_repo->info['repo_commit_status_allowed'] = $f_repo_commit_status_allowed;
 
 $t_updated_repo = $t_vcs->update_repo( $t_repo );
 

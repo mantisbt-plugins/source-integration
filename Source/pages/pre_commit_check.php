@@ -30,6 +30,8 @@ if ( is_null( $t_repo ) ) {
 $t_repo_commit_needs_issue = isset( $t_repo->info['repo_commit_needs_issue'] ) ? $t_repo->info['repo_commit_needs_issue'] : false;
 $t_repo_commit_issues_must_exist = isset( $t_repo->info['repo_commit_issues_must_exist'] ) ? $t_repo->info['repo_commit_issues_must_exist'] : false;
 $t_repo_commit_ownership_must_match = isset( $t_repo->info['repo_commit_ownership_must_match'] ) ? $t_repo->info['repo_commit_ownership_must_match'] : false;
+$t_repo_commit_status_restricted = isset( $t_repo->info['repo_commit_status_restricted'] ) ? $t_repo->info['repo_commit_status_restricted'] : false;
+$t_repo_commit_status_allowed = isset( $t_repo->info['repo_commit_status_allowed'] ) ? $t_repo->info['repo_commit_status_allowed'] : '';
 
 $t_all_ok = true;
 
@@ -59,18 +61,24 @@ else
                 {
                      printf("Check-Message: '%s : %d (%s vs %s)'\r\n",plugin_lang_get( 'error_commit_issue_ownership' ), $t_bug_id, $t_user_name, $f_committer_name );
                      $t_all_ok = false;
-                     break;
+                }
+            }
+            if( $t_repo_commit_status_restricted )
+            {
+                if( !in_array( $t_bug->status, $t_repo_commit_status_allowed ))
+                {
+                     printf("Check-Message: '%s : %d (%s)'\r\n", plugin_lang_get( 'error_commit_issue_wrong_status' ), $t_bug_id,  get_enum_element( 'status', $t_bug->status ));
+                     $t_all_ok = false;
                 }
             }
         }
         else
         {
             /* If the issue doesn't exist, then the ownership can't match */
-            if( $t_repo_commit_issues_must_exist || $t_repo_commit_ownership_must_match )
+            if( $t_repo_commit_issues_must_exist || $t_repo_commit_ownership_must_match || $t_repo_commit_status_restricted )
             {
                 printf("Check-Message: '%s : %d'\r\n",plugin_lang_get( 'error_commit_nonexistent_issue' ), $t_bug_id );
                 $t_all_ok = false;
-                break;
             }
         }
     }

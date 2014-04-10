@@ -13,6 +13,8 @@ $t_type = SourceType($t_repo->type);
 $t_repo_commit_needs_issue = isset( $t_repo->info['repo_commit_needs_issue'] ) ? $t_repo->info['repo_commit_needs_issue'] : '';
 $t_repo_commit_issues_must_exist = isset( $t_repo->info['repo_commit_issues_must_exist'] ) ? $t_repo->info['repo_commit_issues_must_exist'] : '';
 $t_repo_commit_ownership_must_match = isset( $t_repo->info['repo_commit_ownership_must_match'] ) ? $t_repo->info['repo_commit_ownership_must_match'] : '';
+$t_repo_commit_status_restricted = isset( $t_repo->info['repo_commit_status_restricted'] ) ? $t_repo->info['repo_commit_status_restricted'] : '';
+$t_repo_commit_status_allowed = isset( $t_repo->info['repo_commit_status_allowed'] ) ? $t_repo->info['repo_commit_status_allowed'] : '';
 
 html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
@@ -44,6 +46,14 @@ html_page_top2();
 <td><input name="repo_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_repo->url ) ?>"/></td>
 </tr>
 
+
+
+<?php $t_vcs->update_repo_form( $t_repo ) ?>
+
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'pre_commit_checks' ); ?></td>
+<td>
+<table>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'commit_needs_issue' ); ?></td>
 <td><input name="repo_commit_needs_issue" type="checkbox" <?php echo ($t_repo_commit_needs_issue ? 'checked="checked"' : '') ?>/></td>
@@ -59,10 +69,21 @@ html_page_top2();
 <td><input name="repo_commit_ownership_must_match" type="checkbox" <?php echo ($t_repo_commit_ownership_must_match ? 'checked="checked"' : '') ?>/></td>
 </tr>
 
-<?php $t_vcs->update_repo_form( $t_repo ) ?>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'commit_status_restricted' ); ?></td>
+<td><input name="repo_commit_status_restricted" type="checkbox" <?php echo ($t_repo_commit_status_restricted ? 'checked="checked"' : '') ?>/></td>
+</tr>
+
+<tr <?php echo helper_alternate_class() ?>><!-- TODO: Javascript enable/disable of this based on repo_commit_status_restricted? -->
+<td class="category"><?php echo plugin_lang_get( 'commit_status_restricted' ) ?></td>
+<td><select multiple="multiple" name="repo_commit_status_allowed[]"><?php print_enum_string_option_list( 'status', $t_repo_commit_status_allowed ) ?></select></td>
+</tr>
 
 <tr>
 <td class="center" colspan="2"><input type="submit" value="<?php echo  plugin_lang_get( 'update_repository' ) ?>"/></td>
+</tr>
+</table>
+</td>
 </tr>
 
 </table>
