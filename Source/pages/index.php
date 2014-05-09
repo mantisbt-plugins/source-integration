@@ -42,7 +42,7 @@ if ( $t_can_manage ) { print_bracket_link( plugin_page( 'manage_config_page' ), 
 </tr>
 
 <?php foreach( $t_repos as $t_repo ) { ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td><?php echo string_display( $t_repo->name ) ?></td>
 <td class="center"><?php echo string_display( SourceType( $t_repo->type ) ) ?></td>
 <?php if ( $t_show_stats ) { $t_stats = $t_repo->stats(); ?>
@@ -76,12 +76,12 @@ if ( $t_can_manage ) { print_bracket_link( plugin_page( 'manage_config_page' ), 
 <td class="form-title" colspan="2"><?php echo plugin_lang_get( 'create_repository' ) ?></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>
 <td><input name="repo_name" maxlength="128" size="40"/></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'type' ) ?></td>
 <td>
 <select name="repo_type">

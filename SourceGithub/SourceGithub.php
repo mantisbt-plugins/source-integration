@@ -116,24 +116,24 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_master_branch = 'master';
 		}
 ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'hub_username' ) ?></td>
 <td><input name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
 <td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
 </tr>
 <tr><td class="spacer"></td></tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
 <td><input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>
 <td><input name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></td>
 <td><?php if ( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ):
 echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
@@ -144,7 +144,7 @@ echo plugin_lang_get( 'hub_app_authorized' );
 endif; ?></td>
 </tr>
 <tr><td class="spacer"></td></tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 <td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
 </tr>

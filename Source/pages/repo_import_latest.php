@@ -54,7 +54,7 @@ while( true ) {
 $t_repo->post_stats = $t_repo->stats();
 ?>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo string_display_line( $t_repo->name ) ?></td>
 <td>
 <?php

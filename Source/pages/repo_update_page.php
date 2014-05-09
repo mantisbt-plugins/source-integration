@@ -26,17 +26,17 @@ html_page_top2();
 <td class="right"><?php print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'back_repo' ) ) ?></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>
 <td><input name="repo_name" maxlength="128" size="40" value="<?php echo string_attribute( $t_repo->name ) ?>"/></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'type' ) ?></td>
 <td><?php echo string_display( $t_type ) ?></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'url' ) ?></td>
 <td><input name="repo_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_repo->url ) ?>"/></td>
 </tr>

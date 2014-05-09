@@ -85,7 +85,7 @@ html_page_top2();
 <?php } ?>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="center"><?php Source_View_Author( $t_changeset ) ?></td>
 <td class="center"><?php Source_View_Committer( $t_changeset ) ?></td>
 <td class="center"><?php echo string_display_line( $t_changeset->branch ) ?></td>
@@ -120,7 +120,7 @@ html_page_top2();
 <?php if ( $t_affected_rowspan > 0 ) { ?>
 <tr><td class="spacer"></td></tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category" rowspan="<?php echo $t_affected_rowspan ?>">
 	<?php echo plugin_lang_get( 'affected_issues' ) ?>
 </td>
@@ -129,7 +129,7 @@ html_page_top2();
 <?php
 $t_first = true;
 foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
-	echo ( $t_first ? '' : '<tr ' . helper_alternate_class() . '>' );
+	echo ( $t_first ? '' : '<tr>' );
 ?>
 <td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug_row['summary'] ) ?></td>
 <?php if ( $t_can_update ) { ?>
@@ -142,7 +142,7 @@ foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
 }
 if ( $t_can_update ) {
 	if ( !$t_first ) { ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <?php } ?>
 <td colspan="<?php echo $t_columns-1 ?>">
 <form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
@@ -156,7 +156,7 @@ if ( $t_can_update ) {
 
 <tr><td class="spacer"></td></tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
 	<?php echo plugin_lang_get( 'changeset' ) ?>
 </td>
@@ -164,7 +164,7 @@ if ( $t_can_update ) {
 </tr>
 
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="small mono" colspan="<?php echo $t_columns-2 ?>"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
 <td class="center"><span class="small-links">
 	<?php print_bracket_link( $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ), plugin_lang_get( 'diff', 'Source' ) ) ?>

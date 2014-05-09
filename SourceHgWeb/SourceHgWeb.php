@@ -92,15 +92,15 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 			$t_master_branch = 'default';
 		}
 ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<td class="category"><?php echo plugin_lang_get( 'hgweb_root' ) ?></td>
 	<td><input name="hgweb_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_hgweb_root ) ?>"/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<td class="category"><?php echo plugin_lang_get( 'hgweb_project' ) ?></td>
 	<td><input name="hgweb_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_hgweb_project ) ?>"/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 	<td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
 </tr>

@@ -40,7 +40,7 @@ html_page_top2();
 </td>
 <tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'author' ) ?></td>
 <td colspan="2"><select name="user_id">
 <option value="0" <?php echo check_selected( 0, $t_changeset->user_id ) ?>>--</option>
@@ -48,7 +48,7 @@ html_page_top2();
 </select></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'committer' ) ?></td>
 <td colspan="2"><select name="committer_id">
 <option value="0" <?php echo check_selected( 0, $t_changeset->committer_id ) ?>>--</option>
@@ -56,7 +56,7 @@ html_page_top2();
 </select></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'branch' ) ?></td>
 <td colspan="2"><select name="branch">
 <?php if ( $t_changeset->branch == "" ) { ?>
@@ -74,7 +74,7 @@ html_page_top2();
 </tr>
 
 <?php if ( $t_use_porting ) { ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'ported' ) ?></td>
 <td colspan="2"><select name="ported">
 <option value="" <?php echo check_selected( "", $t_changeset->ported ) ?>><?php echo plugin_lang_get( 'pending' ) ?></option>
@@ -89,7 +89,7 @@ html_page_top2();
 <tr class="spacer"><td></td><td></td><td></td></tr>
 <?php } ?>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'message' ) ?></td>
 <td colspan="2"><textarea name="message" cols="80" rows="8"><?php echo string_textarea( $t_changeset->message ) ?></textarea></td>
 </tr>

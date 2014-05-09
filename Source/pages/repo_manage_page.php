@@ -67,22 +67,22 @@ html_page_top2();
 </td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>
 <td colspan="2"><?php echo string_display( $t_repo->name ) ?></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'type' ) ?></td>
 <td colspan="2"><?php echo string_display( $t_type ) ?></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'url' ) ?></td>
 <td colspan="2"><?php echo string_display( $t_repo->url ) ?></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'info' ) ?></td>
 <td colspan="2"><pre><?php var_dump($t_repo->info) ?></pre></td>
 </tr>
@@ -137,7 +137,7 @@ html_page_top2();
 
 <?php foreach( $t_mappings as $t_mapping ) { $t_branch = str_replace( '.', '_', $t_mapping->branch ); ?>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td><input name="<?php echo $t_branch ?>_branch" value="<?php echo string_attribute( $t_mapping->branch ) ?>" size="12" maxlength="128"/></td>
 <td><select name="<?php echo $t_branch ?>_type"><?php display_strategies( $t_mapping->type ) ?></select></td>
 <?php if ( Source_PVM() ) { ?>
@@ -152,7 +152,7 @@ html_page_top2();
 
 <tr><td></td></tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td><input name="_branch" size="12" maxlength="128"/></td>
 <td><select name="_type"><?php display_strategies(); ?></select></td>
 <?php if ( Source_PVM() ) { ?>

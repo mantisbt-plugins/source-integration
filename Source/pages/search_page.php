@@ -42,7 +42,7 @@ print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 <td><?php echo plugin_lang_get( 'action' ) ?></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="center"><?php Source_Type_Select( $t_filter->filters['r.type']->value ) ?></td>
 <td class="center"><?php Source_Repo_Select( $t_filter->filters['r.id']->value ) ?></td>
 <td class="center"><?php Source_Branch_Select( $t_filter->filters['c.branch']->value ) ?></td>
@@ -58,7 +58,7 @@ print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 <td><?php echo plugin_lang_get( 'issue' ) ?></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="center"><?php Source_Username_Select( $t_filter->filters['c.user_id']->value ) ?></td>
 <td class="center"><?php Source_Author_Select( $t_filter->filters['c.author']->value ) ?></td>
 <td class="center"><input name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
@@ -67,18 +67,18 @@ print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 
 <tr class="spacer"><td></td></tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'date_begin' ) ?></td>
 <td colspan="3"><?php Source_Date_Select( 'date_start', $t_date_start ); ?></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'date_end' ) ?></td>
 <td colspan="3"><?php Source_Date_Select( 'date_end', $t_date_end ); ?></td>
 </tr>
 
 <?php if ( plugin_config_get( 'enable_porting' ) ): ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'enable_porting' ) ?></td>
 <td colspan="3"><?php Source_Ported_Select( $t_filter->filters['c.ported']->value ); ?></td>
 </tr>
@@ -86,12 +86,12 @@ print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 
 <tr class="spacer"><td></td></tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'message' ) ?></td>
 <td colspan="6"><input name="message" size="40" value="<?php echo string_attribute( $t_filter->filters['c.message']->value ) ?>"/></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'filename' ) ?></td>
 <td colspan="6"><input name="filename" size="40" value="<?php echo string_attribute( $t_filter->filters['f.filename']->value ) ?>"/></td>
 </tr>

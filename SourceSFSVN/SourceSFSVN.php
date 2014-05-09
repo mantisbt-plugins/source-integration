@@ -70,7 +70,7 @@ class SourceSFSVNPlugin extends SourceSVNPlugin {
 		$t_sf_project = isset( $p_repo->info['sf_project'] ) ? $p_repo->info['sf_project'] : '';
 
 ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_sf_project' ) ?></td>
 <td><input name="sf_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_sf_project ) ?>"/></td>
 </tr>
