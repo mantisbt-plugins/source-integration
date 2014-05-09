@@ -128,22 +128,37 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			$t_winstart = plugin_config_get( 'winstart', '' );
 
 ?>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'svnpath' ) ?></td>
-<td><input name="plugin_SourceSVN_svnpath" value="<?php echo string_attribute( $t_svnpath ) ?>" size="40"/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'svnargs' ) ?></td>
-<td><input name="plugin_SourceSVN_svnargs" value="<?php echo string_attribute( $t_svnargs ) ?>" size="40"/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'svnssl' ) ?></td>
-<td><input name="plugin_SourceSVN_svnssl" type="checkbox" <?php if ( $t_svnssl ) echo 'checked="checked"' ?>/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'winstart' ) ?></td>
-<td><input name="plugin_SourceSVN_winstart" type="checkbox" <?php if ( $t_winstart ) echo 'checked="checked"' ?>/></td>
-</tr>
+	<div class="field-container">
+		<label for="plugin_SourceSVN_svnpath"><span><?php echo plugin_lang_get( 'svnpath' ) ?></span></label>
+		<span class="input">
+			<input name="plugin_SourceSVN_svnpath" value="<?php echo string_attribute( $t_svnpath ) ?>" size="40"/>
+		</span>
+		<span class="label-style"></span>
+	</div>
+
+	<div class="field-container">
+		<label for="plugin_SourceSVN_svnargs"><span><?php echo plugin_lang_get( 'svnargs' ) ?></span></label>
+		<span class="input">
+			<input name="plugin_SourceSVN_svnargs" value="<?php echo string_attribute( $t_svnargs ) ?>" size="40"/>
+		</span>
+		<span class="label-style"></span>
+	</div>
+
+	<div class="field-container">
+		<label for="plugin_SourceSVN_svnssl"><span><?php echo plugin_lang_get( 'svnssl' ) ?></span></label>
+		<span class="checkbox">
+			<input name="plugin_SourceSVN_svnssl" type="checkbox" <?php check_checked( $t_svnssl ) ?>/>
+		</span>
+		<span class="label-style"></span>
+	</div>
+
+	<div class="field-container">
+		<label for="plugin_SourceSVN_winstart"><span><?php echo plugin_lang_get( 'winstart' ) ?></span></label>
+		<span class="checkbox">
+			<input name="plugin_SourceSVN_winstart" type="checkbox" <?php check_checked( $t_winstart ) ?>/>
+		</span>
+		<span class="label-style"></span>
+	</div>
 <?php
 		}
 	}
