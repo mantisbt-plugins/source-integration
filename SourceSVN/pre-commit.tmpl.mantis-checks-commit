@@ -13,6 +13,10 @@ API_KEY="dd"
 SVNLOOK=/usr/bin/svnlook
 CURL=/usr/bin/curl
 
+# Set this to 1 during testing so that even commits which pass the
+#  mantis checks will be halted
+BOUNCE_ALL_COMMITS=0
+
 # Deal with hook parameters
 REPOS="$1"
 TXN="$2"
@@ -61,8 +65,7 @@ elif [ $RESULT -eq 0 ]; then
     exit 1
 else
     # Success!
-    # TODO
-    exit 1
+    exit $BOUNCE_ALL_COMMITS
 fi
 
 exit 1
