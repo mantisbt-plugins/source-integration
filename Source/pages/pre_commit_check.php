@@ -9,10 +9,13 @@
 
 include_once 'si-common.php';
 
-if (! si_is_key_ok() ) {
-# TODO: Does this error make it back via the hook?
+if ( !si_is_key_ok() ) {
     die( plugin_lang_get( 'invalid_key' ) );
 }
+
+# If you're worried about information "leaking" out via error messages, set this to false to prevent error messages 
+#  containing any information from the ticket(s)
+$t_informational_errors = false;
 
 # Get a list of the bug IDs which were referenced in the commit comment
 $t_bug_list = Source_Parse_Buglinks( gpc_get_string( 'commit_comment', '' ));
@@ -23,7 +26,6 @@ $f_repo_name = gpc_get_string( 'repo_name', '' );
 $t_repo = SourceRepo::load_by_name( $f_repo_name );
 # Repo not found
 if ( is_null( $t_repo ) ) {
-# TODO: Does this error make it back via the hook?
         die( plugin_lang_get( 'invalid_repo' ) );
 }
 $t_repo_commit_needs_issue = isset( $t_repo->info['repo_commit_needs_issue'] ) ? $t_repo->info['repo_commit_needs_issue'] : false;
@@ -61,14 +63,20 @@ else
                 $t_user_name = user_get_name( $t_bug->handler_id );
                 $t_user_email = user_get_email( $t_bug->handler_id );
 
-# TODO: Check vs e-mail address
-
                 # Check that the username of the committer matches the user name
-                # of the owner of the ticket
-                if(!( strlen( $f_committer_name ) && ( $t_user_name == $f_committer_name )))
+                # or e-mail address of the owner of the ticket
+                if(!( strlen( $f_committer_name ) && 
+                     (( $t_user_name == $f_committer_name ) || 
+                      ( $t_user_email == $f_committer_name ))))
                 {
-                     printf("Check-Message: '%s : %d (%s vs %s)'\r\n",
-                            plugin_lang_get( 'error_commit_issue_ownership' ), $t_bug_id, $t_user_name, $f_committer_name );
+                     printf("Check-Message: '%s : %d", plugin_lang_get( 'error_commit_issue_ownership' ), $t_bug_id );
+
+                     if( $t_informational_errors )
+                     {
+                         printf(" (%s vs %s/%s)",
+                                $t_user_name, $f_committer_name, $t_user_email );
+                     }
+                     printf("'\r\n");
                      $t_all_ok = false;
                 }
             }
@@ -78,21 +86,28 @@ else
                 # is allowed
                 if( !in_array( $t_bug->status, $t_repo_commit_status_allowed ))
                 {
-                     printf("Check-Message: '%s : %d (%s vs ",
-                            plugin_lang_get( 'error_commit_issue_wrong_status' ), $t_bug_id,  get_enum_element( 'status', $t_bug->status ));
-                     $t_first = true;
+                     printf("Check-Message: '%s : %d",
+                            plugin_lang_get( 'error_commit_issue_wrong_status' ), $t_bug_id );
 
-                     # Output the list of statuses for which commit is allowed
-                     foreach( $t_repo_commit_status_allowed as $t_allowed_status )
+                     if( $t_informational_errors )
                      {
-                         if( !$t_first )
+                         printf(" (%s vs ", get_enum_element( 'status', $t_bug->status ));
+
+                         $t_first = true;
+
+                         # Output the list of statuses for which commit is allowed
+                         foreach( $t_repo_commit_status_allowed as $t_allowed_status )
                          {
-                             printf(", ");
+                             if( !$t_first )
+                             {
+                                 printf(", ");
+                             }
+                             printf( get_enum_element( 'status', $t_allowed_status ));
+                             $t_first = false;
                          }
-                         printf( get_enum_element( 'status', $t_allowed_status ));
-                         $t_first = false;
+                         printf(")");
                      }
-                     printf(")'\r\n");
+                     printf("'\r\n");
                      $t_all_ok = false;
                 }
             }
@@ -101,21 +116,27 @@ else
                 if( !in_array( 0, $t_repo_commit_project_allowed ) &&
                     !in_array( $t_bug->project_id, $t_repo_commit_project_allowed ))
                 {
-                     printf("Check-Message: '%s : %d (%s vs ",
-                            plugin_lang_get( 'error_commit_issue_wrong_project' ), $t_bug_id,  project_get_field( $t_bug->project_id, 'name' ));
-                     $t_first = true;
-
-                     # Output the list of projects for which commit is allowed
-                     foreach( $t_repo_commit_project_allowed as $t_allowed_project )
+                     printf("Check-Message: '%s : %d",
+                            plugin_lang_get( 'error_commit_issue_wrong_project' ), $t_bug_id );
+                     if( $t_informational_errors )
                      {
-                         if( !$t_first )
+                         printf(" (%s vs ", project_get_field( $t_bug->project_id, 'name' ));
+
+                         $t_first = true;
+
+                         # Output the list of projects for which commit is allowed
+                         foreach( $t_repo_commit_project_allowed as $t_allowed_project )
                          {
-                             printf(", ");
+                             if( !$t_first )
+                             {
+                                 printf(", ");
+                             }
+                             printf( project_get_field( $t_allowed_project, 'name' ) );
+                             $t_first = false;
                          }
-                         printf( project_get_field( $t_allowed_project, 'name' ) );
-                         $t_first = false;
+                         printf(")");
                      }
-                     printf(")'\r\n");
+                     printf("'\r\n");
                      $t_all_ok = false;
                 }
             }
@@ -142,22 +163,29 @@ else
                     $t_user_access_level = project_get_local_user_access_level( $t_bug->project_id, $t_user_id );
                     if( !in_array( $t_user_access_level, $t_repo_commit_committer_must_be_level ))
                     {
-                        printf("Check-Message: '%s : %d (%s vs",
-                               plugin_lang_get( 'error_commit_committer_wrong_level' ), $t_bug_id, $f_committer_name );
-                        $t_first = true;
-                        $t_levels = MantisEnum::getValues( config_get( 'access_levels_enum_string' ) );
-                        # Output the list of projects for which commit is allowed
-                        foreach( $t_repo_commit_committer_must_be_level as $t_allowed_level )
-                        {
-                            if( !$t_first )
-                            {
-                                printf(", ");
-                            }
-                            printf( $t_levels[ $t_allowed_level ] );
-                            $t_first = false;
-                        }
+                        printf("Check-Message: '%s : %d",
+                               plugin_lang_get( 'error_commit_committer_wrong_level' ), $t_bug_id );
 
-                        printf(")'\r\n");
+                        if( $t_informational_errors )
+                        {
+                            printf(" (%s vs", $f_committer_name );
+
+                            $t_first = true;
+                            $t_levels = MantisEnum::getValues( config_get( 'access_levels_enum_string' ) );
+                            # Output the list of projects for which commit is allowed
+                            foreach( $t_repo_commit_committer_must_be_level as $t_allowed_level )
+                            {
+                                if( !$t_first )
+                                {
+                                    printf(", ");
+                                }
+                                printf( $t_levels[ $t_allowed_level ] );
+                                $t_first = false;
+                            }
+
+                            printf(")");
+                        }
+                        printf("'\r\n");
                         $t_all_ok = false;
                     }
                 }
