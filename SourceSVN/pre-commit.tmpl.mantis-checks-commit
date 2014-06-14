@@ -53,7 +53,12 @@ echo '"' >> ${COMMENT_FILE}
 RESULT=$(grep -oP 'Check-OK: \K([0-9]+)' ${LOG_FILE})
 
 if [ "x$RESULT" = "x" ]; then
-    echo "Didn't get a valid response from Mantis SourceIntegration" 1>&2
+    echo "Didn't receive a valid response from Mantis SourceIntegration" 1>&2
+    echo "Received:" 1>&2
+    echo "-----------8<--------------------" 1>&2
+    cat ${LOG_FILE} 1>&2
+    echo 1>&2
+    echo "-----------8<--------------------" 1>&2
     exit 1;
 elif [ $RESULT -eq 0 ]; then
     CHECK_MESSAGE=$(grep -oP "Check-Message: '\K(.+)(?=')" ${LOG_FILE})

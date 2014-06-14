@@ -147,9 +147,9 @@ $s_plugin_Source_import_repo_error = 'Import process produced an error.';
 
 $s_plugin_Source_invalid_checkin_url = 'Invalid remote check-in address';
 $s_plugin_Source_invalid_import_url = 'Invalid remote import address';
-$s_plugin_Source_invalid_repo = 'Invalid repository name';
+$s_plugin_Source_invalid_repo = 'Invalid repository name.  Please check that you have set the PROJECT variable correctly in the hook script';
 $s_plugin_Source_invalid_changeset = 'Changeset information could not be loaded';
-$s_plugin_Source_invalid_key = 'Invalid API Key';
+$s_plugin_Source_invalid_key = 'Invalid API Key.  Please check that you have set the API_KEY variable correctly in the hook script';
 
 $s_plugin_Source_import_latest_failed = 'Repository latest data importing failed.';
 $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
