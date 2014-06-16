@@ -15,7 +15,7 @@ if ( !si_is_key_ok() ) {
 
 # If you're worried about information "leaking" out via error messages, set this to false to prevent error messages 
 #  containing any information from the ticket(s)
-$t_informational_errors = false;
+$t_informational_errors = true;
 
 # Get a list of the bug IDs which were referenced in the commit comment
 $t_bug_list = Source_Parse_Buglinks( gpc_get_string( 'commit_comment', '' ));
@@ -51,6 +51,7 @@ if(( sizeof( $t_bug_list ) == 0 ) && $t_repo_commit_needs_issue )
 }
 else
 {
+    # Loop all the bug IDs referenced in the commit comment
     foreach( $t_bug_list as $t_bug_id )
     {
         # Check existence first to prevent API throwing an error
@@ -58,6 +59,7 @@ else
         {
             $t_bug = bug_get( $t_bug_id );
 
+            # Ownership of ticket must match committer?
             if( $t_repo_commit_ownership_must_match )
             {
                 $t_user_name = user_get_name( $t_bug->handler_id );
@@ -73,13 +75,18 @@ else
 
                      if( $t_informational_errors )
                      {
+                         # Informative errors turned on so display the user to whom
+                         #   the ticket is assigned
                          printf(" (%s vs %s/%s)",
                                 $t_user_name, $f_committer_name, $t_user_email );
                      }
+
                      printf("'\r\n");
                      $t_all_ok = false;
                 }
             }
+
+            # Only allowed to commit against tickets with a specific status?
             if( $t_repo_commit_status_restricted )
             {
                 # Check that the bug's status is at a level for which a commit
@@ -91,26 +98,22 @@ else
 
                      if( $t_informational_errors )
                      {
-                         printf(" (%s vs ", get_enum_element( 'status', $t_bug->status ));
+                         # Informative errors turned on so display a list of statuses for which
+                         #  a commit would be accepted
 
-                         $t_first = true;
+                         # Get an array of the names of the statuses for which commit is allowed
+                         $t_statuses = array_map( function( $p_status ) { return get_enum_element( 'status', $p_status ); }, $t_repo_commit_status_allowed );
 
-                         # Output the list of statuses for which commit is allowed
-                         foreach( $t_repo_commit_status_allowed as $t_allowed_status )
-                         {
-                             if( !$t_first )
-                             {
-                                 printf(", ");
-                             }
-                             printf( get_enum_element( 'status', $t_allowed_status ));
-                             $t_first = false;
-                         }
-                         printf(")");
+                         printf(" (%s vs %s)", 
+                                get_enum_element( 'status', $t_bug->status ),
+                                implode( $t_statuses, ", " ));
                      }
                      printf("'\r\n");
                      $t_all_ok = false;
                 }
             }
+
+            # Only allowed to commit against Mantis tickets within specific project(s)
             if( $t_repo_commit_project_restricted )
             {
                 if( !in_array( 0, $t_repo_commit_project_allowed ) &&
@@ -118,24 +121,20 @@ else
                 {
                      printf("Check-Message: '%s : %d",
                             plugin_lang_get( 'error_commit_issue_wrong_project' ), $t_bug_id );
+
                      if( $t_informational_errors )
                      {
-                         printf(" (%s vs ", project_get_field( $t_bug->project_id, 'name' ));
+                         # Informative errors turned on so display a list of Mantis projects to
+                         #   which referenced tickets must belong
 
-                         $t_first = true;
-
-                         # Output the list of projects for which commit is allowed
-                         foreach( $t_repo_commit_project_allowed as $t_allowed_project )
-                         {
-                             if( !$t_first )
-                             {
-                                 printf(", ");
-                             }
-                             printf( project_get_field( $t_allowed_project, 'name' ) );
-                             $t_first = false;
-                         }
-                         printf(")");
+                         # Get an array of the names of all the projects
+                         $t_projects = array_map( function( $p_proj ) { return project_get_field( $p_proj, 'name' ); }, $t_repo_commit_project_allowed );
+                         
+                         printf(" (%s vs %s)", 
+                                project_get_field( $t_bug->project_id, 'name' ),
+                                implode( $t_projects, ", " ));
                      }
+
                      printf("'\r\n");
                      $t_all_ok = false;
                 }
@@ -168,22 +167,13 @@ else
 
                         if( $t_informational_errors )
                         {
-                            printf(" (%s vs", $f_committer_name );
-
                             $t_first = true;
-                            $t_levels = MantisEnum::getValues( config_get( 'access_levels_enum_string' ) );
-                            # Output the list of projects for which commit is allowed
-                            foreach( $t_repo_commit_committer_must_be_level as $t_allowed_level )
-                            {
-                                if( !$t_first )
-                                {
-                                    printf(", ");
-                                }
-                                printf( $t_levels[ $t_allowed_level ] );
-                                $t_first = false;
-                            }
-
-                            printf(")");
+                            $t_levels = MantisEnum::getAssocArrayIndexedByValues( config_get( 'access_levels_enum_string' ) );
+                            $t_allowed_levels = array_intersect_key( $t_levels, array_flip( $t_repo_commit_committer_must_be_level ));
+                            
+                            printf(" (%s vs %s)", 
+                                   $t_levels[ $t_user_access_level ],
+                                   implode( array_values( $t_allowed_levels ), ", "));
                         }
                         printf("'\r\n");
                         $t_all_ok = false;
