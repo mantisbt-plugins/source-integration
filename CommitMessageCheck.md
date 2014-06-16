@@ -107,3 +107,7 @@ it recognises comments containing text such as `issue #12` or `issue #12,#61`, e
 
 That's unfortunate and will require some manual intervention.  Possibly the easiest way to work around this is to create a look-up function to return the Mantis user-name based on the version control user name then modify the hook function to call this.
 
+*I'm worried that information will 'leak' from the Mantis database - maybe someone could use this functionality to extract private information from Mantis?*
+
+The Mantis installation and the VCS repository need to be set up to share a private key (as per SourceIntegration).  This means that someone without access to the API key will not be able to access the functionality used to check commit messages.
+In the case that someone has access to the API (either by having access to the private key or by having commit access to an associated repository) then negative responses are intended to be informational in order to assist the user in understanding why the commit was refused.  This may mean that information relating to access levels or user names may be shown in the refusal message.  If this is a concern, changing the value of `$t_informational_errors` from `true` to `false` in `Source/pages/pre_commit_check.php` will restrict the information to a minimum.
