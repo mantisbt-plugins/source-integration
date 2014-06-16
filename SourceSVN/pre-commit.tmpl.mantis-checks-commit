@@ -65,7 +65,7 @@ elif [ $RESULT -eq 0 ]; then
     if [ "x$CHECK_MESSAGE" = "x" ]; then
         echo "Mantis SourceIntegration bounced the commit but didn't report why" 1>&2
     else
-        echo $CHECK_MESSAGE 1>&2
+        echo "$CHECK_MESSAGE" 1>&2
     fi
     exit 1
 else
