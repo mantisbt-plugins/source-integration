@@ -71,7 +71,10 @@ else
                      (( $t_user_name == $f_committer_name ) || 
                       ( $t_user_email == $f_committer_name ))))
                 {
-                     printf("Check-Message: '%s : %d", plugin_lang_get( 'error_commit_issue_ownership' ), $t_bug_id );
+                    printf("Check-Message: '%s : %s %d", 
+                           plugin_lang_get( 'error_commit_issue_ownership' ), 
+                           plugin_lang_get( 'issue' ),
+                           $t_bug_id );
 
                      if( $t_informational_errors )
                      {
@@ -93,8 +96,10 @@ else
                 # is allowed
                 if( !in_array( $t_bug->status, $t_repo_commit_status_allowed ))
                 {
-                     printf("Check-Message: '%s : %d",
-                            plugin_lang_get( 'error_commit_issue_wrong_status' ), $t_bug_id );
+                     printf("Check-Message: '%s : %s %d",
+                            plugin_lang_get( 'error_commit_issue_wrong_status' ), 
+                            plugin_lang_get( 'issue' ),
+                            $t_bug_id );
 
                      if( $t_informational_errors )
                      {
@@ -119,8 +124,10 @@ else
                 if( !in_array( 0, $t_repo_commit_project_allowed ) &&
                     !in_array( $t_bug->project_id, $t_repo_commit_project_allowed ))
                 {
-                     printf("Check-Message: '%s : %d",
-                            plugin_lang_get( 'error_commit_issue_wrong_project' ), $t_bug_id );
+                     printf("Check-Message: '%s : %s %d",
+                            plugin_lang_get( 'error_commit_issue_wrong_project' ), 
+                            plugin_lang_get( 'issue' ),
+                            $t_bug_id );
 
                      if( $t_informational_errors )
                      {
@@ -153,15 +160,19 @@ else
                 /* Check that the user exists in Mantis */
                 if( $t_user_id == false )
                 {
-                     printf("Check-Message: '%s : %d (%s)'\r\n",
-                            plugin_lang_get( 'error_commit_committer_not_found' ), $t_bug_id, $f_committer_name );
+                     printf("Check-Message: '%s : %s %d (%s)'\r\n",
+                            plugin_lang_get( 'error_commit_committer_not_found' ), 
+                            plugin_lang_get( 'issue' ),
+                            $t_bug_id, $f_committer_name );
                      $t_all_ok = false;
                 }
                 /* Check that the user is assigned to the project */
                 elseif( ! project_includes_user( $t_bug->project_id, $t_user_id ))
                 {
-                     printf("Check-Message: '%s : %d (%s)'\r\n",
-                            plugin_lang_get( 'error_commit_committer_not_member' ), $t_bug_id, $f_committer_name );
+                     printf("Check-Message: '%s : %s %d (%s)'\r\n",
+                            plugin_lang_get( 'error_commit_committer_not_member' ), 
+                            plugin_lang_get( 'issue' ),
+                            $t_bug_id, $f_committer_name );
                      $t_all_ok = false;
                 }
                 else
@@ -169,8 +180,10 @@ else
                     $t_user_access_level = project_get_local_user_access_level( $t_bug->project_id, $t_user_id );
                     if( !in_array( $t_user_access_level, $t_repo_commit_committer_must_be_level ))
                     {
-                        printf("Check-Message: '%s : %d",
-                               plugin_lang_get( 'error_commit_committer_wrong_level' ), $t_bug_id );
+                        printf("Check-Message: '%s : %s %d",
+                               plugin_lang_get( 'error_commit_committer_wrong_level' ), 
+                               plugin_lang_get( 'issue' ),
+                               $t_bug_id );
 
                         if( $t_informational_errors )
                         {
@@ -199,8 +212,10 @@ else
                 $t_repo_commit_project_restricted ||
                 $t_repo_commit_committer_must_be_member )
             {
-                printf("Check-Message: '%s : %d'\r\n",
-                       plugin_lang_get( 'error_commit_nonexistent_issue' ), $t_bug_id );
+                printf("Check-Message: '%s : %s %d'\r\n",
+                       plugin_lang_get( 'error_commit_nonexistent_issue' ), 
+                       plugin_lang_get( 'issue' ),
+                       $t_bug_id );
                 $t_all_ok = false;
             }
         }
