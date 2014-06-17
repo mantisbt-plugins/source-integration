@@ -101,6 +101,18 @@ of comments.  The format for referencing comments is configured as a regular
 expression as part of the Source Integration plugin configuration.  By default
 it recognises comments containing text such as `issue #12` or `issue #12,#61`, etc.
 
+### Example
+
+    bright-tools@ubuntu:~/repo$ svn commit -m "Issue #1,#8: Fix up the typos"
+    Sending        example.txt
+    Transmitting file data .svn: E165001: Commit failed (details follow):
+    svn: E165001: Commit blocked by pre-commit hook (exit code 1) with output:
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+    100   778  100   699  100    79  44573   5037 --:--:-- --:--:-- --:--:-- 46600
+    Committing user does not have appropriate access level in project : Issue 1 (updater vs manager, administrator)
+    Commit comment references non-existent issue : Issue 8
+
 ## Potential Problems
 
 *The user-names used for version control don't match those used in Mantis*
