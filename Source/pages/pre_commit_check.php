@@ -139,9 +139,16 @@ else
                      $t_all_ok = false;
                 }
             }
+
             if( $t_repo_commit_committer_must_be_member )
             {
                 $t_user_id = user_get_id_by_name( $f_committer_name );
+
+                # Didn't find the username?  Try the e-mail address
+                if( $t_user_id == false )
+                {
+                    $t_user_id = user_get_id_by_email( $f_committer_name );
+                }
 
                 /* Check that the user exists in Mantis */
                 if( $t_user_id == false )
@@ -167,7 +174,9 @@ else
 
                         if( $t_informational_errors )
                         {
-                            $t_first = true;
+                            # Informative errors turned on so display a list of access levels
+                            #   for which commit is allowed 
+                                
                             $t_levels = MantisEnum::getAssocArrayIndexedByValues( config_get( 'access_levels_enum_string' ) );
                             $t_allowed_levels = array_intersect_key( $t_levels, array_flip( $t_repo_commit_committer_must_be_level ));
                             
