@@ -259,13 +259,13 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	}
 
 	private function check_svn() {
-		$svn = self::svn_binary();
-
-		if ( is_blank( shell_exec( "$svn help" ) ) ) {
-			trigger_error( ERROR_GENERIC, ERROR );
+		$tmp = $this->svn_call();
+		if ( is_blank( shell_exec( "$tmp help" ) )) {
+			// get ERROR
+			exec("$tmp help 2>&1",$out); 
+			trigger_error(implode( $out),ERROR );
 		}
 	}
-
 	private function svn_call( $p_repo=null ) {
 		static $s_call;
 
