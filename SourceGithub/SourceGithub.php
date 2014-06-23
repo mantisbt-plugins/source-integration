@@ -43,6 +43,9 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
+		if( empty( $p_repo->info ) ) {
+			return '';
+		}
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = "";
