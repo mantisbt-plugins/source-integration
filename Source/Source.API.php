@@ -578,7 +578,12 @@ class SourceRepo {
 	 */
 	function save() {
 		if ( is_blank( $this->type ) || is_blank( $this->name ) ) {
-			trigger_error( ERROR_GENERIC, ERROR );
+			if( is_blank( $this->type ) ) {
+				error_parameters( plugin_lang_get( 'type' ) );
+			} else {
+				error_parameters( plugin_lang_get( 'name' ) );
+			}
+			trigger_error( ERROR_EMPTY_FIELD, ERROR );
 		}
 
 		$t_repo_table = plugin_table( 'repository', 'Source' );
