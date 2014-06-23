@@ -7,9 +7,6 @@ access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
 $t_can_manage = access_has_global_level( plugin_config_get( 'manage_threshold' ) );
 
 $t_show_stats = plugin_config_get( 'show_repo_stats' );
-$t_class = $t_show_stats ? 'width75' : 'width60';
-$t_title_span = $t_show_stats ? 2 : 1;
-$t_links_span = $t_show_stats ? 4 : 2;
 
 $t_repos = SourceRepo::load_all();
 
@@ -17,90 +14,136 @@ html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
 ?>
 
-<br/>
-<table class="<?php echo $t_class ?>" align="center" cellspacing="1">
+<br>
 
-<tr>
-<td class="form-title" colspan="<?php echo $t_title_span ?>"><?php echo plugin_lang_get( 'repositories' ) ?></td>
-<td class="right" colspan="<?php echo $t_links_span ?>">
-<?php
-print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
-if ( $t_can_manage ) { print_bracket_link( plugin_page( 'manage_config_page' ), plugin_lang_get( 'configuration' ) ); }
-?>
-</td>
-</tr>
+<div class="form-container">
 
-<tr class="row-category">
-<td width="30%"><?php echo plugin_lang_get( 'repository' ) ?></td>
-<td width="15%"><?php echo plugin_lang_get( 'type' ) ?></td>
-<?php if ( $t_show_stats ) { ?>
-<td width="10%"><?php echo plugin_lang_get( 'changesets' ) ?></td>
-<td width="10%"><?php echo plugin_lang_get( 'files' ) ?></td>
-<td width="10%"><?php echo plugin_lang_get( 'issues' ) ?></td>
-<?php } ?>
-<td width="25%"><?php echo plugin_lang_get( 'actions' ) ?></td>
-</tr>
+	<h2><?php echo plugin_lang_get( 'repositories' ) ?></h2>
 
-<?php foreach( $t_repos as $t_repo ) { ?>
-<tr>
-<td><?php echo string_display( $t_repo->name ) ?></td>
-<td class="center"><?php echo string_display( SourceType( $t_repo->type ) ) ?></td>
-<?php if ( $t_show_stats ) { $t_stats = $t_repo->stats(); ?>
-<td class="right"><?php echo $t_stats['changesets'] ?></td>
-<td class="right"><?php echo $t_stats['files'] ?></td>
-<td class="right"><?php echo $t_stats['bugs'] ?></td>
-<?php } ?>
-<td class="center">
-<?php 
-	print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id, plugin_lang_get( 'changesets' ) );
-	if ( $t_can_manage ) {
-		if ( preg_match( '/^Import \d+-\d+\d+/', $t_repo->name ) ) {
-			print_bracket_link( plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id . form_security_param( 'plugin_Source_repo_delete' ), plugin_lang_get( 'delete' ) );
+	<div class="right">
+		<?php
+		print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
+		if( $t_can_manage ) {
+			print_bracket_link( plugin_page( 'manage_config_page' ), plugin_lang_get( 'configuration' ) );
 		}
-		print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'manage' ) );
+		?>
+
+	</div>
+
+	<table>
+		<thead>
+			<tr class="row-category">
+				<th width="30%"><?php echo plugin_lang_get( 'repository' ) ?></th>
+				<th width="15%"><?php echo plugin_lang_get( 'type' ) ?></th>
+<?php
+	if( $t_show_stats ) {
+?>
+				<th width="10%"><?php echo plugin_lang_get( 'changesets' ) ?></th>
+				<th width="10%"><?php echo plugin_lang_get( 'files' ) ?></th>
+				<th width="10%"><?php echo plugin_lang_get( 'issues' ) ?></th>
+<?php
 	}
 ?>
-</td>
-</tr>
-<?php } ?>
+				<th width="25%"><?php echo plugin_lang_get( 'actions' ) ?></th>
+			</tr>
+		</thead>
 
-</table>
+		<tbody>
+<?php
+	foreach( $t_repos as $t_repo ) {
+?>
+			<tr>
+				<td><?php echo string_display( $t_repo->name ) ?></td>
+				<td class="center"><?php echo string_display( SourceType( $t_repo->type ) ) ?></td>
+<?php
+		if( $t_show_stats ) {
+			$t_stats = $t_repo->stats();
+?>
+				<td class="right"><?php echo $t_stats['changesets'] ?></td>
+				<td class="right"><?php echo $t_stats['files'] ?></td>
+				<td class="right"><?php echo $t_stats['bugs'] ?></td>
+<?php
+		}
+?>
+				<td class="center"><?php
+					print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id, plugin_lang_get( 'changesets' ) );
+					if( $t_can_manage ) {
+						# Import repositories can be deleted from here
+						if( preg_match( '/^Import \d+-\d+\d+/', $t_repo->name ) ) {
+							print_bracket_link(
+								plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id
+									. form_security_param( 'plugin_Source_repo_delete' ),
+								plugin_lang_get( 'delete' )
+							);
+						}
+						print_bracket_link(
+							plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id,
+							plugin_lang_get( 'manage' )
+						);
+					}
+				?></td>
+			</tr>
+<?php
+	} # foreach
+?>
+		</tbody>
+	</table>
+</div>
 
-<?php if ( $t_can_manage ) { ?>
-<br/>
+<?php
+	if( $t_can_manage ) {
+?>
+
+<div class="width60 form-container">
 <form action="<?php echo plugin_page( 'repo_create' ) ?>" method="post">
-<?php echo form_security_field( 'plugin_Source_repo_create' ) ?>
-<table class="width50" align="center" cellspacing="1">
+	<fieldset class="has-required">
 
-<tr>
-<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'create_repository' ) ?></td>
-</tr>
+		<legend><?php echo plugin_lang_get( 'create_repository' ) ?></legend>
 
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>
-<td><input name="repo_name" maxlength="128" size="40"/></td>
-</tr>
+		<?php echo form_security_field( 'plugin_Source_repo_create' ) ?>
 
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'type' ) ?></td>
-<td>
-<select name="repo_type">
-	<option value=""><?php echo plugin_lang_get( 'select_one' ) ?></option>
-<?php foreach( SourceTypes() as $t_type => $t_type_name ) { ?>
-	<option value="<?php echo $t_type ?>"><?php echo string_display( $t_type_name ) ?></option>
-<?php } ?>
-</select>
-</td>
-</tr>
+		<div class="field-container">
+			<label class="required" for="repo_name">
+				<span><?php echo plugin_lang_get( 'name' ) ?></span>
+			</label>
+			<span class="input">
+				<input id="repo_name" name="repo_name" type="text" maxlength="128" size="40" />
+			</span>
+			<span class="label-style"></span>
+		</div>
 
-<tr>
-<td class="center" colspan="2"><input type="submit" value="<?php echo plugin_lang_get( 'create_repository' ) ?>"/></td>
-</tr>
+		<div class="field-container">
+			<label class="required" for="repo_type">
+				<span><?php echo plugin_lang_get( 'type' ) ?></span>
+			</label>
+			<span class="select">
+				<select name="repo_type">
+					<option value=""><?php echo plugin_lang_get( 'select_one' ) ?></option>
+<?php
+		foreach( SourceTypes() as $t_type => $t_type_name ) {
+?>
+					<option value="<?php echo $t_type ?>"><?php echo
+						string_display( $t_type_name )
+					?></option>
+<?php
+		}
+?>
+				</select>
+			</span>
+			<span class="label-style"></span>
+		</div>
 
-</table>
+		<div class="submit-button">
+			<input class="button" type="submit" value="<?php echo plugin_lang_get( 'create_repository' ) ?>" />
+		</div>
+
+	</fieldset>
 </form>
-<?php } ?>
+</div>
+
+<?php
+	} # if( $t_can_manage )
+?>
 
 <?php
 html_page_bottom1( __FILE__ );
-
