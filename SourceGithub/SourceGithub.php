@@ -121,6 +121,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
 <td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
 </tr>
+<tr><td class="spacer"></td></tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
 <td><input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/></td>
@@ -139,6 +140,7 @@ else:
 echo plugin_lang_get( 'hub_app_authorized' );
 endif; ?></td>
 </tr>
+<tr><td class="spacer"></td></tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 <td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
