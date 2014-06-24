@@ -6,7 +6,7 @@
 /**
  * Abstract class for simplifying creation of source control plugins.
  * @author John Reese
- */ 
+ */
 abstract class MantisSourcePlugin extends MantisPlugin {
 	public function hooks() {
 		return array(
@@ -97,6 +97,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 
 	/**
 	 * Output form elements for configuration options.
+	 * The first div should have class 'spacer'
 	 */
 	public function update_config_form() {}
 

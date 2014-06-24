@@ -84,7 +84,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 </span></td>
 </tr>
 		<?php } ?>
-<tr><td class="spacer"></td></tr>
+<tr class="spacer"></tr>
 		<?php
 	}
 }
