@@ -22,87 +22,120 @@ html_page_top2();
 <?php } ?>
 
 <br/>
+
+<div class="form-container">
 <form action="<?php echo helper_mantis_url( 'plugin.php' ) ?>" method="get">
-<input type="hidden" name="page" value="Source/search"/>
-<table class="width75 SourceFilters" align="center" cellspacing="1">
 
-<tr>
-<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'search_changesets' ) ?></td>
-<td class="right" colspan="5">
-<?php
-print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
-print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
-?>
-</tr>
+	<h2><?php echo plugin_lang_get( 'search_changesets' ) ?></h2>
 
-<tr class="row-category">
-<td><?php echo plugin_lang_get( 'type' ) ?></td>
-<td><?php echo plugin_lang_get( 'repository' ) ?></td>
-<td><?php echo plugin_lang_get( 'branch' ) ?></td>
-<td><?php echo plugin_lang_get( 'action' ) ?></td>
-</tr>
+	<div class="floatright">
+		<?php
+			print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
+			print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
+		?>
+	</div>
 
-<tr>
-<td class="center"><?php Source_Type_Select( $t_filter->filters['r.type']->value ) ?></td>
-<td class="center"><?php Source_Repo_Select( $t_filter->filters['r.id']->value ) ?></td>
-<td class="center"><?php Source_Branch_Select( $t_filter->filters['c.branch']->value ) ?></td>
-<td class="center"><?php Source_Action_Select( $t_filter->filters['f.action']->value ) ?></td>
-</tr>
+	<fieldset>
+		<input type="hidden" name="page" value="Source/search"/>
 
-<tr class="spacer"><td></td></tr>
+		<table>
+			<thead>
+				<tr class="row-category">
+					<th><?php echo plugin_lang_get( 'type' ) ?></th>
+					<th><?php echo plugin_lang_get( 'repository' ) ?></th>
+					<th><?php echo plugin_lang_get( 'branch' ) ?></th>
+					<th><?php echo plugin_lang_get( 'action' ) ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="center" width="25%"><?php Source_Type_Select( $t_filter->filters['r.type']->value ) ?></td>
+					<td class="center" width="25%"><?php Source_Repo_Select( $t_filter->filters['r.id']->value ) ?></td>
+					<td class="center" width="25%"><?php Source_Branch_Select( $t_filter->filters['c.branch']->value ) ?></td>
+					<td class="center" width="25%"><?php Source_Action_Select( $t_filter->filters['f.action']->value ) ?></td>
+				</tr>
+				<tr class="spacer"></tr>
+			</tbody>
 
-<tr class="row-category">
-<td><?php echo plugin_lang_get( 'username' ) ?></td>
-<td><?php echo plugin_lang_get( 'author' ) ?></td>
-<td><?php echo plugin_lang_get( 'revision' ) ?></td>
-<td><?php echo plugin_lang_get( 'issue' ) ?></td>
-</tr>
+			<thead>
+				<tr class="row-category">
+					<th><?php echo plugin_lang_get( 'username' ) ?></th>
+					<th><?php echo plugin_lang_get( 'author' ) ?></th>
+					<th><?php echo plugin_lang_get( 'revision' ) ?></th>
+					<th><?php echo plugin_lang_get( 'issue' ) ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="center" ><?php Source_Username_Select( $t_filter->filters['c.user_id']->value ) ?></td>
+					<td class="center"><?php Source_Author_Select( $t_filter->filters['c.author']->value ) ?></td>
+					<td class="center"><input name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
+					<td class="center"><input name="bug_id" size="10" value="<?php echo string_attribute( join( ',', $t_filter->filters['b.bug_id']->value ) ) ?>"/></td>
+				</tr>
+			</tbody>
+		</table>
 
-<tr>
-<td class="center"><?php Source_Username_Select( $t_filter->filters['c.user_id']->value ) ?></td>
-<td class="center"><?php Source_Author_Select( $t_filter->filters['c.author']->value ) ?></td>
-<td class="center"><input name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
-<td class="center"><input name="bug_id" size="10" value="<?php echo string_attribute( join( ',', $t_filter->filters['b.bug_id']->value ) ) ?>"/></td>
-</tr>
+		<div class="field-container spacer">
+			<label for="date_begin" style="width: 25%">
+				<span><?php echo plugin_lang_get( 'date_begin' ) ?></span>
+			</label>
+			<span class="select">
+				<?php Source_Date_Select( 'date_start', $t_date_start ); ?>
+			</span>
+			<span class="label-style" style="width: 25%"></span>
+		</div>
 
-<tr class="spacer"><td></td></tr>
-
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'date_begin' ) ?></td>
-<td colspan="3"><?php Source_Date_Select( 'date_start', $t_date_start ); ?></td>
-</tr>
-
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'date_end' ) ?></td>
-<td colspan="3"><?php Source_Date_Select( 'date_end', $t_date_end ); ?></td>
-</tr>
+		<div class="field-container">
+			<label for="date_end" style="width: 25%">
+				<span><?php echo plugin_lang_get( 'date_end' ) ?></span>
+			</label>
+			<span class="select">
+				<?php Source_Date_Select( 'date_end', $t_date_end); ?>
+			</span>
+			<span class="label-style" style="width: 25%"></span>
+		</div>
 
 <?php if ( plugin_config_get( 'enable_porting' ) ): ?>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'enable_porting' ) ?></td>
-<td colspan="3"><?php Source_Ported_Select( $t_filter->filters['c.ported']->value ); ?></td>
-</tr>
+		<div class="field-container spacer">
+			<label for="enable_porting" style="width: 25%">
+				<span><?php echo plugin_lang_get( 'enable_porting' ) ?></span>
+			</label>
+			<span class="select">
+				<?php Source_Ported_Select( $t_filter->filters['c.ported']->value ); ?>
+			</span>
+			<span class="label-style" style="width: 25%"></span>
+		</div>
 <?php endif ?>
 
-<tr class="spacer"><td></td></tr>
+		<div class="field-container spacer">
+			<label for="message" style="width: 25%">
+				<span><?php echo plugin_lang_get( 'message' ) ?></span>
+			</label>
+			<span class="input">
+				<input name="message" size="40" value="<?php
+					echo string_attribute( $t_filter->filters['c.message']->value ) ?>" />
+			</span>
+			<span class="label-style" style="width: 25%"></span>
+		</div>
 
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'message' ) ?></td>
-<td colspan="6"><input name="message" size="40" value="<?php echo string_attribute( $t_filter->filters['c.message']->value ) ?>"/></td>
-</tr>
+		<div class="field-container">
+			<label for="filename" style="width: 25%">
+				<span><?php echo plugin_lang_get( 'filename' ) ?></span>
+			</label>
+			<span class="input">
+				<input name="filename" size="40" value="<?php
+					echo string_attribute( $t_filter->filters['f.filename']->value ) ?>" />
+			</span>
+			<span class="label-style" style="width: 25%"></span>
+		</div>
 
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'filename' ) ?></td>
-<td colspan="6"><input name="filename" size="40" value="<?php echo string_attribute( $t_filter->filters['f.filename']->value ) ?>"/></td>
-</tr>
+		<div class="submit-button">
+			<input class="button" type="submit" value="<?php echo plugin_lang_get( 'search' ) ?>" />
+		</div>
 
-<tr>
-<td class="center" colspan="7"><input type="submit" value="<?php echo plugin_lang_get( 'search' ) ?>"/></td>
-</tr>
-
-</table>
+	</fieldset>
 </form>
+</div>
 
 <?php
 html_page_bottom1( __FILE__ );
-
