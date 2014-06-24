@@ -581,7 +581,6 @@ function Source_Date_Select( $p_name, $p_selected=null ) {
 
 	if ( is_null( $s_min ) || is_null( $s_max ) ) {
 		$t_changeset_table = plugin_table( 'changeset' );
-
 		$t_query = "SELECT MIN( timestamp ) AS min, MAX( timestamp ) AS max FROM $t_changeset_table";
 		$t_result = db_query_bound( $t_query );
 
@@ -590,6 +589,11 @@ function Source_Date_Select( $p_name, $p_selected=null ) {
 
 		$s_min = $t_row['min'][0];
 		$s_max = $t_row['max'][0];
+
+		# Handle the case when there are no changesets in the table
+		if( is_null( $s_min ) ) {
+			$s_min = $s_max = idate( 'Y' );
+		}
 	}
 
 	if ( $p_selected == 'now' ) {
