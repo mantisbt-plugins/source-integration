@@ -371,7 +371,7 @@ function Source_FilterOption_Permalink( $p_string=null, $p_array=false ) {
 	}
 
 	if ( $p_array ) {
-		$t_input = gpc_get_string_array( $p_string, null );
+		$t_input = gpc_get_string_array( $p_string, array() );
 		$t_input_clean = array();
 
 		if ( is_array( $t_input ) && count( $t_input ) > 0 ) {
