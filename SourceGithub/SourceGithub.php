@@ -51,10 +51,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$t_ref = "";
 
 		if ( !is_null( $p_changeset ) ) {
-			$t_ref = "/$p_changeset->revision";
+			$t_ref = "/tree/$p_changeset->revision";
 		}
 
-		return "http://github.com/$t_username/$t_reponame/tree$t_ref";
+		return "http://github.com/$t_username/$t_reponame$t_ref";
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
