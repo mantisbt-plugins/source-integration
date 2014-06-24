@@ -128,6 +128,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			$t_winstart = plugin_config_get( 'winstart', '' );
 
 ?>
+	<legend>
+		<?php echo plugin_lang_get( 'title' );?>
+	</legend>
+
 	<div class="field-container">
 		<label for="plugin_SourceSVN_svnpath"><span><?php echo plugin_lang_get( 'svnpath' ) ?></span></label>
 		<span class="input">
