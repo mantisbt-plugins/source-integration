@@ -510,7 +510,7 @@ function Source_Author_Select( $p_selected=null ) {
 	}
 
 	$t_changeset_table = plugin_table( 'changeset' );
-	$t_user_table = db_get_table( 'mantis_user_table' );
+	$t_user_table = db_get_table( 'user' );
 
 	$t_query = "SELECT DISTINCT( author ) FROM $t_changeset_table ORDER BY author ASC";
 	$t_result = db_query_bound( $t_query );
@@ -535,7 +535,7 @@ function Source_Username_Select( $p_selected=null ) {
 	}
 
 	$t_changeset_table = plugin_table( 'changeset' );
-	$t_user_table = db_get_table( 'mantis_user_table' );
+	$t_user_table = db_get_table( 'user' );
 
 	$t_query = "SELECT DISTINCT( c.user_id ), u.username FROM $t_changeset_table AS c
 		JOIN $t_user_table AS u ON c.user_id=u.id ORDER BY u.username ASC";
