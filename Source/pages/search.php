@@ -22,25 +22,26 @@ html_page_top2();
 
 ?>
 
-<br/>
-<table class="width100" align="center" cellspacing="1">
+<br>
 
-<tr>
-<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'search_changesets' ) ?></td>
-<td class="right" colspan="2">
-<?php
-print_bracket_link( plugin_page( 'search' ) . $t_permalink, plugin_lang_get( 'permalink' ) );
-print_bracket_link( plugin_page( 'search_page' ) . $t_permalink, plugin_lang_get( 'modify_search' ) );
-print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
-print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
-?>
-</td>
-</tr>
+<div class="table-container">
 
-<?php Source_View_Changesets( $t_changesets, $t_repos ) ?>
+	<h2><?php echo plugin_lang_get( 'search_changesets' ) ?></h2>
 
-<tr>
-<td colspan="4" class="center">
+	<div class="right">
+		<?php
+			print_bracket_link( plugin_page( 'search' ) . $t_permalink, plugin_lang_get( 'permalink' ) );
+			print_bracket_link( plugin_page( 'search_page' ) . $t_permalink, plugin_lang_get( 'modify_search' ) );
+			print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
+			print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
+		?>
+	</div>
+
+	<table>
+		<?php Source_View_Changesets( $t_changesets, $t_repos ); ?>
+	</table>
+
+	<div style="text-align: center;">
 
 <?php #PAGINATION
 
@@ -88,10 +89,8 @@ if ( $t_count > $f_perpage ) {
 
 }
 ?>
-</td>
-</tr>
-
-</table>
+	</div>
+</div>
 
 <?php
 html_page_bottom1( __FILE__ );
