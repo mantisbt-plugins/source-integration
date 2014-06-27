@@ -22,43 +22,48 @@ html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
 ?>
 
-<br/>
-<table class="width100" cellspacing="1" align="center">
+<br>
 
-<tr>
-<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'changesets' ), ': ', $t_repo->name ?></td>
-<td class="right" colspan="2">
-<?php
-if ( access_has_global_level( plugin_config_get( 'manage_threshold' ) ) ) {
-	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'manage' ) );
-}
-print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
-if ( $t_url = $t_vcs->url_repo( $t_repo ) ) {
-	print_bracket_link( $t_url, plugin_lang_get( 'browse' ) );
-}
-print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
-?>
-</td>
-</tr>
+<div class="table-container">
 
-<?php Source_View_Changesets( $t_changesets, array( $t_repo->id => $t_repo ), false ) ?>
+	<h2><?php echo plugin_lang_get( 'changesets' ), ': ', $t_repo->name ?></h2>
 
+	<div class="right">
+		<?php
+			if( access_has_global_level( plugin_config_get( 'manage_threshold' ) ) ) {
+				print_bracket_link( plugin_page( 'repo_manage_page' )
+					. '&id=' . $t_repo->id, plugin_lang_get( 'manage' )
+				);
+			}
+			print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
+			if( $t_url = $t_vcs->url_repo( $t_repo ) ) {
+				print_bracket_link( $t_url, plugin_lang_get( 'browse' ) );
+			}
+			print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
+		?>
+	</div>
 
-<tr>
-<td colspan="4" class="center">
+	<table>
+		<?php
+			Source_View_Changesets(
+				$t_changesets,
+				array( $t_repo->id => $t_repo ),
+				false
+			);
+		?>
+	</table>
 
-<?php #PAGINATION
-Source_View_Pagination(
-	plugin_page('list') . '&id=' . $t_repo->id,
-	$f_offset,
-	$t_stats['changesets'],
-	$f_perpage
-);
-?>
-</td>
-</tr>
-
-</table>
+	<div style="text-align: center;">
+		<?php
+			Source_View_Pagination(
+				plugin_page('list') . '&id=' . $t_repo->id,
+				$f_offset,
+				$t_stats['changesets'],
+				$f_perpage
+			);
+		?>
+	</div>
+</div>
 
 <?php
 html_page_bottom1( __FILE__ );
