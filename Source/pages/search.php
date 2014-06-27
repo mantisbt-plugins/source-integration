@@ -32,6 +32,7 @@ html_page_top2();
 print_bracket_link( plugin_page( 'search' ) . $t_permalink, plugin_lang_get( 'permalink' ) );
 print_bracket_link( plugin_page( 'search_page' ) . $t_permalink, plugin_lang_get( 'modify_search' ) );
 print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
+print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
 ?>
 </td>
 </tr>
