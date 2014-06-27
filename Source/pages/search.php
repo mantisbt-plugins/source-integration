@@ -14,7 +14,7 @@ require_once( config_get( 'plugin_path' ) . 'Source' . DIRECTORY_SEPARATOR . 'So
 
 # Generate listing
 list( $t_filter, $t_permalink ) = Source_Generate_Filter();
-list( $t_changesets, $t_count ) = $t_filter->find( $f_offset );
+list( $t_changesets, $t_count ) = $t_filter->find( $f_offset, $f_perpage );
 $t_repos = SourceRepo::load_by_changesets( $t_changesets );
 
 html_page_top1( plugin_lang_get( 'title' ) );
