@@ -18,7 +18,7 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 		plugin_pop_current();
 	}
 
-	public function cache( $p_bugs ) {
+	public function cache( array $p_bugs ) {
 		if ( count( $p_bugs ) < 1 ) {
 			return;
 		}
@@ -45,7 +45,7 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 		}
 	}
 
-	public function display( $p_bug, $p_columns_target ) {
+	public function display( BugData $p_bug, $p_columns_target ) {
 		plugin_push_current( 'Source' );
 
 		if ( isset( $this->changeset_cache[ $p_bug->id ] ) ) {
