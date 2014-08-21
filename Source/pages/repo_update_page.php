@@ -23,8 +23,7 @@ $t_repo_commit_project_allowed = isset( $t_repo->info['repo_commit_project_allow
 html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
 
-if( ON == config_get( 'use_javascript' ) )
-{
+if( ON == config_get( 'use_javascript' ) ) {
     $t_useJS = ' onclick="Source_Update_CheckOpts();" ';
     html_javascript_link( 'addLoadEvent.js' );
 ?>
@@ -128,7 +127,7 @@ addLoadEvent(Source_Update_CheckOpts);
 <td><input <?php echo( $t_useJS ); ?> id="repo_commit_project_restricted" name="repo_commit_project_restricted" type="checkbox" <?php echo ($t_repo_commit_project_restricted ? 'checked="checked"' : '') ?>/></td>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>><!-- TODO: Javascript enable/disable of this based on repo_commit_project_restricted? -->
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'commit_project_restricted_list' ) ?></td>
 <td><select multiple="multiple" id="repo_commit_project_allowed" name="repo_commit_project_allowed[]"><?php print_project_option_list( $t_repo_commit_project_allowed ) ?></select></td>
 </tr>
