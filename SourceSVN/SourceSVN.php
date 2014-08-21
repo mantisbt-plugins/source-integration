@@ -9,10 +9,10 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 
 class SourceSVNPlugin extends MantisSourcePlugin {
 	public function register() {
-		$this->name = lang_get( 'plugin_SourceSVN_title' );
-		$this->description = lang_get( 'plugin_SourceSVN_description' );
+		$this->name = plugin_lang_get( 'title' );
+		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.17';
+		$this->version = '0.18';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 			'Source' => '0.16',
@@ -43,7 +43,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	public $configuration = true;
 
 	public function show_type() {
-		return lang_get( 'plugin_SourceSVN_svn' );
+		return plugin_lang_get( 'svn' );
 	}
 
 	public function show_changeset( $p_repo, $p_changeset ) {
@@ -73,31 +73,31 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_svn_username' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'svn_username' ) ?></td>
 <td><input name="svn_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_username ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_svn_password' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'svn_password' ) ?></td>
 <td><input name="svn_password" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_password ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_standard_repo' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'standard_repo' ) ?></td>
 <td><input name="standard_repo" type="checkbox" <?php echo ($t_standard_repo ? 'checked="checked"' : '') ?>/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_trunk_path' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'trunk_path' ) ?></td>
 <td><input name="trunk_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_trunk_path ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_branch_path' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'branch_path' ) ?></td>
 <td><input name="branch_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_branch_path ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_tag_path' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'tag_path' ) ?></td>
 <td><input name="tag_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_tag_path ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_ignore_paths' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'ignore_paths' ) ?></td>
 <td><input name="ignore_paths" type="checkbox" <?php echo ($t_ignore_paths ? 'checked="checked"' : '') ?>/></td>
 </tr>
 <?php
@@ -122,26 +122,26 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		if ( !SourceSVNPlugin::$config_form_handled ) {
 			SourceSVNPlugin::$config_form_handled = true;
 
-			$t_svnpath = config_get( 'plugin_SourceSVN_svnpath', '' );
-			$t_svnargs = config_get( 'plugin_SourceSVN_svnargs', '' );
-			$t_svnssl = config_get( 'plugin_SourceSVN_svnssl', '' );
-			$t_winstart = config_get( 'plugin_SourceSVN_winstart', '' );
+			$t_svnpath = plugin_config_get( 'svnpath', '' );
+			$t_svnargs = plugin_config_get( 'svnargs', '' );
+			$t_svnssl = plugin_config_get( 'svnssl', '' );
+			$t_winstart = plugin_config_get( 'winstart', '' );
 
 ?>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_svnpath' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'svnpath' ) ?></td>
 <td><input name="plugin_SourceSVN_svnpath" value="<?php echo string_attribute( $t_svnpath ) ?>" size="40"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_svnargs' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'svnargs' ) ?></td>
 <td><input name="plugin_SourceSVN_svnargs" value="<?php echo string_attribute( $t_svnargs ) ?>" size="40"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_svnssl' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'svnssl' ) ?></td>
 <td><input name="plugin_SourceSVN_svnssl" type="checkbox" <?php if ( $t_svnssl ) echo 'checked="checked"' ?>/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceSVN_winstart' ) ?></td>
+<td class="category"><?php echo plugin_lang_get( 'winstart' ) ?></td>
 <td><input name="plugin_SourceSVN_winstart" type="checkbox" <?php if ( $t_winstart ) echo 'checked="checked"' ?>/></td>
 </tr>
 <?php
@@ -154,18 +154,18 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			SourceSVNPlugin::$config_form_handled = true;
 
 			$f_svnpath = gpc_get_string( 'plugin_SourceSVN_svnpath', '' );
-			$t_svnpath = config_get( 'plugin_SourceSVN_svnpath', '' );
+			$t_svnpath = plugin_config_get( 'svnpath', '' );
 
 			$f_svnpath = rtrim( $f_svnpath, DIRECTORY_SEPARATOR );
 
 			if ( $f_svnpath != $t_svnpath ) {
 				if ( is_blank( $f_svnpath ) ) {
-					config_delete( 'plugin_SourceSVN_svnpath' );
+					plugin_config_delete( 'svnpath' );
 
 				} else {
 					# be sure that the path is valid
 					if ( ( $t_binary = SourceSVNPlugin::svn_binary( $f_svnpath, true ) ) != 'svn' ) {
-						config_set( 'plugin_SourceSVN_svnpath', $f_svnpath );
+						plugin_config_set( 'svnpath', $f_svnpath );
 					} else {
 						plugin_error( 'SVNPathInvalid', ERROR );
 					}
@@ -173,18 +173,18 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			}
 
 			$f_svnargs = gpc_get_string( 'plugin_SourceSVN_svnargs', '' );
-			if ( $f_svnargs != config_get( 'plugin_SourceSVN_svnargs', '' ) ) {
-				config_set( 'plugin_SourceSVN_svnargs', $f_svnargs );
+			if ( $f_svnargs != plugin_config_get( 'svnargs', '' ) ) {
+				plugin_config_set( 'svnargs', $f_svnargs );
 			}
 
 			$f_svnssl = gpc_get_bool( 'plugin_SourceSVN_svnssl', false );
-			if ( $f_svnssl != config_get( 'plugin_SourceSVN_svnssl', false ) ) {
-				config_set( 'plugin_SourceSVN_svnssl', $f_svnssl );
+			if ( $f_svnssl != plugin_config_get( 'svnssl', false ) ) {
+				plugin_config_set( 'svnssl', $f_svnssl );
 			}
 
 			$f_winstart = gpc_get_bool( 'plugin_SourceSVN_winstart', false );
-			if ( $f_winstart != config_get( 'plugin_SourceSVN_winstart', false ) ) {
-				config_set( 'plugin_SourceSVN_winstart', $f_winstart );
+			if ( $f_winstart != plugin_config_get( 'winstart', false ) ) {
+				plugin_config_set( 'winstart', $f_winstart );
 			}
 		}
 	}
@@ -207,7 +207,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	}
 
 	public function import_full( $p_repo ) {
-		$this->check_svn();
+		$this->svn_check();
 		$svn = $this->svn_call( $p_repo );
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
@@ -258,8 +258,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		return $this->import_full( $p_repo );
 	}
 
-	private function check_svn() {
-		$svn = self::svn_binary();
+	private function svn_check() {
+		$svn = self::svn_call();
 
 		if ( is_blank( shell_exec( "$svn help" ) ) ) {
 			trigger_error( ERROR_GENERIC, ERROR );
@@ -273,11 +273,11 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		if ( is_null( $s_call ) ) {
 			$s_call = self::svn_binary() . ' --non-interactive';
 
-			if ( config_get( 'plugin_SourceSVN_svnssl', false ) ) {
+			if ( plugin_config_get( 'svnssl', false ) ) {
 				$s_call .= ' --trust-server-cert';
 			}
 
-			$t_svnargs = config_get( 'plugin_SourceSVN_svnargs', '' );
+			$t_svnargs = plugin_config_get( 'svnargs', '' );
 			if ( !is_blank( $t_svnargs ) ) {
 				$s_call .= " $t_svnargs";
 			}
@@ -316,7 +316,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		if ( is_null( $s_binary ) || $p_reset ) {
 			if ( is_null( $p_path ) ) {
-				$t_path = config_get( 'plugin_SourceSVN_svnpath', '' );
+				$t_path = plugin_config_get( 'svnpath', '' );
 			} else {
 				$t_path = $p_path;
 			}
@@ -332,7 +332,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 				# Windows paths
 				$t_binary = $t_path . DIRECTORY_SEPARATOR . 'svn.exe';
 				if ( is_file( $t_binary ) && is_executable( $t_binary ) ) {
-					if ( config_get( 'plugin_SourceSVN_winstart', '' ) ) {
+					if ( plugin_config_get( 'winstart', '' ) ) {
 						return "start /B /D \"{$t_path}\" svn.exe";
 					} else {
 						return $s_binary = $t_binary;

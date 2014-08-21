@@ -91,9 +91,9 @@ enforced as of 2013-04-24.
 ## Support
 
 Problems or questions dealing with use and installation should be
-directed to the MantisBT IRC channel #mantisbt-help on freenode:
+directed to the MantisBT IRC channel #mantisbt on freenode:
 
-  irc://freenode.net/mantisbt-help
+  irc://freenode.net/mantisbt
 
 Bug reports or fixes are highly encouraged, and should be directed to
 the bug tracker on GitHub:

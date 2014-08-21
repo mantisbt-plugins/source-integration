@@ -43,15 +43,18 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
+		if( empty( $p_repo->info ) ) {
+			return '';
+		}
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = "";
 
 		if ( !is_null( $p_changeset ) ) {
-			$t_ref = "/$p_changeset->revision";
+			$t_ref = "/tree/$p_changeset->revision";
 		}
 
-		return "http://github.com/$t_username/$t_reponame/tree$t_ref";
+		return "http://github.com/$t_username/$t_reponame$t_ref";
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
@@ -121,6 +124,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
 <td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
 </tr>
+<tr><td class="spacer"></td></tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
 <td><input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/></td>
@@ -139,6 +143,7 @@ else:
 echo plugin_lang_get( 'hub_app_authorized' );
 endif; ?></td>
 </tr>
+<tr><td class="spacer"></td></tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 <td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
