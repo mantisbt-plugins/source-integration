@@ -112,6 +112,7 @@ it recognises comments containing text such as `issue #12` or `issue #12,#61`, e
     100   778  100   699  100    79  44573   5037 --:--:-- --:--:-- --:--:-- 46600
     Committing user does not have appropriate access level in project : Issue 1 (updater vs manager, administrator)
     Commit comment references non-existent issue : Issue 8
+    bright-tools@ubuntu:~/repo$ 
 
 ## Potential Problems
 
