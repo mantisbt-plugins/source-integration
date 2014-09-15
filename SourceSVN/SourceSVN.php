@@ -394,7 +394,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			$t_changeset = new SourceChangeset( $p_repo->id, (integer)$t_entry['revision'], '', $t_str_date, (string)$t_entry->author, '');
 
 			# files
-			foreach( $t_entry->paths->path as $t_path ) {
+			if(isset($t_entry->paths->path)){
+				foreach( $t_entry->paths->path as $t_path ) {
 				switch( (string)$t_path['action'] ) {
 					case 'A': $t_action = 'add'; break;
 					case 'D': $t_action = 'rm'; break;
@@ -437,6 +438,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 					}
 				} # end is_blank( $t_changeset->branch ) if
 			} # end files in revision ($t_path) foreach
+			} else { # no file paths set
+                                $t_changeset->branch = $t_trunk_path;
+                        }
+
 
 			# get the log message
 			$t_changeset->message = (string)$t_entry->msg;
