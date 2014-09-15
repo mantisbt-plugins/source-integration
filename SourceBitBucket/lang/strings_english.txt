@@ -1,0 +1,18 @@
+<?php
+
+$s_plugin_SourceBitBucket_ = '';
+$s_plugin_SourceBitBucket_bitbucket = 'BitBucket';
+$s_plugin_SourceBitBucket_title = 'BitBucket Integration';
+$s_plugin_SourceBitBucket_description = 'Adds BitBucket integration to the Source Integration framework.';
+
+$s_plugin_SourceBitBucket_bit_basic_login = 'BitBucket login (for basic auth)';
+$s_plugin_SourceBitBucket_bit_basic_pwd = 'BitBucket password (for basic auth)';
+$s_plugin_SourceBitBucket_bit_username = 'BitBucket Username';
+$s_plugin_SourceBitBucket_bit_reponame = 'BitBucket Repository Name<br/><span class="small">(no spaces; must match the name as received from the webservice\'s payload)</span>';
+$s_plugin_SourceBitBucket_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list)</span>';
+
+$s_plugin_SourceBitBucket_repo_authorized = '<p>MantisBT is now authorized to access this BitBucket repository.</p>';
+$s_plugin_SourceBitBucket_repo_authorization_failed = '<p style="color: red;">Sorry, MantisBT could not be authorized to access this BitBucket repository.</p>';
+
+$s_plugin_SourceBitBucket_oauth_authorization = 'BitBucket OAuth Authorization';
+$s_plugin_SourceBitBucket_back_repo = 'Back to Repository';
