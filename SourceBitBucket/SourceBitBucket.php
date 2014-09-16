@@ -1,6 +1,6 @@
 <?php
 
-# Copyright (c) 2012 John Reese
+# Copyright (c) 2014 Sergey Marchenko
 # Licensed under the MIT license
 
 if( false === include_once(config_get( 'plugin_path' ) . 'Source/MantisSourcePlugin.class.php') ) {
