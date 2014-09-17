@@ -13,3 +13,10 @@ $s_plugin_SourceWebSVN_websvn_multiviews = 'WebSVN Multiviews Mode<br/><span cla
 $s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br/><span class="small">(Repository directory)</span>';
 $s_plugin_SourceWebSVN_websvn_path = 'WebSVN Path<br/><span class="small">(From repository root)</span>';
 
+$s_plugin_SourceWebSVN_svn_username = 'WebSVN Username';
+$s_plugin_SourceWebSVN_svn_password = 'WebSVN Password';
+$s_plugin_SourceWebSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceWebSVN_trunk_path = 'Trunk Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceWebSVN_branch_path = 'Branch Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceWebSVN_tag_path = 'Tag Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceWebSVN_ignore_paths = 'Ignore Other Paths<br/><span class="small">(Non-standard repository)</span>';
