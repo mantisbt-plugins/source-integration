@@ -16,6 +16,7 @@ Initial support is included for [Subversion](http://subversion.apache.org/)
 and [Git](http://git-scm.com/) repositories using the following extension
 plugins:
 
+* **SourceBitBucket**: Git repositories hosted on [BitBucket](http://bitbucket.org/).
 * **SourceCgit**: Git repositories accessible via a
   [cgit](http://hjemli.net/git/cgit/) web frontend installation.
 * **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).
