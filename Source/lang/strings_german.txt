@@ -74,6 +74,8 @@ $s_plugin_Source_affected_issues = 'Betroffene Einträge';
 $s_plugin_Source_attach_to_issue = 'Zu Eintrag hinzufügen:';
 
 $s_plugin_Source_configuration = 'Konfiguration';
+$s_plugin_Source_api_key = 'API Key';
+$s_plugin_Source_api_key_info = 'Dies ist ein geheimer Schlüssel der von Diensten genutzt wird, um Commit-Daten an Mantis zu senden.<br/>Um einen API-Key zu generieren, führe <code>openssl rand -hex 12</code> auf einer Unix Konsole aus.';
 $s_plugin_Source_allow_remote_checkin = 'Übertragung vom Fremdrechner erlauben';
 $s_plugin_Source_remote_checkin_urls = 'Erlaubte Adressen';
 $s_plugin_Source_allow_remote_import = 'Importe vom Fremdrechner erlauben';
@@ -87,16 +89,19 @@ $s_plugin_Source_buglink_regex_2 = '<acronym title="Regulärer Ausdruck">RegEx</
 $s_plugin_Source_bugfix_regex_1 = '<acronym title="Regulärer Ausdruck">RegEx</acronym> für die automatische Zuordnung und Erledigung eines Eintrags #1<br/><span class="small">Dieser reguläre Ausdruck erkennt die Anweisung in der Übertragungsmeldung, z.B. "Fixed #123"</span>';
 $s_plugin_Source_bugfix_regex_2 = '<acronym title="Regulärer Ausdruck">RegEx</acronym> für die automatische Zuordnung und Erledigung eines Eintrags #2<br/><span class="small">Dieser reguläre Ausdruck wird auf das Ergebnis von #1 angewandt und ermittelt daraus die Eintrags-ID</span>';
 $s_plugin_Source_bugfix_status = 'Automatische Erledigung: Status';
+$s_plugin_Source_bugfix_status_pvm = 'Automatische Erledigung Produktstatus';
 $s_plugin_Source_bugfix_status_off = '[Deaktiviert]';
 $s_plugin_Source_bugfix_status_default = '[Standardstatus für \'Erledigt\']';
 $s_plugin_Source_bugfix_resolution = 'Automatische Erledigung: Lösung';
 $s_plugin_Source_bugfix_handler = 'Automatische Erledigung: Zum Autor der Übertragung zuweisen';
 $s_plugin_Source_bugfix_message = 'Automatische Erledigung: Text der automatischen Eintragsnotiz';
 $s_plugin_Source_bugfix_message_info = 'Platzhalter: $1 für Zweig, $2 für Revision, $3 für Datum/Uhrzeit, $4 für die Übertragungsmeldung, $5 für den Namen des Projektarchivs oder $6 für die ID des Änderungssatzes.';
+$s_plugin_Source_bugfix_message_view_status = 'Automatische Erledigung: Sichtbarkeit der Eintragsnotiz';
+$s_plugin_Source_bugfix_message_view_status_info = 'Hinweis: Wenn der Autor/Comitter des Änderungssatzes nicht das Privileg <em>private_bugnote_threshold</em> besitzt, wird die Eintragsnotiz immer öffentlich sein.';
 $s_plugin_Source_reset = 'Zurücksetzen';
 $s_plugin_Source_menu_links = 'Hauptmenüeinträge';
 $s_plugin_Source_show_repo_link = 'Projektarchive';
-$s_plugin_Source_show_search_link = 'Suchen';
+$s_plugin_Source_show_search_link = 'Projektarchive durchsuchen';
 $s_plugin_Source_show_repo_stats = 'Statistiken zum Projektarchiv';
 $s_plugin_Source_enabled_features = 'Aktivierte Funktionen';
 $s_plugin_Source_enable_linking = 'Änderungssätze automatisch verknüpfen <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
@@ -104,6 +109,7 @@ $s_plugin_Source_enable_mapping = 'Automatische Versionszuordnung';
 $s_plugin_Source_enable_resolving = 'Eintrag automatisch auf "Erledigt" setzen';
 $s_plugin_Source_enable_message = 'Nach dem automatischen Erledigen eine Eintragsnotiz hinzufügen';
 $s_plugin_Source_enable_porting = 'Portierungsstatus';
+$s_plugin_Source_enable_product_matrix = 'Integration von Product Matrix';
 
 $s_plugin_Source_branch_mapping = 'Automatische Versionszuordnung';
 $s_plugin_Source_mapping_update = 'Aktualisiere Zuordnung';
@@ -134,4 +140,7 @@ $s_plugin_Source_invalid_import_url = 'Ungültige Adresse für Import vom Fremdr
 $s_plugin_Source_invalid_repo = 'Ungültige Bezeichnung für das Projektarchiv';
 $s_plugin_Source_invalid_changeset = 'Die Informationen zu dem Änderungssatz konnten nicht ermittelt werden';
 
+$s_plugin_Source_import_latest_failed = 'Partieller Import des Projektarchivs fehlgeschlagen.';
 $s_plugin_Source_import_full_failed = 'Vollständiger Import des Projektarchivs fehlgeschlagen.';
+
+$s_plugin_Source_changeset_column_title = 'C';
