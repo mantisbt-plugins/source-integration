@@ -75,7 +75,7 @@ $s_plugin_Source_attach_to_issue = 'Zu Eintrag hinzufügen:';
 
 $s_plugin_Source_configuration = 'Konfiguration';
 $s_plugin_Source_api_key = 'API Key';
-$s_plugin_Source_api_key_info = 'Dies ist ein geheimer Schlüssel der von Diensten genutzt wird, um Commit-Daten an Mantis zu senden.<br/>Um einen API-Key zu generieren, führe <code>openssl rand -hex 12</code> auf einer Unix Konsole aus.';
+$s_plugin_Source_api_key_info = 'Dies ist ein geheimer Schlüssel der von Diensten genutzt wird, um Commit-Daten an Mantis zu senden.<br/>Um einen API-Key zu generieren, führen Sie <code>openssl rand -hex 12</code> auf einer Unix Konsole aus.';
 $s_plugin_Source_allow_remote_checkin = 'Übertragung vom Fremdrechner erlauben';
 $s_plugin_Source_remote_checkin_urls = 'Erlaubte Adressen';
 $s_plugin_Source_allow_remote_import = 'Importe vom Fremdrechner erlauben';
