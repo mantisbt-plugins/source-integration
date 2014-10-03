@@ -7,9 +7,9 @@ $s_plugin_SourceBitBucket_description = 'Adds BitBucket integration to the Sourc
 
 $s_plugin_SourceBitBucket_bit_basic_login = 'BitBucket login (for basic auth)';
 $s_plugin_SourceBitBucket_bit_basic_pwd = 'BitBucket password (for basic auth)';
-$s_plugin_SourceBitBucket_bit_username = 'BitBucket Username';
+$s_plugin_SourceBitBucket_bit_username = 'BitBucket Username/Teamname';
 $s_plugin_SourceBitBucket_bit_reponame = 'BitBucket Repository Name<br/><span class="small">(no spaces; must match the name as received from the webservice\'s payload)</span>';
-$s_plugin_SourceBitBucket_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list)</span>';
+$s_plugin_SourceBitBucket_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list, * imports all branches)</span>';
 
 $s_plugin_SourceBitBucket_repo_authorized = '<p>MantisBT is now authorized to access this BitBucket repository.</p>';
 $s_plugin_SourceBitBucket_repo_authorization_failed = '<p style="color: red;">Sorry, MantisBT could not be authorized to access this BitBucket repository.</p>';
