@@ -1,6 +1,7 @@
 <?php
 
 # Copyright (c) 2014 Johannes Goehr
+# Copyright (c) 2014 Bob Clough
 # Licensed under the MIT license
 
 if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourcePlugin.class.php' ) ) {
@@ -133,17 +134,26 @@ public function update_repo_form( $p_repo ) {
 		$f_hub_root = gpc_get_string( 'hub_root' );
 		$f_hub_repoid = gpc_get_string( 'hub_repoid' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
-		if($f_hub_repoid == ''){
+
+		# Getting the repoid doesnt seem to work with the latest gitlab - but we can get all the
+		# repos the current user can access and go through them to find the correct id
+		if(empty($f_hub_repoid)){
 			$t_hub_reponame_enc = urlencode( $f_hub_reponame);
-			$t_uri = $this->api_uri( $p_repo, "projects/$t_hub_reponame_enc" );
+			$t_uri = $this->api_uri( $p_repo, "projects" );
 			$t_member = null;
 			$t_json = json_url( $t_uri, $t_member );
-			if ( false === $t_json || is_null( $t_json ) ) {
-				$f_hub_repoid='RepoName is invalid';
-			} else if ( property_exists( $t_json, 'id' ) ) {
-				$f_hub_repoid = (string)$t_json ->id;
+
+			$f_hub_repoid='RepoName is invalid';
+			if ( !is_null( $t_json ) ) {
+				foreach($t_json as $project)
+				{
+					if ( property_exists( $project, 'path_with_namespace' ) and ($project->path_with_namespace == $f_hub_reponame) and property_exists( $project, 'id' ) )
+					{
+							$f_hub_repoid = (string)$project ->id;
+					}
+				}
 			}
-		}		
+		}
 		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
@@ -180,9 +190,9 @@ public function update_repo_form( $p_repo ) {
 		if ( is_null( $f_payload ) ) {
 			return;
 		}
-		
+
 		$t_data = json_decode($f_payload,true);
-		
+
 		$t_repoid = $t_data['project_id'];
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
@@ -221,24 +231,26 @@ public function update_repo_form( $p_repo ) {
 		if ( is_blank( $t_branch ) ) {
 			$t_branch = 'master';
 		}
-		
+
+		# if we're not allowed everything, populate an array of what we are allowed
 		if ($t_branch != '*')
 		{
-			$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
+			$t_branches_allowed = array_map( 'trim', explode( ',', $t_branch ) );
 		}
-		else
+
+		# Always pull back full list of repos
+		$t_repoid = $p_repo->info['hub_repoid'];
+		$t_uri = $this->api_uri( $p_repo, "projects/$t_repoid/repository/branches" );
+
+		$t_member = null;
+		$t_json = json_url( $t_uri, $t_member );
+		$t_branches = array();
+		foreach ($t_json as $t_branch)
 		{
-			$t_repoid = $p_repo->info['hub_repoid'];
-			$t_uri = $this->api_uri( $p_repo, "projects/$t_repoid/repository/branches" );
-			
-			$t_member = null;
-			$t_json = json_url( $t_uri, $t_member );
-			$t_branches = array();
-			foreach ($t_json as $t_branch)
-			{
+			if(empty($t_branches_allowed) or in_array($t_branch->name, $t_branches_allowed))
 				$t_branches[] = $t_branch;
-			}
 		}
+
 		$t_changesets = array();
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
@@ -327,7 +339,7 @@ public function update_repo_form( $p_repo ) {
 				$p_branch,
 				date( 'Y-m-d H:i:s', strtotime( $p_json->authored_date ) ),
 				$p_json->author_name,
-				$p_json->title
+				$p_json->message
 			);
 
 			if ( count( $p_json->parents ) > 0 ) {
