@@ -1,6 +1,10 @@
 # Mantis Source Integration
 
-Copyright (C) 2012 John Reese
+Copyright (c) 2008 - 2012  John Reese - http://noswap.com
+Copyright (c) 2012 - 2014  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+
+Released under the [MIT license](http://opensource.org/licenses/MIT)
+
 
 ## Description
 
