@@ -52,7 +52,7 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 		if ( !is_null( $p_changeset ) ) {
 			$t_ref = "/$p_changeset->revision";
 		}
-		if ( !is_null( $t_ref)){
+		if ( !is_null( $t_ref ) ) {
 			return "$t_root/$t_reponame/";
 		}
 		return "$t_root/$t_reponame/tree/$t_ref";
@@ -137,19 +137,20 @@ public function update_repo_form( $p_repo ) {
 
 		# Getting the repoid doesnt seem to work with the latest gitlab - but we can get all the
 		# repos the current user can access and go through them to find the correct id
-		if(empty($f_hub_repoid)){
-			$t_hub_reponame_enc = urlencode( $f_hub_reponame);
+		if( empty( $f_hub_repoid ) ) {
+			$t_hub_reponame_enc = urlencode( $f_hub_reponame );
 			$t_uri = $this->api_uri( $p_repo, "projects" );
 			$t_member = null;
 			$t_json = json_url( $t_uri, $t_member );
 
-			$f_hub_repoid='RepoName is invalid';
-			if ( !is_null( $t_json ) ) {
-				foreach($t_json as $project)
-				{
-					if ( property_exists( $project, 'path_with_namespace' ) and ($project->path_with_namespace == $f_hub_reponame) and property_exists( $project, 'id' ) )
-					{
-							$f_hub_repoid = (string)$project ->id;
+			$f_hub_repoid = 'RepoName is invalid';
+			if( !is_null( $t_json ) ) {
+				foreach( $t_json as $project ) {
+					if (   property_exists( $project, 'path_with_namespace' )
+						&& $project->path_with_namespace == $f_hub_reponame
+						&& property_exists( $project, 'id' )
+					) {
+						$f_hub_repoid = (string)$project ->id;
 					}
 				}
 			}
@@ -186,12 +187,12 @@ public function update_repo_form( $p_repo ) {
 	}
 
 	public function precommit() {
-		$f_payload = file_get_contents("php://input");
+		$f_payload = file_get_contents( "php://input" );
 		if ( is_null( $f_payload ) ) {
 			return;
 		}
 
-		$t_data = json_decode($f_payload,true);
+		$t_data = json_decode( $f_payload, true );
 
 		$t_repoid = $t_data['project_id'];
 		$t_repo_table = plugin_table( 'repository', 'Source' );
@@ -218,7 +219,7 @@ public function update_repo_form( $p_repo ) {
 			$t_commits[] = $t_commit['id'];
 		}
 
-		$t_refData = split('/',$p_data['ref']);
+		$t_refData = split( '/', $p_data['ref'] );
 		$t_branch = $t_refData[2];
 
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );
@@ -233,8 +234,7 @@ public function update_repo_form( $p_repo ) {
 		}
 
 		# if we're not allowed everything, populate an array of what we are allowed
-		if ($t_branch != '*')
-		{
+		if( $t_branch != '*' ) {
 			$t_branches_allowed = array_map( 'trim', explode( ',', $t_branch ) );
 		}
 
@@ -245,10 +245,10 @@ public function update_repo_form( $p_repo ) {
 		$t_member = null;
 		$t_json = json_url( $t_uri, $t_member );
 		$t_branches = array();
-		foreach ($t_json as $t_branch)
-		{
-			if(empty($t_branches_allowed) or in_array($t_branch->name, $t_branches_allowed))
+		foreach( $t_json as $t_branch ) {
+			if( empty( $t_branches_allowed ) || in_array( $t_branch->name, $t_branches_allowed ) ) {
 				$t_branches[] = $t_branch;
+			}
 		}
 
 		$t_changesets = array();
