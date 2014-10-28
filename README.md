@@ -1,4 +1,3 @@
-
 # Mantis Source Integration
 
 Copyright (C) 2012 John Reese
@@ -71,6 +70,11 @@ enforced as of 2013-04-24.
 
 6. Click on the "Source Control Integration" plugin to configure it.
 
+   NOTE: an API Key must be set up to import changesets via shell.
+   To generate a random key, run
+   
+        openssl rand -hex 12
+
 7. Go to "Repositories" and enter your repository name, select the
    repository type, and click "Create Repository" to begin adding your first
    repository.
@@ -83,7 +87,15 @@ enforced as of 2013-04-24.
    you can automate the import of new changesets by configuring a cron
    job on the web server where your Mantis installation resides, as follows:
 
+   a. import via curl (could run into timeouts on large repositories, 
+      or block your webserver)
+
         curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all"
+
+   b. import via shell
+
+        php-cgi -f plugin.php page=Source/import id=all api_key=<YOUR_API_KEY>
+
 
    This will import new changesets for all configured repositories.
 
