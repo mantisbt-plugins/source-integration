@@ -8,10 +8,9 @@ $s_plugin_SourceGitlab_gitlab = 'GitLab';
 $s_plugin_SourceGitlab_title = 'GitLab Integration';
 $s_plugin_SourceGitlab_description = 'Integration für GitLab über die VCS Basisintegration.';
 
-$s_plugin_SourceGitlab_hub_root = 'GitLab Root';
-$s_plugin_SourceGitlab_hub_username = 'GitLab Benutzername';
-$s_plugin_SourceGitlab_hub_repoid = 'GitLab Repository ID (wird über Repo Name automatisch ermittelt falls leer)</span>';
-$s_plugin_SourceGitlab_hub_reponame = 'GitLab Repository Name mit Namespace Slash am Anfang oder Ende (namespace/project)</span>';
+$s_plugin_SourceGitlab_hub_root = 'GitLab Root<br /><span class="small">The full URL of your GitLab instance</span>';
+$s_plugin_SourceGitlab_hub_repoid = 'GitLab Repository ID<br /><span class="small">wird über Repo Name automatisch ermittelt falls leer</span>';
+$s_plugin_SourceGitlab_hub_reponame = 'GitLab Repository Name<br /><span class="small">Ohne Namespace Slash am Anfang oder Ende (namespace/project)</span>';
 $s_plugin_SourceGitlab_hub_app_secret = 'GitLab API Key<br /><span class="small">API Schlüssel für den Mantis Benutzer (continuous Benutzer)</span>';
 $s_plugin_SourceGitlab_master_branch = 'Hauptbranches<br/><span class="small">(Komma-separierte Liste oder *)</span>';
 

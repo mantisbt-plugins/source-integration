@@ -9,9 +9,9 @@ $s_plugin_SourceGitlab_gitlab = 'GitLab';
 $s_plugin_SourceGitlab_title = 'GitLab Integration';
 $s_plugin_SourceGitlab_description = 'Adds GitLab integration to the Source Integration framework.';
 
-$s_plugin_SourceGitlab_hub_root = 'GitLab Root (The full URL of your GitLab instance)';
-$s_plugin_SourceGitlab_hub_repoid = 'GitLab Repository ID (Numerical, filled in automatically if empty)</span>';
-$s_plugin_SourceGitlab_hub_reponame = 'GitLab Repository Name <br/><span class="small">Name & Namespace with no leading or trailing slashes (namespace/project)</span>';
+$s_plugin_SourceGitlab_hub_root = 'GitLab Root<br /><span class="small">The full URL of your GitLab instance</span>';
+$s_plugin_SourceGitlab_hub_repoid = 'GitLab Repository ID<br /><span class="small">Numerical, filled in automatically if empty</span>';
+$s_plugin_SourceGitlab_hub_reponame = 'GitLab Repository Name<br /><span class="small">Name & Namespace with no leading or trailing slashes (namespace/project)</span>';
 $s_plugin_SourceGitlab_hub_app_secret = 'GitLab API Key<br /><span class="small">api key for mantis user (continuous user)</span>';
 $s_plugin_SourceGitlab_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list or *)</span>';
 
