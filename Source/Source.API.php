@@ -1097,7 +1097,8 @@ class SourceChangeset {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
 
-		return array_shift( self::from_result( $t_result ) );
+		$t_array = self::from_result( $t_result );
+		return array_shift( $t_array );
 	}
 
 	/**
@@ -1117,7 +1118,8 @@ class SourceChangeset {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
 
-		return array_shift( self::from_result( $t_result ) );
+		$t_array = self::from_result( $t_result );
+		return array_shift( $t_array );
 	}
 
 	/**
