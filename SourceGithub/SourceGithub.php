@@ -116,38 +116,61 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_master_branch = 'master';
 		}
 ?>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'hub_username' ) ?></td>
-<td><input name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
-<td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
-</tr>
-<tr class="spacer"></tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
-<td><input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>
-<td><input name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></td>
-<td><?php if ( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ):
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_username' ) ?></span></label>
+	<span class="input">
+		<input name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_reponame' ) ?></span></label>
+	<span class="input">
+		<input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></span></label>
+	<span class="input">
+		<input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_app_secret' ) ?></span></label>
+	<span class="input">
+		<input name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></span></label>
+	<span class="input">
+		<?php if ( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ):
 echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
 elseif ( empty( $t_hub_app_access_token ) ):
 print_link( $this->oauth_authorize_uri( $p_repo ), plugin_lang_get( 'hub_app_authorize' ) );
 else:
 echo plugin_lang_get( 'hub_app_authorized' );
-endif; ?></td>
-</tr>
-<tr class="spacer"></tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-<td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
-</tr>
+endif; ?>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'master_branch' ) ?></span></label>
+	<span class="input">
+		<input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
 <?php
 	}
 
