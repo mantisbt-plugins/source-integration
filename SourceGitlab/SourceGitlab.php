@@ -94,7 +94,7 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 		$t_ref = $p_changeset->revision;
 		$t_filename = $p_file->filename;
 
-		return "$t_root/$t_reponame/commit/$t_ref?view=parallel";
+		return "t_root/$t_reponame/commit/$t_ref?view=parallel";
 	}
 
 public function update_repo_form( $p_repo ) {
@@ -171,7 +171,7 @@ public function update_repo_form( $p_repo ) {
 		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		if ( !preg_match( '/\*|^[a-zA-Z0-9_\., -]*$/', $f_master_branch ) ) {
+		if ( !preg_match( '/^(\*|[a-zA-Z0-9_\., -]*)$/', $f_master_branch ) ) {
 			plugin_error( self::ERROR_INVALID_PRIMARY_BRANCH );
 		}
 
