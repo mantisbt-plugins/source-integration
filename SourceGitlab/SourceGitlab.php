@@ -313,24 +313,30 @@ public function update_repo_form( $p_repo ) {
 		while( count( $s_parents ) > 0 && $s_counter < 200 ) {
 			$t_commit_id = array_shift( $s_parents );
 			echo "Retrieving $t_commit_id ... <br/>";
-			$t_uri = $this->api_uri( $p_repo, "projects/$t_repoid/repository/commits/$t_commit_id" );
+			$t_uri = $this->api_uri( $p_repo, "projects/$t_repoid/repository/commits/" );
+			$t_uri .= "&ref_name=".$t_commit_id; 
 			$t_member = null;
-			$t_json = json_url( $t_uri, $t_member );
-			if ( false === $t_json || is_null( $t_json ) ) {
-				# Some error occured retrieving the commit
-				echo "failed.\n";
-				continue;
-			} else if ( !property_exists( $t_json, 'id' ) ) {
-				echo "failed ($t_json->message).\n";
-				continue;
+			$t_json_all = json_url( $t_uri, $t_member );
+			if( !is_array( $t_json_all ) ) {
+				$t_jason_all = $t_json_all[0];
 			}
+			foreach( $t_json_all as $t_json ) {
+				if ( false === $t_json || is_null( $t_json ) ) {
+					# Some error occured retrieving the commit
+					echo "failed.\n";
+					continue;
+				} else if ( !property_exists( $t_json, 'id' ) ) {
+					echo "failed ($t_json->message).\n";
+					continue;
+				}
+	
+				list( $t_changeset, $t_commit_parents ) = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
+				if ( $t_changeset ) {
+					$t_changesets[] = $t_changeset;
+				}
 
-			list( $t_changeset, $t_commit_parents ) = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
-			if ( $t_changeset ) {
-				$t_changesets[] = $t_changeset;
+				$s_parents = array_merge( $s_parents, $t_commit_parents );
 			}
-
-			$s_parents = array_merge( $s_parents, $t_commit_parents );
 		}
 
 		$s_counter = 0;
@@ -344,14 +350,20 @@ public function update_repo_form( $p_repo ) {
 			foreach( $p_json->parent_ids as $t_parent ) {
 				$t_parents[] = $t_parent;
 			}
-
+			# if message is not proprety use title
+			if (!property_exists( $p_json, "message" ) ) {
+				$p_message =  $p_json->title;
+			} else {
+				$p_message = $p_json->message;
+			}
+			# change date by created_at
 			$t_changeset = new SourceChangeset(
 				$p_repo->id,
 				$p_json->id,
 				$p_branch,
-				date( 'Y-m-d H:i:s', strtotime( $p_json->authored_date ) ),
+				date( 'Y-m-d H:i:s', strtotime( $p_json->created_at ) ),
 				$p_json->author_name,
-				$p_json->message
+				$p_message
 			);
 
 			if ( count( $p_json->parents ) > 0 ) {
