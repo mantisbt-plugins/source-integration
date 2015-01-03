@@ -14,7 +14,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.17';
+		$this->version = '0.18';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 			'Source' => '0.16',
@@ -309,7 +309,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			# Parse for changed file data
 			$t_commit['files'] = array();
 
-			preg_match_all( '#class="list".*?h=(\w*)[^>]*>([^<]*)</a>(?:(?:</td><td><span class="file_status|[^%]*%) (\w*))?#',
+			preg_match_all( '#class="list".*?h=(\w*).*?>(.*?)<.a>(?:(?:<.td><td><span class="file_status| with \d*%) (\w*))?#',
 				$t_gitweb_files, $t_matches, PREG_SET_ORDER );
 
 			foreach( $t_matches as $t_file_matches ) {
