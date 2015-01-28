@@ -10,11 +10,11 @@ $s_plugin_SourceSVN_description = 'Добавляет интеграцию Subve
 $s_plugin_SourceSVN_svn = 'SVN';
 $s_plugin_SourceSVN_svn_username = 'SVN имя пользователя';
 $s_plugin_SourceSVN_svn_password = 'SVN пароль';
-$s_plugin_SourceSVN_standard_repo = 'Стандартный репозитарий<br/><span class="small">(trunk/branches/tags)</span>';
-$s_plugin_SourceSVN_trunk_path = 'Путь к Trunk<br/><span class="small">(нестандартный репозитарий)</span>';
-$s_plugin_SourceSVN_branch_path = 'Путь к Branch<br/><span class="small">(нестандартный репозитарий)</span>';
-$s_plugin_SourceSVN_tag_path = 'Путь к Tag<br/><span class="small">(нестандартный репозитарий)</span>';
-$s_plugin_SourceSVN_ignore_paths = 'Игнорировать остальные пути<br/><span class="small">(нестандартный репозитарий)</span>';
+$s_plugin_SourceSVN_standard_repo = 'Стандартный репозиторий<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceSVN_trunk_path = 'Путь к Trunk<br/><span class="small">(нестандартный репозиторий)</span>';
+$s_plugin_SourceSVN_branch_path = 'Путь к Branch<br/><span class="small">(нестандартный репозиторий)</span>';
+$s_plugin_SourceSVN_tag_path = 'Путь к Tag<br/><span class="small">(нестандартный репозиторий)</span>';
+$s_plugin_SourceSVN_ignore_paths = 'Игнорировать остальные пути<br/><span class="small">(нестандартный репозиторий)</span>';
 
 $s_plugin_SourceSVN_configuration = 'Настройка';
 $s_plugin_SourceSVN_update = 'Обновить';

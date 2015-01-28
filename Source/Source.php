@@ -49,10 +49,10 @@ class SourcePlugin extends MantisPlugin {
 			'enable_message'	=> OFF,
 			'enable_product_matrix' => OFF,
 
-			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s+(?:#(?:\d+)[,\.\s]*)+/i',
+			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s*:?\s+(?:#(?:\d+)[,\.\s]*)+/i',
 			'buglink_regex_2'	=> '/#?(\d+)/',
 
-			'bugfix_regex_1'	=> '/(?:fixe?d?s?|resolved?s?)+\s+(?:#(?:\d+)[,\.\s]*)+/i',
+			'bugfix_regex_1'	=> '/(?:fixe?d?s?|resolved?s?)+\s*:?\s+(?:#(?:\d+)[,\.\s]*)+/i',
 			'bugfix_regex_2'	=> '/#?(\d+)/',
 			'bugfix_status'		=> -1,
 			'bugfix_resolution'	=> FIXED,

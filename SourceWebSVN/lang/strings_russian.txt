@@ -11,4 +11,4 @@ $s_plugin_SourceWebSVN_svn = 'WebSVN';
 $s_plugin_SourceWebSVN_websvn_url = 'Адрес WebSVN<br/><span class="small">(Включая последний слеш)</span>';
 $s_plugin_SourceWebSVN_websvn_multiviews = 'Режим Multiviews в WebSVN<br/><span class="small" display>(Отметьте если WebSVN запущен под<br />&nbsp;Apache в режиме Multiviews)</span>';
 $s_plugin_SourceWebSVN_websvn_name = 'WebSVN имя<br/><span class="small">(директория репозитория)</span>';
-$s_plugin_SourceWebSVN_websvn_path = 'WebSVN путь<br/><span class="small">(от корня репозитария)</span>';
+$s_plugin_SourceWebSVN_websvn_path = 'WebSVN путь<br/><span class="small">(от корня репозитория)</span>';

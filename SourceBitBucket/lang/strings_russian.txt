@@ -1,0 +1,17 @@
+<?php
+
+$s_plugin_SourceBitBucket_ = '';
+$s_plugin_SourceBitBucket_bitbucket = 'BitBucket';
+$s_plugin_SourceBitBucket_title = 'BitBucket интегратор';
+$s_plugin_SourceBitBucket_description = 'Добавляет интеграцию BitBucket в Source Integration framework.';
+
+$s_plugin_SourceBitBucket_bit_basic_login = 'BitBucket login (for basic auth)';
+$s_plugin_SourceBitBucket_bit_basic_pwd = 'BitBucket password (for basic auth)';
+$s_plugin_SourceBitBucket_bit_username = 'Имя пользователя BitBucket';
+$s_plugin_SourceBitBucket_bit_reponame = 'Имя репозитория BitBucket<br/><span class="small">(только имя в нижней раскладке)</span>';
+$s_plugin_SourceBitBucket_master_branch = 'Главные ветки<br/><span class="small">(список разделенный запятыми)</span>';
+
+$s_plugin_SourceBitBucket_repo_authorized = '<p>MantisBT авторизован в репозитории BitBucket.</p>';
+$s_plugin_SourceBitBucket_repo_authorization_failed = '<p style="color: red;">Извините, MantisBT не может авторизоваться к этому репозиторию BitBucket.</p>';
+
+$s_plugin_SourceBitBucket_back_repo = 'назад в репозитории';
