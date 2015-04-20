@@ -200,11 +200,14 @@ public function update_repo_form( $p_repo ) {
 
 	public function precommit() {
 		$f_payload = file_get_contents( "php://input" );
-		if ( is_null( $f_payload ) ) {
+		if( is_null( $f_payload ) ) {
 			return;
 		}
 
 		$t_data = json_decode( $f_payload, true );
+		if( is_null( $t_data ) ) {
+			return;
+		}
 
 		$t_repoid = $t_data['project_id'];
 		$t_repo_table = plugin_table( 'repository', 'Source' );
