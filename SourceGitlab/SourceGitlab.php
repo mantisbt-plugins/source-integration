@@ -231,7 +231,8 @@ public function update_repo_form( $p_repo ) {
 			$t_commits[] = $t_commit['id'];
 		}
 
-		$t_refData = split( '/', $p_data['ref'] );
+		# extract branch name 'refs/heads/issue/branch-description' => ['refs', 'heads', 'issue/branch-description']
+		$t_refData = explode( '/', $p_data['ref'], 3 );
 		$t_branch = $t_refData[2];
 
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );
