@@ -147,38 +147,35 @@ public function update_repo_form( $p_repo ) {
 		$f_hub_root = gpc_get_string( 'hub_root' );
 		$f_hub_repoid = gpc_get_string( 'hub_repoid' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
+		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 
-		# Getting the repoid doesnt seem to work with the latest gitlab - but we can get all the
-		# repos the current user can access and go through them to find the correct id
-		if( empty( $f_hub_repoid ) ) {
+		# Update info required for getting the repoid
+		$p_repo->info['hub_root'] = $f_hub_root;
+		$p_repo->info['hub_reponame'] = $f_hub_reponame;
+		$p_repo->info['hub_app_secret'] = $f_hub_app_secret;
+
+		# Getting the repoid from reponame
+		if( !is_numeric( $f_hub_repoid ) && !empty( $f_hub_reponame ) ) {
 			$t_hub_reponame_enc = urlencode( $f_hub_reponame );
-			$t_uri = $this->api_uri( $p_repo, "projects" );
+			$t_uri = $this->api_uri( $p_repo, "projects/$t_hub_reponame_enc" );
 			$t_member = null;
 			$t_json = json_url( $t_uri, $t_member );
 
-			$f_hub_repoid = 'RepoName is invalid';
+			$f_hub_repoid = 'Repository Name is invalid';
 			if( !is_null( $t_json ) ) {
-				foreach( $t_json as $project ) {
-					if (   property_exists( $project, 'path_with_namespace' )
-						&& $project->path_with_namespace == $f_hub_reponame
-						&& property_exists( $project, 'id' )
-					) {
-						$f_hub_repoid = (string)$project ->id;
-					}
+				if ( property_exists( $t_json, 'id' ) ) {
+					$f_hub_repoid = (string)$t_json ->id;
 				}
 			}
 		}
-		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
 		if ( !preg_match( '/^(\*|[a-zA-Z0-9_\., -]*)$/', $f_master_branch ) ) {
 			plugin_error( self::ERROR_INVALID_PRIMARY_BRANCH );
 		}
 
-		$p_repo->info['hub_root'] = $f_hub_root;
+		# Update other fields
 		$p_repo->info['hub_repoid'] = $f_hub_repoid;
-		$p_repo->info['hub_reponame'] = $f_hub_reponame;
-		$p_repo->info['hub_app_secret'] = $f_hub_app_secret;
 		$p_repo->info['master_branch'] = $f_master_branch;
 
 		return $p_repo;
