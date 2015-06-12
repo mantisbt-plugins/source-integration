@@ -74,11 +74,16 @@ enforced as of 2013-04-24.
    repository type, and click "Create Repository" to begin adding your first
    repository.
 
-8. Once configured, click the "Return to Repository" link and click either
+8. Configuring the repository is plugin-specific, so see the specific 
+    configuration documentation:
+    
+    * [docs/CONFIGURING.SourceGithub.md](docs/CONFIGURING.SourceGithub.md)
+
+9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial 
    import of repository changesets and verify configuration.
 
-9. Once satisfied that your repository is configured & working correctly,
+10. Once satisfied that your repository is configured & working correctly,
    you can automate the import of new changesets by configuring a cron
    job on the web server where your Mantis installation resides, as follows:
    
@@ -86,7 +91,7 @@ enforced as of 2013-04-24.
    
    This will import new changesets for all configured repositories.
 
-10. Add additional repositories as needed.
+11. Add additional repositories as needed.
 
 ## Support
 
