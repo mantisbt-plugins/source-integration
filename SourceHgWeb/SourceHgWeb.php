@@ -26,7 +26,6 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 			'Source' => '0.14',
-			'Meta' => '0.1',
 		);
 
 		$this->author = 'David Hicks';
@@ -130,8 +129,8 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		# Once it reaches here it is decoded. Hence we split by a space
 		# were as the curl command uses a '+' character instead.
 		# i.e. DATA=`echo $INPUT | sed -e 's/ /+/g'`
-		list ( , $t_commit_id, $t_branch ) = split( ' ', $p_data );
-		list ( , , $t_branch ) = split( '/', $t_branch );
+		list ( , $t_commit_id, $t_branch ) = explode( ' ', $p_data );
+		list ( , , $t_branch ) = explode( '/', $t_branch );
 
 		return $this->import_commits($p_repo, null, $t_commit_id, $t_branch);
 	}

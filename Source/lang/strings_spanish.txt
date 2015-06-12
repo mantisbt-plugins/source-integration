@@ -1,0 +1,143 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_Source_ = '';
+$s_plugin_Source_title = 'Integración de Control de Código';
+$s_plugin_Source_description = 'Integración de control de código utilizando una API abstracta para soportar cualquier control de código software.';
+
+$s_plugin_Source_repository = 'Repositorio';
+$s_plugin_Source_repositories = 'Repositorios';
+$s_plugin_Source_changeset = 'Cambio';
+$s_plugin_Source_changesets = 'Cambios';
+$s_plugin_Source_file = 'Archivo';
+$s_plugin_Source_files = 'Archivos';
+$s_plugin_Source_diff = 'Diferencias';
+
+$s_plugin_Source_name = 'Nombre';
+$s_plugin_Source_type = 'Tipo';
+$s_plugin_Source_branch = 'Rama';
+$s_plugin_Source_action = 'Acción';
+$s_plugin_Source_author = 'Autor';
+$s_plugin_Source_committer = 'Committer';
+$s_plugin_Source_username = 'Usuario';
+$s_plugin_Source_timestamp = 'Fecha';
+$s_plugin_Source_parent = 'Padre';
+$s_plugin_Source_url = 'URL';
+$s_plugin_Source_info = 'Info extra';
+$s_plugin_Source_revision = 'Revisión';
+$s_plugin_Source_date_begin = 'Fecha de inicio';
+$s_plugin_Source_date_end = 'Fecha final';
+$s_plugin_Source_message = 'Mensaje';
+$s_plugin_Source_filename = 'Nombre del archivo';
+$s_plugin_Source_ported = 'Portado';
+$s_plugin_Source_vcs_username = 'Nombre de usuario del Control de Código';
+
+$s_plugin_Source_issue = 'Incidencia';
+$s_plugin_Source_issues = 'Incidencias';
+$s_plugin_Source_actions = 'Acciones';
+
+$s_plugin_Source_details = 'Detalles';
+$s_plugin_Source_browse = 'Navegar';
+$s_plugin_Source_manage = 'Gestionar';
+$s_plugin_Source_create = 'Crear';
+$s_plugin_Source_import = 'Importar';
+$s_plugin_Source_edit = 'Editar';
+$s_plugin_Source_update = 'Actualizar';
+$s_plugin_Source_delete = 'Eliminar';
+$s_plugin_Source_search = 'Buscar en repositorios';
+$s_plugin_Source_attach = 'Adjuntar';
+$s_plugin_Source_detach = 'Eliminar adjunto';
+$s_plugin_Source_modify_search = 'Modificar búsqueda';
+$s_plugin_Source_new_search = 'Nueva búsqueda';
+$s_plugin_Source_permalink = 'Enlace permanente';
+$s_plugin_Source_select_one = '(Selecciona uno)';
+$s_plugin_Source_select_any = '[cualquiera]';
+$s_plugin_Source_pending = 'Pendiente';
+$s_plugin_Source_na = 'N/D';
+
+$s_plugin_Source_create_repository = 'Crear repositorio';
+$s_plugin_Source_manage_repository = 'Gestionar repositorio';
+$s_plugin_Source_update_repository = 'Actualizar repositorio';
+$s_plugin_Source_delete_repository = 'Eliminar repositorio';
+$s_plugin_Source_update_configuration = 'Actualizar Configuración';
+$s_plugin_Source_search_changesets = 'Buscar cambios';
+
+$s_plugin_Source_back = 'Volver al índice';
+$s_plugin_Source_back_repo = 'Volver al repositorio';
+$s_plugin_Source_back_changeset = 'Volver a los cambios';
+$s_plugin_Source_import_full = 'Importar todo';
+$s_plugin_Source_import_latest = 'Importar la última fecha';
+$s_plugin_Source_related_changesets = 'Cambios relacionados';
+$s_plugin_Source_affected_issues = 'Incidencias afectadas';
+$s_plugin_Source_attach_to_issue = 'Incidencias adjuntas:';
+
+$s_plugin_Source_configuration = 'Configuración';
+$s_plugin_Source_api_key = 'Clave API';
+$s_plugin_Source_api_key_info = '<span class="small">Esta es una contraseña secreta para utilizar por los servicios que envían datos de cambios a Mantis.<br/>Para generar una clave aleatoria, ejecuta <code>openssl rand -hex 12</code> o similar.</span>';
+$s_plugin_Source_allow_remote_checkin = 'Permitir Check-In remoto<br/><span class="small">(Deprecado)</span>';
+$s_plugin_Source_remote_checkin_urls = 'Direcciones permitidas';
+$s_plugin_Source_allow_remote_import = 'Permitir importaciones remotas<br/><span class="small">(Deprecado)</span>';
+$s_plugin_Source_remote_import_urls = 'Direcciones permitidas';
+$s_plugin_Source_view_threshold = 'Perfil de visualización';
+$s_plugin_Source_update_threshold = 'Perfil de actualización';
+$s_plugin_Source_manage_threshold = 'Perfil de gestión';
+$s_plugin_Source_username_threshold = 'Perfil de configuración de nombres de usuario';
+$s_plugin_Source_buglink_regex_1 = 'Expresión regular para detectar enlace a un error (paso 1)';
+$s_plugin_Source_buglink_regex_2 = 'Expresión regular para detectar enlace a un error (paso 2)';
+$s_plugin_Source_bugfix_regex_1 = 'Expresión regular para detectar error arreglado (paso 1)';
+$s_plugin_Source_bugfix_regex_2 = 'Expresión regular para detectar error arreglado (paso 2)';
+$s_plugin_Source_bugfix_status = 'Estado para incidencia arreglada';
+$s_plugin_Source_bugfix_status_pvm = 'Estado para incidencia de producto arreglada';
+$s_plugin_Source_bugfix_status_off = '[Desactivado]';
+$s_plugin_Source_bugfix_status_default = '[Estado resuelto]';
+$s_plugin_Source_bugfix_resolution = 'Resolución para incidencia arreglada';
+$s_plugin_Source_bugfix_handler = 'Asignar incidencia arreglada a usuario que sube el cambio';
+$s_plugin_Source_bugfix_message = 'Plantilla del mensaje para una incidencia arreglada';
+$s_plugin_Source_bugfix_message_info = '<span class="small">Utiliza $1 para la rama, $2 para la revisión, $3 para la fecha, $4 para el mensaje de commit, $5 para el nombre del repositorio, o $6 para el ID del cambio.</span>';
+$s_plugin_Source_reset = 'Reiniciar al valor por defecto';
+$s_plugin_Source_menu_links = 'Enlaces en el menú principal';
+$s_plugin_Source_show_repo_link = 'Repositorios';
+$s_plugin_Source_show_search_link = 'Buscar en repositorios';
+$s_plugin_Source_show_repo_stats = 'Estadísticas de repositorio';
+$s_plugin_Source_enabled_features = 'Características habilitadas';
+$s_plugin_Source_enable_linking = 'Enlace a cambios <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
+$s_plugin_Source_enable_mapping = 'Mapeado de ramas';
+$s_plugin_Source_enable_resolving = 'Resolver incidencias arregladas';
+$s_plugin_Source_enable_message = 'Mensaje de incidencia resuelta';
+$s_plugin_Source_enable_porting = 'Estado de portabilidad';
+$s_plugin_Source_enable_product_matrix = 'Integración de la Matriz de Producto';
+
+$s_plugin_Source_branch_mapping = 'Mapeados de ramas';
+$s_plugin_Source_mapping_update = 'Actualizar mapeados';
+$s_plugin_Source_mapping_strategy = 'Estrategia';
+$s_plugin_Source_mapping_version = 'Versión';
+$s_plugin_Source_mapping_version_info = '<acronym title="Sólo se utiliza con la estrategia de Versión Explícita.">?</acronym>';
+$s_plugin_Source_mapping_regex = 'Expresión regular';
+$s_plugin_Source_mapping_regex_info = '<acronym title="Sólo se aplica la estrategia seleccionada sobre las versiones coincidentes con el expresión regular de estilo PCRE dada.">?</acronym>';
+$s_plugin_Source_mapping_create = 'Crear mapeo';
+$s_plugin_Source_mapping_explicit = 'Versión explícita';
+$s_plugin_Source_mapping_near = 'Fecha de entrega más cercana';
+$s_plugin_Source_mapping_far = 'Fecha de entrega más lejana';
+$s_plugin_Source_mapping_first = 'Ordenar por versión ascendente';
+$s_plugin_Source_mapping_last = 'Ordenar por versión descendente';
+
+$s_plugin_Source_changeset_attached = 'Cambios adjuntados';
+$s_plugin_Source_changeset_removed = 'Cambios eliminados';
+
+$s_plugin_Source_ensure_delete = '¿Quieres eliminar el repositorio "%s" y toda su historia?';
+$s_plugin_Source_ensure_import_full = 'Se va a importar la información a una nueva copia del repositorio, destruyendo todos los datos del repositorio actual, y puede requerir permisos de acceso al sistema. ¿Quieres continuar?';
+$s_plugin_Source_ensure_import_latest = 'Se va a intentar importar los datos más recientes al repositorio, y puede requerir permisos de acceso al sistema. ¿Quieres continuar?';
+$s_plugin_Source_import_results = 'Importar resultados';
+$s_plugin_Source_import_stats = 'Se han importado %s cambios, %s archivos, y %s referencias a incidencias.';
+$s_plugin_Source_import_repo_error = 'Se ha producido un error en el proceso de importación.';
+
+$s_plugin_Source_invalid_checkin_url = 'Dirección remota de check-in no válida';
+$s_plugin_Source_invalid_import_url = 'Dirección remota de importación no válida';
+$s_plugin_Source_invalid_repo = 'Nombre de repositorio no válido';
+$s_plugin_Source_invalid_changeset = 'No se ha podido cargar la información de cambios';
+
+$s_plugin_Source_import_full_failed = 'La importación completa de datos al repositorio ha fallado.';
+
+$s_plugin_Source_changeset_column_title = 'C';

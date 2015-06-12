@@ -54,7 +54,19 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		}
 		?>
 </td>
-<td colspan="3"><?php echo string_display_links( $t_changeset->message ) ?></td>
+<td colspan="3"><?php
+	# The commit message is manually transformed (adding href, bug and bugnote
+	# links + nl2br) instead of calling string_display_links(), which avoids
+	# unwanted html tags processing by the MantisCoreFormatting plugin.
+	# Rationale: commit messages being plain text, any html they may contain
+	# should not be considered as formatting and must be displayed as-is.
+	echo string_nl2br(
+			string_process_bugnote_link(
+				string_process_bug_link(
+					string_insert_hrefs(
+						string_html_specialchars( $t_changeset->message )
+		) ) ) );
+?></td>
 </tr>
 
 		<?php foreach ( $t_changeset->files as $t_file ) { ?>

@@ -578,7 +578,12 @@ class SourceRepo {
 	 */
 	function save() {
 		if ( is_blank( $this->type ) || is_blank( $this->name ) ) {
-			trigger_error( ERROR_GENERIC, ERROR );
+			if( is_blank( $this->type ) ) {
+				error_parameters( plugin_lang_get( 'type' ) );
+			} else {
+				error_parameters( plugin_lang_get( 'name' ) );
+			}
+			trigger_error( ERROR_EMPTY_FIELD, ERROR );
 		}
 
 		$t_repo_table = plugin_table( 'repository', 'Source' );
@@ -715,7 +720,7 @@ class SourceRepo {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_query = "SELECT * FROM $t_repo_table ORDER BY name ASC";
-		$t_result = db_query( $t_query );
+		$t_result = db_query_bound( $t_query );
 
 		$t_repos = array();
 
@@ -781,16 +786,16 @@ class SourceRepo {
 			}
 		}
 
-		$t_query = "SELECT * FROM $t_repo_table WHERE id IN ( ";
-		$t_first = true;
-
+		$t_list = array();
+		$t_param = array();
 		foreach ( $t_repos as $t_repo_id => $t_repo ) {
-			$t_query .= ( $t_first ? (int)$t_repo_id : ', ' . (int)$t_repo_id );
-			$t_first = false;
+			$t_list[] = db_param();
+			$t_param[] = (int)$t_repo_id;
 		}
-
-		$t_query .= ' ) ORDER BY name ASC';
-		$t_result = db_query( $t_query );
+		$t_query = "SELECT * FROM $t_repo_table WHERE id IN ("
+			. join( ', ', $t_list )
+			. ') ORDER BY name ASC';
+		$t_result = db_query_bound( $t_query, $t_param );
 
 		while ( $t_row = db_fetch_array( $t_result ) ) {
 			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
@@ -1525,7 +1530,7 @@ class SourceUser {
 		$t_user_table = plugin_table( 'user', 'Source' );
 
 		$t_query = "SELECT * FROM $t_user_table";
-		$t_result = db_query( $t_query );
+		$t_result = db_query_bound( $t_query );
 
 		$t_usernames = array();
 		while( $t_row = db_fetch_array( $t_result ) ) {

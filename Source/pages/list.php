@@ -32,6 +32,7 @@ html_page_top2();
 if ( access_has_global_level( plugin_config_get( 'manage_threshold' ) ) ) {
 	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'manage' ) );
 }
+print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
 if ( $t_url = $t_vcs->url_repo( $t_repo ) ) {
 	print_bracket_link( $t_url, plugin_lang_get( 'browse' ) );
 }

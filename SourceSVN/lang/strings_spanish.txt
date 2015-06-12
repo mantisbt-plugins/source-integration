@@ -1,0 +1,25 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceSVN_ = '';
+$s_plugin_SourceSVN_title = 'Integración Subversion';
+$s_plugin_SourceSVN_description = 'Añade la integración con Subversion al framework de Integración de Código.';
+
+$s_plugin_SourceSVN_svn = 'SVN';
+$s_plugin_SourceSVN_svn_username = 'Usuario de SVN';
+$s_plugin_SourceSVN_svn_password = 'Contraseña de SVN';
+$s_plugin_SourceSVN_standard_repo = 'Repositorio estándar<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceSVN_trunk_path = 'Directorio Trunk<br/><span class="small">(Para repositorios no estándar)</span>';
+$s_plugin_SourceSVN_branch_path = 'Directorio Branch<br/><span class="small">(Para repositorios no estándar)</span>';
+$s_plugin_SourceSVN_tag_path = 'Directorio Tag<br/><span class="small">(Para repositorios no estándar)</span>';
+$s_plugin_SourceSVN_ignore_paths = 'Ignorar otras rutas<br/><span class="small">(Para repositorios no estándar)</span>';
+
+$s_plugin_SourceSVN_configuration = 'Configuración';
+$s_plugin_SourceSVN_update = 'Configuración';
+$s_plugin_SourceSVN_svnpath = 'SVN: Ruta a archivos binarios';
+$s_plugin_SourceSVN_svnargs = 'SVN: Argumentos del comando';
+$s_plugin_SourceSVN_svnssl = 'SVN: Confiar en todos los certificados SSL<br/><span class="small">(Requiere Subversion 1.6 o superior)</span>';
+$s_plugin_SourceSVN_winstart = 'SVN: Utilizar Windows `start`<br/><span class="small">(Requiere la ruta a los archivos binarios)</span>';
+

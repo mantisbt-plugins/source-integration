@@ -10,6 +10,9 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGithubPlugin extends MantisSourcePlugin {
+
+	const ERROR_INVALID_PRIMARY_BRANCH = 'invalid_branch';
+
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -23,6 +26,16 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->author = 'John Reese';
 		$this->contact = 'john@noswap.com';
 		$this->url = 'http://noswap.com';
+	}
+
+	public function errors() {
+		$t_errors_list = array(
+			self::ERROR_INVALID_PRIMARY_BRANCH,
+		);
+		foreach( $t_errors_list as $t_error ) {
+			$t_errors[$t_error] = plugin_lang_get( 'error_' . $t_error );
+		}
+		return $t_errors;
 	}
 
 	public $type = 'github';
@@ -43,15 +56,18 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
+		if( empty( $p_repo->info ) ) {
+			return '';
+		}
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = "";
 
 		if ( !is_null( $p_changeset ) ) {
-			$t_ref = "/$p_changeset->revision";
+			$t_ref = "/tree/$p_changeset->revision";
 		}
 
-		return "http://github.com/$t_username/$t_reponame/tree$t_ref";
+		return "http://github.com/$t_username/$t_reponame$t_ref";
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
@@ -121,6 +137,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
 <td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
 </tr>
+<tr><td class="spacer"></td></tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
 <td><input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/></td>
@@ -139,6 +156,7 @@ else:
 echo plugin_lang_get( 'hub_app_authorized' );
 endif; ?></td>
 </tr>
+<tr><td class="spacer"></td></tr>
 <tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 <td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
@@ -153,9 +171,8 @@ endif; ?></td>
 		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		if ( !preg_match( '/\*|^[a-zA-Z0-9_\., -]*$/', $f_master_branch ) ) {
-			echo 'Invalid parameter: \'Primary Branch\'';
-			trigger_error( ERROR_GENERIC, ERROR );
+		if ( !preg_match( '/^(\*|[a-zA-Z0-9_\., -]*)$/', $f_master_branch ) ) {
+			plugin_error( self::ERROR_INVALID_PRIMARY_BRANCH );
 		}
 
 		$p_repo->info['hub_username'] = $f_hub_username;
@@ -245,7 +262,7 @@ endif; ?></td>
 			$t_commits[] = $t_commit['id'];
 		}
 
-		$t_refData = split('/',$p_data['ref']);
+		$t_refData = explode( '/',$p_data['ref'] );
 		$t_branch = $t_refData[2];
 
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );
