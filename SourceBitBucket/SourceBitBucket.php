@@ -207,7 +207,16 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 			$t_uri      = $this->api_url10( "repositories/$t_username/$t_reponame/branches" );
 			$t_json     = $this->api_json_url( $p_repo, $t_uri );
 			$t_branches = array();
-			foreach ( $t_json as $t_branch ) $t_branches[] = $t_branch->branch;
+			foreach ( $t_json as $t_branchname => $t_branch ) {
+				if(isset($t_branchname)) {
+					if (strpos($t_branchname, '/') !== FALSE) {
+						$t_branches[] = $t_branch->raw_node;
+					} else {
+						$t_branches[] = $t_branchname;
+					}
+				}
+			}
+			$t_branches = array_unique($t_branches);
 		}
 		$t_changesets = array();
 
