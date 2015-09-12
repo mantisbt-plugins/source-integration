@@ -345,14 +345,15 @@ public function update_repo_form( $p_repo ) {
 			foreach( $p_json->parent_ids as $t_parent ) {
 				$t_parents[] = $t_parent;
 			}
-
+			# Message will be replaced by title in gitlab version earlier than 7.2
+			$p_message = ( !property_exists( $p_json, 'message' ) ) ? $p_json->title : $p_json->message;
 			$t_changeset = new SourceChangeset(
 				$p_repo->id,
 				$p_json->id,
 				$p_branch,
-				date( 'Y-m-d H:i:s', strtotime( $p_json->authored_date ) ),
+				date( 'Y-m-d H:i:s', strtotime( $p_json->created_at ) ),
 				$p_json->author_name,
-				$p_json->message
+				$p_message
 			);
 
 			if ( count( $p_json->parents ) > 0 ) {
