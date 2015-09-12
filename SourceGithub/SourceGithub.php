@@ -10,6 +10,9 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGithubPlugin extends MantisSourcePlugin {
+
+	const ERROR_INVALID_PRIMARY_BRANCH = 'invalid_branch';
+
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -23,6 +26,16 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->author = 'John Reese';
 		$this->contact = 'john@noswap.com';
 		$this->url = 'http://noswap.com';
+	}
+
+	public function errors() {
+		$t_errors_list = array(
+			self::ERROR_INVALID_PRIMARY_BRANCH,
+		);
+		foreach( $t_errors_list as $t_error ) {
+			$t_errors[$t_error] = plugin_lang_get( 'error_' . $t_error );
+		}
+		return $t_errors;
 	}
 
 	public $type = 'github';
@@ -181,9 +194,8 @@ endif; ?>
 		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		if ( !preg_match( '/\*|^[a-zA-Z0-9_\., -]*$/', $f_master_branch ) ) {
-			echo 'Invalid parameter: \'Primary Branch\'';
-			trigger_error( ERROR_GENERIC, ERROR );
+		if ( !preg_match( '/^(\*|[a-zA-Z0-9_\., -]*)$/', $f_master_branch ) ) {
+			plugin_error( self::ERROR_INVALID_PRIMARY_BRANCH );
 		}
 
 		$p_repo->info['hub_username'] = $f_hub_username;
@@ -273,7 +285,7 @@ endif; ?>
 			$t_commits[] = $t_commit['id'];
 		}
 
-		$t_refData = split('/',$p_data['ref']);
+		$t_refData = explode( '/',$p_data['ref'] );
 		$t_branch = $t_refData[2];
 
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );

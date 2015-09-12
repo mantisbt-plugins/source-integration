@@ -18,7 +18,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		$this->name        = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version  = '0.18';
+		$this->version  = '0.19';
 		$this->requires = array(
 			'MantisCore' => '1.2.16',
 			'Source'     => '0.18',
@@ -186,7 +186,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 			$t_commits[] = $t_commit['id'];
 		}
 
-		$t_refData = split( '/', $p_data['ref'] );
+		$t_refData = explode( '/', $p_data['ref'] );
 		$t_branch  = $t_refData[2];
 
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );
@@ -207,7 +207,16 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 			$t_uri      = $this->api_url10( "repositories/$t_username/$t_reponame/branches" );
 			$t_json     = $this->api_json_url( $p_repo, $t_uri );
 			$t_branches = array();
-			foreach ( $t_json as $t_branch ) $t_branches[] = $t_branch->branch;
+			foreach ( $t_json as $t_branchname => $t_branch ) {
+				if(isset($t_branchname)) {
+					if (strpos($t_branchname, '/') !== FALSE) {
+						$t_branches[] = $t_branch->raw_node;
+					} else {
+						$t_branches[] = $t_branchname;
+					}
+				}
+			}
+			$t_branches = array_unique($t_branches);
 		}
 		$t_changesets = array();
 
@@ -216,7 +225,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		foreach ( $t_branches as $t_branch ) {
 			$t_query  = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
-						'ORDER BY timestamp ASC';
+						' ORDER BY timestamp ASC';
 			$t_result = db_query_bound( $t_query, array($p_repo->id, $t_branch), 1 );
 
 			$t_commits = array($t_branch);

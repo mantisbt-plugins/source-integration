@@ -1,7 +1,10 @@
-
 # Mantis Source Integration
 
-Copyright (C) 2012 John Reese
+Copyright (c) 2008 - 2012  John Reese - http://noswap.com  
+Copyright (c) 2012 - 2014  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+
+Released under the [MIT license](http://opensource.org/licenses/MIT)
+
 
 ## Description
 
@@ -16,9 +19,11 @@ Initial support is included for [Subversion](http://subversion.apache.org/)
 and [Git](http://git-scm.com/) repositories using the following extension
 plugins:
 
+* **SourceBitBucket**: Git repositories hosted on [BitBucket](http://bitbucket.org/).
 * **SourceCgit**: Git repositories accessible via a
   [cgit](http://hjemli.net/git/cgit/) web frontend installation.
 * **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).
+* **SourceGitlab**: Git repositories hosted on [GitLab](https://about.gitlab.com/).
 * **SourceGitweb**: Git repositories accessible via a
   [GitWeb](https://git.wiki.kernel.org/index.php/Gitweb) web frontend
   installation.
@@ -70,23 +75,41 @@ enforced as of 2013-04-24.
 
 6. Click on the "Source Control Integration" plugin to configure it.
 
+   NOTE: an API Key must be set up to import changesets via shell.
+   To generate a random key, run
+
+        openssl rand -hex 12
+
 7. Go to "Repositories" and enter your repository name, select the
    repository type, and click "Create Repository" to begin adding your first
    repository.
 
-8. Once configured, click the "Return to Repository" link and click either
+8. Configure the repository, following the specific documentation for the
+   relevant plugin extension:
+
+    * [SourceGithub](docs/CONFIGURING.SourceGithub.md)
+
+9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial
    import of repository changesets and verify configuration.
 
-9. Once satisfied that your repository is configured & working correctly,
-   you can automate the import of new changesets by configuring a cron
-   job on the web server where your Mantis installation resides, as follows:
+10. Once satisfied that your repository is configured & working correctly,
+    you can automate the import of new changesets by configuring a cron
+    job on the web server where your Mantis installation resides, as follows:
 
-        curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all"
+    a. import via curl (could run into timeouts on large repositories,
+       or block your webserver)
 
-   This will import new changesets for all configured repositories.
+         curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all"
 
-10. Add additional repositories as needed.
+    b. import via shell
+
+         php-cgi -f plugin.php page=Source/import id=all api_key=<YOUR_API_KEY>
+
+
+    This will import new changesets for all configured repositories.
+
+11. Add additional repositories as needed.
 
 ## Support
 
