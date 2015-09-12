@@ -18,7 +18,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		$this->name        = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version  = '0.18';
+		$this->version  = '0.19';
 		$this->requires = array(
 			'MantisCore' => '1.2.16',
 			'Source'     => '0.18',
