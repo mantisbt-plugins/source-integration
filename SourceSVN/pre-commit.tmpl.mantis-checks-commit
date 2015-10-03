@@ -46,8 +46,9 @@ echo 'commit_comment="' >> ${COMMENT_FILE}
 "${SVNLOOK}" log -t "${TXN}" "${REPOS}" >> ${COMMENT_FILE}
 echo '"' >> ${COMMENT_FILE}
 
-# Fire off the query to Mantis
-"${CURL}" -d "repo_name=${PROJECT}" -d "committer=${COMMITTING_USER}" -d @${COMMENT_FILE} -d "api_key=${API_KEY}" ${URL} >> ${LOG_FILE}
+# Fire off the query to Mantis (-s -S to prevent progress bar but keep error
+#  reporting 
+"${CURL}" -s -S -d "repo_name=${PROJECT}" -d "committer=${COMMITTING_USER}" -d @${COMMENT_FILE} -d "api_key=${API_KEY}" ${URL} >> ${LOG_FILE}
 
 # Try and extract the result from the response
 RESULT=$(grep -oP 'Check-OK: \K([0-9]+)' ${LOG_FILE})
