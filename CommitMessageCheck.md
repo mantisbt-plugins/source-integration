@@ -124,3 +124,23 @@ That's unfortunate and will require some manual intervention.  Possibly the easi
 
 The Mantis installation and the VCS repository need to be set up to share a private key (as per SourceIntegration).  This means that someone without access to the API key will not be able to access the functionality used to check commit messages.
 In the case that someone has access to the API (either by having access to the private key or by having commit access to an associated repository) then negative responses are intended to be informational in order to assist the user in understanding why the commit was refused.  This may mean that information relating to access levels or user names may be shown in the refusal message.  If this is a concern, changing the value of `$t_informational_errors` from `true` to `false` in `Source/pages/pre_commit_check.php` will restrict the information to a minimum.
+
+## Testing
+
+The code can be tested in an automated manner thanks to
+[Vagrant](https://www.vagrantup.com/).  You need to have this installed in order
+to run the tests
+
+In order to set up the appropriate environment:
+
+    bright-tools@ubuntu:~/source-integration$ cd testsupport
+    bright-tools@ubuntu:~/source-integration/testsupport$ vagrant up
+
+This should create a virtual machine and install the appropriate software
+(including Mantis & importing the SourceIntegration code from your working area).
+
+To run the tests:
+
+    bright-tools@ubuntu:~/source-integration/testsupport$ vagrant ssh
+    ...
+    vagrant@vagrant-ubuntu-trusty-64:~$ /vagrant/run_tests.sh

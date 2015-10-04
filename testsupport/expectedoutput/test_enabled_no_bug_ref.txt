@@ -1,0 +1,5 @@
+Adding         svn_sandbox/file2
+Transmitting file data .svn: E165001: Commit failed (details follow):
+svn: E165001: Commit blocked by pre-commit hook (exit code 1) with output:
+Commit comments needs to reference one or more issues
+
