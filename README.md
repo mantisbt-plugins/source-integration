@@ -100,7 +100,7 @@ enforced as of 2013-04-24.
     a. import via curl (could run into timeouts on large repositories,
        or block your webserver)
 
-         curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all"
+         curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all&api_key=<YOUR_API_KEY>"
 
     b. import via shell
 
