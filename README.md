@@ -77,34 +77,39 @@ enforced as of 2013-04-24.
 
    NOTE: an API Key must be set up to import changesets via shell.
    To generate a random key, run
-   
+
         openssl rand -hex 12
 
 7. Go to "Repositories" and enter your repository name, select the
    repository type, and click "Create Repository" to begin adding your first
    repository.
 
-8. Once configured, click the "Return to Repository" link and click either
+8. Configure the repository, following the specific documentation for the
+   relevant plugin extension:
+
+    * [SourceGithub](docs/CONFIGURING.SourceGithub.md)
+
+9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial
    import of repository changesets and verify configuration.
 
-9. Once satisfied that your repository is configured & working correctly,
-   you can automate the import of new changesets by configuring a cron
-   job on the web server where your Mantis installation resides, as follows:
+10. Once satisfied that your repository is configured & working correctly,
+    you can automate the import of new changesets by configuring a cron
+    job on the web server where your Mantis installation resides, as follows:
 
-   a. import via curl (could run into timeouts on large repositories, 
-      or block your webserver)
+    a. import via curl (could run into timeouts on large repositories,
+       or block your webserver)
 
-        curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all"
+         curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all"
 
-   b. import via shell
+    b. import via shell
 
-        php-cgi -f plugin.php page=Source/import id=all api_key=<YOUR_API_KEY>
+         php-cgi -f plugin.php page=Source/import id=all api_key=<YOUR_API_KEY>
 
 
-   This will import new changesets for all configured repositories.
+    This will import new changesets for all configured repositories.
 
-10. Add additional repositories as needed.
+11. Add additional repositories as needed.
 
 ## Support
 

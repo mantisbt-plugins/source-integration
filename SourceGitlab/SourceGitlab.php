@@ -19,7 +19,7 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '1.0.1';
+		$this->version = '1.0.3';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 			'Source' => '0.16',
@@ -147,38 +147,35 @@ public function update_repo_form( $p_repo ) {
 		$f_hub_root = gpc_get_string( 'hub_root' );
 		$f_hub_repoid = gpc_get_string( 'hub_repoid' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
+		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 
-		# Getting the repoid doesnt seem to work with the latest gitlab - but we can get all the
-		# repos the current user can access and go through them to find the correct id
-		if( empty( $f_hub_repoid ) ) {
+		# Update info required for getting the repoid
+		$p_repo->info['hub_root'] = $f_hub_root;
+		$p_repo->info['hub_reponame'] = $f_hub_reponame;
+		$p_repo->info['hub_app_secret'] = $f_hub_app_secret;
+
+		# Getting the repoid from reponame
+		if( !is_numeric( $f_hub_repoid ) && !empty( $f_hub_reponame ) ) {
 			$t_hub_reponame_enc = urlencode( $f_hub_reponame );
-			$t_uri = $this->api_uri( $p_repo, "projects" );
+			$t_uri = $this->api_uri( $p_repo, "projects/$t_hub_reponame_enc" );
 			$t_member = null;
 			$t_json = json_url( $t_uri, $t_member );
 
-			$f_hub_repoid = 'RepoName is invalid';
+			$f_hub_repoid = 'Repository Name is invalid';
 			if( !is_null( $t_json ) ) {
-				foreach( $t_json as $project ) {
-					if (   property_exists( $project, 'path_with_namespace' )
-						&& $project->path_with_namespace == $f_hub_reponame
-						&& property_exists( $project, 'id' )
-					) {
-						$f_hub_repoid = (string)$project ->id;
-					}
+				if ( property_exists( $t_json, 'id' ) ) {
+					$f_hub_repoid = (string)$t_json ->id;
 				}
 			}
 		}
-		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
 		if ( !preg_match( '/^(\*|[a-zA-Z0-9_\., -]*)$/', $f_master_branch ) ) {
 			plugin_error( self::ERROR_INVALID_PRIMARY_BRANCH );
 		}
 
-		$p_repo->info['hub_root'] = $f_hub_root;
+		# Update other fields
 		$p_repo->info['hub_repoid'] = $f_hub_repoid;
-		$p_repo->info['hub_reponame'] = $f_hub_reponame;
-		$p_repo->info['hub_app_secret'] = $f_hub_app_secret;
 		$p_repo->info['master_branch'] = $f_master_branch;
 
 		return $p_repo;
@@ -200,11 +197,14 @@ public function update_repo_form( $p_repo ) {
 
 	public function precommit() {
 		$f_payload = file_get_contents( "php://input" );
-		if ( is_null( $f_payload ) ) {
+		if( is_null( $f_payload ) ) {
 			return;
 		}
 
 		$t_data = json_decode( $f_payload, true );
+		if( is_null( $t_data ) ) {
+			return;
+		}
 
 		$t_repoid = $t_data['project_id'];
 		$t_repo_table = plugin_table( 'repository', 'Source' );
@@ -231,7 +231,8 @@ public function update_repo_form( $p_repo ) {
 			$t_commits[] = $t_commit['id'];
 		}
 
-		$t_refData = split( '/', $p_data['ref'] );
+		# extract branch name 'refs/heads/issue/branch-description' => ['refs', 'heads', 'issue/branch-description']
+		$t_refData = explode( '/', $p_data['ref'], 3 );
 		$t_branch = $t_refData[2];
 
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );
@@ -344,14 +345,17 @@ public function update_repo_form( $p_repo ) {
 			foreach( $p_json->parent_ids as $t_parent ) {
 				$t_parents[] = $t_parent;
 			}
-
+			# Message will be replaced by title in gitlab version earlier than 7.2
+			$t_message = ( !property_exists( $p_json, 'message' ) )
+				? $p_json->title
+				: $p_json->message;
 			$t_changeset = new SourceChangeset(
 				$p_repo->id,
 				$p_json->id,
 				$p_branch,
-				date( 'Y-m-d H:i:s', strtotime( $p_json->authored_date ) ),
+				date( 'Y-m-d H:i:s', strtotime( $p_json->created_at ) ),
 				$p_json->author_name,
-				$p_json->message
+				$t_message
 			);
 
 			if ( count( $p_json->parents ) > 0 ) {
