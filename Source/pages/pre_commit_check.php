@@ -62,8 +62,13 @@ if(( sizeof( $t_bug_list ) == 0 ) && $t_repo_commit_needs_issue ) {
 			# Ownership of ticket must match committer?
 			if( $t_repo_commit_ownership_must_match ) {
 
-				$t_user_name = user_get_name( $t_bug->handler_id );
-				$t_user_email = user_get_email( $t_bug->handler_id );
+				if( 0 == $t_bug->handler_id ) {
+					$t_user_name = 'none';
+					$t_user_email = 'none';
+				} else {
+					$t_user_name = user_get_name( $t_bug->handler_id );
+					$t_user_email = user_get_email( $t_bug->handler_id );
+				}
 
 				# Check that the username of the committer matches the user name
 				# or e-mail address of the owner of the ticket
@@ -80,8 +85,8 @@ if(( sizeof( $t_bug_list ) == 0 ) && $t_repo_commit_needs_issue ) {
 
 						 # Informative errors turned on so display the user to whom
 						 #   the ticket is assigned
-						 printf( " (%s vs %s/%s)",
-								 $t_user_name, $f_committer_name, $t_user_email );
+						 printf( " (%s/%s vs %s)",
+								 $t_user_name, $t_user_email, $f_committer_name );
 					 }
 
 					 printf( "'\r\n" );
