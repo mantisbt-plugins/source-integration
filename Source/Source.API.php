@@ -364,7 +364,11 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 			}
 		}
 
-		if ( $t_handler && !is_null( $t_user_id ) && access_has_project_level( config_get( 'handle_bug_threshold' ), $t_bug->project_id, $t_user_id )) {
+
+		$t_access_required = config_get( 'handle_bug_threshold', null, 0, $t_bug->project_id );
+
+		if ( $t_handler && !is_null( $t_user_id ) &&
+                     access_has_project_level( $t_access_required, $t_bug->project_id, $t_user_id )) {
 			$t_bug->handler_id = $t_user_id;
 		}
 
