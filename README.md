@@ -106,6 +106,7 @@ enforced as of 2013-04-24.
 
          php-cgi -f plugin.php page=Source/import id=all api_key=<YOUR_API_KEY>
 
+    Please be aware of the difference between `php-cgi` and `php-cli`. The import won't run with php-cli. For more information about the difference of php-cli and php-cgi refer to http://www.php-cli.com/php-cli-cgi.shtml.
 
     This will import new changesets for all configured repositories.
 
