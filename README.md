@@ -97,16 +97,17 @@ enforced as of 2013-04-24.
     you can automate the import of new changesets by configuring a cron
     job on the web server where your Mantis installation resides, as follows:
 
-    a. import via curl (could run into timeouts on large repositories,
-       or block your webserver)
+    * import via curl (could run into timeouts on large repositories,
+      or block your webserver)
 
-         curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all&api_key=<YOUR_API_KEY>"
+            curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all&api_key=<YOUR_API_KEY>"
 
-    b. import via shell
+    * import via shell
 
-         php-cgi -f plugin.php page=Source/import id=all api_key=<YOUR_API_KEY>
+            php-cgi -f plugin.php page=Source/import id=all api_key=<YOUR_API_KEY>
 
-    Please be aware of the difference between `php-cgi` and `php-cli`. The import won't run with php-cli. For more information about the difference of php-cli and php-cgi refer to http://www.php-cli.com/php-cli-cgi.shtml.
+      Please be aware of the [difference between `php-cgi` and `php-cli`](http://www.php-cli.com/php-cli-cgi.shtml).
+      The import *won't run* with php-cli.
 
     This will import new changesets for all configured repositories.
 
