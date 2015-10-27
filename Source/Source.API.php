@@ -336,6 +336,19 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 		# Update the resolution, fixed-in version, and/or add a bugnote
 		$t_update = false;
 
+		# Bug not assigned to user associated with changeset?
+		if( !is_null( $t_user_id ) && ( $t_user_id != $t_bug->handler_id )) {
+			$t_access_required = config_get( 'handle_bug_threshold', null, 0, $t_bug->project_id );
+
+			# Option to assign to the committer set and the committing user has
+			# sufficient project access?
+			if ( $t_handler && access_has_project_level( $t_access_required, $t_bug->project_id, $t_user_id )) {
+				# Assign the bug to the committer
+				$t_bug->handler_id = $t_user_id;
+				$t_update = true;
+			}
+		}
+
 		if ( Source_PVM() ) {
 			if ( $t_bugfix_status_pvm > 0 && $t_pvm_version_id > 0 ) {
 				$t_matrix = new ProductMatrix( $t_bug_id );
@@ -346,13 +359,23 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 			}
 
 		} else {
-			if ( $t_bugfix_status > 0 && $t_bug->status != $t_bugfix_status ) {
-				$t_bug->status = $t_bugfix_status;
-				$t_update = true;
-			} else if ( $t_enable_resolving && $t_bugfix_status == -1 && $t_bug->status < $t_resolved_threshold ) {
-				$t_bug->status = $t_resolved_threshold;
-				$t_update = true;
-			}
+			# Prevent automatic resolution of bugs in the case that they have no
+			# handler assigned
+			if( !empty( $t_bug->handler_id )) {
+				# Plugin's bugfix_status option is set and the bug is not at the
+				# specified status
+				if ( $t_bugfix_status > 0 && $t_bug->status != $t_bugfix_status ) {
+					$t_bug->status = $t_bugfix_status;
+					$t_update = true;
+				} else if ( $t_enable_resolving && $t_bugfix_status == -1 && $t_bug->status < $t_resolved_threshold ) {
+					# Plugin's enable_resolving option is set, but the
+					# bugfix_status option is not set, and the bug is lower than
+					# the project's configured threshold for considering a bug
+					# to be resolved
+					$t_bug->status = $t_resolved_threshold;
+					$t_update = true;
+				}
+            }
 
 			if ( $t_bug->resolution < $t_fixed_threshold || $t_bug->resolution >= $t_notfixed_threshold ) {
 				$t_bug->resolution = $t_resolution;
@@ -362,14 +385,6 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 				$t_bug->fixed_in_version = $t_version;
 				$t_update = true;
 			}
-		}
-
-
-		$t_access_required = config_get( 'handle_bug_threshold', null, 0, $t_bug->project_id );
-
-		if ( $t_handler && !is_null( $t_user_id ) &&
-                     access_has_project_level( $t_access_required, $t_bug->project_id, $t_user_id )) {
-			$t_bug->handler_id = $t_user_id;
 		}
 
 		$t_private = plugin_config_get( 'bugfix_message_view_status' ) == VS_PRIVATE;
