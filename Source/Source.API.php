@@ -375,7 +375,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 					$t_bug->status = $t_resolved_threshold;
 					$t_update = true;
 				}
-            }
+			}
 
 			if ( $t_bug->resolution < $t_fixed_threshold || $t_bug->resolution >= $t_notfixed_threshold ) {
 				$t_bug->resolution = $t_resolution;
