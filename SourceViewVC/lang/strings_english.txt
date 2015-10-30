@@ -1,0 +1,21 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceViewVC_ = '';
+$s_plugin_SourceViewVC_title = 'Subversion / ViewVC Integration';
+$s_plugin_SourceViewVC_description = 'Adds Subversion integration to the Source plugin framework using the ViewVC app.';
+
+$s_plugin_SourceViewVC_svn = 'ViewVC';
+$s_plugin_SourceViewVC_viewvc_url = 'ViewVC URL<br/><span class="small">(With trailing slash)</span>';
+$s_plugin_SourceViewVC_viewvc_name = 'ViewVC Name<br/><span class="small">(Repository directory)</span>';
+$s_plugin_SourceViewVC_viewvc_use_checkout = 'ViewVC Checkout View Enabled?';
+
+$s_plugin_SourceViewVC_svn_username = 'SVN Username';
+$s_plugin_SourceViewVC_svn_password = 'SVN Password';
+$s_plugin_SourceViewVC_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceViewVC_trunk_path = 'Trunk Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceViewVC_branch_path = 'Branch Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceViewVC_tag_path = 'Tag Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceViewVC_ignore_paths = 'Ignore Other Paths<br/><span class="small">(Non-standard repository)</span>';
