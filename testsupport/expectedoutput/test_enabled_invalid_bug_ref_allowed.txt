@@ -1,0 +1,3 @@
+Adding         svn_sandbox/file2
+Transmitting file data .
+Committed revision 2.

@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# Copyright (c) 2014 John Bailey
+# Licensed under the MIT license
+#
+# Requires GNU grep with PCRE
+
+# Customise the following settings based on your Mantis installation
+URL="http://localhost/mantis/plugin.php?page=Source/pre_commit_check"
+PROJECT="RepoName"
+API_KEY="dd"
+
+SVNLOOK=/usr/bin/svnlook
+CURL=/usr/bin/curl
+
+# Set this to 1 during testing so that even commits which pass the
+#  mantis checks will be halted
+BOUNCE_ALL_COMMITS=0
+
+# Deal with hook parameters
+REPOS="$1"
+TXN="$2"
+
+LOG_FILE=`mktemp /tmp/svn_log.XXX`
+COMMENT_FILE=`mktemp /tmp/svn_comment.XXX`
+
+# Exit as soon as an error is encountered
+#set -e
+
+# Check for tools
+
+if [ ! -x "$SVNLOOK" ]; then
+  echo "You need to update the script at $0 to point to svnlook" 1>&2
+  exit 1
+fi
+
+if [ ! -x "$CURL" ]; then
+  echo "You need to update the script at $0 to point to curl" 1>&2
+  exit 1
+fi
+
+COMMITTING_USER=$("${SVNLOOK}" author -t "${TXN}" "${REPOS}")
+
+# Put the commit comment into a file which we can pass to curl
+echo 'commit_comment="' >> ${COMMENT_FILE}
+"${SVNLOOK}" log -t "${TXN}" "${REPOS}" >> ${COMMENT_FILE}
+echo '"' >> ${COMMENT_FILE}
+
+# Fire off the query to Mantis (-s -S to prevent progress bar but keep error
+#  reporting 
+"${CURL}" -s -S -d "repo_name=${PROJECT}" -d "committer=${COMMITTING_USER}" -d @${COMMENT_FILE} -d "api_key=${API_KEY}" ${URL} >> ${LOG_FILE}
+
+# Try and extract the result from the response
+RESULT=$(grep -oP 'Check-OK: \K([0-9]+)' ${LOG_FILE})
+
+if [ "x$RESULT" = "x" ]; then
+    echo "Didn't receive a valid response from Mantis SourceIntegration" 1>&2
+    echo "Received:" 1>&2
+    echo "-----------8<--------------------" 1>&2
+    cat ${LOG_FILE} 1>&2
+    echo 1>&2
+    echo "-----------8<--------------------" 1>&2
+    exit 1;
+elif [ $RESULT -eq 0 ]; then
+    CHECK_MESSAGE=$(grep -oP "Check-Message: '\K(.+)(?=')" ${LOG_FILE})
+    if [ "x$CHECK_MESSAGE" = "x" ]; then
+        echo "Mantis SourceIntegration bounced the commit but didn't report why" 1>&2
+    else
+        echo "$CHECK_MESSAGE" 1>&2
+    fi
+    exit 1
+else
+    # Success!
+    exit $BOUNCE_ALL_COMMITS
+fi
+
+exit 1
+
