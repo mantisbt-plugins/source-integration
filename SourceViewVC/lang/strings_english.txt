@@ -10,6 +10,7 @@ $s_plugin_SourceViewVC_description = 'Adds Subversion integration to the Source 
 $s_plugin_SourceViewVC_svn = 'ViewVC';
 $s_plugin_SourceViewVC_viewvc_url = 'ViewVC URL<br/><span class="small">(With trailing slash)</span>';
 $s_plugin_SourceViewVC_viewvc_name = 'ViewVC Name<br/><span class="small">(Repository directory)</span>';
+$s_plugin_SourceViewVC_viewvc_root_as_url = 'ViewVC Root As URL Component Enabled?';
 $s_plugin_SourceViewVC_viewvc_use_checkout = 'ViewVC Checkout View Enabled?';
 
 $s_plugin_SourceViewVC_svn_username = 'SVN Username';

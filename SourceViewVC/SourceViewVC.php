@@ -42,10 +42,16 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 			? $p_repo->info['viewvc_name']
 			: '';
 	}
-	
-    public function get_viewvc_use_checkout( $p_repo ) {
+
+	public function get_viewvc_use_checkout( $p_repo ) {
 		return isset( $p_repo->info['viewvc_use_checkout'] )
 			? $p_repo->info['viewvc_use_checkout']
+			: false;
+	}
+
+	public function get_viewvc_root_as_url( $p_repo ) {
+		return isset( $p_repo->info['viewvc_root_as_url'] )
+			? $p_repo->info['viewvc_root_as_url']
 			: false;
 	}
 
@@ -58,10 +64,18 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 	 */
 	protected function url_base( $p_repo, $p_file = '', $p_opts=array() ) {
 		$t_name = urlencode( $this->get_viewvc_name( $p_repo ) );
+		$t_root_as_url = $this->get_viewvc_root_as_url( $p_repo );
 
-		$t_url = $this->get_viewvc_url( $p_repo );
+		$t_url = rtrim( $this->get_viewvc_url( $p_repo ), '/' );
 
-		return $t_url . '/'. $t_name . $p_file .  '?' . http_build_query( $p_opts );
+		if( $t_root_as_url ) {
+			$t_url_name = '/'.$t_name;
+		} else {
+			$t_url_name = '';
+			$p_opts['root']=$t_name;
+		}
+
+		return $t_url . $t_url_name . $p_file .  '?' . http_build_query( $p_opts );
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
@@ -90,14 +104,15 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 		$t_revision = ($p_file->action == 'rm')
 					? $p_changeset->revision - 1
 					: $p_changeset->revision;
-        $t_use_checkout = $this->get_viewvc_use_checkout( $p_repo );
+		$t_use_checkout = $this->get_viewvc_use_checkout( $p_repo );
 
 		$t_opts = array();
 		$t_opts['revision'] = $t_revision;
-        if( !$t_use_checkout )
-        {
+
+		if( !$t_use_checkout )
+		{
 		    $t_opts['view'] = 'markup';
-        }
+		}
 
 		return $this->url_base( $p_repo, $p_file->filename, $t_opts );
 	}
@@ -118,6 +133,7 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 		$t_url          = $this->get_viewvc_url( $p_repo );
 		$t_name         = $this->get_viewvc_name( $p_repo );
 		$t_use_checkout = $this->get_viewvc_use_checkout( $p_repo );
+		$t_root_as_url  = $this->get_viewvc_root_as_url( $p_repo );
 
 ?>
 <tr <?php echo helper_alternate_class() ?>>
@@ -129,6 +145,10 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 <td><input name="viewvc_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_root_as_url' ) ?></td>
+<td><input name="viewvc_root_as_url" type="checkbox" <?php echo ($t_root_as_url ? 'checked="checked"' : '') ?>/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_use_checkout' ) ?></td>
 <td><input name="viewvc_use_checkout" type="checkbox" <?php echo ($t_use_checkout ? 'checked="checked"' : '') ?>/></td>
 </tr>
@@ -138,9 +158,11 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 	}
 
 	public function update_repo( $p_repo ) {
+
 		$p_repo->info['viewvc_url'] = gpc_get_string( 'viewvc_url' );
 		$p_repo->info['viewvc_name'] = gpc_get_string( 'viewvc_name' );
 		$p_repo->info['viewvc_use_checkout'] = gpc_get_bool( 'viewvc_use_checkout', false );
+		$p_repo->info['viewvc_root_as_url'] = gpc_get_bool( 'viewvc_root_as_url', false );
 
 		return parent::update_repo( $p_repo );
 	}
