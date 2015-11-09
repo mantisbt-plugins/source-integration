@@ -22,7 +22,7 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 
 		$this->author = 'John Bailey';
 		$this->contact = 'dev@brightsilence.com';
-		$this->url = 'https://github.com/bright-tools/source-integration';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration';
 	}
 
 	public $type = 'viewvc';
