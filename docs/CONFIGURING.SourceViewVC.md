@@ -7,7 +7,7 @@ with a [ViewVC](http://www.viewvc.org/) front-end.
 
 ## Requirements
 
-The **SourceViewVC** plugin requires Mantis 1.2.16. See the 
+The **SourceViewVC** plugin requires Mantis 1.2.16. See the
 [README](../README.md#requirements) for further information.
 
 Ensure both the **Source** and **SourceViewVC** plugins are installed.
@@ -27,7 +27,8 @@ See the [README](../README.md#installation) for overall instructions.
 3.  This will take you to the *Update Repository* page where you'll need to fill
     in all the details for the repository:
 
-   - The *Name* field should be pre-populated with the name you entered in Step 3a above.
+   - The *Name* field should be pre-populated with the name you entered in Step
+     2a above.
 
    - Paste in the SVN repository's URL in the *URL* field
      (e.g. `https://localhost.localdomain/repos/myrepo` or
@@ -38,15 +39,15 @@ See the [README](../README.md#installation) for overall instructions.
 
    - Enter the name of the SVN repository, as it appears in the list seen in
      ViewVC, in the *ViewVC Name* field
-     (e.g. `myrepo`)
+     (e.g. `myrepo`).
 
    - If the ViewVC installation has the `root_as_url_component` option enabled
      (see the `viewvc.conf` file) then enable the *ViewVC Root As URL Component
-     Enabled?* field
+     Enabled?* field.
 
    - If the ViewVC installation has the checkout view enabled (the
      `allowed_views` field list includes `co` in the `viewvc.conf` file) then
-     enable the *ViewVC Checkout View Enabled?* field
+     enable the *ViewVC Checkout View Enabled?* field.
 
    - Enter the username of a user which has read access to the SVN repository in
      the *SVN Username* field (e.g. "repo-user").
