@@ -33,6 +33,8 @@ plugins:
 * **SourceSFSVN**: SVN repositories hosted on
   [SourceForge](http://sourceforge.net/).
 * **SourceSVN**: SVN repositories locally accessible by the SVN binaries.
+* **SourceViewVC**: SVN repositories accessible via a
+  [ViewVC](http://www.viewvc.org/) web frontend installation.
 * **SourceWebSVN**: SVN repositories accessible via a
   [WebSVN](http://www.websvn.info/) web frontend installation.
 
@@ -88,6 +90,7 @@ enforced as of 2013-04-24.
    relevant plugin extension:
 
     * [SourceGithub](docs/CONFIGURING.SourceGithub.md)
+    * [SourceViewVC](docs/CONFIGURING.SourceViewVC.md)
 
 9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial
