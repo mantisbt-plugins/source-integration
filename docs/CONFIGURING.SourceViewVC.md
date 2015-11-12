@@ -10,9 +10,11 @@ with a [ViewVC](http://www.viewvc.org/) front-end.
 The **SourceViewVC** plugin requires Mantis 1.2.16. See the
 [README](../README.md#requirements) for further information.
 
-Ensure both the **Source** and **SourceViewVC** plugins are installed.
+Ensure that all of the following plugins are installed:
+* **Source**
+* **SourceSVN**
+* **SourceViewVC**
 See the [README](../README.md#installation) for overall instructions.
-
 
 ## Configuration
 
