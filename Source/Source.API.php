@@ -274,8 +274,8 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	$t_resolution = config_get( 'plugin_Source_bugfix_resolution' );
 	$t_handler = config_get( 'plugin_Source_bugfix_handler' );
 	$t_message_template = str_replace(
-		array( '$1', '$2', '$3', '$4', '$5', '$6' ),
-		array( '%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s' ),
+		array( '$1', '$2', '$3', '$4', '$5', '$6', '$7' ),
+		array( '%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s', '%7$s' ),
 		config_get( 'plugin_Source_bugfix_message' ) );
 
 	$t_mappings = array();
@@ -323,10 +323,16 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 				}
 			}
 		}
+    # add reponame for bitbucket
+		if(isset($t_repos[ $t_changeset->repo_id ]->info['bit_reponame'])){
+			$l_reponame = $t_repos[ $t_changeset->repo_id ]->info['bit_reponame'];
+		} else {
+			$l_reponame = '';
+		}
 
 		# generate a note message
 		if ( $t_enable_message ) {
-			$t_message = sprintf( $t_message_template, $t_changeset->branch, $t_changeset->revision, $t_changeset->timestamp, $t_changeset->message, $t_repos[ $t_changeset->repo_id ]->name, $t_changeset->id );
+			$t_message = sprintf( $t_message_template, $t_changeset->branch, $t_changeset->revision, $t_changeset->timestamp, $t_changeset->message, $t_repos[ $t_changeset->repo_id ]->name, $t_changeset->id, $l_reponame );
 		} else {
 			$t_message = '';
 		}
