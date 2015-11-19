@@ -9,5 +9,7 @@ $s_plugin_SourceGitweb_title = 'Gitweb Integration';
 $s_plugin_SourceGitweb_description = 'Integration für Gitweb über die VCS Basisintegration.';
 
 $s_plugin_SourceGitweb_gitweb_root = 'Gitweb Basis-URL';
+$s_plugin_SourceGitweb_gitweb_user = 'Gitweb Benutzername';
+$s_plugin_SourceGitweb_gitweb_pass = 'Gitweb Passwort';
 $s_plugin_SourceGitweb_gitweb_project = 'Gitweb Projekt<br/><span class="small">(inkl. ".git")</span>';
 $s_plugin_SourceGitweb_master_branch = 'Hauptzweige<br/><span class="small">(kommaseparierte Liste)</span>';
