@@ -17,9 +17,7 @@ html_page_top2();
 
 ?>
 
-<?php if ( plugin_is_loaded( 'jQuery' ) ) { ?>
 <script src="<?php echo plugin_file( 'search.js' ) ?>"></script>
-<?php } ?>
 
 <br/>
 
