@@ -5,9 +5,9 @@
 
 jQuery(document).ready( function($) {
 
-	var typeselect = $("table.SourceFilters select.SourceType");
-	var reposelect = $("table.SourceFilters select.SourceRepo");
-	var branchselect = $("table.SourceFilters select.SourceBranch");
+	var typeselect = $("select.SourceType");
+	var reposelect = $("select.SourceRepo");
+	var branchselect = $("select.SourceBranch");
 
 	function SourceTypeChange() {
 		var options = $(this).children("option:selected");
