@@ -76,12 +76,12 @@ class SourceFilter {
 		$t_count_query = "SELECT COUNT(c.id) $t_query_tail";
 		$t_full_query = "SELECT DISTINCT( c.id ), c.* $t_query_tail $t_order";
 
-		$t_count = db_result( db_query_bound( $t_count_query, $t_params ) );
+		$t_count = db_result( db_query( $t_count_query, $t_params ) );
 
 		if ( is_null( $p_page ) ) {
-			$t_result = db_query_bound( $t_full_query, $t_params );
+			$t_result = db_query( $t_full_query, $t_params );
 		} else {
-			$t_result = db_query_bound( $t_full_query, $t_params, $p_limit, ( $p_page - 1 ) * $p_limit );
+			$t_result = db_query( $t_full_query, $t_params, $p_limit, ( $p_page - 1 ) * $p_limit );
 		}
 
 		$t_changesets = array();
@@ -410,7 +410,7 @@ function Source_Repo_Select( $p_selected=null ) {
 	$t_repo_table = plugin_table( 'repository' );
 
 	$t_query = "SELECT id,name,type FROM $t_repo_table ORDER BY name ASC";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	echo '<select name="repo_id[]" class="SourceRepo" multiple="multiple" size="6">',
 		'<option class="SourceAny" value="">', plugin_lang_get( 'select_any' ), '</option>';
@@ -435,7 +435,7 @@ function Source_Type_Select( $p_selected=null ) {
 	$t_repo_table = plugin_table( 'repository' );
 
 	$t_query = "SELECT DISTINCT( type ) FROM $t_repo_table ORDER BY type ASC";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	echo '<select name="repo_type[]" class="SourceType" multiple="multiple" size="6">',
 		'<option class="SourceAny" value="">', plugin_lang_get( 'select_any' ), '</option>';
@@ -463,7 +463,7 @@ function Source_Branch_Select( $p_selected=null ) {
 	$t_changeset_table = plugin_table( 'changeset' );
 
 	$t_query = "SELECT DISTINCT( branch ), repo_id FROM $t_changeset_table ORDER BY branch ASC";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	echo '<select name="branch[]" class="SourceBranch" multiple="multiple" size="6">',
 		'<option class="SourceAny" value="">', plugin_lang_get( 'select_any' ), '</option>';
@@ -488,7 +488,7 @@ function Source_Action_Select( $p_selected=null ) {
 	$t_file_table = plugin_table( 'file' );
 
 	$t_query = "SELECT DISTINCT( action ) FROM $t_file_table ORDER BY action ASC";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	echo '<select name="file_action[]" multiple="multiple" size="6">',
 		'<option value="">', plugin_lang_get( 'select_any' ), '</option>';
@@ -513,7 +513,7 @@ function Source_Author_Select( $p_selected=null ) {
 	$t_user_table = db_get_table( 'user' );
 
 	$t_query = "SELECT DISTINCT( author ) FROM $t_changeset_table ORDER BY author ASC";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	echo '<select name="author">',
 		'<option value="">', plugin_lang_get( 'select_any' ), '</option>';
@@ -539,7 +539,7 @@ function Source_Username_Select( $p_selected=null ) {
 
 	$t_query = "SELECT DISTINCT( c.user_id ), u.username FROM $t_changeset_table AS c
 		JOIN $t_user_table AS u ON c.user_id=u.id ORDER BY u.username ASC";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	echo '<select name="user_id">',
 		'<option value="">', plugin_lang_get( 'select_any' ), '</option>';
@@ -582,7 +582,7 @@ function Source_Date_Select( $p_name, $p_selected=null ) {
 	if ( is_null( $s_min ) || is_null( $s_max ) ) {
 		$t_changeset_table = plugin_table( 'changeset' );
 		$t_query = "SELECT MIN( timestamp ) AS min, MAX( timestamp ) AS max FROM $t_changeset_table";
-		$t_result = db_query_bound( $t_query );
+		$t_result = db_query( $t_query );
 
 		$t_row = db_fetch_array( $t_result );
 		$t_row = array_map( 'Source_Date_StampArray', $t_row );

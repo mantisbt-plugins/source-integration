@@ -255,7 +255,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		$t_max_query = "SELECT revision FROM $t_changeset_table
 						WHERE repo_id=" . db_param() . '
 						ORDER BY CAST( revision AS DECIMAL ) DESC';
-		$t_db_revision = db_result( db_query_bound( $t_max_query, array( $p_repo->id ), 1 ) );
+		$t_db_revision = db_result( db_query( $t_max_query, array( $p_repo->id ), 1 ) );
 
 		$t_url = $p_repo->url;
 		$t_rev = ( false === $t_db_revision ? 0 : $t_db_revision + 1 );
