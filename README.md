@@ -33,6 +33,8 @@ plugins:
 * **SourceSFSVN**: SVN repositories hosted on
   [SourceForge](http://sourceforge.net/).
 * **SourceSVN**: SVN repositories locally accessible by the SVN binaries.
+* **SourceViewVC**: SVN repositories accessible via a
+  [ViewVC](http://www.viewvc.org/) web frontend installation.
 * **SourceWebSVN**: SVN repositories accessible via a
   [WebSVN](http://www.websvn.info/) web frontend installation.
 
@@ -88,6 +90,7 @@ enforced as of 2013-04-24.
    relevant plugin extension:
 
     * [SourceGithub](docs/CONFIGURING.SourceGithub.md)
+    * [SourceViewVC](docs/CONFIGURING.SourceViewVC.md)
 
 9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial
@@ -97,15 +100,17 @@ enforced as of 2013-04-24.
     you can automate the import of new changesets by configuring a cron
     job on the web server where your Mantis installation resides, as follows:
 
-    a. import via curl (could run into timeouts on large repositories,
-       or block your webserver)
+    * import via curl (could run into timeouts on large repositories,
+      or block your webserver)
 
-         curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all"
+            curl "http://host.domain.tld/mantisbt/plugin.php?page=Source/import&id=all&api_key=<YOUR_API_KEY>"
 
-    b. import via shell
+    * import via shell
 
-         php-cgi -f plugin.php page=Source/import id=all api_key=<YOUR_API_KEY>
+            php-cgi -f plugin.php page=Source/import id=all api_key=<YOUR_API_KEY>
 
+      Please be aware of the [difference between `php-cgi` and `php-cli`](http://www.php-cli.com/php-cli-cgi.shtml).
+      The import *won't run* with php-cli.
 
     This will import new changesets for all configured repositories.
 
