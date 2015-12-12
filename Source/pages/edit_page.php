@@ -31,7 +31,7 @@ html_page_top2();
 <input type="hidden" name="offset" value="<?php echo $f_offset ?>"/>
 
 <br/>
-<table class="<?php echo $t_columns > 4 ? 'width90' : 'width75' ?>" cellspacing="1" align="center">
+<table class="width75" cellspacing="1" align="center">
 
 <tr>
 <td class="form-title" colspan="2"><?php echo string_display_line( $t_repo->name ), ': ', $t_vcs->show_changeset( $t_repo, $t_changeset ) ?></td>
