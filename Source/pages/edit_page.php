@@ -52,7 +52,7 @@ html_page_top2();
 <td class="category"><?php echo plugin_lang_get( 'committer' ) ?></td>
 <td colspan="2"><select name="committer_id">
 <option value="0" <?php echo check_selected( 0, (int)$t_changeset->committer_id ) ?>>--</option>
-<?php print_user_option_list( (int)$t_changeset->committer_id ) ?>
+<?php print_assign_to_option_list( (int)$t_changeset->committer_id ) ?>
 </select></td>
 </tr>
 
