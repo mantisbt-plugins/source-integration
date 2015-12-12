@@ -104,6 +104,7 @@ html_page_top2();
 <option value="<?php echo string_attribute( $t_branch ) ?>" <?php echo check_selected( $t_branch, $t_changeset->ported ) ?>><?php echo string_display_line( $t_branch ) ?></option>
 <?php } ?>
 </select>
+<input type="submit" value="<?php echo plugin_lang_get( 'update' ) ?>"/>
 <?php } else {
 	echo $t_changeset->ported == "0" ? plugin_lang_get( 'na' ) : $t_changeset->ported == "" ? plugin_lang_get( 'pending' ) : string_display_line( $t_changeset->ported );
 } ?>
@@ -112,10 +113,6 @@ html_page_top2();
 </tr>
 
 <?php if ( $t_update_form ) { ?>
-<tr>
-<td colspan="<?php echo $t_columns-1 ?>"></td>
-<td class="center"><input type="submit" value="<?php echo plugin_lang_get( 'update' ) ?>"/></td>
-</tr>
 </form>
 <?php } ?>
 
