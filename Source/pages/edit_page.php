@@ -43,16 +43,16 @@ html_page_top2();
 <tr>
 <td class="category"><?php echo plugin_lang_get( 'author' ) ?></td>
 <td colspan="2"><select name="user_id">
-<option value="0" <?php echo check_selected( 0, $t_changeset->user_id ) ?>>--</option>
-<?php print_user_option_list( $t_changeset->user_id ) ?>
+<option value="0" <?php echo check_selected( 0, (int)$t_changeset->user_id ) ?>>--</option>
+<?php print_user_option_list( (int)$t_changeset->user_id ) ?>
 </select></td>
 </tr>
 
 <tr>
 <td class="category"><?php echo plugin_lang_get( 'committer' ) ?></td>
 <td colspan="2"><select name="committer_id">
-<option value="0" <?php echo check_selected( 0, $t_changeset->committer_id ) ?>>--</option>
-<?php print_user_option_list( $t_changeset->committer_id ) ?>
+<option value="0" <?php echo check_selected( 0, (int)$t_changeset->committer_id ) ?>>--</option>
+<?php print_user_option_list( (int)$t_changeset->committer_id ) ?>
 </select></td>
 </tr>
 
