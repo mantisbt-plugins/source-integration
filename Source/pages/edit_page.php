@@ -26,80 +26,137 @@ html_page_top1( plugin_lang_get( 'title' ) );
 html_page_top2();
 ?>
 
-<form action="<?php echo plugin_page( 'edit' ), '&id=', $t_changeset->id ?>" method="post">
-<?php echo form_security_field( 'plugin_Source_edit' ) ?>
-<input type="hidden" name="offset" value="<?php echo $f_offset ?>"/>
+<div class="form-container width75">
+	<h2><?php
+		echo string_display_line( $t_repo->name ), ': ',
+			$t_vcs->show_changeset( $t_repo, $t_changeset ); ?>
+	</h2>
+	<div class="floatright">
+		<?php print_bracket_link(
+			plugin_page( 'view' ) . '&id=' . $t_changeset->id . '&offset=' . $f_offset,
+			plugin_lang_get( 'back_changeset' )
+		); ?>
+	</div>
 
-<br/>
-<table class="<?php echo $t_columns > 4 ? 'width90' : 'width75' ?>" cellspacing="1" align="center">
+	<form action="<?php echo plugin_page( 'edit' ), '&id=', $t_changeset->id ?>" method="post">
+		<fieldset>
+			<?php echo form_security_field( 'plugin_Source_edit' ) ?>
 
-<tr>
-<td class="form-title" colspan="2"><?php echo string_display_line( $t_repo->name ), ': ', $t_vcs->show_changeset( $t_repo, $t_changeset ) ?></td>
-<td class="right">
-<?php print_bracket_link( plugin_page( 'view' ) . '&id=' . $t_changeset->id . '&offset=' . $f_offset, plugin_lang_get( 'back_changeset' ) ); ?>
-</td>
-<tr>
+			<input type="hidden" name="offset" value="<?php echo $f_offset ?>"/>
 
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'author' ) ?></td>
-<td colspan="2"><select name="user_id">
-<option value="0" <?php echo check_selected( 0, $t_changeset->user_id ) ?>>--</option>
-<?php print_user_option_list( $t_changeset->user_id ) ?>
-</select></td>
-</tr>
+			<div class="field-container">
+				<label><?php echo plugin_lang_get( 'author' ) ?></label>
+				<span class="select">
+					<select name="user_id">
+						<option value="0" <?php
+							echo check_selected( 0, (int)$t_changeset->user_id )
+							?>>--</option>
+						<?php print_user_option_list( (int)$t_changeset->user_id ) ?>
 
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'committer' ) ?></td>
-<td colspan="2"><select name="committer_id">
-<option value="0" <?php echo check_selected( 0, $t_changeset->committer_id ) ?>>--</option>
-<?php print_user_option_list( $t_changeset->committer_id ) ?>
-</select></td>
-</tr>
+					</select>
+				</span>
+				<span class="label-style"></span>
+			</div>
 
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'branch' ) ?></td>
-<td colspan="2"><select name="branch">
-<?php if ( $t_changeset->branch == "" ) { ?>
-<option value="" <?php echo check_selected( "", $t_changeset->branch ) ?>>--</option>
-<?php } foreach( $t_repo->branches as $t_branch ) { ?>
-<option value="<?php echo string_attribute( $t_branch ) ?>" <?php echo check_selected( $t_branch, $t_changeset->branch ) ?>><?php echo string_display_line( $t_branch ) ?></option>
-<?php } ?>
-</select></td>
-</tr>
+			<div class="field-container">
+				<label><?php echo plugin_lang_get( 'committer' ) ?></label>
+				<span class="select">
+					<select name="committer_id">
+						<option value="0" <?php
+							echo check_selected( 0, (int)$t_changeset->committer_id )
+							?>>--</option>
+						<?php print_assign_to_option_list( (int)$t_changeset->user_id ) ?>
 
-<tr class="spacer">
-<td width="25%"></td>
-<td width="25%"></td>
-<td width="50%"></td>
-</tr>
+					</select>
+				</span>
+				<span class="label-style"></span>
+			</div>
 
-<?php if ( $t_use_porting ) { ?>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'ported' ) ?></td>
-<td colspan="2"><select name="ported">
-<option value="" <?php echo check_selected( "", $t_changeset->ported ) ?>><?php echo plugin_lang_get( 'pending' ) ?></option>
-<option value="0" <?php echo check_selected( "0", $t_changeset->ported ) ?>><?php echo plugin_lang_get( 'na' ) ?></option>
-<option value="">--</option>
-<?php foreach( $t_repo->branches as $t_branch ) { if ( $t_branch == $t_changeset->branch ) { continue; } ?>
-<option value="<?php echo string_attribute( $t_branch ) ?>" <?php echo check_selected( $t_branch, $t_changeset->ported ) ?>><?php echo string_display_line( $t_branch ) ?></option>
-<?php } ?>
-</select></td>
-</tr>
+			<div class="field-container">
+				<label><?php echo plugin_lang_get( 'branch' ) ?></label>
+				<span class="select">
+					<select name="branch">
+<?php
+	if( $t_changeset->branch == "" ) {
+?>
+						<option value="" <?php
+							echo check_selected( "", $t_changeset->branch )
+							?>>--</option>
+<?php
+	}
 
-<tr class="spacer"><td></td><td></td><td></td></tr>
-<?php } ?>
+	foreach( $t_repo->branches as $t_branch ) {
+?>
+						<option value="<?php echo string_attribute( $t_branch ) ?>" <?php
+							echo check_selected( $t_branch, $t_changeset->branch )
+						?>><?php
+							echo string_display_line( $t_branch )
+						?></option>
+<?php
+	}
+?>
+					</select>
+				</span>
+				<span class="label-style"></span>
+			</div>
 
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'message' ) ?></td>
-<td colspan="2"><textarea name="message" cols="80" rows="8"><?php echo string_textarea( $t_changeset->message ) ?></textarea></td>
-</tr>
+<?php
+	if( $t_use_porting ) {
+?>
+			<div class="field-container spacer">
+				<label><?php echo plugin_lang_get( 'ported' ) ?></label>
+				<span class="select">
+					<select>
+						<option value="" <?php
+							echo check_selected( "", $t_changeset->ported )
+						?>><?php
+							echo plugin_lang_get( 'pending' )
+						?></option>
+						<option value="0" <?php
+							echo check_selected( "0", $t_changeset->ported )
+						?>><?php
+							echo plugin_lang_get( 'na' )
+						?></option>
+						<option value="">--</option>
+<?php
+		foreach( $t_repo->branches as $t_branch ) {
+			if( $t_branch == $t_changeset->branch ) {
+				continue;
+			}
+?>
+						<option value="<?php
+							echo string_attribute( $t_branch ) ?>" <?php
+							echo check_selected( $t_branch, $t_changeset->ported )
+						?>><?php
+							echo string_display_line( $t_branch )
+						?></option>
+<?php
+		}
+?>
+					</select>
+				</span>
+				<span class="label-style"></span>
+			</div>
+<?php
+	} // if porting
+?>
 
-<tr>
-<td class="center" colspan="3"><input type="submit" value="<?php echo plugin_lang_get( 'edit' ) ?>"/></td>
-</tr>
+			<div class="field-container spacer">
+				<label><?php echo plugin_lang_get( 'message' ) ?></label>
+				<span class="textarea">
+					<textarea name="message" cols="80" rows="8"><?php echo string_textarea( $t_changeset->message ) ?></textarea>
+				</span>
+				<span class="label-style"></span>
+			</div>
 
-</table>
-</form>
+			<div class="submit-button">
+				<input type="submit" value="<?php echo plugin_lang_get( 'edit' ) ?>" />
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+
 
 <?php
 html_page_bottom1( __FILE__ );
