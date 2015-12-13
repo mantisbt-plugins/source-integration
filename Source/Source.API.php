@@ -416,10 +416,15 @@ function Source_Changeset_Link_Callback( $p_matches ) {
 		$t_repo = SourceRepo::load( $t_changeset->repo_id );
 		$t_vcs = SourceVCS::repo( $t_repo );
 
-		if ($t_url_type == "v") {
-			$t_url = $t_vcs->url_changeset( $t_repo, $t_changeset );
-		} else {
-			$t_url = plugin_page( 'view' ) . '&id=' . $t_changeset->id;
+		switch( $t_url_type ) {
+			case 'v':
+			case 'd':
+				$t_url = $t_vcs->url_changeset( $t_repo, $t_changeset );
+				break;
+			case 'c':
+			case 's':
+			default:
+				$t_url = plugin_page( 'view' ) . '&id=' . $t_changeset->id;
 		}
 
 		$t_name = string_display_line( $t_repo->name . ' ' . $t_vcs->show_changeset( $t_repo, $t_changeset ) );

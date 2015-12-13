@@ -12,7 +12,6 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 	function hooks() {
 		return array(
 			'EVENT_VIEW_BUG_EXTRA'		=> 'display_bug',
-			'EVENT_DISPLAY_FORMATTED'	=> 'display_formatted',
 			'EVENT_MENU_ISSUE'			=> 'display_changeset_link',
 
 			'EVENT_ACCOUNT_PREF_UPDATE_FORM' => 'account_update_form',
@@ -72,13 +71,6 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 
 		collapse_end( 'Source' );
 	} #display_bug
-
-	function display_formatted( $p_event, $p_string, $p_multiline ) {
-		$t_string = $p_string;
-		$t_string = preg_replace_callback( '/(\s)c?:([\w ]+):([\w]+)\b/', 'Source_Changeset_Link_Callback',	$t_string );
-
-		return $t_string;
-	}
 
 	/**
 	 * When updating user preferences, allowing the user or admin to specify
