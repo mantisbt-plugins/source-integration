@@ -13,6 +13,15 @@ class SourcePlugin extends MantisPlugin {
 	static $framework_version = '1.3.1';
 	static $cache = array();
 
+	/**
+	 * Changeset link matching pattern
+	 * format: '<type>:<reponame>:<revision>:', where
+	 * <type> = link type, 'c' or 's' for changeset details, 'd' or 'v' for diff
+	 * <repo> = repository name
+	 * <rev>  = changeset revision ID (e.g. SVN rev number, GIT SHA, etc.)
+	 */
+	const CHANGESET_LINKING_REGEX = '/(?:([cdsv]?):([^:\n\t]+):([^:\n\t\s]+):)/i';
+
 	function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -147,7 +156,11 @@ class SourcePlugin extends MantisPlugin {
 	}
 
 	function display_formatted( $p_event, $p_text, $p_multiline ) {
-		$p_text = preg_replace_callback( '/(?:([sv]):([^:\n\t]+):([^:\n\t\s]+):)/i', 'Source_Changeset_Link_Callback', $p_text );
+		$p_text = preg_replace_callback(
+			self::CHANGESET_LINKING_REGEX,
+			'Source_Changeset_Link_Callback',
+			$p_text
+		);
 		return $p_text;
 	}
 
