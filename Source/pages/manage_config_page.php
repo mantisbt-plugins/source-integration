@@ -91,29 +91,44 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	<div class="field-container">
 		<label for="menu_links"><span><?php echo plugin_lang_get( 'enabled_features' ) ?></span></label>
 		<span class="checkbox">
-			<input type="checkbox" name="show_repo_stats" <?php check_checked( ON == plugin_config_get( 'show_repo_stats' ) ) ?>/>
-			<label for="show_repo_stats"><?php echo plugin_lang_get( 'show_repo_stats' ) ?></label>
-			<br>
-			<input type="checkbox" name="enable_linking" <?php check_checked( ON == plugin_config_get( 'enable_linking' ) ) ?>/>
-			<label for="enable_linking"><?php echo plugin_lang_get( 'enable_linking' ) ?></label>
-			<br>
-			<input type="checkbox" name="enable_mapping" <?php check_checked( ON == plugin_config_get( 'enable_mapping' ) ) ?>/>
-			<label for="enable_mapping"><?php echo plugin_lang_get( 'enable_mapping' ) ?></label>
-			<br>
-			<input type="checkbox" name="enable_resolving" <?php check_checked( ON == plugin_config_get( 'enable_resolving' ) ) ?>/>
-			<label for="enable_resolving"><?php echo plugin_lang_get( 'enable_resolving' ) ?></label>
-			<br>
-			<input type="checkbox" name="enable_message" <?php check_checked( ON == plugin_config_get( 'enable_message' ) ) ?>/>
-			<label for="enable_message"><?php echo plugin_lang_get( 'enable_message' ) ?></label>
-			<br>
-			<input type="checkbox" name="enable_porting" <?php check_checked( ON == plugin_config_get( 'enable_porting' ) ) ?>/>
-			<label for="enable_porting"><?php echo plugin_lang_get( 'enable_porting' ) ?></label>
+			<span class="">
+				<input type="checkbox" name="show_repo_stats" <?php
+					check_checked( ON == plugin_config_get( 'show_repo_stats' ) ) ?>/>
+				<label for="show_repo_stats"><?php echo plugin_lang_get( 'show_repo_stats' ) ?></label>
+			</span><br>
+			<span class="">
+				<input type="checkbox" name="enable_linking" <?php
+					check_checked( ON == plugin_config_get( 'enable_linking' ) ) ?>/>
+				<label for="enable_linking"><?php echo plugin_lang_get( 'enable_linking' ) ?></label>
+			</span><br>
+			<span class="">
+				<input type="checkbox" name="enable_mapping" <?php
+					check_checked( ON == plugin_config_get( 'enable_mapping' ) ) ?>/>
+				<label for="enable_mapping"><?php echo plugin_lang_get( 'enable_mapping' ) ?></label>
+			</span><br>
+			<span class="">
+				<input type="checkbox" name="enable_resolving" <?php
+					check_checked( ON == plugin_config_get( 'enable_resolving' ) ) ?>/>
+				<label for="enable_resolving"><?php echo plugin_lang_get( 'enable_resolving' ) ?></label>
+			</span><br>
+			<span class="">
+				<input type="checkbox" name="enable_message" <?php
+					check_checked( ON == plugin_config_get( 'enable_message' ) ) ?>/>
+				<label for="enable_message"><?php echo plugin_lang_get( 'enable_message' ) ?></label>
+			</span><br>
+			<span class="">
+				<input type="checkbox" name="enable_porting" <?php
+					check_checked( ON == plugin_config_get( 'enable_porting' ) ) ?>/>
+				<label for="enable_porting"><?php echo plugin_lang_get( 'enable_porting' ) ?></label>
+			</span><br>
 <?php
 	if( plugin_is_installed( 'ProductMatrix' ) || plugin_config_get( 'enable_product_matrix' ) ) {
 ?>
-			<br>
-			<input type="checkbox" name="enable_product_matrix" <?php check_checked( ON == plugin_config_get( 'enable_product_matrix' ) ) ?>/>
-			<label for="enable_product_matrix"><?php echo plugin_lang_get( 'enable_product_matrix' ) ?></label>
+			<span class="">
+				<input type="checkbox" name="enable_product_matrix" <?php
+					check_checked( ON == plugin_config_get( 'enable_product_matrix' ) ) ?>/>
+				<label for="enable_product_matrix"><?php echo plugin_lang_get( 'enable_product_matrix' ) ?></label>
+			</span><br>
 <?php
 	}
 ?>
