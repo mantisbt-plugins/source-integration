@@ -44,8 +44,8 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 			}
 		}
 	}
-
-	public function display( $p_bug, $p_columns_target ) {
+	// PHP Fatal error:  Declaration of SourceRelatedChangesetsColumn::display() must be compatible with MantisColumn::display(BugData $p_bug, $p_columns_target) 
+	public function display( BugData $p_bug, $p_columns_target ) {
 		plugin_push_current( 'Source' );
 
 		if ( isset( $this->changeset_cache[ $p_bug->id ] ) ) {
