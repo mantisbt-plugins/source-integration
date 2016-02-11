@@ -227,11 +227,11 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_commit_url = $this->uri_base( $p_repo ) . 'a=commit;h=' . $t_fixed_id;
 			$t_input = url_get( $t_commit_url );
 
-			if ( false === $t_input ) {
-				echo "failed.\n";
-				echo "$t_commit_url\n"; # DEBUG
-				continue;
-			}
+                        if ( !$t_input ) {
+                                echo "failed.\nno input found.\n";
+                                echo "The data returned from accessing \"$t_commit_url\" returned a FALSE value.\n";
+                                die();
+                        }
 
 			list( $t_changeset, $t_commit_parents ) = $this->commit_changeset( $p_repo, $t_input, $p_branch );
 			if ( !is_null( $t_changeset ) ) {
@@ -254,7 +254,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$t_input_p1 = strpos( $t_input, '<div class="title_text">' );
 		$t_input_p2 = strpos( $t_input, '<div class="list_head">' );
 		if ( false === $t_input_p1 || false === $t_input_p2 ) {
-			echo 'commit data failure.';
+			echo "commit data failure.\n";
 			var_dump( strlen( $t_input ), $t_input_p1, $t_input_p2 );
 			die();
 		}
