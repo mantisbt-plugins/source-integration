@@ -227,14 +227,9 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_commit_url = $this->uri_base( $p_repo ) . 'a=commit;h=' . $t_fixed_id;
 			$t_input = url_get( $t_commit_url );
 
-			if ( false === $t_input ) {
-				echo "failed.\n";
-				echo "$t_commit_url\n"; # DEBUG
-				continue;
-			}
-                        if ( $t_input == '' ) {
-                                echo "empty input found.\n";
-                                echo "Make sure \"$t_commit_url\" is accessible.\n";
+                        if ( !$t_input ) {
+                                echo "failed.\nno input found.\n";
+                                echo "The data returned from accessing \"$t_commit_url\" returned a FALSE value.\n";
                                 die();
                         }
 
