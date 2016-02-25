@@ -997,7 +997,7 @@ class SourceChangeset {
 		}
 
 		if ( count( $t_bugs_added ) > 0 ) {
-			$t_query = "INSERT INTO $t_bug_table ( change_id, bug_id ) VALUES ";
+			$t_query = "INSERT IGNORE INTO $t_bug_table ( change_id, bug_id ) VALUES ";
 
 			$t_count = 0;
 			$t_params = array();
