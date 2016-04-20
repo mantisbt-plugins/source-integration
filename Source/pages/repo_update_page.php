@@ -11,52 +11,64 @@ $t_repo = SourceRepo::load( $f_repo_id );
 $t_vcs = SourceVCS::repo( $t_repo );
 $t_type = SourceType($t_repo->type);
 
-html_page_top1( plugin_lang_get( 'title' ) );
-html_page_top2();
+layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_begin();
 ?>
 
-<br/>
-<div id="repo-update-page-div" class="form-container">
-	<form action="<?php echo plugin_page( 'repo_update.php' ) ?>" method="post">
-		<fieldset>
-			<legend><span><?php echo plugin_lang_get( 'update_repository' ) ?></span></legend>
+<div class="col-md-12 col-xs-12">
+	<div class="space-10"></div>
 
+	<form action="<?php echo plugin_page( 'repo_update.php' ) ?>" method="post">
+
+	<div class="widget-box widget-color-blue2">
+		<div class="widget-header widget-header-small">
+			<h4 class="widget-title lighter">
+				<?php echo plugin_lang_get( 'update_repository' ) ?>
+			</h4>
+			<div class="widget-toolbar">
 			<?php echo form_security_field( 'plugin_Source_repo_update' ) ?>
 			<input type="hidden" name="repo_id" value="<?php echo $t_repo->id ?>"/>
+				<?php print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'back_repo' ) ) ?>
+			</div>
+		</div>
 
-			<div class="section-link"><?php print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'back_repo' ) ) ?></div>
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<div class="table-responsive">
 
-			<div class="field-container">
-				<label><span><?php echo plugin_lang_get( 'name' ) ?></span></label>
-				<span class="input">
+		<table class="table table-striped table-bordered table-condensed table-hover">
+			<tr>
+				<td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>
+				<td>
 					<input name="repo_name" maxlength="128" size="40" value="<?php echo string_attribute( $t_repo->name ) ?>"/>
-				</span>
-				<span class="label-style"></span>
-			</div>
+				</td>
+			</tr>
 
-			<div class="field-container">
-				<label><span><?php echo plugin_lang_get( 'type' ) ?></span></label>
-				<span class="input"><?php echo string_display( $t_type ) ?></span>
-				<span class="label-style"></span>
-			</div>
+			<tr>
+				<td class="category"><?php echo plugin_lang_get( 'type' ) ?></td>
+				<td><?php echo string_display( $t_type ) ?></td>
+			</tr>
 
-			<div class="field-container">
-				<label><span><?php echo plugin_lang_get( 'url' ) ?></span></label>
-				<span class="input">
+			<tr>
+				<td class="category"><?php echo plugin_lang_get( 'url' ) ?></td>
+				<td>
 					<input name="repo_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_repo->url ) ?>"/>
-				</span>
-				<span class="label-style"></span>
-			</div>
+				</td>
+			</tr>
 
 			<?php $t_vcs->update_repo_form( $t_repo ) ?>
+		</table>
+				</div>
+			</div>
+			<div class="widget-toolbox padding-8 clearfix">
+				<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'update_repository' ) ?>" />
+			</div>
+		</div>
 
-			<span class="submit-button">
-				<input type="submit" value="<?php echo plugin_lang_get( 'update_repository' ) ?>"/>
-			</span>
-		</fieldset>
-</form>
+	</div>
+	</form>
 </div>
 
 <?php
-html_page_bottom1( __FILE__ );
+layout_page_end( __FILE__ );
 

@@ -19,11 +19,19 @@ $t_vcs = SourceVCS::repo( $t_repo );
 
 $t_repo->pre_stats = $t_repo->stats();
 
-html_page_top();
+layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_begin();
 
 ?>
-<br/>
-<table class="width60" align="center">
+
+<div class="col-md-12 col-xs-12">
+	<div class="space-10"></div>
+
+<div class="widget-box widget-color-blue2">
+	<div class="widget-body">
+		<div class="widget-main no-padding">
+			<div class="table-responsive">
+<table class="table table-striped table-bordered table-condensed table-hover">
 
 <tr>
 <td class="" colspan="2"><?php echo plugin_lang_get( 'import_results' ) ?></td>
@@ -79,8 +87,8 @@ echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stat
 </tr>
 
 </table>
-
+</div></div></div></div></div>
 <?php
-html_page_bottom();
+layout_page_end( __FILE__ );
 form_security_purge( 'plugin_Source_repo_import_latest' );
 

@@ -22,44 +22,56 @@ $t_vcs = SourceVCS::repo( $t_repo );
 
 $t_use_porting = plugin_config_get( 'enable_porting' );
 
-html_page_top1( plugin_lang_get( 'title' ) );
-html_page_top2();
+layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_begin();
 ?>
 
 <div class="form-container width75">
-	<h2><?php
+	
+	<form action="<?php echo plugin_page( 'edit' ), '&id=', $t_changeset->id ?>" method="post">
+		
+	<div class="widget-box widget-color-blue2">
+		<div class="widget-header widget-header-small">
+			<h4 class="widget-title lighter">
+				<?php
 		echo string_display_line( $t_repo->name ), ': ',
 			$t_vcs->show_changeset( $t_repo, $t_changeset ); ?>
-	</h2>
-	<div class="floatright">
-		<?php print_bracket_link(
-			plugin_page( 'view' ) . '&id=' . $t_changeset->id . '&offset=' . $f_offset,
-			plugin_lang_get( 'back_changeset' )
-		); ?>
-	</div>
-
-	<form action="<?php echo plugin_page( 'edit' ), '&id=', $t_changeset->id ?>" method="post">
-		<fieldset>
+			</h4>
+			<div class="widget-toolbar">
+			<?php print_bracket_link(
+				plugin_page( 'view' ) . '&id=' . $t_changeset->id . '&offset=' . $f_offset,
+				plugin_lang_get( 'back_changeset' )
+			); ?>
+			</div>
+		</div>
+		<div class="widget-body">
+				<div class="widget-main no-padding">
+					<div class="table-responsive">
+						
+		<table class="table table-striped table-bordered table-condensed table-hover">
 			<?php echo form_security_field( 'plugin_Source_edit' ) ?>
 
 			<input type="hidden" name="offset" value="<?php echo $f_offset ?>"/>
 
-			<div class="field-container">
-				<label><?php echo plugin_lang_get( 'author' ) ?></label>
-				<span class="select">
-					<select name="user_id">
-						<option value="0" <?php
-							echo check_selected( 0, (int)$t_changeset->user_id )
-							?>>--</option>
-						<?php print_user_option_list( (int)$t_changeset->user_id ) ?>
+			<tr>
+				<td class="category"><?php echo plugin_lang_get( 'author' ) ?></td>
+				<td>
+					<span class="select">
+						<select name="user_id">
+							<option value="0" <?php
+								echo check_selected( 0, (int)$t_changeset->user_id )
+								?>>--</option>
+							<?php print_user_option_list( (int)$t_changeset->user_id ) ?>
+	
+						</select>
+					</span>
+					<span class="label-style"></span>
+				</td>
+			</tr>
 
-					</select>
-				</span>
-				<span class="label-style"></span>
-			</div>
-
-			<div class="field-container">
-				<label><?php echo plugin_lang_get( 'committer' ) ?></label>
+			<tr>
+				<td class="category"><?php echo plugin_lang_get( 'committer' ) ?></td>
+				<td>
 				<span class="select">
 					<select name="committer_id">
 						<option value="0" <?php
@@ -70,10 +82,12 @@ html_page_top2();
 					</select>
 				</span>
 				<span class="label-style"></span>
-			</div>
+				</td>
+			</tr>
 
-			<div class="field-container">
-				<label><?php echo plugin_lang_get( 'branch' ) ?></label>
+			<tr>
+				<td class="category"><?php echo plugin_lang_get( 'branch' ) ?></td>
+				<td>
 				<span class="select">
 					<select name="branch">
 <?php
@@ -98,13 +112,15 @@ html_page_top2();
 					</select>
 				</span>
 				<span class="label-style"></span>
-			</div>
+				</td>
+			</tr>
 
 <?php
 	if( $t_use_porting ) {
 ?>
-			<div class="field-container spacer">
-				<label><?php echo plugin_lang_get( 'ported' ) ?></label>
+			<tr>
+				<td class="category"><?php echo plugin_lang_get( 'ported' ) ?></td>
+				<td>
 				<span class="select">
 					<select>
 						<option value="" <?php
@@ -136,28 +152,35 @@ html_page_top2();
 					</select>
 				</span>
 				<span class="label-style"></span>
-			</div>
+				</td>
+			</tr>
 <?php
 	} // if porting
 ?>
 
-			<div class="field-container spacer">
-				<label><?php echo plugin_lang_get( 'message' ) ?></label>
+			<tr>
+				<td class="category"><?php echo plugin_lang_get( 'message' ) ?></td>
+				<td>
 				<span class="textarea">
 					<textarea name="message" cols="80" rows="8"><?php echo string_textarea( $t_changeset->message ) ?></textarea>
 				</span>
 				<span class="label-style"></span>
-			</div>
+				</td>
+			</tr>
 
-			<div class="submit-button">
-				<input type="submit" value="<?php echo plugin_lang_get( 'edit' ) ?>" />
+		</table>
+				</div>
 			</div>
-
-		</fieldset>
+			<div class="widget-toolbox padding-8 clearfix">
+				<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'edit' ) ?>" />
+			</div>
+		</div>
+		
+	</div>
 	</form>
 </div>
 
 
 <?php
-html_page_bottom1( __FILE__ );
+layout_page_end( __FILE__ );
 

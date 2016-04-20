@@ -17,31 +17,40 @@ list( $t_filter, $t_permalink ) = Source_Generate_Filter();
 list( $t_changesets, $t_count ) = $t_filter->find( $f_offset, $f_perpage );
 $t_repos = SourceRepo::load_by_changesets( $t_changesets );
 
-html_page_top1( plugin_lang_get( 'title' ) );
-html_page_top2();
+layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_begin();
 
 ?>
 
-<br>
+<div class="col-md-12 col-xs-12">
+	<div class="space-10"></div>
 
-<div class="table-container">
+	<div class="widget-box widget-color-blue2">
+		<div class="widget-header widget-header-small">
+			<h4 class="widget-title lighter">
+				<?php echo plugin_lang_get( 'search_changesets' ) ?>
+			</h4>
+			<div class="widget-toolbar">
+			<?php
+				print_bracket_link( plugin_page( 'search' ) . $t_permalink, plugin_lang_get( 'permalink' ) );
+				print_bracket_link( plugin_page( 'search_page' ) . $t_permalink, plugin_lang_get( 'modify_search' ) );
+				print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
+				print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
+			?>
+			</div>
+		</div>
 
-	<h2><?php echo plugin_lang_get( 'search_changesets' ) ?></h2>
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<div class="table-responsive">
 
-	<div class="right">
-		<?php
-			print_bracket_link( plugin_page( 'search' ) . $t_permalink, plugin_lang_get( 'permalink' ) );
-			print_bracket_link( plugin_page( 'search_page' ) . $t_permalink, plugin_lang_get( 'modify_search' ) );
-			print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
-			print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
-		?>
-	</div>
-
-	<table>
+	<table class="table table-striped table-bordered table-condensed table-hover">
 		<?php Source_View_Changesets( $t_changesets, $t_repos ); ?>
 	</table>
+				</div>
+			</div>
 
-	<div style="text-align: center;">
+	<div class="widget-toolbox padding-8 clearfix">
 		<?php
 			Source_View_Pagination(
 				plugin_page('search') . $t_permalink,
@@ -51,7 +60,8 @@ html_page_top2();
 			);
 		?>
 	</div>
+		</div>
+	</div>
 </div>
-
 <?php
-html_page_bottom1( __FILE__ );
+layout_page_end( __FILE__ );

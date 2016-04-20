@@ -14,8 +14,8 @@ $t_vcs = SourceVCS::repo( $t_repo );
 helper_ensure_confirmed( plugin_lang_get( 'ensure_import_full' ), plugin_lang_get( 'import_full' ) );
 helper_begin_long_process();
 
-html_page_top1();
-html_page_top2();
+layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_begin();
 
 # create a new, temporary repo
 $t_new_repo = SourceRepo::load( $f_repo_id );
@@ -70,5 +70,5 @@ if ( $t_error ) {
 
 form_security_purge( 'plugin_Source_repo_import_full' );
 
-html_page_bottom1();
+layout_page_end( __FILE__ );
 

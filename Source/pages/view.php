@@ -50,31 +50,40 @@ $t_columns =
 
 $t_update_form = $t_use_porting && $t_can_update;
 
-html_page_top1( plugin_lang_get( 'title' ) );
-html_page_top2();
+layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_begin();
 ?>
 
-<br/>
+<div class="col-md-12 col-xs-12">
+	<div class="space-10"></div>
+		
 <?php if ( $t_update_form ) { ?>
-<form action="<?php echo plugin_page( 'update' ) ?>" method="post">
-<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
-<?php echo form_security_field( 'plugin_Source_update' ) ?>
+	<form action="<?php echo plugin_page( 'update' ) ?>" method="post">
+	<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
+	<?php echo form_security_field( 'plugin_Source_update' ) ?>
 <?php } ?>
 
-<div class="table-container">
-<table>
+<div class="widget-box widget-color-blue2">
+			<div class="widget-header widget-header-small">
+				<h4 class="widget-title lighter">
+					<?php echo string_display_line( $t_repo->name ), ': ', $t_vcs->show_changeset( $t_repo, $t_changeset ) ?>
+				</h4>
+				<div class="widget-toolbar">
+				<?php
+					if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) {
+						print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
+					}
+					print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset, plugin_lang_get( 'back_repo' ) );
+				?>
+				</div>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main no-padding">
+					<div class="table-responsive">
+
+<table class="table table-striped table-bordered table-condensed table-hover">
 <tbody>
-<tr>
-<td class="form-title" colspan="<?php echo $t_columns - 2 ?>"><?php echo string_display_line( $t_repo->name ), ': ', $t_vcs->show_changeset( $t_repo, $t_changeset ) ?></td>
-<td class="right" colspan="2">
-<?php
-	if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) {
-		print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
-	}
-	print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset, plugin_lang_get( 'back_repo' ) );
-?>
-</td>
-<tr>
 
 <tr>
 <th class="category"><?php echo plugin_lang_get( 'author' ) ?></th>
@@ -173,22 +182,24 @@ if ( $t_can_update ) {
 
 <?php } ?>
 
-<?php if ( $t_can_update ) { ?>
-<tr>
-<td class="buttons center" colspan="<?php echo $t_columns ?>">
-<form action="<?php echo helper_mantis_url( 'plugin.php' ) ?>" method="get">
-<input type="hidden" name="page" value="Source/edit_page"/>
-<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
-<input type="submit" value="<?php echo plugin_lang_get( 'edit' ) ?>"/>
-</form>
-</td>
-</tr>
-<?php } ?>
-
 </tbody>
 </table>
+				</div>
+			</div>
+			<?php if ( $t_can_update ) { ?>
+				<div class="widget-toolbox padding-8 clearfix">
+					<form action="<?php echo helper_mantis_url( 'plugin.php' ) ?>" method="get">
+					<input type="hidden" name="page" value="Source/edit_page"/>
+					<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
+					<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'edit' ) ?>" />
+					</form>
+				</div>
+			<?php } ?>
+		</div>
+</div>
+
 </div>
 
 <?php
-html_page_bottom1( __FILE__ );
+layout_page_end( __FILE__ );
 

@@ -10,27 +10,33 @@ $t_show_stats = plugin_config_get( 'show_repo_stats' );
 
 $t_repos = SourceRepo::load_all();
 
-html_page_top1( plugin_lang_get( 'title' ) );
-html_page_top2();
+layout_page_header( plugin_lang_get( 'title' ) );
+layout_page_begin();
 ?>
 
-<br>
+<div class="col-md-12 col-xs-12">
+	<div class="space-10"></div>
 
-<div class="form-container">
+	<div class="widget-box widget-color-blue2">
+		<div class="widget-header widget-header-small">
+			<h4 class="widget-title lighter">
+				<?php echo plugin_lang_get( 'repositories' ) ?>
+			</h4>
+			<div class="widget-toolbar">
+			<?php
+			print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
+			if( $t_can_manage ) {
+				print_bracket_link( plugin_page( 'manage_config_page' ), plugin_lang_get( 'configuration' ) );
+			}
+			?>
+			</div>
+		</div>
 
-	<h2><?php echo plugin_lang_get( 'repositories' ) ?></h2>
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<div class="table-responsive">	
 
-	<div class="right">
-		<?php
-		print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
-		if( $t_can_manage ) {
-			print_bracket_link( plugin_page( 'manage_config_page' ), plugin_lang_get( 'configuration' ) );
-		}
-		?>
-
-	</div>
-
-	<table>
+	<table class="table table-striped table-bordered table-condensed table-hover">
 		<thead>
 			<tr class="row-category">
 				<th width="30%"><?php echo plugin_lang_get( 'repository' ) ?></th>
@@ -88,35 +94,51 @@ html_page_top2();
 ?>
 		</tbody>
 	</table>
-</div>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+	</div>
 
 <?php
 	if( $t_can_manage ) {
 ?>
 
-<div class="width60 form-container">
-<form action="<?php echo plugin_page( 'repo_create' ) ?>" method="post">
-	<fieldset class="has-required">
+<div class="col-md-12 col-xs-12">
+	<div class="space-10"></div>
 
-		<legend><?php echo plugin_lang_get( 'create_repository' ) ?></legend>
+	<form action="<?php echo plugin_page( 'repo_create' ) ?>" method="post">
 
-		<?php echo form_security_field( 'plugin_Source_repo_create' ) ?>
-
-		<div class="field-container">
-			<label class="required" for="repo_name">
-				<span><?php echo plugin_lang_get( 'name' ) ?></span>
-			</label>
-			<span class="input">
-				<input id="repo_name" name="repo_name" type="text" maxlength="128" size="40" />
-			</span>
-			<span class="label-style"></span>
+	<div class="widget-box widget-color-blue2">
+		<div class="widget-header widget-header-small">
+			<h4 class="widget-title lighter">
+				<?php echo plugin_lang_get( 'create_repository' ) ?>
+			</h4>
+			<div class="widget-toolbar">
+				<?php echo form_security_field( 'plugin_Source_repo_create' ) ?>
+			</div>
 		</div>
 
-		<div class="field-container">
-			<label class="required" for="repo_type">
-				<span><?php echo plugin_lang_get( 'type' ) ?></span>
-			</label>
-			<span class="select">
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<div class="table-responsive">
+
+	<table class="table table-striped table-bordered table-condensed table-hover">
+		<tr>
+			<td class="category">
+				<?php echo plugin_lang_get( 'name' ) ?>
+			</td>
+			<td>
+				<input id="repo_name" name="repo_name" type="text" maxlength="128" size="40" />
+			</td>
+		</tr>
+
+		<tr>
+			<td class="category">
+				<?php echo plugin_lang_get( 'type' ) ?>
+			</td>
+			<td>
 				<select name="repo_type">
 					<option value=""><?php echo plugin_lang_get( 'select_one' ) ?></option>
 <?php
@@ -129,21 +151,22 @@ html_page_top2();
 		}
 ?>
 				</select>
-			</span>
-			<span class="label-style"></span>
-		</div>
+			</td>
+		</tr>
+	</table>
+				</div>
+			</div>
+			<div class="widget-toolbox padding-8 clearfix">
+				<input class="btn btn-primary btn-white btn-sm btn-round" type="submit" value="<?php echo plugin_lang_get( 'create_repository' ) ?>" />
+			</div>
 
-		<div class="submit-button">
-			<input class="button" type="submit" value="<?php echo plugin_lang_get( 'create_repository' ) ?>" />
 		</div>
-
-	</fieldset>
-</form>
+	</div>
+	</form>	
 </div>
-
 <?php
 	} # if( $t_can_manage )
 ?>
 
 <?php
-html_page_bottom1( __FILE__ );
+layout_page_end( __FILE__ );
