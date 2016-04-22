@@ -66,18 +66,20 @@ layout_page_begin();
 			<h4 class="widget-title lighter">
 				<?php echo plugin_lang_get( 'manage_repository' ) ?>
 			</h4>
-			<div class="widget-toolbar">
-				<?php
-					print_bracket_link( plugin_page( 'list' ) . "&id=$f_repo_id", plugin_lang_get( 'browse' ) );
-					print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
-				?>
-			</div>
 		</div>
 
 		<div class="widget-body">
 			<div class="widget-main no-padding">
 				<div class="table-responsive">
 
+					<div class="widget-toolbox padding-8 clearfix">
+						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'list' ) . "&id=$f_repo_id" ?>">
+							<?php echo plugin_lang_get( 'browse' ) ?>
+						</a>
+						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'index' ) ?>">
+							<?php echo plugin_lang_get( 'back' ) ?>
+						</a>
+					</div>
 	<table class="table table-striped table-bordered table-condensed table-hover">
 		<tr>
 			<td class="category" width="30%"><?php echo plugin_lang_get( 'name' ) ?></td>

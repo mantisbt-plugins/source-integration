@@ -37,17 +37,16 @@ layout_page_begin();
 		echo string_display_line( $t_repo->name ), ': ',
 			$t_vcs->show_changeset( $t_repo, $t_changeset ); ?>
 			</h4>
-			<div class="widget-toolbar">
-			<?php print_bracket_link(
-				plugin_page( 'view' ) . '&id=' . $t_changeset->id . '&offset=' . $f_offset,
-				plugin_lang_get( 'back_changeset' )
-			); ?>
-			</div>
 		</div>
 		<div class="widget-body">
 				<div class="widget-main no-padding">
 					<div class="table-responsive">
 						
+						<div class="widget-toolbox padding-8 clearfix">
+							<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'view' ) . '&id=' . $t_changeset->id . '&offset=' . $f_offset ?>">
+								<?php echo plugin_lang_get( 'back_changeset' ) ?>
+							</a>
+						</div>	
 		<table class="table table-striped table-bordered table-condensed table-hover">
 			<?php echo form_security_field( 'plugin_Source_edit' ) ?>
 

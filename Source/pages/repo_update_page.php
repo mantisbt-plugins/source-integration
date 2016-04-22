@@ -25,17 +25,19 @@ layout_page_begin();
 			<h4 class="widget-title lighter">
 				<?php echo plugin_lang_get( 'update_repository' ) ?>
 			</h4>
-			<div class="widget-toolbar">
 			<?php echo form_security_field( 'plugin_Source_repo_update' ) ?>
 			<input type="hidden" name="repo_id" value="<?php echo $t_repo->id ?>"/>
-				<?php print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'back_repo' ) ) ?>
-			</div>
 		</div>
 
 		<div class="widget-body">
 			<div class="widget-main no-padding">
 				<div class="table-responsive">
 
+					<div class="widget-toolbox padding-8 clearfix">
+						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id ?>">
+							<?php echo plugin_lang_get( 'back_repo' ) ?>
+						</a>
+					</div>
 		<table class="table table-striped table-bordered table-condensed table-hover">
 			<tr>
 				<td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>

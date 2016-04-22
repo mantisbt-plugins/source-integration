@@ -22,20 +22,23 @@ layout_page_begin();
 			<h4 class="widget-title lighter">
 				<?php echo plugin_lang_get( 'repositories' ) ?>
 			</h4>
-			<div class="widget-toolbar">
-			<?php
-			print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
-			if( $t_can_manage ) {
-				print_bracket_link( plugin_page( 'manage_config_page' ), plugin_lang_get( 'configuration' ) );
-			}
-			?>
-			</div>
 		</div>
 
 		<div class="widget-body">
 			<div class="widget-main no-padding">
 				<div class="table-responsive">	
 
+					<div class="widget-toolbox padding-8 clearfix">
+						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'search_page' ) ?>">
+							<?php echo plugin_lang_get( 'search' ) ?>
+						</a>
+					<?php
+						if ( $t_can_manage ) { ?>
+							<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'manage_config_page' ) ?>">
+								<?php echo plugin_lang_get( 'configuration' ) ?>
+							</a>
+					<?php } ?>
+					</div>
 	<table class="table table-striped table-bordered table-condensed table-hover">
 		<thead>
 			<tr class="row-category">
@@ -71,22 +74,23 @@ layout_page_begin();
 <?php
 		}
 ?>
-				<td class="center"><?php
-					print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id, plugin_lang_get( 'changesets' ) );
+				<td>
+					<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'list' ) . '&id=' . $t_repo->id ?>">
+						<?php echo plugin_lang_get( 'changesets' ) ?>
+					</a>
+				<?php
 					if( $t_can_manage ) {
 						# Import repositories can be deleted from here
-						if( preg_match( '/^Import \d+-\d+\d+/', $t_repo->name ) ) {
-							print_bracket_link(
-								plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id
-									. form_security_param( 'plugin_Source_repo_delete' ),
-								plugin_lang_get( 'delete' )
-							);
-						}
-						print_bracket_link(
-							plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id,
-							plugin_lang_get( 'manage' )
-						);
-					}
+						if( preg_match( '/^Import \d+-\d+\d+/', $t_repo->name ) ) { ?>
+							<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'repo_delete' ) . '&id=' . $t_repo->id
+									. form_security_param( 'plugin_Source_repo_delete' ) ?>">
+								<?php echo plugin_lang_get( 'delete' ) ?>
+							</a>
+					<?php } ?>	
+					<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id ?>">
+						<?php echo plugin_lang_get( 'manage' ) ?>
+					</a>
+				<?php }
 				?></td>
 			</tr>
 <?php

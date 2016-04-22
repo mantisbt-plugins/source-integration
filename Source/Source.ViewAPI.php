@@ -47,11 +47,15 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 			( is_null( $t_changeset->ported ) ? plugin_lang_get( 'pending', 'Source' ) : plugin_lang_get( 'na', 'Source' ) ) ) ?></span>
 	<?php } ?>
 	<br/><span class="small-links">
+		<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id ?>">
+			<?php echo plugin_lang_get( 'details', 'Source' ) ?>
+		</a>
 		<?php
-		print_bracket_link( plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id, plugin_lang_get( 'details', 'Source' ) );
-		if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) {
-			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
-		}
+		if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) { ?>
+		<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
+			<?php echo plugin_lang_get( 'diff', 'Source' ) ?>
+		</a>
+		<?php }
 		?>
 </td>
 <td colspan="3"><?php
@@ -74,12 +78,16 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 <td class="small mono" colspan="2"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
 <td class="center" width="12%"><span class="small-links">
 		<?php
-		if ( $t_url = $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ) {
-			print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
-		}
-		if ( $t_url = $t_vcs->url_file( $t_repo, $t_changeset, $t_file ) ) {
-			print_bracket_link( $t_url, plugin_lang_get( 'file', 'Source' ) );
-		}
+		if ( $t_url = $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ) { ?>
+			<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
+				<?php echo plugin_lang_get( 'diff', 'Source' ) ?>
+			</a>
+		<?php }
+		if ( $t_url = $t_vcs->url_file( $t_repo, $t_changeset, $t_file ) ) { ?>
+			<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
+				<?php echo plugin_lang_get( 'file', 'Source' ) ?>
+			</a>
+		<?php }
 		?>
 </span></td>
 </tr>
@@ -167,8 +175,9 @@ function Source_View_Pagination( $p_link, $p_current, $p_count, $p_perpage = 25 
 				return '...';
 			} elseif( $p_page == $p_current ) {
 				return "<strong>$p_page</strong>";
-			} else {
-				return sprintf( '<a href="%s">%s</a>', $p_link . $p_page, $p_text );
+			} else { 
+				$page_button = '<a class="btn btn-xs btn-primary btn-white btn-round" href="'. $p_link . $p_page .'">'.$p_text.'</a>';
+				return $page_button;
 			}
 		};
 
@@ -193,9 +202,10 @@ function Source_View_Pagination( $p_link, $p_current, $p_count, $p_perpage = 25 
 			$t_page_set = range( 1, $t_pages );
 		}
 
-		if( $p_current > 1 ) {
-			echo $t_page_link( 1, lang_get( 'first' ) ), '&nbsp;&nbsp;';
-			echo $t_page_link( $p_current - 1, lang_get( 'prev' ) ), '&nbsp;&nbsp;';
+		if( $p_current > 1 ) { 
+			echo '&nbsp;', $t_page_link( 1, lang_get( 'first' ) );
+			echo '&nbsp;&nbsp;', $t_page_link( $p_current - 1, lang_get( 'prev' ) );
+			echo '&nbsp;&nbsp;';
 		}
 
 		$t_page_set = array_map( $t_page_link, $t_page_set );

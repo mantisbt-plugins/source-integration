@@ -30,16 +30,16 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 			<h4 class="widget-title lighter">
 				<?php echo plugin_lang_get( 'title' ), ': ', plugin_lang_get( 'configuration' ) ?>
 			</h4>
-			<div class="widget-toolbar">
-			<?php
-				print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'repositories' ) );
-			?>
-			</div>
 		</div>
 		<div class="widget-body">
 				<div class="widget-main no-padding">
 					<div class="table-responsive">
 						
+						<div class="widget-toolbox padding-8 clearfix">
+							<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'index' ) ?>">
+								<?php echo plugin_lang_get( 'repositories' ) ?>
+							</a>
+						</div>	
 <table class="table table-striped table-bordered table-condensed table-hover">
 
 	<?php echo form_security_field( 'plugin_Source_manage_config' ) ?>

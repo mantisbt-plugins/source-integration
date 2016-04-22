@@ -30,18 +30,20 @@ layout_page_begin();
 			<h4 class="widget-title lighter">
 				<?php echo plugin_lang_get( 'search_changesets' ) ?>
 			</h4>
-			<div class="widget-toolbar">
-				<?php
-					print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'new_search' ) );
-					print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
-				?>
-			</div>
 		</div>
 
 		<div class="widget-body">
 			<div class="widget-main no-padding">
 				<div class="table-responsive">
 
+					<div class="widget-toolbox padding-8 clearfix">
+						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'search_page' ) ?>">
+							<?php echo plugin_lang_get( 'new_search' ) ?>
+						</a>
+						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'index' ) ?>">
+							<?php echo plugin_lang_get( 'back' ) ?>
+						</a>
+					</div>	
 	
 		<input type="hidden" name="page" value="Source/search"/>
 

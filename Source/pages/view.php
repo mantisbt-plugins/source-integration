@@ -68,19 +68,21 @@ layout_page_begin();
 				<h4 class="widget-title lighter">
 					<?php echo string_display_line( $t_repo->name ), ': ', $t_vcs->show_changeset( $t_repo, $t_changeset ) ?>
 				</h4>
-				<div class="widget-toolbar">
-				<?php
-					if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) {
-						print_bracket_link( $t_url, plugin_lang_get( 'diff', 'Source' ) );
-					}
-					print_bracket_link( plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset, plugin_lang_get( 'back_repo' ) );
-				?>
-				</div>
 			</div>
 
 			<div class="widget-body">
 				<div class="widget-main no-padding">
 					<div class="table-responsive">
+						<div class="widget-toolbox padding-8 clearfix">
+						<?php if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) { ?>
+							<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
+								<?php echo plugin_lang_get( 'diff', 'Source' ) ?>
+							</a>
+						<?php } ?>
+							<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset ?>">
+								<?php echo plugin_lang_get( 'back_repo' ) ?>
+							</a>
+						</div>	
 
 <table class="table table-striped table-bordered table-condensed table-hover">
 <tbody>
@@ -174,9 +176,13 @@ if ( $t_can_update ) {
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr>
 <td class="small mono" colspan="<?php echo $t_columns-2 ?>"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
-<td class="center"><span class="small-links">
-	<?php print_bracket_link( $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ), plugin_lang_get( 'diff', 'Source' ) ) ?>
-	<?php print_bracket_link( $t_vcs->url_file( $t_repo, $t_changeset, $t_file ), plugin_lang_get( 'file', 'Source' ) ) ?>
+<td><span class="small-links">
+	<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ?>">
+		<?php echo plugin_lang_get( 'diff', 'Source' ) ?>
+	</a>
+	<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_vcs->url_file( $t_repo, $t_changeset, $t_file ) ?>">
+		<?php echo plugin_lang_get( 'file', 'Source' ) ?>
+	</a>
 </span></td>
 </tr>
 

@@ -30,26 +30,32 @@ layout_page_begin();
 			<h4 class="widget-title lighter">
 				<?php echo plugin_lang_get( 'changesets' ), ': ', $t_repo->name ?>
 			</h4>
-			<div class="widget-toolbar">
-				<?php
-					if( access_has_global_level( plugin_config_get( 'manage_threshold' ) ) ) {
-						print_bracket_link( plugin_page( 'repo_manage_page' )
-							. '&id=' . $t_repo->id, plugin_lang_get( 'manage' )
-						);
-					}
-					print_bracket_link( plugin_page( 'search_page' ), plugin_lang_get( 'search' ) );
-					if( $t_url = $t_vcs->url_repo( $t_repo ) ) {
-						print_bracket_link( $t_url, plugin_lang_get( 'browse' ) );
-					}
-					print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
-				?>
-			</div>
 		</div>
 
 		<div class="widget-body">
 			<div class="widget-main no-padding">
 				<div class="table-responsive">
 
+					<div class="widget-toolbox padding-8 clearfix">
+						<?php
+							if( access_has_global_level( plugin_config_get( 'manage_threshold' ) ) ) { ?>
+								<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id ?>">
+									<?php echo plugin_lang_get( 'manage' ) ?>
+								</a>
+							<?php } ?>
+								<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'search_page' ) ?>">
+									<?php echo plugin_lang_get( 'search' ) ?>
+								</a>
+							<?php
+							if( $t_url = $t_vcs->url_repo( $t_repo ) ) { ?>
+								<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
+									<?php echo plugin_lang_get( 'browse' ) ?>
+								</a>
+							<?php } ?>
+								<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'index' ) ?>">
+									<?php echo plugin_lang_get( 'back' ) ?>
+								</a>
+					</div>
 	<table class="table table-striped table-bordered table-condensed table-hover">
 		<?php
 			Source_View_Changesets(
