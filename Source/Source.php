@@ -14,13 +14,15 @@ class SourcePlugin extends MantisPlugin {
 	static $cache = array();
 
 	/**
-	 * Changeset link matching pattern
+	 * Changeset link matching pattern.
 	 * format: '<type>:<reponame>:<revision>:', where
 	 * <type> = link type, 'c' or 's' for changeset details, 'd' or 'v' for diff
+	 *          the type may be omitted; if unspecified, defaults to 'c'
 	 * <repo> = repository name
 	 * <rev>  = changeset revision ID (e.g. SVN rev number, GIT SHA, etc.)
+	 * The match is not case-sensitive.
 	 */
-	const CHANGESET_LINKING_REGEX = '/(?:([cdsv]?):([^:\n\t]+):([^:\n\t\s]+):)/i';
+	const CHANGESET_LINKING_REGEX = '/(?:([cdsv]?):([^:\s][^:\n\t]*):([^:\s]+):)/i';
 
 	function register() {
 		$this->name = plugin_lang_get( 'title' );
