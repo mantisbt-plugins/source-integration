@@ -235,9 +235,14 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 		$p_changesets[ $t_key ] = Source_Parse_Users( $t_changeset );
 	}
 
-	# Parse normal bug links
+	# Parse normal bug links, excluding non-existing bugs
 	foreach( $p_changesets as $t_changeset ) {
-		$t_changeset->bugs = Source_Parse_Buglinks( $t_changeset->message );
+		$t_bugs = Source_Parse_Buglinks( $t_changeset->message );
+		foreach( $t_bugs as $t_bug_id ) {
+			if( bug_exists( $t_bug_id ) ) {
+				$t_changeset->bugs[] = $t_bug_id;
+			}
+		}
 	}
 
 	# Parse fixed bug links
@@ -247,8 +252,13 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	foreach( $p_changesets as $t_changeset ) {
 		$t_bugs = Source_Parse_Bugfixes( $t_changeset->message );
 
-		foreach( $t_bugs as $t_bug_id ) {
-			$t_fixed_bugs[ $t_bug_id ] = $t_changeset;
+		foreach( $t_bugs as $t_key => $t_bug_id ) {
+			# Only process existing bugs
+			if( bug_exists( $t_bug_id ) ) {
+				$t_fixed_bugs[$t_bug_id] = $t_changeset;
+			} else {
+				unset( $t_bugs[$t_key] );
+			}
 		}
 
 		# Add the link to the normal set of buglinks
@@ -282,11 +292,6 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 
 	# Start fixing and/or resolving issues
 	foreach( $t_fixed_bugs as $t_bug_id => $t_changeset ) {
-
-		# make sure the bug exists before processing
-		if ( !bug_exists( $t_bug_id ) ) {
-			continue;
-		}
 
 		# fake the history entries as the committer/author user ID
 		$t_user_id = null;
