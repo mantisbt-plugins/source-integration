@@ -65,7 +65,7 @@ html_page_top2();
 						<option value="0" <?php
 							echo check_selected( 0, (int)$t_changeset->committer_id )
 							?>>--</option>
-						<?php print_assign_to_option_list( (int)$t_changeset->user_id ) ?>
+						<?php print_assign_to_option_list( (int)$t_changeset->committer_id ) ?>
 
 					</select>
 				</span>
