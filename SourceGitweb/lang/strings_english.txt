@@ -9,5 +9,7 @@ $s_plugin_SourceGitweb_title = 'Gitweb Integration';
 $s_plugin_SourceGitweb_description = 'Adds Gitweb integration to the Source Integration framework.';
 
 $s_plugin_SourceGitweb_gitweb_root = 'Gitweb Root URL';
+$s_plugin_SourceGitweb_gitweb_user = 'Gitweb User Name';
+$s_plugin_SourceGitweb_gitweb_pass = 'Gitweb Password';
 $s_plugin_SourceGitweb_gitweb_project = 'Gitweb Project<br/><span class="small">(including ".git")</span>';
 $s_plugin_SourceGitweb_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list)</span>';

@@ -27,6 +27,16 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 	public $type = 'gitweb';
 
+	public function url_get_auth($url, $user, $pass) {
+		if (strlen($user) > 0 && strlen($pass) > 0) {
+			$urlParts = preg_split("/:\\/\\//", $url);
+			$urlWithCredentials = $urlParts[0] . "://" . $user . ":" . $pass . "@" .$urlParts[1];
+			return file_get_contents($urlWithCredentials);
+		} else {
+			return url_get($url);
+		}
+	}
+
 	public function show_type() {
 		return plugin_lang_get( 'gitweb' );
 	}
@@ -78,6 +88,15 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_gitweb_project = $p_repo->info['gitweb_project'];
 		}
 
+                if ( isset( $p_repo->info['gitweb_user'] ) ) {
+                        $t_gitweb_user = $p_repo->info['gitweb_user'];
+                }
+
+                if ( isset( $p_repo->info['gitweb_pass'] ) ) {
+                        $t_gitweb_pass = $p_repo->info['gitweb_pass'];
+                }
+
+
 		if ( isset( $p_repo->info['master_branch'] ) ) {
 			$t_master_branch = $p_repo->info['master_branch'];
 		} else {
@@ -93,6 +112,14 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 <td><input name="gitweb_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_project ) ?>"/></td>
 </tr>
 <tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'gitweb_user' ) ?></td>
+<td><input name="gitweb_user" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_user ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'gitweb_pass' ) ?></td>
+<td><input name="gitweb_pass" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_pass ) ?>"/></td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
 <td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 <td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
 </tr>
@@ -102,10 +129,14 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	public function update_repo( $p_repo ) {
 		$f_gitweb_root = gpc_get_string( 'gitweb_root' );
 		$f_gitweb_project = gpc_get_string( 'gitweb_project' );
+		$f_gitweb_user = gpc_get_string( 'gitweb_user' );
+		$f_gitweb_pass = gpc_get_string( 'gitweb_pass' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
 		$p_repo->info['gitweb_root'] = $f_gitweb_root;
 		$p_repo->info['gitweb_project'] = $f_gitweb_project;
+		$p_repo->info['gitweb_user'] = $f_gitweb_user;
+		$p_repo->info['gitweb_pass'] = $f_gitweb_pass;
 		$p_repo->info['master_branch'] = $f_master_branch;
 
 		return $p_repo;
@@ -152,7 +183,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		else
 		{
 			$t_heads_url = $this->uri_base( $p_repo ) . 'a=heads';
-			$t_branches_input = url_get( $t_heads_url );
+			$t_branches_input = $this->url_get_auth( $t_heads_url, $p_repo->info['gitweb_user'], $p_repo->info['gitweb_pass'] );
 
 			$t_branches_input = str_replace( array("\r", "\n", '&lt;', '&gt;', '&nbsp;'), array('', '', '<', '>', ' '), $t_branches_input );
 
@@ -225,7 +256,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			# Handle branch names with '+' character
 			$t_fixed_id = str_replace('+', '%2B', $t_commit_id);
 			$t_commit_url = $this->uri_base( $p_repo ) . 'a=commit;h=' . $t_fixed_id;
-			$t_input = url_get( $t_commit_url );
+			$t_input = $this->url_get_auth( $t_commit_url, $p_repo->info['gitweb_user'], $p_repo->info['gitweb_pass'] );
 
 			if ( !$t_input ) {
 				echo "failed.\n";
