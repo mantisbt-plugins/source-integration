@@ -47,7 +47,7 @@ layout_page_begin();
 	
 		<input type="hidden" name="page" value="Source/search"/>
 
-		<table class="table table-striped table-bordered table-condensed table-hover">
+		<table class="table table-bordered table-condensed">
 			<thead>
 				<tr class="row-category">
 					<th><?php echo plugin_lang_get( 'type' ) ?></th>
@@ -78,8 +78,8 @@ layout_page_begin();
 				<tr>
 					<td class="center" ><?php Source_Username_Select( $t_filter->filters['c.user_id']->value ) ?></td>
 					<td class="center"><?php Source_Author_Select( $t_filter->filters['c.author']->value ) ?></td>
-					<td class="center"><input name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
-					<td class="center"><input name="bug_id" size="10" value="<?php echo string_attribute( join( ',', $t_filter->filters['b.bug_id']->value ) ) ?>"/></td>
+					<td class="center"><input type="text" name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
+					<td class="center"><input type="text" name="bug_id" size="10" value="<?php echo string_attribute( join( ',', $t_filter->filters['b.bug_id']->value ) ) ?>"/></td>
 				</tr>
 			</tbody>
 
@@ -112,7 +112,7 @@ layout_page_begin();
 		<tr>
 			<td class="category"><?php echo plugin_lang_get( 'message' ) ?></td>
 			<td colspan="3">
-				<input name="message" size="40" value="<?php
+				<input type="text" name="message" size="40" value="<?php
 					echo string_attribute( $t_filter->filters['c.message']->value ) ?>" />
 			</td>
 		</tr>
@@ -120,7 +120,7 @@ layout_page_begin();
 		<tr>
 			<td class="category"><?php echo plugin_lang_get( 'filename' ) ?></td>
 			<td colspan="3">
-				<input name="filename" size="40" value="<?php
+				<input type="text" name="filename" size="40" value="<?php
 					echo string_attribute( $t_filter->filters['f.filename']->value ) ?>" />
 			</td>
 		</tr>
@@ -129,7 +129,7 @@ layout_page_begin();
 		</div>
 
 		<div class="widget-toolbox padding-8 clearfix">
-			<input class="btn btn-primary btn-white btn-sm btn-round" type="submit" value="<?php echo plugin_lang_get( 'search' ) ?>" />
+			<input class="btn btn-primary btn-white btn-round" type="submit" value="<?php echo plugin_lang_get( 'search' ) ?>" />
 		</div>
 	</div>
 	</div>

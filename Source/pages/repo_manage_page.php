@@ -80,7 +80,7 @@ layout_page_begin();
 							<?php echo plugin_lang_get( 'back' ) ?>
 						</a>
 					</div>
-	<table class="table table-striped table-bordered table-condensed table-hover">
+	<table class="table table-bordered table-condensed">
 		<tr>
 			<td class="category" width="30%"><?php echo plugin_lang_get( 'name' ) ?></td>
 			<td><?php echo string_display( $t_repo->name ) ?></td>
@@ -98,35 +98,31 @@ layout_page_begin();
 
 		<tr>
 			<td class="category"><?php echo plugin_lang_get( 'info' ) ?></td>
-			<td><pre><?php var_dump($t_repo->info) ?></pre></td>
+			<td><?php var_dump($t_repo->info) ?></td>
 		</tr>
 	</table>
 
 				</div>
 			</div>
 			<div class="widget-toolbox padding-8 clearfix">
-				<div class="btn-toolbar pull-left">
-					<div class="btn-group">
-						<form action="<?php echo plugin_page( 'repo_update_page' ) . '&amp;id=' . $t_repo->id ?>" method="post">
-							<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'update_repository' ) ?>"/>
-						</form>
-						<form action="<?php echo plugin_page( 'repo_delete' ) . '&amp;id=' . $t_repo->id ?>" method="post">
-							<?php echo form_security_field( 'plugin_Source_repo_delete' ) ?>
-							<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'delete_repository' ) ?>"/>
-						</form>
-					</div>
+				<div class="col-md-6 col-xs-12 no-padding">
+					<form action="<?php echo plugin_page( 'repo_update_page' ) . '&amp;id=' . $t_repo->id ?>" method="post" class="pull-left">
+						<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'update_repository' ) ?>"/>
+					</form>
+					<form action="<?php echo plugin_page( 'repo_delete' ) . '&amp;id=' . $t_repo->id ?>" method="post" class="pull-left">
+						<?php echo form_security_field( 'plugin_Source_repo_delete' ) ?>
+						<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'delete_repository' ) ?>"/>
+					</form>
 				</div>
-				<div class="btn-toolbar pull-right">
-					<div class="btn-group">
-						<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&amp;id=' . $t_repo->id ?>" method="post">
-							<?php echo form_security_field( 'plugin_Source_repo_import_latest' ) ?>
-							<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'import_latest' ) ?>"/>
-						</form>
-						<form action="<?php echo plugin_page( 'repo_import_full' ) . '&amp;id=' . $t_repo->id ?>" method="post">
-							<?php echo form_security_field( 'plugin_Source_repo_import_full' ) ?>
-							<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'import_full' ) ?>"/>
-						</form>
-					</div>
+				<div class="col-md-6 col-xs-12 no-padding">
+					<form action="<?php echo plugin_page( 'repo_import_full' ) . '&amp;id=' . $t_repo->id ?>" method="post" class="pull-right">
+						<?php echo form_security_field( 'plugin_Source_repo_import_full' ) ?>
+						<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'import_full' ) ?>"/>
+					</form>
+					<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&amp;id=' . $t_repo->id ?>" method="post" class="pull-right">
+						<?php echo form_security_field( 'plugin_Source_repo_import_latest' ) ?>
+						<input type="submit" class="btn btn-primary btn-white btn-sm btn-round " value="<?php echo plugin_lang_get( 'import_latest' ) ?>"/>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -145,7 +141,6 @@ layout_page_begin();
 	<div class="widget-box widget-color-blue2">
 		<div class="widget-header widget-header-small">
 			<h4 class="widget-title lighter">
-				<i class="ace-icon fa fa-file-o"></i>
 				<?php echo plugin_lang_get( 'branch_mapping' ) ?>
 			</h4>
 		</div>
@@ -154,9 +149,9 @@ layout_page_begin();
 			<div class="widget-main no-padding">
 				<div class="table-responsive">
 
-	<table class="table table-striped table-bordered table-condensed table-hover">
+	<table class="table table-striped table-bordered table-condensed">
 		<thead>
-			<tr class="row-category">
+			<tr class="category">
 				<th><?php echo plugin_lang_get( 'branch' ) ?></th>
 				<th><?php echo plugin_lang_get( 'mapping_strategy' ) ?></th>
 				<th><?php echo plugin_lang_get( 'mapping_version' ), ' ', plugin_lang_get( 'mapping_version_info' ) ?></th>
@@ -180,35 +175,38 @@ layout_page_begin();
 ?>
 			<tr>
 				<td class="center">
-					<input name="<?php echo $t_branch ?>_branch" value="<?php
+					<input type="text" name="<?php echo $t_branch ?>_branch" value="<?php
 						echo string_attribute( $t_mapping->branch )
-						?>" size="12" maxlength="128" />
+						?>" class="input-sm" />
 				</td>
 				<td class="center">
-					<select name="<?php echo $t_branch ?>_type"><?php
+					<select class="input-sm" name="<?php echo $t_branch ?>_type"><?php
 						display_strategies( $t_mapping->type ) ?>
 					</select>
 				</td>
 <?php if( Source_PVM() ) { ?>
 				<td class="center">
-					<select name="<?php echo $t_branch ?>_pvm_version_id"><?php
+					<select class="input-sm" name="<?php echo $t_branch ?>_pvm_version_id"><?php
 						display_pvm_versions( $t_mapping->pvm_version_id ) ?>
 					</select>
 				</td>
 <?php } else { ?>
 				<td class="center">
-					<select name="<?php echo $t_branch ?>_version"><?php
+					<select class="input-sm" name="<?php echo $t_branch ?>_version"><?php
 						print_version_option_list( $t_mapping->version, ALL_PROJECTS, false, true, true ) ?>
 					</select>
 				</td>
 <?php } ?>
 				<td class="center">
-					<input name="<?php echo $t_branch ?>_regex" value="<?php
+					<input type="text" name="<?php echo $t_branch ?>_regex" value="<?php
 						echo string_attribute( $t_mapping->regex )
-						?>" size="18" maxlength="128" />
+						?>" class="input-sm" />
 				</td>
 				<td class="center">
-					<input name="<?php echo $t_branch ?>_delete" type="checkbox" value="1" />
+					<label>
+						<input name="<?php echo $t_branch ?>_delete" type="checkbox" value="1" class="ace"/>
+						<span class="lbl"></span>
+					</label>
 				</td>
 
 			</tr>

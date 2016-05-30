@@ -85,16 +85,22 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		}
 ?>
 <tr>
-<td class="category"><?php echo plugin_lang_get( 'gitweb_root' ) ?></td>
-<td><input name="gitweb_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_root ) ?>"/></td>
+	<td class="category"><?php echo plugin_lang_get( 'gitweb_root' ) ?></td>
+	<td>
+		<input type="text" name="gitweb_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_root ) ?>"/>
+	</td>
 </tr>
 <tr>
-<td class="category"><?php echo plugin_lang_get( 'gitweb_project' ) ?></td>
-<td><input name="gitweb_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_project ) ?>"/></td>
+	<td class="category"><?php echo plugin_lang_get( 'gitweb_project' ) ?></td>
+	<td>
+		<input type="text" name="gitweb_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_project ) ?>"/>
+	</td>
 </tr>
 <tr>
-<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-<td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
+	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
+	<td>
+		<input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+	</td>
 </tr>
 <?php
 	}

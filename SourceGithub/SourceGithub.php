@@ -133,14 +133,14 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_username' ) ?></td>
 	<td>
-		<input name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/>
+		<input type="text" name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/>
 	</td>
 </tr>
 
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
 	<td>
-		<input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/>
+		<input type="text" name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/>
 	</td>
 </tr>
 
@@ -148,14 +148,14 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
 	<td>
-		<input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/>
+		<input type="text" name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/>
 	</td>
 </tr>
 
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>
 	<td>
-		<input name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/>
+		<input type="text" name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/>
 	</td>
 </tr>
 
@@ -175,9 +175,9 @@ endif; ?>
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 	<td>
-		<input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+		<input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
 	</td>
-</div>
+</tr>
 <?php
 	}
 

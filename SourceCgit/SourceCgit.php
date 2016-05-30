@@ -94,15 +94,15 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 ?>
 <tr>
 <td class="category"><?php echo plugin_lang_get( 'cgit_root' ) ?></td>
-<td><input name="cgit_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_root ) ?>"/></td>
+<td><input type="text" name="cgit_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_root ) ?>"/></td>
 </tr>
 <tr>
 <td class="category"><?php echo plugin_lang_get( 'cgit_project' ) ?></td>
-<td><input name="cgit_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_project ) ?>"/></td>
+<td><input type="text" name="cgit_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_project ) ?>"/></td>
 </tr>
 <tr>
 <td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-<td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
+<td><input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
 </tr>
 <?php
 	}

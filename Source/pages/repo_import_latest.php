@@ -31,7 +31,7 @@ layout_page_begin();
 	<div class="widget-body">
 		<div class="widget-main no-padding">
 			<div class="table-responsive">
-<table class="table table-striped table-bordered table-condensed table-hover">
+<table class="table table-striped table-bordered table-condensed">
 
 <tr>
 <td class="" colspan="2"><?php echo plugin_lang_get( 'import_results' ) ?></td>

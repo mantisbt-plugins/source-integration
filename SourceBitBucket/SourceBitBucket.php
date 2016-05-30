@@ -109,33 +109,41 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 			$t_master_branch = 'master';
 		}
 		?>
-		<tr <?php echo helper_alternate_class() ?>>
+		<tr>
 			<td class="category"><?php echo plugin_lang_get( 'bit_basic_login' ) ?></td>
-			<td><input name="bit_basic_login" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_bit_basic_login ) ?>"/></td>
+			<td>
+				<input type="text" name="bit_basic_login" maxlength="250" size="40"
+					   value="<?php echo string_attribute( $t_bit_basic_login ) ?>"/>
+			</td>
 		</tr>
-		<tr <?php echo helper_alternate_class() ?>>
+		<tr>
 			<td class="category"><?php echo plugin_lang_get( 'bit_basic_pwd' ) ?></td>
-			<td><input type="password" name="bit_basic_pwd" maxlength="250" size="40"
+			<td><input type="text" type="password" name="bit_basic_pwd" maxlength="250" size="40"
 					   value="<?php echo string_attribute( $t_bit_basic_pwd ) ?>"/></td>
 		</tr>
-		<tr <?php echo helper_alternate_class() ?>>
+		<tr>
 			<td class="category"><?php echo plugin_lang_get( 'bit_username' ) ?></td>
-			<td><input name="bit_username" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_bit_username ) ?>"/></td>
+			<td>
+				<input type="text" name="bit_username" maxlength="250" size="40"
+					   value="<?php echo string_attribute( $t_bit_username ) ?>"/>
+			</td>
 		</tr>
-		<tr <?php echo helper_alternate_class() ?>>
+		<tr>
 			<td class="category"><?php echo plugin_lang_get( 'bit_reponame' ) ?></td>
-			<td><input name="bit_reponame" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_bit_reponame ) ?>"/></td>
+			<td>
+				<input type="text" name="bit_reponame" maxlength="250" size="40"
+					   value="<?php echo string_attribute( $t_bit_reponame ) ?>"/>
+			</td>
 		</tr>
 		<tr>
 			<td class="spacer"></td>
 		</tr>
-		<tr <?php echo helper_alternate_class() ?>>
+		<tr>
 			<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-			<td><input name="master_branch" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
+			<td>
+				<input type="text" name="master_branch" maxlength="250" size="40"
+					   value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+			</td>
 		</tr>
 	<?php
 	}

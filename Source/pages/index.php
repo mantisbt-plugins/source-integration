@@ -39,7 +39,7 @@ layout_page_begin();
 							</a>
 					<?php } ?>
 					</div>
-	<table class="table table-striped table-bordered table-condensed table-hover">
+	<table class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr class="row-category">
 				<th width="30%"><?php echo plugin_lang_get( 'repository' ) ?></th>
@@ -68,9 +68,9 @@ layout_page_begin();
 		if( $t_show_stats ) {
 			$t_stats = $t_repo->stats();
 ?>
-				<td class="right"><?php echo $t_stats['changesets'] ?></td>
-				<td class="right"><?php echo $t_stats['files'] ?></td>
-				<td class="right"><?php echo $t_stats['bugs'] ?></td>
+				<td><?php echo $t_stats['changesets'] ?></td>
+				<td><?php echo $t_stats['files'] ?></td>
+				<td><?php echo $t_stats['bugs'] ?></td>
 <?php
 		}
 ?>
@@ -128,13 +128,13 @@ layout_page_begin();
 			<div class="widget-main no-padding">
 				<div class="table-responsive">
 
-	<table class="table table-striped table-bordered table-condensed table-hover">
+	<table class="table table-striped table-bordered table-condensed">
 		<tr>
 			<td class="category">
 				<?php echo plugin_lang_get( 'name' ) ?>
 			</td>
 			<td>
-				<input id="repo_name" name="repo_name" type="text" maxlength="128" size="40" />
+				<input id="repo_name" name="repo_name" type="text" maxlength="200" size="40" />
 			</td>
 		</tr>
 
@@ -161,7 +161,7 @@ layout_page_begin();
 				</div>
 			</div>
 			<div class="widget-toolbox padding-8 clearfix">
-				<input class="btn btn-primary btn-white btn-sm btn-round" type="submit" value="<?php echo plugin_lang_get( 'create_repository' ) ?>" />
+				<input class="btn btn-primary btn-white btn-round" type="submit" value="<?php echo plugin_lang_get( 'create_repository' ) ?>" />
 			</div>
 
 		</div>

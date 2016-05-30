@@ -136,21 +136,29 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 		$t_root_as_url  = $this->get_viewvc_root_as_url( $p_repo );
 
 ?>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_url' ) ?></td>
-<td><input name="viewvc_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
+<tr>
+	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_url' ) ?></td>
+	<td>
+		<input type="text" name="viewvc_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/>
+	</td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_name' ) ?></td>
-<td><input name="viewvc_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/></td>
+<tr>
+	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_name' ) ?></td>
+	<td>
+		<input type="text" name="viewvc_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/>
+	</td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_root_as_url' ) ?></td>
-<td><input name="viewvc_root_as_url" type="checkbox" <?php echo ($t_root_as_url ? 'checked="checked"' : '') ?>/></td>
+<tr>
+	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_root_as_url' ) ?></td>
+	<td>
+		<input type="text" name="viewvc_root_as_url" type="checkbox" <?php echo ($t_root_as_url ? 'checked="checked"' : '') ?>/>
+	</td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_use_checkout' ) ?></td>
-<td><input name="viewvc_use_checkout" type="checkbox" <?php echo ($t_use_checkout ? 'checked="checked"' : '') ?>/></td>
+<tr>
+	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_use_checkout' ) ?></td>
+	<td>
+		<input name="viewvc_use_checkout" type="checkbox" <?php echo ($t_use_checkout ? 'checked="checked"' : '') ?>/>
+	</td>
 </tr>
 <?php
 

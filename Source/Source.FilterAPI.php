@@ -412,7 +412,7 @@ function Source_Repo_Select( $p_selected=null ) {
 	$t_query = "SELECT id,name,type FROM $t_repo_table ORDER BY name ASC";
 	$t_result = db_query( $t_query );
 
-	echo '<select name="repo_id[]" class="SourceRepo" multiple="multiple" size="6">',
+	echo '<select name="repo_id[]" class="SourceRepo form-control" multiple="multiple" size="6">',
 		'<option class="SourceAny" value="">', plugin_lang_get( 'select_any' ), '</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -437,7 +437,7 @@ function Source_Type_Select( $p_selected=null ) {
 	$t_query = "SELECT DISTINCT( type ) FROM $t_repo_table ORDER BY type ASC";
 	$t_result = db_query( $t_query );
 
-	echo '<select name="repo_type[]" class="SourceType" multiple="multiple" size="6">',
+	echo '<select name="repo_type[]" class="SourceType form-control" multiple="multiple" size="6">',
 		'<option class="SourceAny" value="">', plugin_lang_get( 'select_any' ), '</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -465,7 +465,7 @@ function Source_Branch_Select( $p_selected=null ) {
 	$t_query = "SELECT DISTINCT( branch ), repo_id FROM $t_changeset_table ORDER BY branch ASC";
 	$t_result = db_query( $t_query );
 
-	echo '<select name="branch[]" class="SourceBranch" multiple="multiple" size="6">',
+	echo '<select name="branch[]" class="SourceBranch form-control" multiple="multiple" size="6">',
 		'<option class="SourceAny" value="">', plugin_lang_get( 'select_any' ), '</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -490,7 +490,7 @@ function Source_Action_Select( $p_selected=null ) {
 	$t_query = "SELECT DISTINCT( action ) FROM $t_file_table ORDER BY action ASC";
 	$t_result = db_query( $t_query );
 
-	echo '<select name="file_action[]" multiple="multiple" size="6">',
+	echo '<select name="file_action[]" class="form-control" multiple="multiple" size="6">',
 		'<option value="">', plugin_lang_get( 'select_any' ), '</option>';
 
 	while( $t_row = db_fetch_array( $t_result ) ) {

@@ -158,7 +158,7 @@ if ( $t_can_update ) {
 <form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
 <?php echo form_security_field( 'plugin_Source_attach' ) ?>
 <input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
-<?php echo plugin_lang_get( 'attach_to_issue' ) ?> <input name="bug_ids" size="15"/>
+<?php echo plugin_lang_get( 'attach_to_issue' ) ?> <input type="text" name="bug_ids" size="15"/>
 <input type="submit" value="<?php echo plugin_lang_get( 'attach' ) ?>"/>
 </form>
 </td></tr>
