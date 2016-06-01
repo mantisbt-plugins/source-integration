@@ -60,7 +60,7 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 				</div>
 				<div class="widget-body">
 					<div class="table-responsive">
-						<table class="table table-bordered table-condensed no-margin">
+						<table class="table table-bordered table-striped table-condensed no-margin">
 							<?php Source_View_Changesets( $t_changesets ); ?>
 						</table>
 					</div>

@@ -178,7 +178,7 @@ if ( $t_can_update ) {
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr>
 <td class="small" colspan="<?php echo $t_columns-2 ?>"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
-<td>
+<td class="center">
 	<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ?>">
 		<?php echo plugin_lang_get( 'diff', 'Source' ) ?>
 	</a>
