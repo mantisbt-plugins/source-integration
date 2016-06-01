@@ -84,7 +84,7 @@ layout_page_begin();
 							</a>
 						</div>	
 
-<table class="table table-striped table-bordered table-condensed table-hover">
+<table class="table table-striped table-bordered table-condensed">
 <tbody>
 
 <tr>
@@ -143,7 +143,8 @@ foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
 ?>
 <td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug_row['summary'] ) ?></td>
 <?php if ( $t_can_update ) { ?>
-<td class="center"><span class="small-links"><?php print_bracket_link( plugin_page( 'detach' ) . '&id=' . $t_changeset->id . '&bug_id=' . $t_bug_id . form_security_param( 'plugin_Source_detach' ), plugin_lang_get( 'detach' ) ) ?></span>
+<td class="center">
+	<?php print_small_button( plugin_page( 'detach' ) . '&id=' . $t_changeset->id . '&bug_id=' . $t_bug_id . form_security_param( 'plugin_Source_detach' ), plugin_lang_get( 'detach' ) ) ?>
 <?php } ?>
 </tr>
 
@@ -156,10 +157,11 @@ if ( $t_can_update ) {
 <?php } ?>
 <td colspan="<?php echo $t_columns-1 ?>">
 <form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
-<?php echo form_security_field( 'plugin_Source_attach' ) ?>
-<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
-<?php echo plugin_lang_get( 'attach_to_issue' ) ?> <input type="text" name="bug_ids" size="15"/>
-<input type="submit" value="<?php echo plugin_lang_get( 'attach' ) ?>"/>
+	<?php echo form_security_field( 'plugin_Source_attach' ) ?>
+	<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
+	<?php echo plugin_lang_get( 'attach_to_issue' ) ?>
+	<input type="text" class="input-sm" name="bug_ids" size="15"/>
+	<input type="submit" class="btn btn-sm btn-primary btn-white btn-round" value="<?php echo plugin_lang_get( 'attach' ) ?>"/>
 </form>
 </td></tr>
 <?php } ?>
@@ -175,15 +177,15 @@ if ( $t_can_update ) {
 
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr>
-<td class="small mono" colspan="<?php echo $t_columns-2 ?>"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
-<td><span class="small-links">
+<td class="small" colspan="<?php echo $t_columns-2 ?>"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
+<td>
 	<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ?>">
 		<?php echo plugin_lang_get( 'diff', 'Source' ) ?>
 	</a>
 	<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_vcs->url_file( $t_repo, $t_changeset, $t_file ) ?>">
 		<?php echo plugin_lang_get( 'file', 'Source' ) ?>
 	</a>
-</span></td>
+</td>
 </tr>
 
 <?php } ?>
@@ -197,7 +199,7 @@ if ( $t_can_update ) {
 					<form action="<?php echo helper_mantis_url( 'plugin.php' ) ?>" method="get">
 					<input type="hidden" name="page" value="Source/edit_page"/>
 					<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
-					<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'edit' ) ?>" />
+					<input type="submit" class="btn btn-primary btn-white btn-round" value="<?php echo plugin_lang_get( 'edit' ) ?>" />
 					</form>
 				</div>
 			<?php } ?>

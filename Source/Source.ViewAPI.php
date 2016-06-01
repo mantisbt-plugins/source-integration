@@ -32,21 +32,26 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		$t_committer = Source_View_Committer( $t_changeset, false );
 		?>
 
-<tr class="row-1">
+<tr>
+
 <td class="category" width="25%" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
-	<a name="changeset<?php echo $t_changeset->id ?>"><?php echo string_display(
+	<p class="no-margin" name="changeset<?php echo $t_changeset->id ?>"><?php echo string_display(
 		( $p_show_repos ? $t_repo->name . ': ' : '' ) .
 		$t_vcs->show_changeset( $t_repo, $t_changeset )
-		) ?></a>
-	<br/><span class="small"><?php echo plugin_lang_get( 'timestamp', 'Source' ), ': ', string_display_line( $t_changeset->timestamp ) ?></span>
-	<br/><span class="small"><?php echo plugin_lang_get( 'author', 'Source' ), ': ', $t_author ?></span>
+		) ?></p>
+	<p class="no-margin small lighter">
+		<i class="fa fa-clock-o grey"></i> <?php echo string_display_line( $t_changeset->timestamp ) ?>
+	</p>
+	<p class="no-margin lighter">
+		<i class="fa fa-user grey"></i> <?php echo $t_author ?></a>
+	</p>
 	<?php if ( $t_committer && $t_committer != $t_author ) { ?><br/><span class="small"><?php echo plugin_lang_get( 'committer', 'Source' ), ': ', $t_committer ?></span><?php } ?>
 	<?php if ( $t_use_porting ) { ?>
-	<br/><span class="small"><?php echo plugin_lang_get( 'ported', 'Source' ), ': ',
+		<p class="no-margin small lighter"><?php echo plugin_lang_get( 'ported', 'Source' ), ': ',
 		( $t_changeset->ported ? string_display_line( $t_changeset->ported ) :
-			( is_null( $t_changeset->ported ) ? plugin_lang_get( 'pending', 'Source' ) : plugin_lang_get( 'na', 'Source' ) ) ) ?></span>
+			( is_null( $t_changeset->ported ) ? plugin_lang_get( 'pending', 'Source' ) : plugin_lang_get( 'na', 'Source' ) ) ) ?>
+		</p>
 	<?php } ?>
-	<br/><span class="small-links">
 		<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id ?>">
 			<?php echo plugin_lang_get( 'details', 'Source' ) ?>
 		</a>
@@ -74,9 +79,9 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 </tr>
 
 		<?php foreach ( $t_changeset->files as $t_file ) { ?>
-<tr class="row-2">
-<td class="small mono" colspan="2"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
-<td class="center" width="12%"><span class="small-links">
+<tr>
+<td class="small" colspan="2"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
+<td class="center" width="12%">
 		<?php
 		if ( $t_url = $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ) { ?>
 			<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
@@ -88,11 +93,9 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 				<?php echo plugin_lang_get( 'file', 'Source' ) ?>
 			</a>
 		<?php }
-		?>
-</span></td>
+		?></td>
 </tr>
 		<?php } ?>
-<tr class="spacer"></tr>
 		<?php
 	}
 }
