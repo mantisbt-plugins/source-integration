@@ -10,3 +10,16 @@ $s_plugin_SourceSFSVN_description = 'Añade la integración con Subversion al fr
 $s_plugin_SourceSFSVN_svn = 'SVN SourceForge';
 $s_plugin_SourceSFSVN_sf_project = 'Proyecto SourceForge';
 
+$s_plugin_SourceSFSVN_svnpath = '';
+$s_plugin_SourceSFSVN_svnargs = '';
+$s_plugin_SourceSFSVN_svnssl = '';
+$s_plugin_SourceSFSVN_winstart = '';
+
+$s_plugin_SourceSFSVN_svn_username = '';
+$s_plugin_SourceSFSVN_svn_password = '';
+$s_plugin_SourceSFSVN_standard_repo = '';
+$s_plugin_SourceSFSVN_trunk_path = '';
+$s_plugin_SourceSFSVN_branch_path = '';
+$s_plugin_SourceSFSVN_tag_path = '';
+$s_plugin_SourceSFSVN_ignore_paths = '';
+

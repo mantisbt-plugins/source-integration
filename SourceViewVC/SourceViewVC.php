@@ -15,7 +15,7 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 
 		$this->version = '0.1';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 			'Source' => '0.16',
 			'SourceSVN' => '0.16',
 		);
@@ -151,13 +151,19 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 <tr>
 	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_root_as_url' ) ?></td>
 	<td>
-		<input type="text" name="viewvc_root_as_url" type="checkbox" <?php echo ($t_root_as_url ? 'checked="checked"' : '') ?>/>
+		<label>
+			<input name="viewvc_root_as_url" type="checkbox" class="ace" <?php echo ($t_root_as_url ? 'checked="checked"' : '') ?>/>
+			<span class="lbl"></span>
+		</label>
 	</td>
 </tr>
 <tr>
 	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_use_checkout' ) ?></td>
 	<td>
-		<input name="viewvc_use_checkout" type="checkbox" <?php echo ($t_use_checkout ? 'checked="checked"' : '') ?>/>
+		<label>
+			<input name="viewvc_use_checkout" type="checkbox" class="ace" <?php echo ($t_use_checkout ? 'checked="checked"' : '') ?>/>
+			<span class="lbl"></span>
+		</label>
 	</td>
 </tr>
 <?php

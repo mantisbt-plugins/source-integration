@@ -87,7 +87,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'standard_repo' ) ?></td>
 	<td>
-		<input name="standard_repo" type="checkbox" <?php echo ($t_standard_repo ? 'checked="checked"' : '') ?>/>
+		<label>
+			<input name="standard_repo" type="checkbox" class="ace" <?php echo ($t_standard_repo ? 'checked="checked"' : '') ?>/>
+			<span class="lbl"></span>
+		</label>
 	</td>
 </tr>
 <tr>

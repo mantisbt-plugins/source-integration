@@ -21,7 +21,7 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 
 		$this->version = '1.0.3';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 			'Source' => '0.16',
 		);
 
@@ -100,6 +100,7 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 public function update_repo_form( $p_repo ) {
 		$t_hub_root = null;
 		$t_hub_repoid = null;
+		$t_hub_reponame = null;
 		$t_hub_app_secret = null;
 
 		if ( isset( $p_repo->info['hub_root'] ) ) {
@@ -135,8 +136,8 @@ public function update_repo_form( $p_repo ) {
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
 	<td>
-		<input type="text" name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/><
-		/td>
+		<input type="text" name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/>
+	</td>
 </tr>
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>

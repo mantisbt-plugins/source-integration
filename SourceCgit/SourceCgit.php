@@ -21,7 +21,7 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 
 		$this->version = '0.16';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 			'Source' => '0.16',
 		);
 
@@ -75,8 +75,8 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 	}
 
 	public function update_repo_form( $p_repo ) {
-		$t_gitweb_root = null;
-		$t_gitweb_project = null;
+		$t_cgit_root = null;
+		$t_cgit_project = null;
 
 		if ( isset( $p_repo->info['cgit_root'] ) ) {
 			$t_cgit_root = $p_repo->info['cgit_root'];
@@ -93,16 +93,22 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 		}
 ?>
 <tr>
-<td class="category"><?php echo plugin_lang_get( 'cgit_root' ) ?></td>
-<td><input type="text" name="cgit_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_root ) ?>"/></td>
+	<td class="category"><?php echo plugin_lang_get( 'cgit_root' ) ?></td>
+	<td>
+		<input type="text" name="cgit_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_root ) ?>"/>
+	</td>
+</tr>
+	<tr>
+	<td class="category"><?php echo plugin_lang_get( 'cgit_project' ) ?></td>
+	<td>
+		<input type="text" name="cgit_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_project ) ?>"/>
+	</td>
 </tr>
 <tr>
-<td class="category"><?php echo plugin_lang_get( 'cgit_project' ) ?></td>
-<td><input type="text" name="cgit_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_project ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-<td><input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
+	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
+	<td>
+		<input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+	</td>
 </tr>
 <?php
 	}

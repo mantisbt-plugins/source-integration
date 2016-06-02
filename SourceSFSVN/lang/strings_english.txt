@@ -10,3 +10,15 @@ $s_plugin_SourceSFSVN_description = 'Adds Subversion integration to the Source p
 $s_plugin_SourceSFSVN_svn = 'SourceForge SVN';
 $s_plugin_SourceSFSVN_sf_project = 'SourceForge Project';
 
+$s_plugin_SourceSFSVN_svnpath = 'SourceForge SVN Path';
+$s_plugin_SourceSFSVN_svnargs = 'SourceForge SVN Args';
+$s_plugin_SourceSFSVN_svnssl = 'SourceForge SVN SSL';
+$s_plugin_SourceSFSVN_winstart = 'SourceForge WinStart';
+
+$s_plugin_SourceSFSVN_svn_username = 'SourceForge SVN Username';
+$s_plugin_SourceSFSVN_svn_password = 'SourceForge SVN Password';
+$s_plugin_SourceSFSVN_standard_repo = 'SourceForge SVN Standard Repo';
+$s_plugin_SourceSFSVN_trunk_path = 'SourceForge SVN Trunk Path';
+$s_plugin_SourceSFSVN_branch_path = 'SourceForge SVN Branch Path';
+$s_plugin_SourceSFSVN_tag_path = 'SourceForge SVN Tag Path';
+$s_plugin_SourceSFSVN_ignore_paths = 'SourceForge SVN Ignore Paths';
