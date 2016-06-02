@@ -24,11 +24,11 @@ if ( count( $t_repos ) < 1 ) {
 $t_repo = array_shift( $t_repos );
 $t_repo->load_branches();
 
-if ( $f_user_id == 0 || user_ensure_exists( $f_user_id ) ) {
+if ( $f_user_id == 0 || user_exists( $f_user_id ) ) {
 	$t_changeset->user_id = $f_user_id;
 }
 
-if ( $f_committer_id == 0 || user_ensure_exists( $f_committer_id ) ) {
+if ( $f_committer_id == 0 || user_exists( $f_committer_id ) ) {
 	$t_changeset->committer_id = $f_committer_id;
 }
 

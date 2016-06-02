@@ -135,3 +135,8 @@ The latest source code can be found on GitHub:
 Original project and documentation can be found on noswap.com:
 
   http://noswap.com/projects/source-integration/
+
+## Compatibility
+
+- MantisBT 1.3.x - master-1.3.x branch
+- MantisBT 1.2.x - master branch
