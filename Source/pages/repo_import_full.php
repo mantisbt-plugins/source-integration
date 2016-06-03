@@ -51,7 +51,7 @@ if ( $t_error ) {
 
 	echo '<br/><div class="center">';
 	echo plugin_lang_get( 'import_full_failed' ), '<br/>';
-	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'back_repo' ) );
+	print_small_button( plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id, plugin_lang_get( 'back_repo' ) );
 	echo '</div>';
 
 # otherwise, rename and save the new repo, then delete the old
@@ -64,7 +64,7 @@ if ( $t_error ) {
 
 	echo '<br/><div class="center">';
 	echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stats['files'], $t_stats['bugs'] ), '<br/>';
-	print_bracket_link( plugin_page( 'repo_manage_page' ) . '&id=' . $t_new_repo->id, plugin_lang_get( 'back_repo' ) );
+	print_small_button( plugin_page( 'repo_manage_page' ) . '&id=' . $t_new_repo->id, plugin_lang_get( 'back_repo' ) );
 	echo '</div>';
 }
 
