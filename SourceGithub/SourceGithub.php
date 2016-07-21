@@ -19,7 +19,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$this->version = '1.3.0';
 		$this->requires = array(
-			'MantisCore' => '1.3.0',
+			'MantisCore' => '2.0.0',
 			'Source' => '1.3.0',
 		);
 

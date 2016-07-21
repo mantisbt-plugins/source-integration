@@ -30,10 +30,7 @@ class SourcePlugin extends MantisPlugin {
 
 		$this->version = self::$framework_version;
 		$this->requires = array(
-			'MantisCore' => '1.3.0',
-		);
-		$this->uses = array(
-			'jQuery' => '1.3',
+			'MantisCore' => '2.0.0',
 		);
 		$this->page		= 'manage_config_page';
 

@@ -14,7 +14,7 @@ class SourceSFSVNPlugin extends SourceSVNPlugin {
 
 		$this->version = '0.16';
 		$this->requires = array(
-			'MantisCore' => '1.3.0',
+			'MantisCore' => '2.0.0',
 			'Source' => '0.16',
 			'SourceSVN' => '0.16',
 		);
