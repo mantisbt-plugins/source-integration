@@ -138,5 +138,6 @@ Original project and documentation can be found on noswap.com:
 
 ## Compatibility
 
+- MantisBT 2.0.x - modern-ui branch
 - MantisBT 1.3.x - master-1.3.x branch
 - MantisBT 1.2.x - master branch
