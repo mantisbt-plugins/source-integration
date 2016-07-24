@@ -189,7 +189,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		}
 	}
 
-	public function commit( $p_repo, $p_data ) {
+	public function commit( $p_repo, $p_data, $p_revprop=false ) {
 		if ( preg_match( '/(\d+)/', $p_data, $p_matches ) ) {
 			$svn = $this->svn_call( $p_repo );
 
@@ -197,12 +197,14 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			$t_revision = $p_matches[1];
 			$t_svnlog_xml = shell_exec( "$svn log -v $t_url -r$t_revision --xml" );
 
-			if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
-				echo "Revision $t_revision already committed!\n";
-				return null;
+			if ( $p_revprop == false ) {
+				if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
+					echo "Revision $t_revision already committed!\n";
+					return null;
+				}
 			}
 
-			return $this->process_svn_log_xml( $p_repo, $t_svnlog_xml );
+			return $this->process_svn_log_xml( $p_repo, $t_svnlog_xml, $p_revprop );
 		}
 	}
 
@@ -353,9 +355,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	 * Parse the svn log output (with --xml option)
 	 * @param SourceRepo SVN repository object
 	 * @param string SVN log (XML formated)
+	 * @param boolean REVPROP change flag
 	 * @return SourceChangeset[] Changesets for the provided input (empty on error)
 	 */
-	private function process_svn_log_xml( $p_repo, $p_svnlog_xml ) {
+	private function process_svn_log_xml( $p_repo, $p_svnlog_xml, $p_revprop = false ) {
 		$t_changesets = array();
 		$t_changeset = null;
 		$t_comments = '';
@@ -449,6 +452,18 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			// Save changeset and append to array
 			if( !is_null( $t_changeset) ) {
 				if( !is_blank( $t_changeset->branch ) ) {
+					if( $p_revprop ) {
+						echo "  REVPROP change detected.\n";
+						$t_existing_changeset = SourceChangeset::load_by_revision( $p_repo, $t_changeset->revision );
+						$t_changeset->id = $t_existing_changeset->id;
+						$t_changeset->user_id = $t_existing_changeset->user_id;
+						$t_changeset->files = $t_existing_changeset->files;
+						$t_old_bugs = array_unique( Source_Parse_Buglinks( $t_existing_changeset->message ));
+						$t_new_bugs = array_unique( Source_Parse_Buglinks( $t_changeset->message ));
+						if( count( $t_old_bugs ) >= count( $t_new_bugs )) {
+							$t_changeset->__bugs = array_diff( $t_old_bugs, $t_new_bugs );
+						}
+					}
 					$t_changeset->save();
 					$t_changesets[] = $t_changeset;
 				}

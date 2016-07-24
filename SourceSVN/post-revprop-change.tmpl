@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Copyright (c) 2014 GGP Systems Limited
+# Licensed under the BSD (3-clause) license
+
+REPOS="$1"
+REV="$2"
+PROP="$4"
+
+if [ "$PROP" = 'svn:log' ]; then
+	URL="http://localhost/mantisbt/plugin.php?page=Source/checkin"
+	PROJECT="Repository Name"
+	API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+	LOG_FILE=`mktemp /tmp/svn_${PROJECT}_${REV}_log.XXX`
+
+	CURL=/usr/bin/curl
+
+	${CURL} -d "repo_name=${PROJECT}" -d "data=${REV}" -d "revprop=TRUE" -d "api_key=${API_KEY}" ${URL} >> ${LOG_FILE}
+fi
+
