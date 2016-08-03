@@ -485,7 +485,9 @@ endif; ?>
 		}
 
 		if ( !empty( $t_access_token ) ) {
-			if ( $t_access_token != $p_repo->info['hub_app_access_token'] ) {
+			if( !array_key_exists( 'hub_app_access_token', $p_repo->info )
+				|| $t_access_token != $p_repo->info['hub_app_access_token']
+			) {
 				$p_repo->info['hub_app_access_token'] = $t_access_token;
 				$p_repo->save();
 			}
