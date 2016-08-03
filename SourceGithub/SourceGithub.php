@@ -166,13 +166,19 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 <div class="field-container">
 	<label><span><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></span></label>
 	<span class="input">
-		<?php if ( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ):
-echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
-elseif ( empty( $t_hub_app_access_token ) ):
-print_link( $this->oauth_authorize_uri( $p_repo ), plugin_lang_get( 'hub_app_authorize' ) );
-else:
-echo plugin_lang_get( 'hub_app_authorized' );
-endif; ?>
+		<?php
+		if( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ) {
+			echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
+		} elseif( empty( $t_hub_app_access_token ) ) {
+			print_link( $this->oauth_authorize_uri( $p_repo ), plugin_lang_get( 'hub_app_authorize' ) );
+		} else {
+			echo plugin_lang_get( 'hub_app_authorized' );
+			# @TODO This would be better with an AJAX, but this will do for now
+			?>
+			<input type="submit" name="revoke" value="<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>"/>
+			<?php
+		}
+		?>
 	</span>
 	<span class="label-style"></span>
 </div>
@@ -188,6 +194,12 @@ endif; ?>
 	}
 
 	public function update_repo( $p_repo ) {
+		# Revoking previously authorized Github access token
+		if( gpc_isset( 'revoke' ) ) {
+			unset( $p_repo->info['hub_app_access_token'] );
+			return $p_repo;
+		}
+
 		$f_hub_username = gpc_get_string( 'hub_username' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
 		$f_hub_app_client_id = gpc_get_string( 'hub_app_client_id' );
