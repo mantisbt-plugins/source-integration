@@ -21,7 +21,7 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 
 		$this->version = '1.0.3';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 			'Source' => '0.16',
 		);
 
@@ -210,7 +210,7 @@ public function update_repo_form( $p_repo ) {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_query = "SELECT * FROM $t_repo_table WHERE info LIKE " . db_param();
-		$t_result = db_query_bound( $t_query, array( '%' . $t_repoid . '%' ) );
+		$t_result = db_query( $t_query, array( '%' . $t_repoid . '%' ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
 			return;
@@ -272,7 +272,7 @@ public function update_repo_form( $p_repo ) {
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
 				' ORDER BY timestamp ASC';
-			$t_result = db_query_bound( $t_query, array( $p_repo->id, $t_branch->name ), 1 );
+			$t_result = db_query( $t_query, array( $p_repo->id, $t_branch->name ), 1 );
 
 			$t_commits = array( $t_branch->commit->id );
 			if ( db_num_rows( $t_result ) > 0 ) {

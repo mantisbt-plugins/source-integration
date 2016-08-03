@@ -10,7 +10,7 @@ require_once( config_get_global( 'class_path' ) . 'MantisPlugin.class.php' );
  * with the Mantis bug tracker software.
  */
 class SourcePlugin extends MantisPlugin {
-	static $framework_version = '0.18';
+	static $framework_version = '1.3.1';
 	static $cache = array();
 
 	/**
@@ -30,7 +30,7 @@ class SourcePlugin extends MantisPlugin {
 
 		$this->version = self::$framework_version;
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 		);
 		$this->uses = array(
 			'jQuery' => '1.3',

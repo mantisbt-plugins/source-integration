@@ -21,7 +21,7 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 
 		$this->version = '0.16';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 			'Source' => '0.16',
 		);
 
@@ -92,15 +92,15 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 			$t_master_branch = 'master';
 		}
 ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'cgit_root' ) ?></td>
 <td><input name="cgit_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_root ) ?>"/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'cgit_project' ) ?></td>
 <td><input name="cgit_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_project ) ?>"/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 <td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
 </tr>
@@ -157,7 +157,7 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
 				'ORDER BY timestamp ASC';
-			$t_result = db_query_bound( $t_query, array( $p_repo->id, $t_branch ), 1 );
+			$t_result = db_query( $t_query, array( $p_repo->id, $t_branch ), 1 );
 
 			$t_commits = array( $t_branch );
 

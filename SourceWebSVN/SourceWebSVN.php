@@ -14,7 +14,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 
 		$this->version = '0.18';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 			'Source' => '0.16',
 			'SourceSVN' => '0.16',
 		);
@@ -168,19 +168,19 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		$t_path = $this->get_websvn_path( $p_repo );
 
 ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_url' ) ?></td>
 <td><input name="websvn_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_multiviews' ) ?></td>
 <td><input name="websvn_multiviews" type="checkbox" <?php check_checked( $this->is_multiviews( $p_repo ) ) ?>/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_name' ) ?></td>
 <td><input name="websvn_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/></td>
 </tr>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_path' ) ?></td>
 <td><input name="websvn_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_path ) ?>"/></td>
 </tr>

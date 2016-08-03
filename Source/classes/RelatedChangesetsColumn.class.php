@@ -18,7 +18,7 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 		plugin_pop_current();
 	}
 
-	public function cache( $p_bugs ) {
+	public function cache( array $p_bugs ) {
 		if ( count( $p_bugs ) < 1 ) {
 			return;
 		}
@@ -33,7 +33,7 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 		$t_bug_ids = implode( ',', $t_bug_ids );
 
 		$t_query = "SELECT * FROM $t_bug_table WHERE bug_id IN ( $t_bug_ids )";
-		$t_result = db_query_bound( $t_query );
+		$t_result = db_query( $t_query );
 
 		while ( $t_row = db_fetch_array( $t_result ) ) {
 			if ( isset( $this->changeset_cache[ $t_row['bug_id'] ] ) ) {
@@ -45,7 +45,7 @@ class SourceRelatedChangesetsColumn extends MantisColumn {
 		}
 	}
 
-	public function display( $p_bug, $p_columns_target ) {
+	public function display( BugData $p_bug, $p_columns_target ) {
 		plugin_push_current( 'Source' );
 
 		if ( isset( $this->changeset_cache[ $p_bug->id ] ) ) {

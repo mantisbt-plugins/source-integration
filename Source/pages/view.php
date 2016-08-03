@@ -60,8 +60,10 @@ html_page_top2();
 <input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
 <?php echo form_security_field( 'plugin_Source_update' ) ?>
 <?php } ?>
-<table class="<?php echo $t_columns > 4 ? 'width90' : 'width75' ?>" cellspacing="1" align="center">
 
+<div class="table-container">
+<table>
+<tbody>
 <tr>
 <td class="form-title" colspan="<?php echo $t_columns - 2 ?>"><?php echo string_display_line( $t_repo->name ), ': ', $t_vcs->show_changeset( $t_repo, $t_changeset ) ?></td>
 <td class="right" colspan="2">
@@ -74,18 +76,18 @@ html_page_top2();
 </td>
 <tr>
 
-<tr class="row-category">
-<td><?php echo plugin_lang_get( 'author' ) ?></td>
-<td><?php echo plugin_lang_get( 'committer' ) ?></td>
-<td><?php echo plugin_lang_get( 'branch' ) ?></td>
-<td><?php echo plugin_lang_get( 'timestamp' ) ?></td>
-<td><?php echo plugin_lang_get( 'parent' ) ?></td>
+<tr>
+<th class="category"><?php echo plugin_lang_get( 'author' ) ?></th>
+<th class="category"><?php echo plugin_lang_get( 'committer' ) ?></th>
+<th class="category"><?php echo plugin_lang_get( 'branch' ) ?></th>
+<th class="category"><?php echo plugin_lang_get( 'timestamp' ) ?></th>
+<th class="category"><?php echo plugin_lang_get( 'parent' ) ?></th>
 <?php if ( $t_use_porting ) { ?>
-<td><?php echo plugin_lang_get( 'ported' ) ?></td>
+<th class="category"><?php echo plugin_lang_get( 'ported' ) ?></th>
 <?php } ?>
 </tr>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="center"><?php Source_View_Author( $t_changeset ) ?></td>
 <td class="center"><?php Source_View_Committer( $t_changeset ) ?></td>
 <td class="center"><?php echo string_display_line( $t_changeset->branch ) ?></td>
@@ -115,18 +117,18 @@ html_page_top2();
 <?php } ?>
 
 <?php if ( $t_affected_rowspan > 0 ) { ?>
-<tr><td class="spacer"></td></tr>
+<tr class="spacer" />
 
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category" rowspan="<?php echo $t_affected_rowspan ?>">
+<tr>
+<th class="category" rowspan="<?php echo $t_affected_rowspan ?>">
 	<?php echo plugin_lang_get( 'affected_issues' ) ?>
-</td>
+</th>
 <?php } ?>
 
 <?php
 $t_first = true;
 foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
-	echo ( $t_first ? '' : '<tr ' . helper_alternate_class() . '>' );
+	echo ( $t_first ? '' : '<tr>' );
 ?>
 <td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug_row['summary'] ) ?></td>
 <?php if ( $t_can_update ) { ?>
@@ -139,7 +141,7 @@ foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
 }
 if ( $t_can_update ) {
 	if ( !$t_first ) { ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <?php } ?>
 <td colspan="<?php echo $t_columns-1 ?>">
 <form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
@@ -151,17 +153,17 @@ if ( $t_can_update ) {
 </td></tr>
 <?php } ?>
 
-<tr><td class="spacer"></td></tr>
+<tr class="spacer" />
 
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
+<tr>
+<th class="category" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
 	<?php echo plugin_lang_get( 'changeset' ) ?>
-</td>
+</th>
 <td colspan="<?php echo $t_columns-1 ?>"><?php echo string_display_links( $t_changeset->message ) ?></td>
 </tr>
 
 <?php foreach ( $t_changeset->files as $t_file ) { ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 <td class="small mono" colspan="<?php echo $t_columns-2 ?>"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
 <td class="center"><span class="small-links">
 	<?php print_bracket_link( $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ), plugin_lang_get( 'diff', 'Source' ) ) ?>
@@ -173,7 +175,7 @@ if ( $t_can_update ) {
 
 <?php if ( $t_can_update ) { ?>
 <tr>
-<td class="center" colspan="<?php echo $t_columns ?>">
+<td class="buttons center" colspan="<?php echo $t_columns ?>">
 <form action="<?php echo helper_mantis_url( 'plugin.php' ) ?>" method="get">
 <input type="hidden" name="page" value="Source/edit_page"/>
 <input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
@@ -183,7 +185,9 @@ if ( $t_can_update ) {
 </tr>
 <?php } ?>
 
+</tbody>
 </table>
+</div>
 
 <?php
 html_page_bottom1( __FILE__ );

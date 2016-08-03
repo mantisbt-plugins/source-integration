@@ -410,7 +410,7 @@ function Source_Changeset_Link_Callback( $p_matches ) {
 				JOIN $t_repo_table AS r ON r.id=c.repo_id
 				WHERE c.revision LIKE " . db_param() . '
 				AND r.name LIKE ' . db_param();
-	$t_result = db_query_bound( $t_query, array( $t_revision . '%', $t_repo_name . '%' ), 1 );
+	$t_result = db_query( $t_query, array( $t_revision . '%', $t_repo_name . '%' ), 1 );
 
 	if ( db_num_rows( $t_result ) > 0 ) {
 		$t_row = db_fetch_array( $t_result );
@@ -601,13 +601,13 @@ class SourceRepo {
 		if ( 0 == $this->id ) { # create
 			$t_query = "INSERT INTO $t_repo_table ( type, name, url, info ) VALUES ( " .
 				db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ' )';
-			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info) ) );
+			db_query( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info) ) );
 
 			$this->id = db_insert_id( $t_repo_table );
 		} else { # update
 			$t_query = "UPDATE $t_repo_table SET type=" . db_param() . ', name=' . db_param() .
 				', url=' . db_param() . ', info=' . db_param() . ' WHERE id=' . db_param();
-			db_query_bound( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info), $this->id ) );
+			db_query( $t_query, array( $this->type, $this->name, $this->url, serialize($this->info), $this->id ) );
 		}
 
 		foreach( $this->mappings as $t_mapping ) {
@@ -624,7 +624,7 @@ class SourceRepo {
 
 			$t_query = "SELECT DISTINCT branch FROM $t_changeset_table WHERE repo_id=" .
 				db_param() . ' ORDER BY branch ASC';
-			$t_result = db_query_bound( $t_query, array( $this->id ) );
+			$t_result = db_query( $t_query, array( $this->id ) );
 
 			while( $t_row = db_fetch_array( $t_result ) ) {
 				$this->branches[] = $t_row['branch'];
@@ -657,20 +657,20 @@ class SourceRepo {
 		$t_bug_table = plugin_table( 'bug', 'Source' );
 
 		$t_query = "SELECT COUNT(*) FROM $t_changeset_table WHERE repo_id=" . db_param();
-		$t_stats['changesets'] = db_result( db_query_bound( $t_query, array( $this->id ) ) );
+		$t_stats['changesets'] = db_result( db_query( $t_query, array( $this->id ) ) );
 
 		if ( $p_all ) {
 			$t_query = "SELECT COUNT(DISTINCT filename) FROM $t_file_table AS f
 						JOIN $t_changeset_table AS c
 						ON c.id=f.change_id
 						WHERE c.repo_id=" . db_param();
-			$t_stats['files'] = db_result( db_query_bound( $t_query, array( $this->id ) ) );
+			$t_stats['files'] = db_result( db_query( $t_query, array( $this->id ) ) );
 
 			$t_query = "SELECT COUNT(DISTINCT bug_id) FROM $t_bug_table AS b
 						JOIN $t_changeset_table AS c
 						ON c.id=b.change_id
 						WHERE c.repo_id=" . db_param();
-			$t_stats['bugs'] = db_result( db_query_bound( $t_query, array( $this->id ) ) );
+			$t_stats['bugs'] = db_result( db_query( $t_query, array( $this->id ) ) );
 		}
 
 		return $t_stats;
@@ -685,7 +685,7 @@ class SourceRepo {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_query = "SELECT * FROM $t_repo_table WHERE id=" . db_param();
-		$t_result = db_query_bound( $t_query, array( (int) $p_id ) );
+		$t_result = db_query( $t_query, array( (int) $p_id ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
 			trigger_error( ERROR_GENERIC, ERROR );
@@ -708,7 +708,7 @@ class SourceRepo {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_query = "SELECT * FROM $t_repo_table WHERE name LIKE " . db_param();
-		$t_result = db_query_bound( $t_query, array( trim($p_name) ) );
+		$t_result = db_query( $t_query, array( trim($p_name) ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
 			trigger_error( ERROR_GENERIC, ERROR );
@@ -730,7 +730,7 @@ class SourceRepo {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_query = "SELECT * FROM $t_repo_table ORDER BY name ASC";
-		$t_result = db_query_bound( $t_query );
+		$t_result = db_query( $t_query );
 
 		$t_repos = array();
 
@@ -753,12 +753,12 @@ class SourceRepo {
 
 		# Look for a repository with the exact name given
 		$t_query = "SELECT * FROM $t_repo_table WHERE name LIKE " . db_param();
-		$t_result = db_query_bound( $t_query, array( $p_repo_name ) );
+		$t_result = db_query( $t_query, array( $p_repo_name ) );
 
 		# If not found, look for a repo containing the name given
 		if ( db_num_rows( $t_result ) < 1 ) {
 			$t_query = "SELECT * FROM $t_repo_table WHERE name LIKE " . db_param();
-			$t_result = db_query_bound( $t_query, array( '%' . $p_repo_name . '%' ) );
+			$t_result = db_query( $t_query, array( '%' . $p_repo_name . '%' ) );
 
 			if ( db_num_rows( $t_result ) < 1 ) {
 				return null;
@@ -805,7 +805,7 @@ class SourceRepo {
 		$t_query = "SELECT * FROM $t_repo_table WHERE id IN ("
 			. join( ', ', $t_list )
 			. ') ORDER BY name ASC';
-		$t_result = db_query_bound( $t_query, $t_param );
+		$t_result = db_query( $t_query, $t_param );
 
 		while ( $t_row = db_fetch_array( $t_result ) ) {
 			$t_repo = new SourceRepo( $t_row['type'], $t_row['name'], $t_row['url'], $t_row['info'] );
@@ -827,7 +827,7 @@ class SourceRepo {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_query = "DELETE FROM $t_repo_table WHERE id=" . db_param();
-		$t_result = db_query_bound( $t_query, array( (int) $p_id ) );
+		$t_result = db_query( $t_query, array( (int) $p_id ) );
 	}
 
 	/**
@@ -839,7 +839,7 @@ class SourceRepo {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_query = "SELECT COUNT(*) FROM $t_repo_table WHERE id=" . db_param();
-		$t_result = db_query_bound( $t_query, array( (int) $p_id ) );
+		$t_result = db_query( $t_query, array( (int) $p_id ) );
 
 		return db_result( $t_result ) > 0;
 	}
@@ -927,7 +927,7 @@ class SourceChangeset {
 				db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' .
 				db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' .
 				db_param() . ', ' . db_param() . ' )';
-			db_query_bound( $t_query, array(
+			db_query( $t_query, array(
 				$this->repo_id, $this->revision, $this->parent, $this->branch,
 				$this->user_id, $this->timestamp, $this->author, $this->message, $this->info,
 				$this->ported, $this->author_email, $this->committer, $this->committer_email,
@@ -946,7 +946,7 @@ class SourceChangeset {
 				', info=' . db_param() . ', ported=' . db_param() . ', author_email=' . db_param() .
 				', committer=' . db_param() . ', committer_email=' . db_param() . ', committer_id=' . db_param() .
 				' WHERE id=' . db_param();
-			db_query_bound( $t_query, array(
+			db_query( $t_query, array(
 				$this->repo_id, $this->revision,
 				$this->parent, $this->branch, $this->user_id,
 				$this->timestamp, $this->author, $this->message,
@@ -991,7 +991,7 @@ class SourceChangeset {
 
 			$t_query = "DELETE FROM $t_bug_table WHERE change_id=" . $this->id .
 				" AND bug_id IN ( $t_bugs_deleted_str )";
-			db_query_bound( $t_query );
+			db_query( $t_query );
 
 			foreach( $t_bugs_deleted as $t_bug_id ) {
 				plugin_history_log( $t_bug_id, 'changeset_removed',
@@ -1015,7 +1015,7 @@ class SourceChangeset {
 				$t_count++;
 			}
 
-			db_query_bound( $t_query, $t_params );
+			db_query( $t_query, $t_params );
 
 			foreach( $t_bugs_added as $t_bug_id ) {
 				plugin_history_log( $t_bug_id, 'changeset_attached', '',
@@ -1055,7 +1055,7 @@ class SourceChangeset {
 			$t_bug_table = plugin_table( 'bug', 'Source' );
 
 			$t_query = "SELECT bug_id FROM $t_bug_table WHERE change_id=" . db_param();
-			$t_result = db_query_bound( $t_query, array( $this->id ) );
+			$t_result = db_query( $t_query, array( $this->id ) );
 
 			$this->bugs = array();
 			$this->__bugs = array();
@@ -1087,7 +1087,7 @@ class SourceChangeset {
 			$t_params[] = $p_branch;
 		}
 
-		$t_result = db_query_bound( $t_query, $t_params );
+		$t_result = db_query( $t_query, $t_params );
 		return db_num_rows( $t_result ) > 0;
 	}
 
@@ -1101,13 +1101,14 @@ class SourceChangeset {
 
 		$t_query = "SELECT * FROM $t_changeset_table WHERE id=" . db_param() . '
 				ORDER BY timestamp DESC';
-		$t_result = db_query_bound( $t_query, array( $p_id ) );
+		$t_result = db_query( $t_query, array( $p_id ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
 
-		return array_shift( self::from_result( $t_result ) );
+		$t_array = self::from_result( $t_result );
+		return array_shift( $t_array );
 	}
 
 	/**
@@ -1121,13 +1122,14 @@ class SourceChangeset {
 
 		$t_query = "SELECT * FROM $t_changeset_table WHERE repo_id=" . db_param() . '
 				AND revision=' . db_param() . ' ORDER BY timestamp DESC';
-		$t_result = db_query_bound( $t_query, array( $p_repo->id, $p_revision ) );
+		$t_result = db_query( $t_query, array( $p_repo->id, $p_revision ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
 
-		return array_shift( self::from_result( $t_result ) );
+		$t_array = self::from_result( $t_result );
+		return array_shift( $t_array );
 	}
 
 	/**
@@ -1141,9 +1143,9 @@ class SourceChangeset {
 		$t_query = "SELECT * FROM $t_changeset_table WHERE repo_id=" . db_param() . '
 				ORDER BY timestamp DESC';
 		if ( is_null( $p_page ) ) {
-			$t_result = db_query_bound( $t_query, array( $p_repo_id ) );
+			$t_result = db_query( $t_query, array( $p_repo_id ) );
 		} else {
-			$t_result = db_query_bound( $t_query, array( $p_repo_id ), $p_limit, ($p_page - 1) * $p_limit );
+			$t_result = db_query( $t_query, array( $p_repo_id ), $p_limit, ($p_page - 1) * $p_limit );
 		}
 
 		return self::from_result( $t_result, $p_load_files );
@@ -1163,7 +1165,7 @@ class SourceChangeset {
 		   		JOIN $t_bug_table AS b ON c.id=b.change_id
 				WHERE b.bug_id=" . db_param() . "
 				ORDER BY c.timestamp $t_order";
-		$t_result = db_query_bound( $t_query, array( $p_bug_id ) );
+		$t_result = db_query( $t_query, array( $p_bug_id ) );
 
 		return self::from_result( $t_result, $p_load_files );
 	}
@@ -1216,7 +1218,7 @@ class SourceChangeset {
 		SourceFile::delete_by_repo( $p_repo_id );
 
 		$t_query = "DELETE FROM $t_changeset_table WHERE repo_id=" . db_param();
-		db_query_bound( $t_query, array( $p_repo_id ) );
+		db_query( $t_query, array( $p_repo_id ) );
 	}
 
 }
@@ -1249,13 +1251,13 @@ class SourceFile {
 		if ( 0 == $this->id ) { # create
 			$t_query = "INSERT INTO $t_file_table ( change_id, revision, action, filename ) VALUES ( " .
 				db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ' )';
-			db_query_bound( $t_query, array( $this->change_id, $this->revision, $this->action, $this->filename ) );
+			db_query( $t_query, array( $this->change_id, $this->revision, $this->action, $this->filename ) );
 
 			$this->id = db_insert_id( $t_file_table );
 		} else { # update
 			$t_query = "UPDATE $t_file_table SET change_id=" . db_param() . ', revision=' . db_param() .
 				', action=' . db_param() . ', filename=' . db_param() . ' WHERE id=' . db_param();
-			db_query_bound( $t_query, array( $this->change_id, $this->revision, $this->action, $this->filename, $this->id ) );
+			db_query( $t_query, array( $this->change_id, $this->revision, $this->action, $this->filename, $this->id ) );
 		}
 	}
 
@@ -1263,7 +1265,7 @@ class SourceFile {
 		$t_file_table = plugin_table( 'file', 'Source' );
 
 		$t_query = "SELECT * FROM $t_file_table WHERE id=" . db_param();
-		$t_result = db_query_bound( $t_query, array( $p_id ) );
+		$t_result = db_query( $t_query, array( $p_id ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
 			trigger_error( ERROR_GENERIC, ERROR );
@@ -1280,7 +1282,7 @@ class SourceFile {
 		$t_file_table = plugin_table( 'file', 'Source' );
 
 		$t_query = "SELECT * FROM $t_file_table WHERE change_id=" . db_param();
-		$t_result = db_query_bound( $t_query, array( $p_change_id ) );
+		$t_result = db_query( $t_query, array( $p_change_id ) );
 
 		$t_files = array();
 
@@ -1297,7 +1299,7 @@ class SourceFile {
 		$t_file_table = plugin_table( 'file', 'Source' );
 
 		$t_query = "DELETE FROM $t_file_table WHERE change_id=" . db_param();
-		db_query_bound( $t_query, array( $p_change_id ) );
+		db_query( $t_query, array( $p_change_id ) );
 	}
 
 	/**
@@ -1309,7 +1311,7 @@ class SourceFile {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		$t_query = "DELETE FROM $t_file_table WHERE change_id IN ( SELECT id FROM $t_changeset_table WHERE repo_id=" . db_param() . ')';
-		db_query_bound( $t_query, array( $p_repo_id ) );
+		db_query( $t_query, array( $p_repo_id ) );
 	}
 }
 
@@ -1350,12 +1352,12 @@ class SourceMapping {
 		if ( $this->_new ) {
 			$t_query = "INSERT INTO $t_branch_table ( repo_id, branch, type, version, regex, pvm_version_id ) VALUES (" .
 				db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .db_param() . ', ' .    db_param() . ', ' .    db_param() . ')';
-			db_query_bound( $t_query, array( $this->repo_id, $this->branch, $this->type, $this->version, $this->regex, $this->pvm_version_id ) );
+			db_query( $t_query, array( $this->repo_id, $this->branch, $this->type, $this->version, $this->regex, $this->pvm_version_id ) );
 
 		} else {
 			$t_query = "UPDATE $t_branch_table SET branch=" . db_param() . ', type=' . db_param() . ', version=' . db_param() .
 				', regex=' . db_param() . ', pvm_version_id=' . db_param() . ' WHERE repo_id=' . db_param() . ' AND branch=' . db_param();
-			db_query_bound( $t_query, array( $this->branch, $this->type, $this->version,
+			db_query( $t_query, array( $this->branch, $this->type, $this->version,
 				$this->regex, $this->pvm_version_id, $this->repo_id, $this->branch ) );
 		}
 	}
@@ -1368,7 +1370,7 @@ class SourceMapping {
 
 		if ( !$this->_new ) {
 			$t_query = "DELETE FROM $t_branch_table WHERE repo_id=" . db_param() . ' AND branch=' . db_param();
-			db_query_bound( $t_query, array( $this->repo_id, $this->branch ) );
+			db_query( $t_query, array( $this->repo_id, $this->branch ) );
 
 			$this->_new = true;
 		}
@@ -1383,7 +1385,7 @@ class SourceMapping {
 		$t_branch_table = plugin_table( 'branch' );
 
 		$t_query = "SELECT * FROM $t_branch_table WHERE repo_id=" . db_param() . ' ORDER BY branch';
-		$t_result = db_query_bound( $t_query, array( $p_repo_id ) );
+		$t_result = db_query( $t_query, array( $p_repo_id ) );
 
 		$t_mappings = array();
 
@@ -1516,7 +1518,7 @@ class SourceUser {
 		$t_user_table = plugin_table( 'user', 'Source' );
 
 		$t_query = "SELECT * FROM $t_user_table WHERE user_id=" . db_param();
-		$t_result = db_query_bound( $t_query, array( $p_user_id ) );
+		$t_result = db_query( $t_query, array( $p_user_id ) );
 
 		if ( db_num_rows( $t_result ) > 0 ) {
 			$t_row = db_fetch_array( $t_result );
@@ -1540,7 +1542,7 @@ class SourceUser {
 		$t_user_table = plugin_table( 'user', 'Source' );
 
 		$t_query = "SELECT * FROM $t_user_table";
-		$t_result = db_query_bound( $t_query );
+		$t_result = db_query( $t_query );
 
 		$t_usernames = array();
 		while( $t_row = db_fetch_array( $t_result ) ) {
@@ -1565,7 +1567,7 @@ class SourceUser {
 			} else { # insert new entry
 				$t_query = "INSERT INTO $t_user_table ( user_id, username ) VALUES (" .
 					db_param() . ', ' . db_param() . ')';
-				db_query_bound( $t_query, array( $this->user_id, $this->username ) );
+				db_query( $t_query, array( $this->user_id, $this->username ) );
 
 				$this->new = false;
 			}
@@ -1574,12 +1576,12 @@ class SourceUser {
 		} else {
 			if ( is_blank( $this->username ) ) { # delete existing entry
 				$t_query = "DELETE FROM $t_user_table WHERE user_id=" . db_param();
-				db_query_bound( $t_query, array( $this->user_id ) );
+				db_query( $t_query, array( $this->user_id ) );
 
 			} else { # update existing entry
 				$t_query = "UPDATE $t_user_table SET username=" . db_param() .
 					' WHERE user_id=' . db_param();
-				db_query_bound( $t_query, array( $this->username, $this->user_id ) );
+				db_query( $t_query, array( $this->username, $this->user_id ) );
 			}
 		}
 	}

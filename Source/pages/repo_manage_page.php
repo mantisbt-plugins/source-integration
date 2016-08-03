@@ -12,22 +12,25 @@ $t_type = SourceType($t_repo->type);
 
 $t_mappings = $t_repo->load_mappings();
 
+
 function display_strategies( $p_type=null ) {
+	$t_strategies = array();
 	if ( is_null( $p_type ) ) {
+		$t_strategies[] = array( 0, 'select_one' );
 		echo '<option value="0">', plugin_lang_get( 'select_one' ), '</option>';
 	}
+	$t_strategies[] = array( SOURCE_EXPLICIT, 'mapping_explicit' );
+	if( !Source_PVM() ) {
+		$t_strategies[] = array( SOURCE_NEAR, 'mapping_near' );
+		$t_strategies[] = array( SOURCE_FAR, 'mapping_far' );
+		$t_strategies[] = array( SOURCE_FIRST, 'mapping_first' );
+		$t_strategies[] = array( SOURCE_LAST, 'mapping_last' );
+	}
 
-	echo '<option value="', SOURCE_EXPLICIT, '"', ( $p_type == SOURCE_EXPLICIT ? ' selected="selected"' : '' ),
-		'>', plugin_lang_get( 'mapping_explicit' ), '</option>';
-	if ( !Source_PVM() ) {
-	echo '<option value="', SOURCE_NEAR, '"', ( $p_type == SOURCE_NEAR ? ' selected="selected"' : '' ),
-		'>', plugin_lang_get( 'mapping_near' ), '</option>',
-		'<option value="', SOURCE_FAR, '"', ( $p_type == SOURCE_FAR ? ' selected="selected"' : '' ),
-		'>', plugin_lang_get( 'mapping_far' ), '</option>';
-	echo '<option value="', SOURCE_FIRST, '"', ( $p_type == SOURCE_FIRST ? ' selected="selected"' : '' ),
-		'>', plugin_lang_get( 'mapping_first' ), '</option>',
-		'<option value="', SOURCE_LAST, '"', ( $p_type == SOURCE_LAST ? ' selected="selected"' : '' ),
-		'>', plugin_lang_get( 'mapping_last' ), '</option>';
+	foreach( $t_strategies as $t_strategy ) {
+		echo "\n" . '<option value="' . $t_strategy[0] . '"';
+		check_selected( (int)$p_type, $t_strategy[0] );
+		echo '>' . plugin_lang_get( $t_strategy[1] ) . '</option>';
 	}
 }
 
@@ -39,13 +42,14 @@ function display_pvm_versions($t_version_id=null) {
 	}
 
 	if ( is_null( $t_version_id ) ) {
-		echo "<option value=\"\"></option>";
+		echo "\n" . '<option value=""></option>';
 	}
 
 	foreach( $s_products as $t_product ) {
 		foreach( $t_product->versions as $t_version ) {
-			echo "<option value=\"{$t_version->id}\"", $t_version->id == $t_version_id ? ' selected="selected"' : '',
-				">{$t_product->name} {$t_version->name}</option>";
+			echo "\n" . '<option value="' . $t_version->id . '"';
+			check_selected( $t_version->id, $t_version_id );
+			echo ">$t_product->name $t_version->name</option>";
 		}
 	}
 }
@@ -55,123 +59,144 @@ html_page_top2();
 ?>
 
 <br/>
-<table class="width75" align="center" cellspacing="1">
+<div class="form-container">
 
-<tr>
-<td class="form-title" colspan="2"><?php echo plugin_lang_get( 'manage_repository' ) ?></td>
-<td class="right">
-<?php
-	print_bracket_link( plugin_page( 'list' ) . "&id=$f_repo_id", plugin_lang_get( 'browse' ) );
-	print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
-?>
-</td>
-</tr>
+	<h2><?php echo plugin_lang_get( 'manage_repository' ) ?></h2>
+	<div class="floatright">
+		<?php
+			print_bracket_link( plugin_page( 'list' ) . "&id=$f_repo_id", plugin_lang_get( 'browse' ) );
+			print_bracket_link( plugin_page( 'index' ), plugin_lang_get( 'back' ) );
+		?>
+	</div>
 
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>
-<td colspan="2"><?php echo string_display( $t_repo->name ) ?></td>
-</tr>
+	<table>
+		<tr>
+			<td class="category" width="30%"><?php echo plugin_lang_get( 'name' ) ?></td>
+			<td><?php echo string_display( $t_repo->name ) ?></td>
+		</tr>
 
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'type' ) ?></td>
-<td colspan="2"><?php echo string_display( $t_type ) ?></td>
-</tr>
+		<tr>
+			<td class="category"><?php echo plugin_lang_get( 'type' ) ?></td>
+			<td><?php echo string_display( $t_type ) ?></td>
+		</tr>
 
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'url' ) ?></td>
-<td colspan="2"><?php echo string_display( $t_repo->url ) ?></td>
-</tr>
+		<tr>
+			<td class="category"><?php echo plugin_lang_get( 'url' ) ?></td>
+			<td><?php echo string_display( $t_repo->url ) ?></td>
+		</tr>
 
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'info' ) ?></td>
-<td colspan="2"><pre><?php var_dump($t_repo->info) ?></pre></td>
-</tr>
+		<tr>
+			<td class="category"><?php echo plugin_lang_get( 'info' ) ?></td>
+			<td><pre><?php var_dump($t_repo->info) ?></pre></td>
+		</tr>
+	</table>
 
-<tr>
-<td width="30%"></td>
-<td width="20%"></td>
-<td width="50%"></td>
-</tr>
+	<div class="floatleft">
+		<form action="<?php echo plugin_page( 'repo_update_page' ) . '&amp;id=' . $t_repo->id ?>" method="post">
+			<input type="submit" value="<?php echo plugin_lang_get( 'update_repository' ) ?>"/>
+		</form>
+		<form action="<?php echo plugin_page( 'repo_delete' ) . '&amp;id=' . $t_repo->id ?>" method="post">
+			<?php echo form_security_field( 'plugin_Source_repo_delete' ) ?>
+			<input type="submit" value="<?php echo plugin_lang_get( 'delete_repository' ) ?>"/>
+		</form>
+	</div>
+	<div class="floatright">
+		<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&amp;id=' . $t_repo->id ?>" method="post">
+			<?php echo form_security_field( 'plugin_Source_repo_import_latest' ) ?>
+			<input type="submit" value="<?php echo plugin_lang_get( 'import_latest' ) ?>"/>
+		</form>
+		<form action="<?php echo plugin_page( 'repo_import_full' ) . '&amp;id=' . $t_repo->id ?>" method="post">
+			<?php echo form_security_field( 'plugin_Source_repo_import_full' ) ?>
+			<input type="submit" value="<?php echo plugin_lang_get( 'import_full' ) ?>"/>
+		</form>
+	</div>
+	<br>
 
-<tr>
-<td colspan="2">
-<form action="<?php echo plugin_page( 'repo_update_page' ) . '&amp;id=' . $t_repo->id ?>" method="post">
-	<input type="submit" value="<?php echo plugin_lang_get( 'update_repository' ) ?>"/>
-</form>
-<form action="<?php echo plugin_page( 'repo_delete' ) . '&amp;id=' . $t_repo->id ?>" method="post">
-	<?php echo form_security_field( 'plugin_Source_repo_delete' ) ?>
-	<input type="submit" value="<?php echo plugin_lang_get( 'delete_repository' ) ?>"/>
-</form>
-</td>
-<td class="right">
-<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&amp;id=' . $t_repo->id ?>" method="post">
-	<?php echo form_security_field( 'plugin_Source_repo_import_latest' ) ?>
-	<input type="submit" value="<?php echo plugin_lang_get( 'import_latest' ) ?>"/>
-</form>
-<form action="<?php echo plugin_page( 'repo_import_full' ) . '&amp;id=' . $t_repo->id ?>" method="post">
-	<?php echo form_security_field( 'plugin_Source_repo_import_full' ) ?>
-	<input type="submit" value="<?php echo plugin_lang_get( 'import_full' ) ?>"/>
-</form>
-</td>
-</tr>
+</div>
 
-</table>
 
-<?php if ( plugin_config_get( 'enable_mapping' ) ) { ?>
-<br/>
+<?php if( plugin_config_get( 'enable_mapping' ) ) { ?>
+
+<div class="form-container">
+<h2><?php echo plugin_lang_get( 'branch_mapping' ) ?></h2>
 <form action="<?php echo plugin_page( 'repo_update_mappings' ) . '&id=' . $t_repo->id ?>" method="post">
-<?php echo form_security_field( 'plugin_Source_repo_update_mappings' ) ?>
-<table class="width75" align="center" cellspacing="1">
+<fieldset>
 
-<tr>
-<td class="form-title"><?php echo plugin_lang_get( 'branch_mapping' ) ?></td>
-</tr>
+	<?php echo form_security_field( 'plugin_Source_repo_update_mappings' ) ?>
 
-<tr class="row-category">
-<td><?php echo plugin_lang_get( 'branch' ) ?></td>
-<td><?php echo plugin_lang_get( 'mapping_strategy' ) ?></td>
-<td><?php echo plugin_lang_get( 'mapping_version' ), ' ', plugin_lang_get( 'mapping_version_info' ) ?></td>
-<td><?php echo plugin_lang_get( 'mapping_regex' ), ' ', plugin_lang_get( 'mapping_regex_info' ) ?></td>
-<td><?php echo plugin_lang_get( 'delete' ) ?></td>
-</tr>
+	<table>
+		<thead>
+			<tr class="row-category">
+				<th><?php echo plugin_lang_get( 'branch' ) ?></th>
+				<th><?php echo plugin_lang_get( 'mapping_strategy' ) ?></th>
+				<th><?php echo plugin_lang_get( 'mapping_version' ), ' ', plugin_lang_get( 'mapping_version_info' ) ?></th>
+				<th><?php echo plugin_lang_get( 'mapping_regex' ), ' ', plugin_lang_get( 'mapping_regex_info' ) ?></th>
+				<th><?php echo plugin_lang_get( 'delete' ) ?></th>
+			</tr>
+		</thead>
 
-<?php foreach( $t_mappings as $t_mapping ) { $t_branch = str_replace( '.', '_', $t_mapping->branch ); ?>
+		<tbody>
+<?php
+	# Add dummy empty mapping so the loop displays a line to for new mappings
+	$t_mappings[] = new SourceMapping( null, null, null );
 
-<tr <?php echo helper_alternate_class() ?>>
-<td><input name="<?php echo $t_branch ?>_branch" value="<?php echo string_attribute( $t_mapping->branch ) ?>" size="12" maxlength="128"/></td>
-<td><select name="<?php echo $t_branch ?>_type"><?php display_strategies( $t_mapping->type ) ?></select></td>
-<?php if ( Source_PVM() ) { ?>
-<td><select name="<?php echo $t_branch ?>_pvm_version_id"><?php display_pvm_versions( $t_mapping->pvm_version_id ) ?></select></td>
+	foreach( $t_mappings as $t_mapping ) {
+		$t_branch = str_replace( '.', '_', $t_mapping->branch );
+		if( is_null( $t_mapping->branch ) ) {
+?>
+			<tr class="spacer"></tr><tr></tr>
+<?php
+		}
+?>
+			<tr>
+				<td class="center">
+					<input name="<?php echo $t_branch ?>_branch" value="<?php
+						echo string_attribute( $t_mapping->branch )
+						?>" size="12" maxlength="128" />
+				</td>
+				<td class="center">
+					<select name="<?php echo $t_branch ?>_type"><?php
+						display_strategies( $t_mapping->type ) ?>
+					</select>
+				</td>
+<?php if( Source_PVM() ) { ?>
+				<td class="center">
+					<select name="<?php echo $t_branch ?>_pvm_version_id"><?php
+						display_pvm_versions( $t_mapping->pvm_version_id ) ?>
+					</select>
+				</td>
 <?php } else { ?>
-<td><select name="<?php echo $t_branch ?>_version"><?php print_version_option_list( $t_mapping->version, ALL_PROJECTS, false, true, true ) ?></select></td>
+				<td class="center">
+					<select name="<?php echo $t_branch ?>_version"><?php
+						print_version_option_list( $t_mapping->version, ALL_PROJECTS, false, true, true ) ?>
+					</select>
+				</td>
 <?php } ?>
-<td><input name="<?php echo $t_branch ?>_regex" value="<?php echo string_attribute( $t_mapping->regex ) ?>" size="18" maxlength="128"/></td>
-<td><input name="<?php echo $t_branch ?>_delete" type="checkbox" value="1"/></td>
-</tr>
-<?php } ?>
+				<td class="center">
+					<input name="<?php echo $t_branch ?>_regex" value="<?php
+						echo string_attribute( $t_mapping->regex )
+						?>" size="18" maxlength="128" />
+				</td>
+				<td class="center">
+					<input name="<?php echo $t_branch ?>_delete" type="checkbox" value="1" />
+				</td>
 
-<tr><td></td></tr>
+			</tr>
+<?php
+	} # foreach
+?>
+		</tbody>
+	</table>
+	</fieldset>
 
-<tr <?php echo helper_alternate_class() ?>>
-<td><input name="_branch" size="12" maxlength="128"/></td>
-<td><select name="_type"><?php display_strategies(); ?></select></td>
-<?php if ( Source_PVM() ) { ?>
-<td><select name="_pvm_version_id"><?php display_pvm_versions() ?></select></td>
-<?php } else { ?>
-<td><select name="_version"><?php print_version_option_list( '', ALL_PROJECTS, false, true, true ) ?></td>
-<?php } ?>
-<td><input name="_regex" size="18" maxlength="128"/></td>
-<td></td>
-</tr>
+	<div class="submit-button">
+		<input type="submit" value="<?php echo plugin_lang_get( 'mapping_update' ) ?>"/>
+	</div>
 
-<tr>
-<td class="center" colspan="5"><input type="submit" value="<?php echo plugin_lang_get( 'mapping_update' ) ?>"/></td>
-</tr>
-
-</table>
 </form>
+</div>
 
-<?php } ?>
+<?php } # end if enable_mapping ?>
 
 <?php
 html_page_bottom1( __FILE__ );

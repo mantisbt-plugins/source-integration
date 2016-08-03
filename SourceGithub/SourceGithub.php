@@ -17,10 +17,10 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.18';
+		$this->version = '1.3.0';
 		$this->requires = array(
-			'MantisCore' => '1.2.16',
-			'Source' => '0.18',
+			'MantisCore' => '1.3.0',
+			'Source' => '1.3.0',
 		);
 
 		$this->author = 'John Reese';
@@ -129,38 +129,61 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_master_branch = 'master';
 		}
 ?>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_username' ) ?></td>
-<td><input name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
-<td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
-</tr>
-<tr><td class="spacer"></td></tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
-<td><input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>
-<td><input name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></td>
-<td><?php if ( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ):
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_username' ) ?></span></label>
+	<span class="input">
+		<input name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_reponame' ) ?></span></label>
+	<span class="input">
+		<input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></span></label>
+	<span class="input">
+		<input name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_app_secret' ) ?></span></label>
+	<span class="input">
+		<input name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></span></label>
+	<span class="input">
+		<?php if ( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ):
 echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
 elseif ( empty( $t_hub_app_access_token ) ):
 print_link( $this->oauth_authorize_uri( $p_repo ), plugin_lang_get( 'hub_app_authorize' ) );
 else:
 echo plugin_lang_get( 'hub_app_authorized' );
-endif; ?></td>
-</tr>
-<tr><td class="spacer"></td></tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-<td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
-</tr>
+endif; ?>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'master_branch' ) ?></span></label>
+	<span class="input">
+		<input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
 <?php
 	}
 
@@ -237,7 +260,7 @@ endif; ?></td>
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_query = "SELECT * FROM $t_repo_table WHERE info LIKE " . db_param();
-		$t_result = db_query_bound( $t_query, array( '%' . $t_reponame . '%' ) );
+		$t_result = db_query( $t_query, array( '%' . $t_reponame . '%' ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
 			return;
@@ -303,7 +326,7 @@ endif; ?></td>
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
 				'ORDER BY timestamp ASC';
-			$t_result = db_query_bound( $t_query, array( $p_repo->id, $t_branch ), 1 );
+			$t_result = db_query( $t_query, array( $p_repo->id, $t_branch ), 1 );
 
 			$t_commits = array( $t_branch );
 

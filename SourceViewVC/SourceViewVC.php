@@ -15,7 +15,7 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 
 		$this->version = '0.1';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 			'Source' => '0.16',
 			'SourceSVN' => '0.16',
 		);
