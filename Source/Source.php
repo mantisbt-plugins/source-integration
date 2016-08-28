@@ -138,21 +138,37 @@ class SourcePlugin extends MantisPlugin {
 	}
 
 	function menu_main() {
-		$t_links = array();
+		$t_menu_options = array();
 
 		if ( plugin_config_get( 'show_repo_link' ) ) {
 			$t_page = plugin_page( 'index', false, 'Source' );
 			$t_lang = plugin_lang_get( 'repositories', 'Source' );
-			$t_links[] = "<a href=\"$t_page\">$t_lang</a>";
+
+			$t_menu_option = array(
+				'title' => $t_lang,
+				'url' => $t_page,
+				'access_level' => plugin_config_get( 'view_threshold' ),
+				'icon' => 'fa-code-fork'
+			);
+
+			$t_menu_options[] = $t_menu_option;
 		}
 
 		if ( plugin_config_get( 'show_search_link' ) ) {
 			$t_page = plugin_page( 'search_page', false, 'Source' );
 			$t_lang = plugin_lang_get( 'search', 'Source' );
-			$t_links[] = "<a href=\"$t_page\">$t_lang</a>";
+
+			$t_menu_option = array(
+				'title' => $t_lang,
+				'url' => $t_page,
+				'access_level' => plugin_config_get( 'view_threshold' ),
+				'icon' => 'fa-search'
+			);
+
+			$t_menu_options[] = $t_menu_option;
 		}
 
-		return $t_links;
+		return $t_menu_options;
 	}
 
 	function display_formatted( $p_event, $p_text, $p_multiline ) {
