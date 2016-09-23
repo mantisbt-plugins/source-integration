@@ -106,7 +106,7 @@ $s_plugin_Source_show_repo_stats = 'Repository Statistics';
 $s_plugin_Source_enabled_features = 'Enabled Features';
 $s_plugin_Source_enable_linking = 'Changeset Linking <span class="small">(<em>&lt;type&gt;:&lt;reponame&gt;:&lt;revision&gt;:</em> where &lt;type&gt; = \'s\' for details, \'v\' for diff)</span>';
 $s_plugin_Source_enable_mapping = 'Branch Mappings';
-$s_plugin_Source_enable_resolving = 'Resolve Fixed Issues';
+$s_plugin_Source_enable_resolving = 'Resolve Fixed Issues <span class="small">(issue must have an assigned handler)</span>';
 $s_plugin_Source_enable_message = 'Bug Fixed Message';
 $s_plugin_Source_enable_porting = 'Porting Status';
 $s_plugin_Source_enable_product_matrix = 'Product Matrix Integration';
