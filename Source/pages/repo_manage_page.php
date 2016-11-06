@@ -54,6 +54,26 @@ function display_pvm_versions($t_version_id=null) {
 	}
 }
 
+function convert_to_key_value( $p_array ) {
+	$t_result = array();
+
+	foreach( $p_array as $t_key => $t_value ) {
+		if( is_bool( $t_value ) ) {
+			$t_simple_value = (bool)$t_value ? lang_get( 'on' ) : lang_get( 'off' );
+		} else if( is_integer( $t_value ) ) {
+			$t_simple_value = (int)$t_value;
+		} else if( is_string( $t_value ) ) {
+			$t_simple_value = $t_value;
+		} else if( is_array( $t_value ) ) {
+			$t_simple_value = var_export( $t_value, /* return */ true );
+		}
+
+		$t_result[$t_key] = $t_value;
+	}
+
+	return $t_result;
+}
+
 layout_page_header( plugin_lang_get( 'title' ) );
 layout_page_begin();
 ?>
@@ -96,10 +116,15 @@ layout_page_begin();
 			<td><?php echo string_display( $t_repo->url ) ?></td>
 		</tr>
 
+		<?php
+			$t_formatted_array = convert_to_key_value( $t_repo->info );
+			foreach( $t_formatted_array as $t_key => $t_value ) {
+		?>
 		<tr>
-			<td class="category"><?php echo plugin_lang_get( 'info' ) ?></td>
-			<td><?php var_dump($t_repo->info) ?></td>
+			<td class="category"><?php echo $t_key ?></td>
+			<td><?php echo $t_value ?></td>
 		</tr>
+		<?php } ?>
 	</table>
 
 				</div>
