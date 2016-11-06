@@ -63,7 +63,7 @@ layout_page_begin();
 ?>
 			<tr>
 				<td><?php echo string_display( $t_repo->name ) ?></td>
-				<td class="center"><?php echo string_display( SourceType( $t_repo->type ) ) ?></td>
+				<td><?php echo string_display( SourceType( $t_repo->type ) ) ?></td>
 <?php
 		if( $t_show_stats ) {
 			$t_stats = $t_repo->stats();
