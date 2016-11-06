@@ -171,7 +171,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			echo plugin_lang_get( 'hub_app_authorized' );
 			# @TODO This would be better with an AJAX, but this will do for now
 			?>
-			<input type="submit" class="btn btn-primary btn-white btn-round" name="revoke" value="<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>"/>
+			<input type="submit" class="btn btn-xs btn-primary btn-white btn-round" name="revoke" value="<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>"/>
 			<?php
 		}
 		?>
