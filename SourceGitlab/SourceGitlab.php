@@ -19,10 +19,10 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '1.0.3';
+		$this->version = '1.0.4';
 		$this->requires = array(
 			'MantisCore' => '2.0.0',
-			'Source' => '0.16',
+			'Source' => '1.3.0',
 		);
 
 		$this->author = 'Johannes Goehr';
