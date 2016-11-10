@@ -141,7 +141,7 @@ class SourcePlugin extends MantisPlugin {
 		$t_menu_options = array();
 
 		if ( plugin_config_get( 'show_repo_link' ) ) {
-			$t_page = plugin_page( 'index', false, 'Source' );
+			$t_page = plugin_page( 'index', true, 'Source' );
 			$t_lang = plugin_lang_get( 'repositories', 'Source' );
 
 			$t_menu_option = array(

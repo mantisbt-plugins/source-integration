@@ -214,13 +214,17 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 			$t_reponame = $p_repo->info['bit_reponame'];
 			$t_uri      = $this->api_url10( "repositories/$t_username/$t_reponame/branches" );
 			$t_json     = $this->api_json_url( $p_repo, $t_uri );
+
+			if (is_null($t_json))
+				return;
+
 			$t_branches = array();
 			foreach ( $t_json as $t_branchname => $t_branch ) {
 				if(isset($t_branchname)) {
 					if (strpos($t_branchname, '/') !== FALSE) {
 						$t_branches[] = $t_branch->raw_node;
 					} else {
-						$t_branches[] = $t_branchname;
+						$t_branches[] = utf8_decode($t_branchname);
 					}
 				}
 			}
@@ -246,9 +250,12 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 					$t_commits[] = $t_parent;
 				}
 			}
-			if( $p_use_cache ) foreach ( $t_commits as $t_commit_id ) $this->load_all_commits( $p_repo, $t_commit_id );
+			if( $p_use_cache )
+				foreach ( $t_commits as $t_commit_id )
+					$this->load_all_commits( $p_repo, $t_commit_id );
 
-			$t_changesets = array_merge( $t_changesets, $this->import_commits( $p_repo, $t_commits, $t_branch ) );
+			$t_changesets = array_merge( $t_changesets,
+										 $this->import_commits( $p_repo, $t_commits, $t_branch ) );
 		}
 
 		echo '</pre>';
@@ -271,10 +278,13 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 
 		if( property_exists( $t_json, 'values' ) ) {
 			foreach ( $t_json->values as $t_item ) {
-				$this->commits_cache[$t_item->hash] = $t_item;
+				$key = utf8_decode($t_item->hash);
+				$val = $t_item;
+				$this->commits_cache[$key] = $val;
 			}
 		}
-		if( property_exists( $t_json, 'next' ) ) $this->load_all_commits( $p_repo, $p_commit_id, $t_json->next );
+		if( property_exists( $t_json, 'next' ) )
+			$this->load_all_commits( $p_repo, $p_commit_id, $t_json->next );
 	}
 
 	public function import_commits( $p_repo, $p_commit_ids, $p_branch = '' ) {
@@ -347,10 +357,10 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 			$t_changeset = new SourceChangeset(
 				$p_repo->id,
 				$p_json->hash,
-				$p_branch,
+				utf8_decode($p_branch),
 				date( 'Y-m-d H:i:s', strtotime( $p_json->date ) ),
-				$this->get_author_name( $p_json->author->raw ),
-				$p_json->message
+				$this->get_author_name( utf8_decode($p_json->author->raw) ),
+				utf8_decode($p_json->message)
 			);
 
 			if( count( $p_json->parents ) > 0 ) {
@@ -358,7 +368,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 				$t_changeset->parent = $t_parent->hash;
 			}
 
-			$t_changeset->author_email    = $this->get_author_email( $p_json->author->raw );
+			$t_changeset->author_email    = $this->get_author_email( utf8_decode($p_json->author->raw) );
 			$t_changeset->committer       = $t_changeset->author;
 			$t_changeset->committer_email = $t_changeset->author_email;
 
@@ -372,13 +382,13 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 				foreach ( $t_files as $t_file ) {
 					switch( $t_file->type ) {
 						case 'added':
-							$t_changeset->files[] = new SourceFile(0, '', $t_file->file, 'add');
+							$t_changeset->files[] = new SourceFile(0, '', utf8_decode($t_file->file), 'add');
 							break;
 						case 'modified':
-							$t_changeset->files[] = new SourceFile(0, '', $t_file->file, 'mod');
+							$t_changeset->files[] = new SourceFile(0, '', utf8_decode($t_file->file), 'mod');
 							break;
 						case 'removed':
-							$t_changeset->files[] = new SourceFile(0, '', $t_file->file, 'rm');
+							$t_changeset->files[] = new SourceFile(0, '', utf8_decode($t_file->file), 'rm');
 							break;
 					}
 				}
