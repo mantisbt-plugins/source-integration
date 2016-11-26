@@ -83,12 +83,13 @@ final class SourceIntegrationPlugin extends MantisPlugin {
 
 		$t_user = SourceUser::load( $p_user_id );
 
-		echo '<div class="field-container">'
-			. '<label for="Source_vcs_username"><span>' . plugin_lang_get( 'vcs_username', 'Source' ) . '</span></label>'
-			. '<span class="input"><input type="hidden" name="Source_vcs" value="1"/>'
-			. '<input name="Source_vcs_username" value="', $t_user->username, '"/></span>'
-			. '<span class="label-style"></span>'
-			. '</div>';
+		echo '<tr>'
+			. '<td class="category">' . plugin_lang_get( 'vcs_username', 'Source' ) . '</td>'
+			. '<td>'
+			. '<input type="hidden" name="Source_vcs" value="1"/>'
+			. '<input id="source-vcs-username" type="text" name="Source_vcs_username" class="input-sm" value="' . $t_user->username . '" />'
+			. '</td>'
+			. '</tr>';
 	}
 
 	/**
