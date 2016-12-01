@@ -169,7 +169,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		<td class="category"><?php echo plugin_lang_get( 'svnssl' ) ?></td>
 		<td>
 			<label>
-				<input name="plugin_SourceSVN_svnssl" type="checkbox" class="ace" <?php check_checked( $t_svnssl ) ?>/>
+				<input name="plugin_SourceSVN_svnssl" type="checkbox" class="ace" <?php check_checked( (bool)$t_svnssl ) ?>/>
 				<span class="lbl"></span>
 			</label>
 		</td>
@@ -178,7 +178,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		<td class="category"><?php echo plugin_lang_get( 'winstart' ) ?></td>
 		<td>
 			<label>
-				<input name="plugin_SourceSVN_winstart" type="checkbox" class="ace" <?php check_checked( $t_winstart ) ?>/>
+				<input name="plugin_SourceSVN_winstart" type="checkbox" class="ace" <?php check_checked( (bool)$t_winstart ) ?>/>
 				<span class="lbl"></span>
 			</label>
 		</td>
