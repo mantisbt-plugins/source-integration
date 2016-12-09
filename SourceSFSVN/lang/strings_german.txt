@@ -10,3 +10,11 @@ $s_plugin_SourceSFSVN_description = 'Subversionintegration für SourceForge.net 
 $s_plugin_SourceSFSVN_svn = 'SourceForge SVN';
 $s_plugin_SourceSFSVN_sf_project = 'SourceForge Projekt';
 
+$s_plugin_SourceSFSVN_svn_username = 'SVN Benutzername';
+$s_plugin_SourceSFSVN_svn_password = 'SVN Passwort';
+$s_plugin_SourceSFSVN_standard_repo = 'Standardprojektarchiv<br /><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceSFSVN_trunk_path = 'Pfad zu \'Trunk\'<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+$s_plugin_SourceSFSVN_branch_path = 'Pfad zu \'Branch\'<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+$s_plugin_SourceSFSVN_tag_path = 'Pfad zu \'Tag\'<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+$s_plugin_SourceSFSVN_ignore_paths = 'Andere Pfade ignorieren<br /><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+

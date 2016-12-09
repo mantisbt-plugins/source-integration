@@ -70,10 +70,15 @@ class SourceSFSVNPlugin extends SourceSVNPlugin {
 		$t_sf_project = isset( $p_repo->info['sf_project'] ) ? $p_repo->info['sf_project'] : '';
 
 ?>
-<tr>
-<td class="category"><?php echo lang_get( 'plugin_SourceSFSVN_sf_project' ) ?></td>
-<td><input name="sf_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_sf_project ) ?>"/></td>
-</tr>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'sf_project' ) ?></span></label>
+	<span class="input">
+		<input name="sf_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_sf_project ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
 <?php
 
 		return parent::update_repo_form( $p_repo );

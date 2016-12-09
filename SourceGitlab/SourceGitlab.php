@@ -98,8 +98,9 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 	}
 
 public function update_repo_form( $p_repo ) {
-		$t_hub_root = null;
-		$t_hub_repoid = null;
+		$t_hub_root       = null;
+		$t_hub_repoid     = null;
+		$t_hub_reponame   = null;
 		$t_hub_app_secret = null;
 
 		if ( isset( $p_repo->info['hub_root'] ) ) {
@@ -120,26 +121,47 @@ public function update_repo_form( $p_repo ) {
 			$t_master_branch = 'master';
 		}
 ?>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'hub_root' ) ?></td>
-<td><input name="hub_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_root ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'hub_repoid' ) ?></td>
-<td><input name="hub_repoid" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_repoid ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
-<td><input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>
-<td><input name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-<td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
-</tr>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_root' ) ?></span></label>
+	<span class="input">
+		<input name="hub_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_root ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_repoid' ) ?></span></label>
+	<span class="input">
+		<input name="hub_repoid" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_repoid ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_reponame' ) ?></span></label>
+	<span class="input">
+		<input name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hub_app_secret' ) ?></span></label>
+	<span class="input">
+		<input name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'master_branch' ) ?></span></label>
+	<span class="input">
+		<input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
 <?php
 	}
 

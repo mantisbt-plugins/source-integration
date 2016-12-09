@@ -10,3 +10,11 @@ $s_plugin_SourceSFSVN_description = 'Afegeix la integració amb Subversion al fr
 $s_plugin_SourceSFSVN_svn = 'SVN SourceForge';
 $s_plugin_SourceSFSVN_sf_project = 'Projecte SourceForge';
 
+$s_plugin_SourceSFSVN_svn_username = 'Usuari de SVN';
+$s_plugin_SourceSFSVN_svn_password = 'Contrasenya de SVN';
+$s_plugin_SourceSFSVN_standard_repo = 'Repositori estàndar<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceSFSVN_trunk_path = 'Directori Trunk<br/><span class="small">(Per repositoris no estàndar)</span>';
+$s_plugin_SourceSFSVN_branch_path = 'Directori Branch<br/><span class="small">(Per repositoris no estàndar)</span>';
+$s_plugin_SourceSFSVN_tag_path = 'Directori Tag<br/><span class="small">(Per repositoris no estàndar)</span>';
+$s_plugin_SourceSFSVN_ignore_paths = 'Ignorar altres rutes<br/><span class="small">(Per repositoris no estándar)</span>';
+

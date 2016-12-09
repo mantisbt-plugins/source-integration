@@ -92,18 +92,31 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 			$t_master_branch = 'default';
 		}
 ?>
-<tr>
-	<td class="category"><?php echo plugin_lang_get( 'hgweb_root' ) ?></td>
-	<td><input name="hgweb_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_hgweb_root ) ?>"/></td>
-</tr>
-<tr>
-	<td class="category"><?php echo plugin_lang_get( 'hgweb_project' ) ?></td>
-	<td><input name="hgweb_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_hgweb_project ) ?>"/></td>
-</tr>
-<tr>
-	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-	<td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
-</tr>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hgweb_root' ) ?></span></label>
+	<span class="input">
+		<input name="hgweb_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_hgweb_root ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'hgweb_project' ) ?></span></label>
+	<span class="input">
+		<input name="hgweb_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_hgweb_project ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'master_branch' ) ?></span></label>
+	<span class="input">
+		<input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
 <?php
 	}
 

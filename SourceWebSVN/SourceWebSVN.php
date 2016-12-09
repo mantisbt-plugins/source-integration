@@ -168,22 +168,39 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		$t_path = $this->get_websvn_path( $p_repo );
 
 ?>
-<tr>
-<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_url' ) ?></td>
-<td><input name="websvn_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_multiviews' ) ?></td>
-<td><input name="websvn_multiviews" type="checkbox" <?php check_checked( $this->is_multiviews( $p_repo ) ) ?>/></td>
-</tr>
-<tr>
-<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_name' ) ?></td>
-<td><input name="websvn_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/></td>
-</tr>
-<tr>
-<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_path' ) ?></td>
-<td><input name="websvn_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_path ) ?>"/></td>
-</tr>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'websvn_url' ) ?></span></label>
+	<span class="input">
+		<input name="websvn_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'websvn_multiviews' ) ?></span></label>
+	<span class="input">
+		<input name="websvn_multiviews" type="checkbox" <?php check_checked( $this->is_multiviews( $p_repo ) ) ?>/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'websvn_name' ) ?></span></label>
+	<span class="input">
+		<input name="websvn_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'websvn_path' ) ?></span></label>
+	<span class="input">
+		<input name="websvn_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_path ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
 <?php
 
 		return parent::update_repo_form( $p_repo );
