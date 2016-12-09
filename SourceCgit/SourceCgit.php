@@ -286,7 +286,11 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 	 * @return string
 	 */
 	public function commit_message( $p_input ) {
-		preg_match( "#<div class='commit-subject'>(.*?)(<a class=|</div>)#", $p_input, $t_matches);
+		preg_match(
+			"#<div class='commit-subject'>(.*?)(<span class='decoration'>|<a class=|</div>)#",
+			$p_input,
+			$t_matches
+		);
 		$t_message = trim( str_replace( '<br/>', PHP_EOL, $t_matches[1] ) );
 
 		# Strip ref links and signoff spans from commit message
