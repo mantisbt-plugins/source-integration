@@ -108,36 +108,52 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		} else {
 			$t_master_branch = 'master';
 		}
-		?>
-		<tr <?php echo helper_alternate_class() ?>>
-			<td class="category"><?php echo plugin_lang_get( 'bit_basic_login' ) ?></td>
-			<td><input name="bit_basic_login" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_bit_basic_login ) ?>"/></td>
-		</tr>
-		<tr <?php echo helper_alternate_class() ?>>
-			<td class="category"><?php echo plugin_lang_get( 'bit_basic_pwd' ) ?></td>
-			<td><input type="password" name="bit_basic_pwd" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_bit_basic_pwd ) ?>"/></td>
-		</tr>
-		<tr <?php echo helper_alternate_class() ?>>
-			<td class="category"><?php echo plugin_lang_get( 'bit_username' ) ?></td>
-			<td><input name="bit_username" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_bit_username ) ?>"/></td>
-		</tr>
-		<tr <?php echo helper_alternate_class() ?>>
-			<td class="category"><?php echo plugin_lang_get( 'bit_reponame' ) ?></td>
-			<td><input name="bit_reponame" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_bit_reponame ) ?>"/></td>
-		</tr>
-		<tr>
-			<td class="spacer"></td>
-		</tr>
-		<tr <?php echo helper_alternate_class() ?>>
-			<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-			<td><input name="master_branch" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
-		</tr>
-	<?php
+
+?>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'bit_basic_login' ) ?></span></label>
+	<span class="input">
+		<input name="bit_basic_login" maxlength="250" size="40" value="<?php echo string_attribute( $t_bit_basic_login ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'bit_basic_pwd' ) ?></span></label>
+	<span class="input">
+		<input type="password" name="bit_basic_pwd" maxlength="250" size="40" value="<?php echo string_attribute( $t_bit_basic_pwd ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'bit_username' ) ?></span></label>
+	<span class="input">
+		<input name="bit_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_bit_username ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'bit_reponame' ) ?></span></label>
+	<span class="input">
+		<input name="bit_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_bit_reponame ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="spacer"></div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'master_branch' ) ?></span></label>
+	<span class="input">
+		<input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<?php
 	}
 
 	public function update_repo( $p_repo ) {
