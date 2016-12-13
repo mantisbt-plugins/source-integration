@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# This is a secret password to be used by services sending commit data to Mantis.
+API_KEY=6dcde9b4c68c4507f68b6ec3
+# Repository ID
+ID=11
+
+CURL=/usr/bin/curl
+
+URL="http://localhost/mantis/plugin.php?page=Source/import&api_key=${API_KEY}&id=${ID}"
+
+echo "Updating Changeset to Mantis Bug Tracker"
+${CURL} ${URL}
