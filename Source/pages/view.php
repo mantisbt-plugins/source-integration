@@ -4,7 +4,7 @@
 # Licensed under the MIT license
 
 access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
-$t_can_update = access_has_project_level( plugin_config_get( 'update_threshold' ) );
+$t_can_update = access_has_global_level( plugin_config_get( 'update_threshold' ) );
 
 require_once( config_get( 'plugin_path' ) . 'Source/Source.ViewAPI.php' );
 
