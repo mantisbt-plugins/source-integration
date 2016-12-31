@@ -13,6 +13,8 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 	const ERROR_INVALID_PRIMARY_BRANCH = 'invalid_branch';
 
+	public $linkPullRequest = '/pull/%s';
+
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );

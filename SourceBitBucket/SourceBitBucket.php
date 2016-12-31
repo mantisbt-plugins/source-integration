@@ -14,6 +14,8 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 	protected $api_url_10 = 'https://bitbucket.org/api/1.0/';
 	protected $api_url_20 = 'https://bitbucket.org/api/2.0/';
 
+	public $linkPullRequest = '/pull-request/%s';
+
 	public function register() {
 		$this->name        = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -430,4 +432,5 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		$t_url = escapeshellarg( $p_url ); //use -u user:pass
 		return shell_exec( 'curl -u ' . $t_user_pass . ' ' . $t_url );
 	}
+
 }

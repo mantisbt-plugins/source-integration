@@ -26,6 +26,16 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	public $configuration = false;
 
 	/**
+	 * Define the VCS's ability to handle links to Pull Requests.
+	 * If false, Pull Request links are not supported; otherwise this should be
+	 * a sprintf template used to build an URL linking to a Pull Request, by
+	 * appending it at the end of url_repo().
+	 * e.g. '/pull/%s', %s being the PR's number
+	 * @var false|string linkPullRequest
+	 */
+	public $linkPullRequest = false;
+
+	/**
 	 * Get a long, proper string representing the plugin's source control type.
 	 * Should be localized if possible.
 	 * @return string Source control name

@@ -14,6 +14,7 @@ $s_plugin_Source_changesets = 'Changesets';
 $s_plugin_Source_file = 'File';
 $s_plugin_Source_files = 'Files';
 $s_plugin_Source_diff = 'Diff';
+$s_plugin_Source_pullrequest = 'Pull Request';
 
 $s_plugin_Source_name = 'Name';
 $s_plugin_Source_type = 'Type';

@@ -395,56 +395,6 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 }
 
 /**
- * preg_replace_callback function for working with VCS links.
- */
-function Source_Changeset_Link_Callback( $p_matches ) {
-	$t_url_type = strtolower($p_matches[1]);
-	$t_repo_name = $p_matches[2];
-	$t_revision = $p_matches[3];
-
-	$t_repo_table = plugin_table( 'repository', 'Source' );
-	$t_changeset_table = plugin_table( 'changeset', 'Source' );
-	$t_file_table = plugin_table( 'file', 'Source' );
-
-	$t_query = "SELECT c.* FROM $t_changeset_table AS c
-				JOIN $t_repo_table AS r ON r.id=c.repo_id
-				WHERE c.revision LIKE " . db_param() . '
-				AND r.name LIKE ' . db_param();
-	$t_result = db_query( $t_query, array( $t_revision . '%', $t_repo_name . '%' ), 1 );
-
-	if ( db_num_rows( $t_result ) > 0 ) {
-		$t_row = db_fetch_array( $t_result );
-
-		$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'], $t_row['branch'], $t_row['timestamp'], $t_row['author'], $t_row['message'], $t_row['user_id'] );
-		$t_changeset->id = $t_row['id'];
-
-		$t_repo = SourceRepo::load( $t_changeset->repo_id );
-		$t_vcs = SourceVCS::repo( $t_repo );
-
-		switch( $t_url_type ) {
-			case 'v':
-			case 'd':
-				$t_url = $t_vcs->url_changeset( $t_repo, $t_changeset );
-				break;
-			case 'c':
-			case 's':
-			default:
-				$t_url = plugin_page( 'view' ) . '&id=' . $t_changeset->id;
-		}
-
-		$t_name = string_display_line( $t_repo->name . ' ' . $t_vcs->show_changeset( $t_repo, $t_changeset ) );
-
-		if ( !is_blank( $t_url ) ) {
-			return '<a href="' . $t_url . '">' . $t_name . '</a>';
-		}
-
-		return $t_name;
-	}
-
-	return $p_matches[0];
-}
-
-/**
  * Object for handling registration and retrieval of VCS type extension plugins.
  */
 class SourceVCS {
