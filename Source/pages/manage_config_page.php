@@ -98,8 +98,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 			</span><br>
 			<span class="">
 				<input type="checkbox" name="enable_linking" <?php
-					check_checked( ON == plugin_config_get( 'enable_linking' ) ) ?>/>
-				<label for="enable_linking"><?php echo plugin_lang_get( 'enable_linking' ) ?></label>
+					check_checked( ON == plugin_config_get( 'enable_linking' ) ) ?>
+					   />
+				<label for="enable_linking"
+					title="<?php echo plugin_lang_get( 'enable_linking_info' ) ?>">
+					<?php echo plugin_lang_get( 'enable_linking' ) ?></label>
 			</span><br>
 			<span class="">
 				<input type="checkbox" name="enable_mapping" <?php
