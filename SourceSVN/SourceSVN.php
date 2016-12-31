@@ -313,6 +313,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		if ( is_null( $s_call ) ) {
 			$s_call = self::svn_binary() . ' --non-interactive';
 
+			plugin_push_current( 'SourceSVN' );
+
 			if ( plugin_config_get( 'svnssl', false ) ) {
 				$s_call .= ' --trust-server-cert';
 			}
@@ -321,6 +323,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			if ( !is_blank( $t_svnargs ) ) {
 				$s_call .= " $t_svnargs";
 			}
+
+			plugin_pop_current();
 		}
 
 		# If not given a repo, just return the base SVN binary
