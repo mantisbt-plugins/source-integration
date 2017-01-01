@@ -56,9 +56,8 @@ function Source_PVM( $p_trigger_error=true ) {
 		} else {
 			trigger_error( ERROR_GENERIC, ERROR );
 		}
-	} else {
-		return false;
 	}
+	return false;
 }
 
 /**
@@ -821,7 +820,7 @@ class SourceRepo {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
 		$t_query = "DELETE FROM $t_repo_table WHERE id=" . db_param();
-		$t_result = db_query( $t_query, array( (int) $p_id ) );
+		db_query( $t_query, array( (int) $p_id ) );
 	}
 
 	/**
@@ -1216,7 +1215,6 @@ class SourceChangeset {
 	 * @param int $p_repo_id Repository ID
 	 */
 	static function delete_by_repo( $p_repo_id ) {
-		$t_bug_table = plugin_table( 'bug', 'Source' );
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		# first drop any files for the repository's changesets
