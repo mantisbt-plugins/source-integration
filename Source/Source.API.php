@@ -46,7 +46,7 @@ function SourceTypes() {
 /**
  * Determine if the Product Matrix integration is enabled, and trigger
  * an error if integration is enabled but the plugin is not running.
- * @param boolean Trigger error
+ * @param boolean $p_trigger_error Trigger error
  * @return boolean Integration enabled
  */
 function Source_PVM( $p_trigger_error=true ) {
@@ -64,7 +64,7 @@ function Source_PVM( $p_trigger_error=true ) {
 /**
  * Parse basic bug links from a changeset commit message
  * and return a list of referenced bug IDs.
- * @param string Changeset commit message
+ * @param string $p_string Changeset commit message
  * @return array Bug IDs
  */
 function Source_Parse_Buglinks( $p_string ) {
@@ -94,7 +94,7 @@ function Source_Parse_Buglinks( $p_string ) {
 /**
  * Parse resolved bug fix links from a changeset commit message
  * and return a list of referenced bug IDs.
- * @param string Changeset commit message
+ * @param string $p_string Changeset commit message
  * @return array Bug IDs
  */
 function Source_Parse_Bugfixes( $p_string ) {
@@ -193,7 +193,7 @@ function Source_set_changeset_user( &$p_changeset, $p_user_type ) {
  * Determine the user ID for both the author and committer.
  * First checks the email address for a matching user, then
  * checks the name for a matching username or realname.
- * @param object Changeset object
+ * @param object $p_changeset Changeset object
  * @return object updated Changeset object
  */
 function Source_Parse_Users( $p_changeset ) {
@@ -210,8 +210,8 @@ function Source_Parse_Users( $p_changeset ) {
 /**
  * Given a set of changeset objects, parse the bug links
  * and save the changes.
- * @param array Changeset objects
- * @param object Repository object
+ * @param array $p_changesets Changeset objects
+ * @param object $p_repo      Repository object
  */
 function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	global $g_cache_current_user_id;
@@ -459,7 +459,7 @@ class SourceVCS {
 	/**
 	 * Retrieve an extension plugin that can handle the requested repo's VCS type.
 	 * If the requested type is not available, the "generic" type will be returned.
-	 * @param object Repository object
+	 * @param object $p_repo Repository object
 	 * @return object VCS plugin
 	 */
 	static public function repo( $p_repo ) {
@@ -469,7 +469,7 @@ class SourceVCS {
 	/**
 	 * Retrieve an extension plugin that can handle the requested VCS type.
 	 * If the requested type is not available, the "generic" type will be returned.
-	 * @param string VCS type
+	 * @param string $p_type VCS type
 	 * @return object VCS plugin
 	 */
 	static public function type( $p_type ) {
@@ -500,6 +500,7 @@ class SourceVCSWrapper {
 
 	/**
 	 * Build a wrapper around a VCS plugin object.
+	 * @param $p_object
 	 */
 	function __construct( $p_object ) {
 		$this->object = $p_object;
@@ -508,6 +509,9 @@ class SourceVCSWrapper {
 
 	/**
 	 * Wrap method calls to the target object in plugin_push/pop calls.
+	 * @param $p_method
+	 * @param $p_args
+	 * @return mixed
 	 */
 	function __call( $p_method, $p_args ) {
 		plugin_push_current( $this->basename );
@@ -519,6 +523,8 @@ class SourceVCSWrapper {
 
 	/**
 	 * Wrap property reference to target object.
+	 * @param $p_name
+	 * @return mixed
 	 */
 	function __get( $p_name ) {
 		return $this->object->$p_name;
@@ -526,6 +532,9 @@ class SourceVCSWrapper {
 
 	/**
 	 * Wrap property mutation to target object.
+	 * @param $p_name
+	 * @param $p_value
+	 * @return mixed
 	 */
 	function __set( $p_name, $p_value ) {
 		return $this->object->$p_name = $p_value;
@@ -546,11 +555,10 @@ class SourceRepo {
 
 	/**
 	 * Build a new Repo object given certain properties.
-	 * @param string Repo type
-	 * @param string Name
-	 * @param string URL
-	 * @param string Path
-	 * @param array Info
+	 * @param string $p_type Repo type
+	 * @param string $p_name Name
+	 * @param string $p_url  URL
+	 * @param string $p_info Info
 	 */
 	function __construct( $p_type, $p_name, $p_url='', $p_info='' ) {
 		$this->id	= 0;
@@ -631,6 +639,7 @@ class SourceRepo {
 
 	/**
 	 * Get a list of repository statistics.
+	 * @param bool $p_all
 	 * @return array Stats
 	 */
 	function stats( $p_all=true ) {
@@ -662,8 +671,8 @@ class SourceRepo {
 
 	/**
 	 * Fetch a new Repo object given an ID.
-	 * @param int Repository ID
-	 * @return multi Repo object
+	 * @param int $p_id Repository ID
+	 * @return object Repo object
 	 */
 	static function load( $p_id ) {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
@@ -685,8 +694,8 @@ class SourceRepo {
 
 	/**
 	 * Fetch a new Repo object given a name.
-	 * @param string Repository name
-	 * @return multi Repo object
+	 * @param string $p_name Repository name
+	 * @return SourceRepo Repo object
 	 */
 	static function load_from_name( $p_name ) {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
@@ -730,7 +739,8 @@ class SourceRepo {
 
 	/**
 	 * Fetch a repository object with the given name.
-	 * @return multi Repo object, or null if not found
+	 * @param string $p_repo_name
+	 * @return null|SourceRepo Repo object, or null if not found
 	 */
 	static function load_by_name( $p_repo_name ) {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
@@ -759,7 +769,7 @@ class SourceRepo {
 
 	/**
 	 * Fetch an array of repository objects that includes all given changesets.
-	 * @param array Changeset objects
+	 * @param array|SourceChangeset $p_changesets Changeset objects
 	 * @return array Repository objects
 	 */
 	static function load_by_changesets( $p_changesets ) {
@@ -803,7 +813,7 @@ class SourceRepo {
 
 	/**
 	 * Delete a repository with the given ID.
-	 * @param int Repository ID
+	 * @param int $p_id Repository ID
 	 */
 	static function delete( $p_id ) {
 		SourceChangeset::delete_by_repo( $p_id );
@@ -816,7 +826,7 @@ class SourceRepo {
 
 	/**
 	 * Check to see if a repository exists with the given ID.
-	 * @param int Repository ID
+	 * @param int $p_id Repository ID
 	 * @return boolean True if repository exists
 	 */
 	static function exists( $p_id ) {
@@ -862,11 +872,16 @@ class SourceChangeset {
 
 	/**
 	 * Build a new changeset object given certain properties.
-	 * @param int Repository ID
-	 * @param string Changeset revision
-	 * @param string Timestamp
-	 * @param string Author
-	 * @param string Commit message
+	 * @param int    $p_repo_id    Repository ID
+	 * @param string $p_revision   Changeset revision
+	 * @param string $p_branch
+	 * @param string $p_timestamp  Timestamp
+	 * @param string $p_author     Author
+	 * @param string $p_message    Commit message
+	 * @param int    $p_user_id
+	 * @param string $p_parent
+	 * @param string $p_ported
+	 * @param string $p_author_email
 	 */
 	function __construct( $p_repo_id, $p_revision, $p_branch='', $p_timestamp='',
 		$p_author='', $p_message='', $p_user_id=0, $p_parent='', $p_ported='', $p_author_email='' ) {
@@ -948,6 +963,7 @@ class SourceChangeset {
 
 	/**
 	 * Update changeset relations to affected bugs.
+	 * @param int $p_user_id
 	 */
 	function save_bugs( $p_user_id=null ) {
 		$t_bug_table = plugin_table( 'bug', 'Source' );
@@ -1054,9 +1070,9 @@ class SourceChangeset {
 
 	/**
 	 * Check if a repository's changeset already exists in the database.
-	 * @param int Repo ID
-	 * @param string Revision
-	 * @param string Branch
+	 * @param int    $p_repo_id  Repo ID
+	 * @param string $p_revision Revision
+	 * @param string $p_branch   Branch
 	 * @return boolean True if changeset exists
 	 */
 	static function exists( $p_repo_id, $p_revision, $p_branch=null ) {
@@ -1077,8 +1093,8 @@ class SourceChangeset {
 
 	/**
 	 * Fetch a new changeset object given an ID.
-	 * @param int Changeset ID
-	 * @return multi Changeset object
+	 * @param int $p_id Changeset ID
+	 * @return mixed Changeset object
 	 */
 	static function load( $p_id ) {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
@@ -1097,9 +1113,9 @@ class SourceChangeset {
 
 	/**
 	 * Fetch a changeset object given a repository and revision.
-	 * @param multi Repo object
-	 * @param string Revision
-	 * @return multi Changeset object
+	 * @param object $p_repo     Repo object
+	 * @param string $p_revision Revision
+	 * @return mixed Changeset object
 	 */
 	static function load_by_revision( $p_repo, $p_revision ) {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
@@ -1118,7 +1134,10 @@ class SourceChangeset {
 
 	/**
 	 * Fetch an array of changeset objects for a given repository ID.
-	 * @param int Repository ID
+	 * @param int $p_repo_id Repository ID
+	 * @param bool $p_load_files
+	 * @param null $p_page
+	 * @param int  $p_limit
 	 * @return array Changeset objects
 	 */
 	static function load_by_repo( $p_repo_id, $p_load_files=false, $p_page=null, $p_limit=25  ) {
@@ -1137,7 +1156,8 @@ class SourceChangeset {
 
 	/**
 	 * Fetch an array of changeset objects for a given bug ID.
-	 * @param int Bug ID
+	 * @param int  $p_bug_id      Bug ID
+	 * @param bool $p_load_files
 	 * @return array Changeset objects
 	 */
 	static function load_by_bug( $p_bug_id, $p_load_files=false ) {
@@ -1157,7 +1177,8 @@ class SourceChangeset {
 	/**
 	 * Return a set of changeset objects from a database result.
 	 * Assumes selecting * from changeset_table.
-	 * @param object Database result
+	 * @param IteratorAggregate $p_result Database result
+	 * @param bool              $p_load_files
 	 * @return array Changeset objects
 	 */
 	static function from_result( $p_result, $p_load_files=false ) {
@@ -1192,7 +1213,7 @@ class SourceChangeset {
 
 	/**
 	 * Delete all changesets for a given repository ID.
-	 * @param int Repository ID
+	 * @param int $p_repo_id Repository ID
 	 */
 	static function delete_by_repo( $p_repo_id ) {
 		$t_bug_table = plugin_table( 'bug', 'Source' );
@@ -1288,7 +1309,7 @@ class SourceFile {
 
 	/**
 	 * Delete all file objects from the database for a given repository.
-	 * @param int Repository ID
+	 * @param int $p_repo_id Repository ID
 	 */
 	static function delete_by_repo( $p_repo_id ) {
 		$t_file_table = plugin_table( 'file', 'Source' );
@@ -1314,9 +1335,12 @@ class SourceMapping {
 
 	/**
 	 * Initialize a mapping object.
-	 * @param int Repository ID
-	 * @param string Branch name
-	 * @param int Mapping type
+	 * @param int    $p_repo_id
+	 * @param string $p_branch
+	 * @param int    $p_type
+	 * @param string $p_version
+	 * @param string $p_regex
+	 * @param int    $p_pvm_version_id
 	 */
 	function __construct( $p_repo_id, $p_branch, $p_type, $p_version='', $p_regex='', $p_pvm_version_id=0 ) {
 		$this->repo_id = $p_repo_id;
@@ -1362,8 +1386,8 @@ class SourceMapping {
 
 	/**
 	 * Load a group of mapping objects for a given repository.
-	 * @param object Repository object
-	 * @param array Mapping objects
+	 * @param int $p_repo_id Repository object
+	 * @return array Mapping objects
 	 */
 	static function load_by_repo( $p_repo_id ) {
 		$t_branch_table = plugin_table( 'branch' );
@@ -1386,7 +1410,7 @@ class SourceMapping {
 	/**
 	 * Given a bug ID, apply the appropriate branch mapping algorithm
 	 * to find and return the appropriate version ID.
-	 * @param int Bug ID
+	 * @param int $p_bug_id Bug ID
 	 * @return int Version ID
 	 */
 	function apply( $p_bug_id ) {
@@ -1451,7 +1475,7 @@ class SourceMapping {
 	/**
 	 * Given a bug ID, apply the appropriate branch mapping algorithm
 	 * to find and return the appropriate product matrix version ID.
-	 * @param int Bug ID
+	 * @param int $p_bug_id Bug ID
 	 * @return int Product version ID
 	 */
 	function apply_pvm( $p_bug_id ) {
@@ -1495,7 +1519,7 @@ class SourceUser {
 	/**
 	 * Load a user object from the database for a given user ID, or generate
 	 * a new object if the database entry does not exist.
-	 * @param int User ID
+	 * @param int $p_user_id User ID
 	 * @return object User object
 	 */
 	static function load( $p_user_id ) {
