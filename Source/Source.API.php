@@ -229,6 +229,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	$t_resolved_threshold = config_get('bug_resolved_status_threshold');
 	$t_fixed_threshold = config_get('bug_resolution_fixed_threshold');
 	$t_notfixed_threshold = config_get('bug_resolution_not_fixed_threshold');
+	$t_handle_bug_threshold = config_get( 'handle_bug_threshold' );
 
 	# Link author and committer name/email to user accounts
 	foreach( $p_changesets as $t_key => $t_changeset ) {
@@ -293,12 +294,27 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 	# Start fixing and/or resolving issues
 	foreach( $t_fixed_bugs as $t_bug_id => $t_changeset ) {
 
-		# fake the history entries as the committer/author user ID
+		# Determine the Mantis user to associate with the issue referenced in
+		# the changeset:
+		# - use Author if they can handle the issue
+		# - use Committer if not
+		# - if Committer can't handle issue either, it will not be resolved.
+		# This is used to generate the history entries and set the bug handler
+		# if the changeset fixes the issue.
 		$t_user_id = null;
-		if ( $t_changeset->committer_id > 0 ) {
+		if ( $t_changeset->user_id > 0 ) {
+			$t_can_handle_bug = access_has_bug_level( $t_handle_bug_threshold, $t_bug_id, $t_changeset->user_id );
+			if( $t_can_handle_bug ) {
+				$t_user_id = $t_changeset->user_id;
+			}
+		}
+		$t_handler_id = $t_user_id;
+		if( $t_handler_id === null && $t_changeset->committer_id > 0 ) {
 			$t_user_id = $t_changeset->committer_id;
-		} else if ( $t_changeset->user_id > 0 ) {
-			$t_user_id = $t_changeset->user_id;
+			$t_can_handle_bug = access_has_bug_level( $t_handle_bug_threshold, $t_bug_id, $t_user_id );
+			if( $t_can_handle_bug ) {
+				$t_handler_id = $t_user_id;
+			}
 		}
 
 		if ( !is_null( $t_user_id ) ) {
@@ -350,7 +366,10 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 				}
 			}
 
-		} else {
+		} elseif( $t_handler && $t_handler_id !== null ) {
+			# We only resolve the issue if an authorized handler has been
+			# identified; otherwise, it will remain open.
+
 			if ( $t_bugfix_status > 0 && $t_bug->status != $t_bugfix_status ) {
 				$t_bug->status = $t_bugfix_status;
 				$t_update = true;
@@ -367,10 +386,11 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 				$t_bug->fixed_in_version = $t_version;
 				$t_update = true;
 			}
-		}
 
-		if ( $t_handler && !is_null( $t_user_id ) ) {
-			$t_bug->handler_id = $t_user_id;
+			if( $t_bug->handler_id != $t_handler_id ) {
+				$t_bug->handler_id = $t_handler_id;
+				$t_update = true;
+			}
 		}
 
 		$t_private = plugin_config_get( 'bugfix_message_view_status' ) == VS_PRIVATE;
