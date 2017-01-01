@@ -378,7 +378,12 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 				$t_update = true;
 			}
 
-			if ( $t_bug->resolution < $t_fixed_threshold || $t_bug->resolution >= $t_notfixed_threshold ) {
+			if( $t_bug->resolution < $t_fixed_threshold || $t_bug->resolution >= $t_notfixed_threshold
+				# With default MantisBT settings, 'reopened' is above 'fixed'
+				# but below 'not fixed' thresholds, so we need a special case
+				# to make sure the resolution is set to 'fixed'.
+				|| $t_bug->resolution == REOPENED
+			) {
 				$t_bug->resolution = $t_resolution;
 				$t_update = true;
 			}
