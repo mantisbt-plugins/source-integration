@@ -347,7 +347,14 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 
 		# generate a note message
 		if ( $t_enable_message ) {
-			$t_message = sprintf( $t_message_template, $t_changeset->branch, $t_changeset->revision, $t_changeset->timestamp, $t_changeset->message, $t_repos[ $t_changeset->repo_id ]->name, $t_changeset->id );
+			$t_message = sprintf( $t_message_template,
+				$t_changeset->branch,
+				$t_changeset->revision,
+				$t_changeset->timestamp,
+				$t_changeset->message,
+				$t_repos[ $t_changeset->repo_id ]->name,
+				$t_changeset->id
+			);
 		} else {
 			$t_message = '';
 		}
@@ -402,6 +409,8 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 
 		if ( $t_update ) {
 			if ( $t_message ) {
+				# Add a note without sending mail, since the notification will
+				# be sent by the subsequent bug update.
 				bugnote_add( $t_bug_id, $t_message, '0:00', $t_private, 0, '', null, false );
 			}
 			$t_bug->update();
