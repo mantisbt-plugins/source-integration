@@ -3,14 +3,14 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
-require_once( config_get_global( 'class_path' ) . 'MantisPlugin.class.php' );
+require_once( 'MantisSourceBase.class.php' );
 
 /**
  * Creates an extensible API for integrating source control applications
  * with the Mantis bug tracker software.
  */
-class SourcePlugin extends MantisPlugin {
-	static $framework_version = '1.3.1';
+class SourcePlugin extends MantisSourceBase {
+
 	static $cache = array();
 
 	/**
@@ -28,7 +28,7 @@ class SourcePlugin extends MantisPlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = self::$framework_version;
+		$this->version = self::FRAMEWORK_VERSION;
 		$this->requires = array(
 			'MantisCore' => '1.3.0',
 		);
