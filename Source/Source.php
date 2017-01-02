@@ -32,9 +32,6 @@ class SourcePlugin extends MantisSourceBase {
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
 		);
-		$this->uses = array(
-			'jQuery' => '1.3',
-		);
 		$this->page		= 'manage_config_page';
 
 		$this->author	= 'John Reese';
