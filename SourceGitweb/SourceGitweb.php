@@ -16,7 +16,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 		$this->version = '0.18';
 		$this->requires = array(
-			'MantisCore' => '1.3.0',
+			'MantisCore' => self::MANTIS_VERSION,
 			'Source' => '0.16',
 		);
 

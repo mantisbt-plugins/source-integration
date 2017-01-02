@@ -20,4 +20,10 @@ abstract class MantisSourceBase extends MantisPlugin
 	 * The framework version is incremented when the plugin's core file change.
 	 */
 	const FRAMEWORK_VERSION = '1.3.1';
+
+	/**
+	 * Minimum required MantisBT version.
+	 * Used to define the MantisCore dependency for all child plugins
+	 */
+	const MANTIS_VERSION = '1.3.0';
 }

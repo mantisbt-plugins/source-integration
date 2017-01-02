@@ -21,7 +21,7 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 
 		$this->version = '1.0.4';
 		$this->requires = array(
-			'MantisCore' => '1.3.0',
+			'MantisCore' => self::MANTIS_VERSION,
 			'Source' => '1.3.0',
 		);
 
