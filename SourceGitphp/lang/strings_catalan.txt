@@ -1,0 +1,13 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceGitweb_ = '';
+$s_plugin_SourceGitweb_gitweb = 'Gitweb';
+$s_plugin_SourceGitweb_title = 'Integració Gitweb';
+$s_plugin_SourceGitweb_description = 'Afegeix la integració amb Gitweb al framework d\'Integració de Codi.';
+
+$s_plugin_SourceGitweb_gitweb_root = 'URL arrel de Gitweb';
+$s_plugin_SourceGitweb_gitweb_project = 'Projecte Gitweb<br/><span class="small">(incloent ".git")</span>';
+$s_plugin_SourceGitweb_master_branch = 'Branques principals<br/><span class="small">(llista separada per comes)</span>';
