@@ -14,7 +14,7 @@ class SourceGitphpPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.18';
+		$this->version = '0.10';
 		$this->requires = array(
 			'MantisCore' => '1.2.0',
 			'Source' => '0.16',
