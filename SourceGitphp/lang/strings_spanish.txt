@@ -3,11 +3,11 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
-$s_plugin_SourceGitweb_ = '';
-$s_plugin_SourceGitweb_gitweb = 'Gitweb';
-$s_plugin_SourceGitweb_title = 'Integración Gitweb';
-$s_plugin_SourceGitweb_description = 'Añade la integración con Gitweb al framework de Integración de Código.';
+$s_plugin_SourceGitphp_ = '';
+$s_plugin_SourceGitphp_gitphp = 'Gitphp';
+$s_plugin_SourceGitphp_title = 'Integración Gitphp';
+$s_plugin_SourceGitphp_description = 'Añade la integración con Gitphp al framework de Integración de Código.';
 
-$s_plugin_SourceGitweb_gitweb_root = 'URL raíz de Gitweb';
-$s_plugin_SourceGitweb_gitweb_project = 'Proyecto Gitweb<br/><span class="small">(incluyendo ".git")</span>';
-$s_plugin_SourceGitweb_master_branch = 'Ramas principales<br/><span class="small">(lista separada por comas)</span>';
+$s_plugin_SourceGitphp_gitphp_root = 'URL raíz de Gitphp';
+$s_plugin_SourceGitphp_gitphp_project = 'Proyecto Gitphp<br/><span class="small">(incluyendo ".git")</span>';
+$s_plugin_SourceGitphp_master_branch = 'Ramas principales<br/><span class="small">(lista separada por comas)</span>';

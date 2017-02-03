@@ -3,11 +3,11 @@
 # Copyright (c) 2010 John Reese
 # Licensed under the MIT license
 
-$s_plugin_SourceGitweb_ = '';
-$s_plugin_SourceGitweb_gitweb = 'Gitweb';
-$s_plugin_SourceGitweb_title = 'Gitweb интегратор';
-$s_plugin_SourceGitweb_description = 'Добавляет интеграцию Gitweb в Source Integration framework.';
+$s_plugin_SourceGitphp_ = '';
+$s_plugin_SourceGitphp_gitphp = 'Gitphp';
+$s_plugin_SourceGitphp_title = 'Gitphp интегратор';
+$s_plugin_SourceGitphp_description = 'Добавляет интеграцию Gitphp в Source Integration framework.';
 
-$s_plugin_SourceGitweb_gitweb_root = 'Корневой URL для Gitweb';
-$s_plugin_SourceGitweb_gitweb_project = 'Проект Gitweb<br/><span class="small">(включая ".git")</span>';
-$s_plugin_SourceGitweb_master_branch = 'Главные ветки<br/><span class="small">(список разделенный запятыми)</span>';
+$s_plugin_SourceGitphp_gitphp_root = 'Корневой URL для Gitphp';
+$s_plugin_SourceGitphp_gitphp_project = 'Проект Gitphp<br/><span class="small">(включая ".git")</span>';
+$s_plugin_SourceGitphp_master_branch = 'Главные ветки<br/><span class="small">(список разделенный запятыми)</span>';
