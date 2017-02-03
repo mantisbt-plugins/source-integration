@@ -1,0 +1,13 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceGitphp_ = '';
+$s_plugin_SourceGitphp_gitphp = 'Gitphp';
+$s_plugin_SourceGitphp_title = 'Integración Gitphp';
+$s_plugin_SourceGitphp_description = 'Añade la integración con Gitphp al framework de Integración de Código.';
+
+$s_plugin_SourceGitphp_gitphp_root = 'URL raíz de Gitphp';
+$s_plugin_SourceGitphp_gitphp_project = 'Proyecto Gitphp<br/><span class="small">(incluyendo ".git")</span>';
+$s_plugin_SourceGitphp_master_branch = 'Ramas principales<br/><span class="small">(lista separada por comas)</span>';

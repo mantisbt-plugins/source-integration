@@ -1,0 +1,13 @@
+<?php
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceGitphp_ = '';
+$s_plugin_SourceGitphp_gitphp = 'Gitphp';
+$s_plugin_SourceGitphp_title = 'Gitphp Integration';
+$s_plugin_SourceGitphp_description = 'Integration für Gitphp über die VCS Basisintegration.';
+
+$s_plugin_SourceGitphp_gitphp_root = 'Gitphp Basis-URL';
+$s_plugin_SourceGitphp_gitphp_project = 'Gitphp Projekt<br/><span class="small">(inkl. ".git")</span>';
+$s_plugin_SourceGitphp_master_branch = 'Hauptzweige<br/><span class="small">(kommaseparierte Liste)</span>';
