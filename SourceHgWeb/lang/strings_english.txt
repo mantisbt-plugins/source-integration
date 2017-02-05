@@ -13,7 +13,7 @@
 
 $s_plugin_SourceHgWeb_ = '';
 $s_plugin_SourceHgWeb_hgweb = 'HgWeb';
-$s_plugin_SourceHgWeb_title = 'HgWeb Integration';
+$s_plugin_SourceHgWeb_title = 'Source HgWeb Integration';
 $s_plugin_SourceHgWeb_description = 'Adds HgWeb integration to the Source Integration framework.';
 
 $s_plugin_SourceHgWeb_hgweb_root = 'HgWeb Root URL';

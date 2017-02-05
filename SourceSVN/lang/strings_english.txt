@@ -4,7 +4,7 @@
 # Licensed under the MIT license
 
 $s_plugin_SourceSVN_ = '';
-$s_plugin_SourceSVN_title = 'Subversion Integration';
+$s_plugin_SourceSVN_title = 'Source Subversion Integration';
 $s_plugin_SourceSVN_description = 'Adds Subversion integration to the Source plugin framework.';
 
 $s_plugin_SourceSVN_svn = 'SVN';

@@ -2,7 +2,7 @@
 
 $s_plugin_SourceBitBucket_ = '';
 $s_plugin_SourceBitBucket_bitbucket = 'BitBucket';
-$s_plugin_SourceBitBucket_title = 'BitBucket Integration';
+$s_plugin_SourceBitBucket_title = 'Source BitBucket Integration';
 $s_plugin_SourceBitBucket_description = 'Adds BitBucket integration to the Source Integration framework.';
 
 $s_plugin_SourceBitBucket_bit_basic_login = 'BitBucket login (for basic auth)';

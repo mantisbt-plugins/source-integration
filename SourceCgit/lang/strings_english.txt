@@ -5,7 +5,7 @@
 
 $s_plugin_SourceCgit_ = '';
 $s_plugin_SourceCgit_cgit = 'Cgit';
-$s_plugin_SourceCgit_title = 'Cgit Integration';
+$s_plugin_SourceCgit_title = 'Source Cgit Integration';
 $s_plugin_SourceCgit_description = 'Adds Cgit integration to the Source Integration framework.';
 
 $s_plugin_SourceCgit_cgit_root = 'Cgit Root URL<br/><span class="small">(including trailing /)</span>';

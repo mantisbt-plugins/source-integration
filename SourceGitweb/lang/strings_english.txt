@@ -5,7 +5,7 @@
 
 $s_plugin_SourceGitweb_ = '';
 $s_plugin_SourceGitweb_gitweb = 'Gitweb';
-$s_plugin_SourceGitweb_title = 'Gitweb Integration';
+$s_plugin_SourceGitweb_title = 'Source Gitweb Integration';
 $s_plugin_SourceGitweb_description = 'Adds Gitweb integration to the Source Integration framework.';
 
 $s_plugin_SourceGitweb_gitweb_root = 'Gitweb Root URL';
