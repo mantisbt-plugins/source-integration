@@ -3,11 +3,13 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
+require_once( 'MantisSourceBase.class.php' );
+
 /**
  * Abstract class for simplifying creation of source control plugins.
  * @author John Reese
  */
-abstract class MantisSourcePlugin extends MantisPlugin {
+abstract class MantisSourcePlugin extends MantisSourceBase {
 	public function hooks() {
 		return array(
 			'EVENT_SOURCE_INTEGRATION'		=> 'integration',
@@ -172,7 +174,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 class SourceGenericPlugin extends MantisSourcePlugin {
 	function register() {
 		$this->name = plugin_lang_get( 'title', 'Source' );
-		$this->version = SourcePlugin::$framework_version;
+		$this->version = self::FRAMEWORK_VERSION;
 	}
 
 	public $type = 'generic';

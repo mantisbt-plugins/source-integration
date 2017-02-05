@@ -4,7 +4,7 @@
 # Licensed under the MIT license
 
 $s_plugin_SourceSFSVN_ = '';
-$s_plugin_SourceSFSVN_title = 'Subversion / SourceForge Integration';
+$s_plugin_SourceSFSVN_title = 'Source Subversion / SourceForge Integration';
 $s_plugin_SourceSFSVN_description = 'Adds Subversion integration to the Source plugin framework using SourceForge.net.';
 
 $s_plugin_SourceSFSVN_svn = 'SourceForge SVN';

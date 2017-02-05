@@ -10,19 +10,23 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceGitwebPlugin extends MantisSourcePlugin {
+
+	const PLUGIN_VERSION = '1.0.0';
+	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
+
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.18';
+		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
-			'MantisCore' => '1.3.0',
-			'Source' => '0.16',
+			'MantisCore' => self::MANTIS_VERSION,
+			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
 		);
 
 		$this->author = 'John Reese';
 		$this->contact = 'john@noswap.com';
-		$this->url = 'http://noswap.com';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public $type = 'gitweb';

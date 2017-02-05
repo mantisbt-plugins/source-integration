@@ -4,7 +4,7 @@
 # Licensed under the MIT license
 
 $s_plugin_SourceViewVC_ = '';
-$s_plugin_SourceViewVC_title = 'Subversion / ViewVC Integration';
+$s_plugin_SourceViewVC_title = 'Source Subversion / ViewVC Integration';
 $s_plugin_SourceViewVC_description = 'Adds Subversion integration to the Source plugin framework using the ViewVC app.';
 
 $s_plugin_SourceViewVC_svn = 'ViewVC';

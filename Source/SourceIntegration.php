@@ -3,10 +3,15 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
-final class SourceIntegrationPlugin extends MantisPlugin {
+/**
+ * Class SourceIntegrationPlugin
+ *
+ * Child plugin handling the framework's integration with the MantisBT UI
+ */
+final class SourceIntegrationPlugin extends MantisSourceBase {
 	function register() {
 		$this->name = plugin_lang_get( 'title', 'Source' );
-		$this->version = SourcePlugin::$framework_version;
+		$this->version = self::FRAMEWORK_VERSION;
 	}
 
 	function hooks() {

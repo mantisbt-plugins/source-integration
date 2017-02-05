@@ -18,19 +18,23 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceHgWebPlugin extends MantisSourcePlugin {
+
+	const PLUGIN_VERSION = '1.0.0';
+	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
+
 	function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.15';
+		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
-			'MantisCore' => '1.3.0',
-			'Source' => '0.14',
+			'MantisCore' => self::MANTIS_VERSION,
+			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
 		);
 
 		$this->author = 'David Hicks';
 		$this->contact = '';
-		$this->url = '';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public $type = 'hgweb';
