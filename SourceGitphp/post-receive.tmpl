@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+read LINE
+
+# Handle branch names with '+' character
+LINE=`echo $LINE | sed -e 's/+/_plus_/g'`
+
+LINE=`echo $LINE | sed -e 's/ /+/g'`
+
+URL="http://localhost/mantisbt/plugin.php?page=Source/checkin"
+PROJECT="test"
+API_KEY="test"
+
+CURL=/usr/bin/curl
+
+echo "Updating Changeset to Mantis Bug Tracker"
+${CURL} -sS -d "api_key=${API_KEY}" -d "repo_name=${PROJECT}" -d "data=${LINE}" ${URL}

@@ -3,7 +3,7 @@
 [![Gitter](https://img.shields.io/gitter/room/mantisbt-plugins/source-integration.svg)](https://gitter.im/mantisbt-plugins/source-integration)
 
 Copyright (c) 2008 - 2012  John Reese - http://noswap.com  
-Copyright (c) 2012 - 2016  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+Copyright (c) 2012 - 2017  MantisBT Team - mantisbt-dev@lists.sourceforge.net
 
 Released under the [MIT license](http://opensource.org/licenses/MIT)
 
@@ -26,6 +26,8 @@ plugins:
   [cgit](http://hjemli.net/git/cgit/) web frontend installation.
 * **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).
 * **SourceGitlab**: Git repositories hosted on [GitLab](https://about.gitlab.com/).
+* **SourceGitphp**: Git repositories accessible via a
+  [Gitphp](https://gitphp.org/) web frontend installation.
 * **SourceGitweb**: Git repositories accessible via a
   [GitWeb](https://git.wiki.kernel.org/index.php/Gitweb) web frontend
   installation.
