@@ -9,9 +9,9 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'SourceSVN/SourceSVN.
 
 class SourceWebSVNPlugin extends SourceSVNPlugin {
 
-	const PLUGIN_VERSION = '0.18';
+	const PLUGIN_VERSION = '1.0.0';
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
-	const SOURCESVN_VERSION_REQUIRED = '0.16';
+	const SOURCESVN_VERSION_REQUIRED = '1.0';
 
 	public function register() {
 		$this->name = lang_get( 'plugin_SourceWebSVN_title' );

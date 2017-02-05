@@ -11,7 +11,7 @@ require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceGitwebPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '0.18';
+	const PLUGIN_VERSION = '1.0.0';
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
 
 	public function register() {

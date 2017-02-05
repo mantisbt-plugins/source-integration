@@ -9,7 +9,7 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 
 class SourceSVNPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '0.19';
+	const PLUGIN_VERSION = '1.0.0';
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
 
 	public function register() {

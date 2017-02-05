@@ -19,7 +19,7 @@ require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceHgWebPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '0.15';
+	const PLUGIN_VERSION = '1.0.0';
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
 
 	function register() {
