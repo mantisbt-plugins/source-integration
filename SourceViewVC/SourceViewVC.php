@@ -11,6 +11,7 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'SourceSVN/SourceSVN.
 class SourceViewVCPlugin extends SourceSVNPlugin {
 
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
+	const SOURCESVN_VERSION_REQUIRED = '0.16';
 
 	public function register() {
 		$this->name = lang_get( 'plugin_SourceViewVC_title' );
@@ -20,7 +21,7 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
 			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
-			'SourceSVN' => '0.16',
+			'SourceSVN' => self::SOURCESVN_VERSION_REQUIRED,
 		);
 
 		$this->author = 'John Bailey';
