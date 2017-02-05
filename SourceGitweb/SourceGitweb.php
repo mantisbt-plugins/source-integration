@@ -11,13 +11,14 @@ require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceGitwebPlugin extends MantisSourcePlugin {
 
+	const PLUGIN_VERSION = '0.18';
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
 
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.18';
+		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
 			'Source' => self::FRAMEWORK_VERSION_REQUIRED,

@@ -11,6 +11,7 @@ require_once(config_get( 'core_path' ) . 'json_api.php');
 
 class SourceBitBucketPlugin extends MantisSourcePlugin {
 
+	const PLUGIN_VERSION = '0.19';
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
 
 	protected $main_url = "https://bitbucket.org/";
@@ -23,7 +24,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		$this->name        = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version  = '0.19';
+		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
 			'Source'     => self::FRAMEWORK_VERSION_REQUIRED,

@@ -13,6 +13,7 @@ require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGitlabPlugin extends MantisSourcePlugin {
 
+	const PLUGIN_VERSION = '1.0.4';
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
 
 	const ERROR_INVALID_PRIMARY_BRANCH = 'invalid_branch';
@@ -21,7 +22,7 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '1.0.4';
+		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
 			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
