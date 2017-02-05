@@ -30,7 +30,7 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 
 		$this->author = 'Johannes Goehr';
 		$this->contact = 'johannes.goehr@mobilexag.de';
-		$this->url = 'http://www.mobilexag.de';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public function errors() {

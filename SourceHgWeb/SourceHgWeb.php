@@ -34,7 +34,7 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 
 		$this->author = 'David Hicks';
 		$this->contact = '';
-		$this->url = '';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public $type = 'hgweb';

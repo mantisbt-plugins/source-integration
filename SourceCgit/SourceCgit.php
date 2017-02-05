@@ -31,7 +31,7 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 
 		$this->author = 'Alexander';
 		$this->contact = 'iam.asm89@gmail.com';
-		$this->url = 'http://noswap.com/';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public $type = 'cgit';

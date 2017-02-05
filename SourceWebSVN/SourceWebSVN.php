@@ -26,7 +26,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 
 		$this->author = 'John Reese';
 		$this->contact = 'john@noswap.com';
-		$this->url = 'http://noswap.com';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public $type = 'websvn';

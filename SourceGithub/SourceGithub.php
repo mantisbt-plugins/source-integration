@@ -30,7 +30,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 
 		$this->author = 'John Reese';
 		$this->contact = 'john@noswap.com';
-		$this->url = 'http://noswap.com';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public function errors() {

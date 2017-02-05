@@ -32,7 +32,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 
 		$this->author  = 'Sergey Marchenko';
 		$this->contact = 'sergey@mzsl.ru';
-		$this->url     = 'http://zetabyte.ru';
+		$this->url     = 'https://github.com/mantisbt-plugins/source-integration/';
 
 	}
 
