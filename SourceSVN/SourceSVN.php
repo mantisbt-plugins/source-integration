@@ -8,6 +8,9 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 }
 
 class SourceSVNPlugin extends MantisSourcePlugin {
+
+	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
+
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -15,7 +18,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		$this->version = '0.19';
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
-			'Source' => '0.16',
+			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
 		);
 
 		$this->author = 'John Reese';

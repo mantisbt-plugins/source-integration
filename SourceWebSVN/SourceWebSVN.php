@@ -8,6 +8,9 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'SourceSVN/SourceSVN.
 }
 
 class SourceWebSVNPlugin extends SourceSVNPlugin {
+
+	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
+
 	public function register() {
 		$this->name = lang_get( 'plugin_SourceWebSVN_title' );
 		$this->description = lang_get( 'plugin_SourceWebSVN_description' );
@@ -15,7 +18,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		$this->version = '0.18';
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
-			'Source' => '0.16',
+			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
 			'SourceSVN' => '0.16',
 		);
 

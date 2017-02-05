@@ -10,6 +10,9 @@ if( false === include_once(config_get( 'plugin_path' ) . 'Source/MantisSourcePlu
 require_once(config_get( 'core_path' ) . 'json_api.php');
 
 class SourceBitBucketPlugin extends MantisSourcePlugin {
+
+	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
+
 	protected $main_url = "https://bitbucket.org/";
 	protected $api_url_10 = 'https://bitbucket.org/api/1.0/';
 	protected $api_url_20 = 'https://bitbucket.org/api/2.0/';
@@ -23,7 +26,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		$this->version  = '0.19';
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
-			'Source'     => '0.18',
+			'Source'     => self::FRAMEWORK_VERSION_REQUIRED,
 		);
 
 		$this->author  = 'Sergey Marchenko';

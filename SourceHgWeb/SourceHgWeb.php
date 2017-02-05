@@ -18,6 +18,9 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceHgWebPlugin extends MantisSourcePlugin {
+
+	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
+
 	function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -25,7 +28,7 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		$this->version = '0.15';
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
-			'Source' => '0.14',
+			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
 		);
 
 		$this->author = 'David Hicks';
