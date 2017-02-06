@@ -927,7 +927,7 @@ class SourceChangeset {
 				db_param() . ', ' . db_param() . ' )';
 			db_query( $t_query, array(
 				$this->repo_id, $this->revision, $this->parent, $this->branch,
-				$this->user_id, $this->timestamp, $this->author, $this->message, $this->info,
+				$this->user_id, $this->timestamp, $this->author, db_mysql_fix_utf8($this->message), $this->info,
 				$this->ported, $this->author_email, $this->committer, $this->committer_email,
 				$this->committer_id ) );
 
