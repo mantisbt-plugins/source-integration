@@ -9,10 +9,10 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 
 require_once( config_get( 'core_path' ) . 'url_api.php' );
 
-class SourceGitwebPlugin extends MantisSourcePlugin {
+class SourceGitphpPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '2.0.0';
-	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
+	const PLUGIN_VERSION = '1.0.0';
+	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
 
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
@@ -29,20 +29,10 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
-	public $type = 'gitweb';
-
-	public function url_get_auth($url, $user, $pass) {
-		if (strlen($user) > 0 && strlen($pass) > 0) {
-			$urlParts = preg_split("/:\\/\\//", $url);
-			$urlWithCredentials = $urlParts[0] . "://" . $user . ":" . $pass . "@" .$urlParts[1];
-			return file_get_contents($urlWithCredentials);
-		} else {
-			return url_get($url);
-		}
-	}
+	public $type = 'gitphp';
 
 	public function show_type() {
-		return plugin_lang_get( 'gitweb' );
+		return plugin_lang_get( 'gitphp' );
 	}
 
 	public function show_changeset( $p_repo, $p_changeset ) {
@@ -57,8 +47,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	}
 
 	private function uri_base( $p_repo ) {
-		$t_uri_base = $p_repo->info['gitweb_root'] . '?p=' . $p_repo->info['gitweb_project'] . ';';
-
+		$t_uri_base = $p_repo->info['gitphp_root'] . '?p=' . $p_repo->info['gitphp_project'] . '&';
 		return $t_uri_base;
 	}
 
@@ -67,41 +56,30 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
-		return $this->uri_base( $p_repo ) . 'a=commitdiff;h=' . $p_changeset->revision;
+		return $this->uri_base( $p_repo ) . 'a=commitdiff&h=' . $p_changeset->revision;
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
-		return $this->uri_base( $p_repo ) . 'a=blob;f=' . $p_file->filename .
-			';h=' . $p_file->revision . ';hb=' . $p_changeset->revision;
+		return $this->uri_base( $p_repo ) . 'a=blob&f=' . $p_file->filename .
+			'&h=' . $p_file->revision . '&hb=' . $p_changeset->revision;
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
-		return $this->uri_base( $p_repo ) . 'a=blobdiff;f=' . $p_file->filename .
-			';h=' . $p_file->revision . ';hb=' . $p_changeset->revision . ';hpb=' . $p_changeset->parent;
+		return $this->uri_base( $p_repo ) . 'a=blobdiff&f=' . $p_file->filename .	
+			'&h=' . $p_file->revision . '&hb=' . $p_changeset->revision . '&hp=' . $p_changeset->parent; 
 	}
 
 	public function update_repo_form( $p_repo ) {
-		$t_gitweb_root = null;
-		$t_gitweb_project = null;
-		$t_gitweb_user = null;
-		$t_gitweb_pass = null;
+		$t_gitphp_root = null;
+		$t_gitphp_project = null;
 
-		if ( isset( $p_repo->info['gitweb_root'] ) ) {
-			$t_gitweb_root = $p_repo->info['gitweb_root'];
+		if ( isset( $p_repo->info['gitphp_root'] ) ) {
+			$t_gitphp_root = $p_repo->info['gitphp_root'];
 		}
 
-		if ( isset( $p_repo->info['gitweb_project'] ) ) {
-			$t_gitweb_project = $p_repo->info['gitweb_project'];
+		if ( isset( $p_repo->info['gitphp_project'] ) ) {
+			$t_gitphp_project = $p_repo->info['gitphp_project'];
 		}
-
-		if ( isset( $p_repo->info['gitweb_user'] ) ) {
-			$t_gitweb_user = $p_repo->info['gitweb_user'];
-		}
-
-		if ( isset( $p_repo->info['gitweb_pass'] ) ) {
-			$t_gitweb_pass = $p_repo->info['gitweb_pass'];
-		}
-
 
 		if ( isset( $p_repo->info['master_branch'] ) ) {
 			$t_master_branch = $p_repo->info['master_branch'];
@@ -109,50 +87,40 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_master_branch = 'master';
 		}
 ?>
-<tr>
-	<td class="category"><?php echo plugin_lang_get( 'gitweb_root' ) ?></td>
-	<td>
-		<input type="text" name="gitweb_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_root ) ?>"/>
-	</td>
-</tr>
-<tr>
-	<td class="category"><?php echo plugin_lang_get( 'gitweb_project' ) ?></td>
-	<td>
-		<input type="text" name="gitweb_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_project ) ?>"/>
-	</td>
-</tr>
-<tr>
-	<td class="category"><?php echo plugin_lang_get( 'gitweb_user' ) ?></td>
-	<td>
-		<input type="text" name="gitweb_user" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_user ) ?>"/>
-	</td>
-</tr>
-<tr>
-	<td class="category"><?php echo plugin_lang_get( 'gitweb_pass' ) ?></td>
-	<td>
-		<input type="text" name="gitweb_pass" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_pass ) ?>"/>
-	</td>
-</tr>
-<tr>
-	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-	<td>
-		<input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
-	</td>
-</tr>
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'gitphp_root' ) ?></span></label>
+	<span class="input">
+		<input name="gitphp_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitphp_root ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'gitphp_project' ) ?></span></label>
+	<span class="input">
+		<input name="gitphp_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitphp_project ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'master_branch' ) ?></span></label>
+	<span class="input">
+		<input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
 <?php
 	}
 
 	public function update_repo( $p_repo ) {
-		$f_gitweb_root = gpc_get_string( 'gitweb_root' );
-		$f_gitweb_project = gpc_get_string( 'gitweb_project' );
-		$f_gitweb_user = gpc_get_string( 'gitweb_user' );
-		$f_gitweb_pass = gpc_get_string( 'gitweb_pass' );
+		$f_gitphp_root = gpc_get_string( 'gitphp_root' );
+		$f_gitphp_project = gpc_get_string( 'gitphp_project' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		$p_repo->info['gitweb_root'] = $f_gitweb_root;
-		$p_repo->info['gitweb_project'] = $f_gitweb_project;
-		$p_repo->info['gitweb_user'] = $f_gitweb_user;
-		$p_repo->info['gitweb_pass'] = $f_gitweb_pass;
+		$p_repo->info['gitphp_root'] = $f_gitphp_root;
+		$p_repo->info['gitphp_project'] = $f_gitphp_project;
 		$p_repo->info['master_branch'] = $f_master_branch;
 
 		return $p_repo;
@@ -186,7 +154,6 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 	public function import_full( $p_repo ) {
 		echo '<pre>';
-
 		$t_branch = $p_repo->info['master_branch'];
 		if ( is_blank( $t_branch ) ) {
 			$t_branch = 'master';
@@ -199,14 +166,14 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		else
 		{
 			$t_heads_url = $this->uri_base( $p_repo ) . 'a=heads';
-			$t_branches_input = $this->url_get_auth( $t_heads_url, $p_repo->info['gitweb_user'], $p_repo->info['gitweb_pass'] );
+			$t_branches_input = url_get( $t_heads_url );
 
 			$t_branches_input = str_replace( array("\r", "\n", '&lt;', '&gt;', '&nbsp;'), array('', '', '<', '>', ' '), $t_branches_input );
 
 			$t_branches_input_p1 = strpos( $t_branches_input, '<table class="heads">' );
 			$t_branches_input_p2 = strpos( $t_branches_input, '<div class="page_footer">' );
-			$t_gitweb_heads = substr( $t_branches_input, $t_branches_input_p1, $t_branches_input_p2 - $t_branches_input_p1 );
-			preg_match_all( '/<a class="list name".*>(.*)<\/a>/iU', $t_gitweb_heads, $t_matches, PREG_SET_ORDER );
+			$t_gitphp_heads = substr( $t_branches_input, $t_branches_input_p1, $t_branches_input_p2 - $t_branches_input_p1 );
+			preg_match_all( '/<a class="list name".*>(.*)<\/a>/iU', $t_gitphp_heads, $t_matches, PREG_SET_ORDER );
 
 			$t_branches = array();
 			foreach ($t_matches as $match)
@@ -227,7 +194,7 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
 				'ORDER BY timestamp ASC';
-			$t_result = db_query( $t_query, array( $p_repo->id, $t_branch ), 1 );
+			$t_result = db_query_bound( $t_query, array( $p_repo->id, $t_branch ), 1 );
 
 			$t_commits = array( $t_branch );
 
@@ -267,12 +234,12 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		while( count( $s_parents ) > 0 && $s_counter < 200 ) {
 			$t_commit_id = array_shift( $s_parents );
 
-			echo "Retrieving $t_commit_id ... ";
+			echo "Retrieving $t_commit_id ...\n ";
 
 			# Handle branch names with '+' character
 			$t_fixed_id = str_replace('+', '%2B', $t_commit_id);
-			$t_commit_url = $this->uri_base( $p_repo ) . 'a=commit;h=' . $t_fixed_id;
-			$t_input = $this->url_get_auth( $t_commit_url, $p_repo->info['gitweb_user'], $p_repo->info['gitweb_pass'] );
+			$t_commit_url = $this->uri_base( $p_repo ) . 'a=commit&h=' . $t_fixed_id;
+			$t_input = url_get( $t_commit_url );
 
 			if ( !$t_input ) {
 				echo "failed.\n";
@@ -296,51 +263,64 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 	private function commit_changeset( $p_repo, $p_input, $p_branch='' ) {
 
 		$t_input = str_replace( array("\r", "\n", '&lt;', '&gt;', '&nbsp;'), array('', '', '<', '>', ' '), $p_input );
-
+		
 		# Extract sections of commit data and changed files
-		$t_input_p1 = strpos( $t_input, '<div class="title_text">' );
+		$t_input_p1 = strpos( $t_input, '<div class="title">' );
 		$t_input_p2 = strpos( $t_input, '<div class="list_head">' );
 		if ( false === $t_input_p1 || false === $t_input_p2 ) {
 			echo "commit data failure.\n";
 			var_dump( strlen( $t_input ), $t_input_p1, $t_input_p2 );
 			die();
 		}
-		$t_gitweb_data = substr( $t_input, $t_input_p1, $t_input_p2 - $t_input_p1 );
+		$t_gitphp_data = substr( $t_input, $t_input_p1, $t_input_p2 - $t_input_p1 );
 
 		$t_input_p1 = strpos( $t_input, '<table class="diff_tree">' );
 
-		if ( false === $t_input_p1) {
-			$t_input_p1 = strpos( $t_input, '<table class="combined diff_tree">' );
+		if ( false === $t_input_p1 ) {
+			$t_input_p1 = strpos( $t_input, '<tr class="light">' );
+			if ( false === $t_input_p1 ) {
+				$t_input_p1 = strpos( $t_input, '<tr class="dark">' );
+			} 
 		}
 
 		$t_input_p2 = strpos( $t_input, '<div class="page_footer">' );
+		
 		if ( false === $t_input_p1 || false === $t_input_p2 ) {
 			echo 'file data failure.';
 			var_dump( strlen( $t_input ), $t_input_p1, $t_input_p2 );
+			print_r($t_input);
 			die();
 		}
-		$t_gitweb_files = substr( $t_input, $t_input_p1, $t_input_p2 - $t_input_p1 );
-
+		
+		$t_gitphp_files = substr( $t_input, $t_input_p1, $t_input_p2 - $t_input_p1 );
+		
+		
 		# Get commit revsion and make sure it's not a dupe
-		preg_match( '#<tr><td>commit</td><td class="sha1">([a-f0-9]*)</td></tr>#', $t_gitweb_data, $t_matches );
+		preg_match( '#<td class="monospace">([a-f0-9]*)#', $t_gitphp_data, $t_matches );
+		
 		$t_commit['revision'] = $t_matches[1];
-
-		echo "processing $t_commit[revision] ... ";
+        
+		echo "processing $t_commit[revision] ... \n";
+	
 		if ( !SourceChangeset::exists( $p_repo->id, $t_commit['revision'] ) ) {
-
+			
 			# Parse for commit data
-			preg_match( '#authored by ([^"]*).*?authored by ([^"]*).*?>([^<]*\d*:\d*:\d*[^(<]*)'
-					. '.*?committed by ([^"]*).*?committed by ([^"]*).*?page_body">(.*?)</div>#',
-				$t_gitweb_data, $t_matches );
+			# m modifier means "make . include newlines"
+			# x modifier means "ignore whitespace"
+			preg_match( '#<td>author</td>.*?<td>(.*?)<.*?<time.*?>(.*?)<.*?<td>committer</td>.*?<td>(.*?)<.*<div.class="page_body">(.*?)</div>.*#mx',
+				$t_gitphp_data, $t_matches );
+			
 			$t_commit['author'] = $t_matches[1];
-			$t_commit['author_email'] = $t_matches[2];
-			$t_commit['date'] = date( 'Y-m-d H:i:s', strtotime( $t_matches[3] ) );
-			$t_commit['committer'] = $t_matches[4];
-			$t_commit['committer_email'] = $t_matches[5];
-			$t_commit['message'] = trim( str_replace( '<br/>', PHP_EOL, $t_matches[6] ) );
+			# gitphp doesn't parse email address for some reason?
+			$t_commit['author_email'] = "n/a";
+			$t_commit['date'] = date( 'Y-m-d H:i:s', strtotime( $t_matches[2] ) );
+			$t_commit['committer'] = $t_matches[3];
+			$t_commit['committer_email'] = "n/a";
+			$t_commit['message'] = trim( preg_replace( '#<br.*?>#', PHP_EOL, $t_matches[4] ) );
 
 			$t_parents = array();
-			if ( preg_match_all( '#parent</td><td class="sha1"><[^>]*h=([0-9a-f]*)#', $t_gitweb_data, $t_matches ) ) {
+		
+			if ( preg_match_all( '#parent</td>.*?<td.class="monospace">.*?<a.*?>(.*?)<.*#mx', $t_gitphp_data, $t_matches ) ) {
 				foreach( $t_matches[1] as $t_match ) {
 					$t_parents[] = $t_commit['parent'] = $t_match;
 				}
@@ -355,13 +335,13 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 
 			# Parse for changed file data
 			$t_commit['files'] = array();
-
-			preg_match_all( '#class="list".*?h=(\w*).*?>(.*?)<.a>(?:(?:<.td><td><span class="file_status| with \d*%) (\w*))?#',
-				$t_gitweb_files, $t_matches, PREG_SET_ORDER );
-
+			
+			preg_match_all( '#class="list".*?h=(\w*).*?f=(.*?)".*?<.a>#',
+				$t_gitphp_files, $t_matches, PREG_SET_ORDER );
+		
 			foreach( $t_matches as $t_file_matches ) {
 				$t_file = array();
-				$t_file['filename'] = $t_file_matches[2];
+				$t_file['filename'] = str_replace('%2F', '/', $t_file_matches[2]);	
 				$t_file['revision'] = $t_file_matches[1];
 
 				if ( isset( $t_file_matches[3] ) ) {

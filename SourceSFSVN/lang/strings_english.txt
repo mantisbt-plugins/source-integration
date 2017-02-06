@@ -4,7 +4,7 @@
 # Licensed under the MIT license
 
 $s_plugin_SourceSFSVN_ = '';
-$s_plugin_SourceSFSVN_title = 'Subversion / SourceForge Integration';
+$s_plugin_SourceSFSVN_title = 'Source Subversion / SourceForge Integration';
 $s_plugin_SourceSFSVN_description = 'Adds Subversion integration to the Source plugin framework using SourceForge.net.';
 
 $s_plugin_SourceSFSVN_svn = 'SourceForge SVN';
@@ -17,8 +17,8 @@ $s_plugin_SourceSFSVN_winstart = 'SourceForge WinStart';
 
 $s_plugin_SourceSFSVN_svn_username = 'SourceForge SVN Username';
 $s_plugin_SourceSFSVN_svn_password = 'SourceForge SVN Password';
-$s_plugin_SourceSFSVN_standard_repo = 'SourceForge SVN Standard Repo';
-$s_plugin_SourceSFSVN_trunk_path = 'SourceForge SVN Trunk Path';
-$s_plugin_SourceSFSVN_branch_path = 'SourceForge SVN Branch Path';
-$s_plugin_SourceSFSVN_tag_path = 'SourceForge SVN Tag Path';
-$s_plugin_SourceSFSVN_ignore_paths = 'SourceForge SVN Ignore Paths';
+$s_plugin_SourceSFSVN_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceSFSVN_trunk_path = 'Trunk Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceSFSVN_branch_path = 'Branch Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceSFSVN_tag_path = 'Tag Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceSFSVN_ignore_paths = 'Ignore Other Paths<br/><span class="small">(Non-standard repository)</span>';

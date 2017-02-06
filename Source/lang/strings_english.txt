@@ -14,6 +14,7 @@ $s_plugin_Source_changesets = 'Changesets';
 $s_plugin_Source_file = 'File';
 $s_plugin_Source_files = 'Files';
 $s_plugin_Source_diff = 'Diff';
+$s_plugin_Source_pullrequest = 'Pull Request';
 
 $s_plugin_Source_name = 'Name';
 $s_plugin_Source_type = 'Type';
@@ -104,7 +105,8 @@ $s_plugin_Source_show_repo_link = 'Repositories';
 $s_plugin_Source_show_search_link = 'Search';
 $s_plugin_Source_show_repo_stats = 'Repository Statistics';
 $s_plugin_Source_enabled_features = 'Enabled Features';
-$s_plugin_Source_enable_linking = 'Changeset Linking <span class="small">(<em>&lt;type&gt;:&lt;reponame&gt;:&lt;revision&gt;:</em> where &lt;type&gt; = \'s\' for details, \'v\' for diff)</span>';
+$s_plugin_Source_enable_linking = 'Changeset Linking <span class="small">(<em>&lt;type&gt;:&lt;reponame&gt;:&lt;revision&gt;:</em>)';
+$s_plugin_Source_enable_linking_info = 'Where &lt;type&gt = \'c\' or \'s\' for Changeset details; \'d\' or \'v\' for Diff; and \'p\' for Pull Request (if supported by the VCS)';
 $s_plugin_Source_enable_mapping = 'Branch Mappings';
 $s_plugin_Source_enable_resolving = 'Resolve Fixed Issues';
 $s_plugin_Source_enable_message = 'Bug Fixed Message';

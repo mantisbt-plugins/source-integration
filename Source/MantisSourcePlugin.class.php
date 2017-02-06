@@ -3,11 +3,13 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
+require_once( 'MantisSourceBase.class.php' );
+
 /**
  * Abstract class for simplifying creation of source control plugins.
  * @author John Reese
  */
-abstract class MantisSourcePlugin extends MantisPlugin {
+abstract class MantisSourcePlugin extends MantisSourceBase {
 	public function hooks() {
 		return array(
 			'EVENT_SOURCE_INTEGRATION'		=> 'integration',
@@ -24,6 +26,16 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 	 * Override this to "true" if there are configuration options for the vcs plugin.
 	 */
 	public $configuration = false;
+
+	/**
+	 * Define the VCS's ability to handle links to Pull Requests.
+	 * If false, Pull Request links are not supported; otherwise this should be
+	 * a sprintf template used to build an URL linking to a Pull Request, by
+	 * appending it at the end of url_repo().
+	 * e.g. '/pull/%s', %s being the PR's number
+	 * @var false|string linkPullRequest
+	 */
+	public $linkPullRequest = false;
 
 	/**
 	 * Get a long, proper string representing the plugin's source control type.
@@ -162,7 +174,7 @@ abstract class MantisSourcePlugin extends MantisPlugin {
 class SourceGenericPlugin extends MantisSourcePlugin {
 	function register() {
 		$this->name = plugin_lang_get( 'title', 'Source' );
-		$this->version = SourcePlugin::$framework_version;
+		$this->version = self::FRAMEWORK_VERSION;
 	}
 
 	public $type = 'generic';

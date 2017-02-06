@@ -4,7 +4,7 @@
 # Licensed under the MIT license
 
 $s_plugin_SourceWebSVN_ = '';
-$s_plugin_SourceWebSVN_title = 'Subversion / WebSVN Integration';
+$s_plugin_SourceWebSVN_title = 'Source Subversion / WebSVN Integration';
 $s_plugin_SourceWebSVN_description = 'Adds Subversion integration to the Source plugin framework using the WebSVN app.';
 
 $s_plugin_SourceWebSVN_svn = 'WebSVN';

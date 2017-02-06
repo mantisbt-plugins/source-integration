@@ -6,7 +6,7 @@
 
 $s_plugin_SourceGitlab_ = '';
 $s_plugin_SourceGitlab_gitlab = 'GitLab';
-$s_plugin_SourceGitlab_title = 'GitLab Integration';
+$s_plugin_SourceGitlab_title = 'Source GitLab Integration';
 $s_plugin_SourceGitlab_description = 'Adds GitLab integration to the Source Integration framework.';
 
 $s_plugin_SourceGitlab_hub_root = 'GitLab Root<br /><span class="small">The full URL of your GitLab instance</span>';

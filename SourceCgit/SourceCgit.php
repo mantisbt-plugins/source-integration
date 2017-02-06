@@ -15,19 +15,23 @@ if ( !defined('testing') ) {
 }
 
 class SourceCgitPlugin extends MantisSourcePlugin {
+
+	const PLUGIN_VERSION = '2.0.0';
+	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
+
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '0.16';
+		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
-			'MantisCore' => '2.0.0',
-			'Source' => '0.16',
+			'MantisCore' => self::MANTIS_VERSION,
+			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
 		);
 
 		$this->author = 'Alexander';
 		$this->contact = 'iam.asm89@gmail.com';
-		$this->url = 'http://noswap.com/';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public $type = 'cgit';
@@ -279,7 +283,11 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 	 * @return string
 	 */
 	public function commit_message( $p_input ) {
-		preg_match( "#<div class='commit-subject'>(.*?)(<a class=|</div>)#", $p_input, $t_matches);
+		preg_match(
+			"#<div class='commit-subject'>(.*?)(<span class='decoration'>|<a class=|</div>)#",
+			$p_input,
+			$t_matches
+		);
 		$t_message = trim( str_replace( '<br/>', PHP_EOL, $t_matches[1] ) );
 
 		# Strip ref links and signoff spans from commit message

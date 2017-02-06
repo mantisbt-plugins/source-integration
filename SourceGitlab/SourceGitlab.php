@@ -13,21 +13,24 @@ require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGitlabPlugin extends MantisSourcePlugin {
 
+	const PLUGIN_VERSION = '2.0.0';
+	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
+
 	const ERROR_INVALID_PRIMARY_BRANCH = 'invalid_branch';
 
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = '1.0.4';
+		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
-			'MantisCore' => '2.0.0',
-			'Source' => '1.3.0',
+			'MantisCore' => self::MANTIS_VERSION,
+			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
 		);
 
 		$this->author = 'Johannes Goehr';
 		$this->contact = 'johannes.goehr@mobilexag.de';
-		$this->url = 'http://www.mobilexag.de';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public function errors() {
