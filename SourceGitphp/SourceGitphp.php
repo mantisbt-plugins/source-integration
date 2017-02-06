@@ -87,18 +87,30 @@ class SourceGitphpPlugin extends MantisSourcePlugin {
 			$t_master_branch = 'master';
 		}
 ?>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'gitphp_root' ) ?></td>
-<td><input name="gitphp_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitphp_root ) ?>"/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'gitphp_project' ) ?></td>
-<td><input name="gitphp_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitphp_project ) ?>"/></td>
-</tr>
-<tr <?php echo helper_alternate_class() ?>>
-<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
-<td><input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/></td>
-</tr>
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'gitphp_root' ) ?></span></label>
+	<span class="input">
+		<input name="gitphp_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitphp_root ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'gitphp_project' ) ?></span></label>
+	<span class="input">
+		<input name="gitphp_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitphp_project ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
+<div class="field-container">
+	<label><span><?php echo plugin_lang_get( 'master_branch' ) ?></span></label>
+	<span class="input">
+		<input name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+	</span>
+	<span class="label-style"></span>
+</div>
+
 <?php
 	}
 
