@@ -60,8 +60,9 @@ The Source Integration framework's version numbering follows
 change in the minimum required MantisBT version.
 
 Depending on which version of MantisBT you are using, please make sure to
-get the appropriate version of the source code. Use release tags, or the
-relevant branch in the Plugin's GitHub repository, as per the table below:
+get the appropriate version of the source code. 
+Use [release tags](https://github.com/mantisbt-plugins/source-integration/releases), 
+or the relevant branch in the Plugin's GitHub repository, as per the table below:
 
 MantisBT version | Tags | Branch | Notes
 :---:|---|---|---
