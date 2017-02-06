@@ -55,15 +55,19 @@ version **1.3.0** or higher.
 
 ### Compatibility
 
-Depending on which version of MantisBT you are using, please make sure to
-get the source code from the appropriate branch in the Plugin's GitHub
-repository, as per the table below:
+The Source Integration framework's version numbering follows
+[Semantic Versioning](http://semver.org/). Major version increments indicate a
+change in the minimum required MantisBT version.
 
-MantisBT version | Branch | Notes
-:---:|---|---
-2.0.x | [modern-ui](https://github.com/mantisbt-plugins/source-integration/archive/modern-ui.zip) | Beta
-1.3.x | [master](https://github.com/mantisbt-plugins/source-integration/archive/master.zip) | **Current release**
-1.2.x | [master-1.2.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.2.x.zip) | Legacy
+Depending on which version of MantisBT you are using, please make sure to
+get the appropriate version of the source code. Use release tags, or the
+relevant branch in the Plugin's GitHub repository, as per the table below:
+
+MantisBT version | Tags | Branch | Notes
+:---:|---|---|---
+2.0.x | v2.* | [modern-ui](https://github.com/mantisbt-plugins/source-integration/archive/modern-ui.zip) | Beta
+1.3.x | v1.* | [master](https://github.com/mantisbt-plugins/source-integration/archive/master.zip) | **Current release**
+1.2.x | v0.* | [master-1.2.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.2.x.zip) | Legacy
 
 
 ### Setup instructions
