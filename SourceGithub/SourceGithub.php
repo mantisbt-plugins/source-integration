@@ -316,7 +316,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 			$t_commits[] = $t_commit['id'];
 		}
 
-		$t_refData = explode( '/',$p_data['ref'] );
+		$t_refData = explode( '/', $p_data['ref'], 3 );
 		$t_branch = $t_refData[2];
 
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );
