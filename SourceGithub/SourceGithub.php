@@ -211,7 +211,21 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		if ( !preg_match( '/^(\*|[a-zA-Z0-9_\., -]*)$/', $f_master_branch ) ) {
+		# Git branch name validation regex, based on rules defined in man page
+		# http://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html
+		# @TODO this should probably be moved to Source so the logic can be reused in other git-based plugins
+		static $s_valid_branch_regex = '%'
+			# Must not start with '/'; cannot contain '/.', '//', '@{' or '\';
+			# cannot be a single '@'.
+			. '^(?!/|.*([/.]\.|//|@\{|\\)|@$)'
+			# One or more chars, except the following: ASCII control, space,
+			# tilde, caret, colon, question mark, asterisk, open bracket.
+			. '[^\000-\037\177 ~^:?*[]+'
+			# Must not end with '.lock', '/' or '.'
+			. '(?<!\.lock|[/.])$'
+			. '%';
+
+		if ( !preg_match( $s_valid_branch_regex, $f_master_branch ) ) {
 			plugin_error( self::ERROR_INVALID_PRIMARY_BRANCH );
 		}
 
