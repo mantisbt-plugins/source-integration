@@ -11,7 +11,7 @@ require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGithubPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '1.3.1';
+	const PLUGIN_VERSION = '1.3.2';
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
 
 	const ERROR_INVALID_PRIMARY_BRANCH = 'invalid_branch';
