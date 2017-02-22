@@ -214,7 +214,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		# Git branch name validation regex, based on rules defined in man page
 		# http://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html
 		# @TODO this should probably be moved to Source so the logic can be reused in other git-based plugins
-		static $s_valid_branch_regex = '%'
+		$s_valid_branch_regex = '%'
 			# Must not start with '/'; cannot contain '/.', '//', '@{' or '\';
 			# cannot be a single '@'.
 			. '^(?!/|.*([/.]\.|//|@\{|\\)|@$)'
