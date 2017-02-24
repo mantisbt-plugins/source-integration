@@ -10,6 +10,4 @@ $s_plugin_SourceGithub_description = 'Integration für GitHub über die VCS Basi
 
 $s_plugin_SourceGithub_hub_username = 'GitHub Benutzername';
 $s_plugin_SourceGithub_hub_reponame = 'GitHub Projektarchiv<br/><span class="small">(Klein Leerzeichen)</span>';
-$s_plugin_SourceGithub_master_branch = 'Hauptzweige<br/><span class="small">(kommaseparierte Liste)</span>';
-
-$s_plugin_SourceGithub_error_invalid_branch = 'Ungültige Zeichen in der Hauptzweige';
+$s_plugin_SourceGithub_master_branch = 'Hauptzweige<br/><span class="small">(kommaseparierte Liste oder "*" für alle)</span>';
