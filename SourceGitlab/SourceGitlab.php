@@ -4,19 +4,17 @@
 # Copyright (c) 2014 Bob Clough
 # Licensed under the MIT license
 
-if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourcePlugin.class.php' ) ) {
+if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceGitBasePlugin.class.php' ) ) {
 	return;
 }
 
 require_once( config_get( 'core_path' ) . 'url_api.php' );
 require_once( config_get( 'core_path' ) . 'json_api.php' );
 
-class SourceGitlabPlugin extends MantisSourcePlugin {
+class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '1.0.5';
-	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
-
-	const ERROR_INVALID_PRIMARY_BRANCH = 'invalid_branch';
+	const PLUGIN_VERSION = '1.1.0';
+	const FRAMEWORK_VERSION_REQUIRED = '1.5.0';
 
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
@@ -31,16 +29,6 @@ class SourceGitlabPlugin extends MantisSourcePlugin {
 		$this->author = 'Johannes Goehr';
 		$this->contact = 'johannes.goehr@mobilexag.de';
 		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
-	}
-
-	public function errors() {
-		$t_errors_list = array(
-			self::ERROR_INVALID_PRIMARY_BRANCH,
-		);
-		foreach( $t_errors_list as $t_error ) {
-			$t_errors[$t_error] = plugin_lang_get( 'error_' . $t_error );
-		}
-		return $t_errors;
 	}
 
 	public $type = 'gitlab';
@@ -193,11 +181,9 @@ public function update_repo_form( $p_repo ) {
 				}
 			}
 		}
-		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		if ( !preg_match( '/^(\*|[a-zA-Z0-9_\., -]*)$/', $f_master_branch ) ) {
-			plugin_error( self::ERROR_INVALID_PRIMARY_BRANCH );
-		}
+		$f_master_branch = gpc_get_string( 'master_branch' );
+		$this->validate_branch_list( $f_master_branch );
 
 		# Update other fields
 		$p_repo->info['hub_repoid'] = $f_hub_repoid;

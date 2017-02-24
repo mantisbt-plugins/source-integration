@@ -15,5 +15,3 @@ $s_plugin_SourceGitlab_hub_app_secret = 'GitLab API Key<br /><span class="small"
 $s_plugin_SourceGitlab_master_branch = 'Hauptzweige<br/><span class="small">(Komma-separierte Liste oder *)</span>';
 
 $s_plugin_SourceGitlab_back_repo = 'Zurück zum Repository';
-
-$s_plugin_SourceGitlab_error_invalid_branch = 'Ungültige Zeichen in der Hauptzweige';
