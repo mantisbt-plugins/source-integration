@@ -147,3 +147,4 @@ $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
 
 $s_plugin_Source_changeset_column_title = 'C';
 
+$s_plugin_Source_error_invalid_branch = 'Invalid characters in Branch name "%1$s".';

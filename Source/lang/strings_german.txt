@@ -144,3 +144,5 @@ $s_plugin_Source_import_latest_failed = 'Partieller Import des Projektarchivs fe
 $s_plugin_Source_import_full_failed = 'Vollständiger Import des Projektarchivs fehlgeschlagen.';
 
 $s_plugin_Source_changeset_column_title = 'C';
+
+$s_plugin_Source_error_invalid_branch = 'Ungültige Zeichen in der Zweige "%1$s"';
