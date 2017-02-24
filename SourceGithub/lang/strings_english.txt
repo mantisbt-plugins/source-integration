@@ -25,5 +25,3 @@ $s_plugin_SourceGithub_repo_authorization_failed = '<p style="color: red;">Sorry
 
 $s_plugin_SourceGithub_oauth_authorization = 'GitHub OAuth Authorization';
 $s_plugin_SourceGithub_back_repo = 'Back to Repository';
-
-$s_plugin_SourceGithub_error_invalid_branch = 'Invalid character in Primary Branch';

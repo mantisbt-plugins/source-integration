@@ -3,18 +3,16 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
-if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourcePlugin.class.php' ) ) {
+if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceGitBasePlugin.class.php' ) ) {
 	return;
 }
 
 require_once( config_get( 'core_path' ) . 'json_api.php' );
 
-class SourceGithubPlugin extends MantisSourcePlugin {
+class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '1.3.2';
-	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
-
-	const ERROR_INVALID_PRIMARY_BRANCH = 'invalid_branch';
+	const PLUGIN_VERSION = '1.4.0';
+	const FRAMEWORK_VERSION_REQUIRED = '1.5.0';
 
 	public $linkPullRequest = '/pull/%s';
 
@@ -31,16 +29,6 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$this->author = 'John Reese';
 		$this->contact = 'john@noswap.com';
 		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
-	}
-
-	public function errors() {
-		$t_errors_list = array(
-			self::ERROR_INVALID_PRIMARY_BRANCH,
-		);
-		foreach( $t_errors_list as $t_error ) {
-			$t_errors[$t_error] = plugin_lang_get( 'error_' . $t_error );
-		}
-		return $t_errors;
 	}
 
 	public $type = 'github';
@@ -211,23 +199,7 @@ class SourceGithubPlugin extends MantisSourcePlugin {
 		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		# Git branch name validation regex, based on rules defined in man page
-		# http://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html
-		# @TODO this should probably be moved to Source so the logic can be reused in other git-based plugins
-		$s_valid_branch_regex = '%'
-			# Must not start with '/'; cannot contain '/.', '//', '@{' or '\';
-			# cannot be a single '@'.
-			. '^(?!/|.*([/.]\.|//|@\{|\\)|@$)'
-			# One or more chars, except the following: ASCII control, space,
-			# tilde, caret, colon, question mark, asterisk, open bracket.
-			. '[^\000-\037\177 ~^:?*[]+'
-			# Must not end with '.lock', '/' or '.'
-			. '(?<!\.lock|[/.])$'
-			. '%';
-
-		if ( !preg_match( $s_valid_branch_regex, $f_master_branch ) ) {
-			plugin_error( self::ERROR_INVALID_PRIMARY_BRANCH );
-		}
+		$this->validate_branch_list( $f_master_branch );
 
 		$p_repo->info['hub_username'] = $f_hub_username;
 		$p_repo->info['hub_reponame'] = $f_hub_reponame;
