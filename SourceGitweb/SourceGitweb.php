@@ -159,6 +159,8 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 		$f_gitweb_pass = gpc_get_string( 'gitweb_pass' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
+		$this->validate_branch_list( $f_master_branch );
+
 		$p_repo->info['gitweb_root'] = $f_gitweb_root;
 		$p_repo->info['gitweb_project'] = $f_gitweb_project;
 		$p_repo->info['gitweb_user'] = $f_gitweb_user;

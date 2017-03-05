@@ -119,6 +119,8 @@ class SourceGitphpPlugin extends MantisSourceGitBasePlugin {
 		$f_gitphp_project = gpc_get_string( 'gitphp_project' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
+		$this->validate_branch_list( $f_master_branch );
+
 		$p_repo->info['gitphp_root'] = $f_gitphp_root;
 		$p_repo->info['gitphp_project'] = $f_gitphp_project;
 		$p_repo->info['master_branch'] = $f_master_branch;
