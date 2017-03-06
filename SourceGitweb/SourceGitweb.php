@@ -3,13 +3,13 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
-if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourcePlugin.class.php' ) ) {
+if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceGitBasePlugin.class.php' ) ) {
 	return;
 }
 
 require_once( config_get( 'core_path' ) . 'url_api.php' );
 
-class SourceGitwebPlugin extends MantisSourcePlugin {
+class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 
 	const PLUGIN_VERSION = '2.0.0';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
@@ -148,6 +148,8 @@ class SourceGitwebPlugin extends MantisSourcePlugin {
 		$f_gitweb_user = gpc_get_string( 'gitweb_user' );
 		$f_gitweb_pass = gpc_get_string( 'gitweb_pass' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
+
+		$this->validate_branch_list( $f_master_branch );
 
 		$p_repo->info['gitweb_root'] = $f_gitweb_root;
 		$p_repo->info['gitweb_project'] = $f_gitweb_project;

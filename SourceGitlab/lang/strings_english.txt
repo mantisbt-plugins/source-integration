@@ -16,5 +16,3 @@ $s_plugin_SourceGitlab_hub_app_secret = 'GitLab API Key<br /><span class="small"
 $s_plugin_SourceGitlab_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list or *)</span>';
 
 $s_plugin_SourceGitlab_back_repo = 'Back to Repository';
-
-$s_plugin_SourceGitlab_error_invalid_branch = 'Invalid character in Primary Branch';

@@ -7,14 +7,14 @@
 # Licensed under the MIT license
 
 if ( !defined('testing') ) {
-	if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourcePlugin.class.php' ) ) {
+	if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceGitBasePlugin.class.php' ) ) {
 		return;
 	}
 
 	require_once( config_get( 'core_path' ) . 'url_api.php' );
 }
 
-class SourceCgitPlugin extends MantisSourcePlugin {
+class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
 	const PLUGIN_VERSION = '2.0.0';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
@@ -121,6 +121,8 @@ class SourceCgitPlugin extends MantisSourcePlugin {
 		$f_cgit_root = gpc_get_string( 'cgit_root' );
 		$f_cgit_project = gpc_get_string( 'cgit_project' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
+
+		$this->validate_branch_list( $f_master_branch );
 
 		$p_repo->info['cgit_root'] = $f_cgit_root;
 		$p_repo->info['cgit_project'] = $f_cgit_project;

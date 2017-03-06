@@ -8,11 +8,13 @@
       integration with the MantisBT UI 
     - **MantisSourcePlugin** - Abstract base class for VCS-specific plugins
         - **SourceGenericPlugin**
-        - **SourceBitBucketPlugin**
-        - **SourceCgitPlugin**
-        - **SourceGithubPlugin**
-        - **SourceGitlabPlugin**
-        - **SourceGitwebPlugin**
+        - **MantisSourceGitBasePlugin** - Abstract class for git-based plugins
+            - **SourceBitBucketPlugin**
+            - **SourceCgitPlugin**
+            - **SourceGithubPlugin**
+            - **SourceGitlabPlugin**
+            - **SourceGitphpPlugin**
+            - **SourceGitwebPlugin**
         - **SourceHgWebPlugin**
         - **SourceSVNPlugin** Subversion and derivatives
             - **SourceSFSVNPlugin**

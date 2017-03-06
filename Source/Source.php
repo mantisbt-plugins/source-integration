@@ -13,6 +13,8 @@ class SourcePlugin extends MantisSourceBase {
 
 	static $cache = array();
 
+	const PLUGIN_VERSION = self::FRAMEWORK_VERSION;
+
 	/**
 	 * Changeset link matching pattern.
 	 * format: '<type>:<reponame>:<revision>:', where
@@ -28,7 +30,7 @@ class SourcePlugin extends MantisSourceBase {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
 
-		$this->version = self::FRAMEWORK_VERSION;
+		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
 			'MantisCore' => self::MANTIS_VERSION,
 		);
