@@ -19,7 +19,7 @@ abstract class MantisSourceBase extends MantisPlugin
 	 * a change in the minimum required MantisBT version: 0=1.2; 1=1.3, 2=2.x.
 	 * The framework version is incremented when the plugin's core file change.
 	 */
-	const FRAMEWORK_VERSION = '1.4.1';
+	const FRAMEWORK_VERSION = '1.5.0';
 
 	/**
 	 * Minimum required MantisBT version.
