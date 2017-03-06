@@ -18,17 +18,14 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	 * Git branch name validation regex.
 	 * Based on rules defined in man page
 	 * http://www.kernel.org/pub/software/scm/git/docs/git-check-ref-format.html
+	 * - Must not start with '/'; cannot contain '/.', '//', '@{' or '\';
+	 *   cannot be a single '@': `^(?!/|.*([/.]\.|//|@\{|\\\\)|@$)`
+	 * - One or more chars, except the following: ASCII control, space,
+	 *   tilde, caret, colon, question mark, asterisk, open bracket:
+	 *   `[^\000-\037\177 ~^:?*[]+`
+	 * - Must not end with '.lock', '/' or '.': `(?<!\.lock|[/.])$`
 	 */
-	private $valid_branch_regex = '%'
-		# Must not start with '/'; cannot contain '/.', '//', '@{' or '\';
-		# cannot be a single '@'.
-		. '^(?!/|.*([/.]\.|//|@\{|\\\\)|@$)'
-		# One or more chars, except the following: ASCII control, space,
-		# tilde, caret, colon, question mark, asterisk, open bracket.
-		. '[^\000-\037\177 ~^:?*[]+'
-		# Must not end with '.lock', '/' or '.'
-		. '(?<!\.lock|[/.])$'
-		. '%';
+	private $valid_branch_regex = '%^(?!/|.*([/.]\.|//|@\{|\\\\)|@$)[^\000-\037\177 ~^:?*[]+(?<!\.lock|[/.])$%';
 
 	/**
 	 * Error constants
