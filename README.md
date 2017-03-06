@@ -49,7 +49,7 @@ integration framework and API.
 ## Requirements
 
 The Source Integration framework requires [MantisBT](http://www.mantisbt.org/)
-version **1.3.0** or higher.
+version **2.0.0** or higher.
 
 ## Installation
 
@@ -66,8 +66,8 @@ or the relevant branch in the Plugin's GitHub repository, as per the table below
 
 MantisBT version | Tags | Branch | Notes
 :---:|---|---|---
-2.0.x | v2.* | [modern-ui](https://github.com/mantisbt-plugins/source-integration/archive/modern-ui.zip) | Beta
-1.3.x | v1.* | [master](https://github.com/mantisbt-plugins/source-integration/archive/master.zip) | **Current release**
+2.x   | v2.* | [master](https://github.com/mantisbt-plugins/source-integration/archive/master.zip) | **Current release**
+1.3.x | v1.* | [master-1.3.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.3.x.zip) | Legacy
 1.2.x | v0.* | [master-1.2.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.2.x.zip) | Legacy
 
 
