@@ -118,10 +118,11 @@ function plugin_get_version( $p_basename ) {
  * @return void
  */
 function bump_version_and_commit( $p_version, &$p_framework_version ) {
-    global $g_plugins;
+	global $g_plugins;
 	$t_filename = 'Source/MantisSourceBase.class.php';
 
 	// Check if framework version needs to be updated
+	$t_new_version = $p_framework_version;
 	if( $p_version ) {
 		echo "New version '$p_version' specified; ";
 		if( $p_version == $p_framework_version ) {
@@ -129,6 +130,7 @@ function bump_version_and_commit( $p_version, &$p_framework_version ) {
 			$p_version = false;
 		} else {
 			echo "bump from";
+			$t_new_version = $p_version;
 		}
 	} else {
 		echo "Unspecified version bump; framework at";
@@ -144,7 +146,7 @@ function bump_version_and_commit( $p_version, &$p_framework_version ) {
 	}
 
 	// Generate commit message
-	$t_message = "Bump version to $p_version\n\n";
+	$t_message = "Bump version to $t_new_version\n\n";
 	$t_message .= "VCS plugins changes:\n";
 	foreach( get_changed_plugins() as $t_plugin ) {
 		$t_message .= "- $t_plugin " . $g_plugins[$t_plugin] . "\n";
