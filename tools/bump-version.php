@@ -146,10 +146,13 @@ function bump_version_and_commit( $p_version, &$p_framework_version ) {
 	}
 
 	// Generate commit message
-	$t_message = "Bump version to $t_new_version\n\n";
-	$t_message .= "VCS plugins changes:\n";
-	foreach( get_changed_plugins() as $t_plugin ) {
-		$t_message .= "- $t_plugin " . $g_plugins[$t_plugin] . "\n";
+	$t_message = "Bump version to $t_new_version";
+	$t_changed_plugins = get_changed_plugins();
+	if( $t_changed_plugins ) {
+		$t_message .= "\n\nVCS plugins changes:\n";
+		foreach( $t_changed_plugins as $t_plugin ) {
+			$t_message .= "- $t_plugin " . $g_plugins[$t_plugin] . "\n";
+		}
 	}
 
 	// Commit
