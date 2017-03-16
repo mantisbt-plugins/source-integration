@@ -282,21 +282,22 @@ function Source_Process_FilterOption( $key, $option ) {
 function Source_Generate_Filter() {
 	# Get form inputs
 	$f_repo_type = Source_FilterOption_Permalink( 'repo_type', true );
-	$f_repo_id = Source_FilterOption_Permalink( 'repo_id', true );
+	$f_repo_id = Source_FilterOption_Permalink( 'repo_id', true, 'int' );
 	$f_branch = Source_FilterOption_Permalink( 'branch', true );
 	$f_file_action = Source_FilterOption_Permalink( 'file_action', true );
 	$f_ported = Source_FilterOption_Permalink( 'ported', true );
 
 	$f_revision = Source_FilterOption_Permalink( 'revision' );
 	$f_author = Source_FilterOption_Permalink( 'author' );
-	$f_user_id = Source_FilterOption_Permalink( 'user_id' );
-	$f_bug_id = Source_FilterOption_Permalink( 'bug_id' );
+	$f_user_id = Source_FilterOption_Permalink( 'user_id', false, 'int' );
+	$f_bug_id = Source_FilterOption_Permalink( 'bug_id', false, 'int' );
+
 
 	$f_filename = Source_FilterOption_Permalink( 'filename' );
 	$f_message = Source_FilterOption_Permalink( 'message' );
 
-	$f_date_start = Source_FilterOption_Permalink( 'date_start' );
-	$f_date_end = Source_FilterOption_Permalink( 'date_end' );
+	$f_date_start = Source_FilterOption_Permalink( 'date_start', false, 'date' );
+	$f_date_end = Source_FilterOption_Permalink( 'date_end', false, 'date' );
 
 	# Get permalink
 	$t_permalink = Source_FilterOption_Permalink();
@@ -361,7 +362,7 @@ function Source_Date_Validate( $p_string, $p_end_of_day=false ) {
 	}
 }
 
-function Source_FilterOption_Permalink( $p_string=null, $p_array=false ) {
+function Source_FilterOption_Permalink( $p_string=null, $p_array=false, $p_type='string' ) {
 	static $s_permalink = '';
 
 	if ( is_null( $p_string ) ) {
@@ -371,7 +372,11 @@ function Source_FilterOption_Permalink( $p_string=null, $p_array=false ) {
 	}
 
 	if ( $p_array ) {
-		$t_input = gpc_get_string_array( $p_string, array() );
+		if( $p_type == 'int') {
+			$t_input = gpc_get_int_array( $p_string, array() );
+		} else {
+			$t_input = gpc_get_string_array( $p_string, array() );
+		}
 		$t_input_clean = array();
 
 		if ( is_array( $t_input ) && count( $t_input ) > 0 ) {
@@ -384,10 +389,18 @@ function Source_FilterOption_Permalink( $p_string=null, $p_array=false ) {
 		}
 
 	} else {
-		$t_input_clean = gpc_get_string( $p_string, null );
-
-		if ( $p_string == 'date_start' || $p_string == 'date_end' ) {
-			$t_input_clean = Source_Date_Validate( $p_string, $p_string == 'date_end' );
+		switch( $p_type ) {
+			case 'int':
+				$t_input_clean = gpc_get_int( $p_string, 0 );
+				if( $t_input_clean == 0) {
+					$t_input_clean = null;
+				}
+				break;
+			case 'date':
+				$t_input_clean = Source_Date_Validate( $p_string, $p_string == 'date_end' );
+				break;
+			default:
+				$t_input_clean = gpc_get_string( $p_string, null );
 		}
 
 		if ( !is_blank( $t_input_clean ) ) {
