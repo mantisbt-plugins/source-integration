@@ -37,10 +37,10 @@ layout_page_begin();
 				<div class="table-responsive">
 
 					<div class="widget-toolbox padding-8 clearfix">
-						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'search' ) . $t_permalink ?>">
+						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'search' ) . string_attribute( $t_permalink ) ?>">
 							<?php echo plugin_lang_get( 'permalink' ) ?>
 						</a>
-						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'search_page' ) . $t_permalink ?>">
+						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'search_page' ) . string_attribute( $t_permalink ) ?>">
 							<?php echo plugin_lang_get( 'modify_search' ) ?>
 						</a>
 						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'search_page' ) ?>">
