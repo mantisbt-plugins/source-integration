@@ -24,7 +24,7 @@ class SourcePlugin extends MantisSourceBase {
 	 * <rev>  = changeset revision ID (e.g. SVN rev number, GIT SHA, etc.)
 	 * The match is not case-sensitive.
 	 */
-	const CHANGESET_LINKING_REGEX = '/(?:([cdsvp]?):([^:\s][^:\n\t]*):([^:\s]+):)/i';
+	const CHANGESET_LINKING_REGEX = '/(?:(?<=^|\s)([cdsvp]?):([^:\s][^:\n\t]*):([^:\s]+):)/i';
 
 	function register() {
 		$this->name = plugin_lang_get( 'title' );
