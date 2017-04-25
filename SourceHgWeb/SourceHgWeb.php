@@ -160,7 +160,7 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 			$t_branch = 'default';
 		}
 
-		$t_branches = map( 'trim', explode( ',', $t_branch ) );
+		$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
 		$t_changesets = array();
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
