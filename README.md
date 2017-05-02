@@ -51,6 +51,11 @@ integration framework and API.
 The Source Integration framework requires [MantisBT](http://www.mantisbt.org/)
 version **2.0.0** or higher.
 
+Additionally, the _SourceBitBucket_ and _SourceGithub_ plugins
+require the [PHP Curl extension](http://php.net/book.curl), or the ability to
+execute system calls ([shell_exec](http://php.net/function.shell-exec)).
+
+
 ## Installation
 
 ### Compatibility
