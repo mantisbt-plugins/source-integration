@@ -8,6 +8,7 @@ access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 $f_repo_id = gpc_get_int( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
+$t_vcs = SourceVCS::repo( $t_repo );
 $t_type = SourceType($t_repo->type);
 
 $t_mappings = $t_repo->load_mappings();
@@ -74,6 +75,7 @@ function convert_to_key_value( $p_array ) {
 	return $t_result;
 }
 
+
 layout_page_header( plugin_lang_get( 'title' ) );
 layout_page_begin();
 ?>
@@ -121,8 +123,8 @@ layout_page_begin();
 			foreach( $t_formatted_array as $t_key => $t_value ) {
 		?>
 		<tr>
-			<td class="category"><?php echo $t_key ?></td>
-			<td><?php echo $t_value ?></td>
+			<td class="category"><?php echo plugin_lang_get_defaulted( $t_key, $t_key, $t_vcs->basename ) ?></td>
+			<td><?php echo is_bool( $t_value ) ? trans_bool( $t_value ) : $t_value ?></td>
 		</tr>
 		<?php } ?>
 	</table>
