@@ -9,5 +9,14 @@ $s_plugin_SourceWebSVN_title = 'Subversion / WebSVN Integration';
 $s_plugin_SourceWebSVN_description = 'Subversionintegration über die VCS Basisintegration. Nutzt WebSVN als Dateibetrachter.';
 
 $s_plugin_SourceWebSVN_websvn_url = 'WebSVN URL<br /><span class="small">(mit abschließendem Pfadtrenner)</span>';
+$s_plugin_SourceWebSVN_websvn_multiviews = 'WebSVN Multiviews-Modus<br/><span class="small" display>(WebSVN wird unter Apache im<br />&nbsp;Multiviews-Modus ausgeführt)</span>';
 $s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br /><span class="small">(Name des Projektarchivs)</span>';
 $s_plugin_SourceWebSVN_websvn_path = 'WebSVN Pfad<br /><span class="small">(Relativ zum Projektarchiv)</span>';
+
+$s_plugin_SourceWebSVN_svn_username = 'WebSVN Benutzername';
+$s_plugin_SourceWebSVN_svn_password = 'WebSVN Passwort';
+$s_plugin_SourceWebSVN_standard_repo = 'Standardprojektarchiv<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceWebSVN_trunk_path = 'Pfad zu \'Trunk\'<br/><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+$s_plugin_SourceWebSVN_branch_path = 'Pfad zu \'Branch\'<br/><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+$s_plugin_SourceWebSVN_tag_path = 'Pfad zu \'Tag\'<br/><span class="small">(Wenn kein Standardprojektarchiv)</span>';
+$s_plugin_SourceWebSVN_ignore_paths = 'Andere Pfade ignorieren<br/><span class="small">(Wenn kein Standardprojektarchiv)</span>';
