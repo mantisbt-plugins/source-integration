@@ -4,10 +4,10 @@
 # Licensed under the MIT license
 
 $s_plugin_SourceWebSVN_ = '';
+$s_plugin_SourceWebSVN_websvn = 'WebSVN';
 $s_plugin_SourceWebSVN_title = 'Subversion / WebSVN Integration';
 $s_plugin_SourceWebSVN_description = 'Subversionintegration über die VCS Basisintegration. Nutzt WebSVN als Dateibetrachter.';
 
-$s_plugin_SourceWebSVN_svn = 'WebSVN';
 $s_plugin_SourceWebSVN_websvn_url = 'WebSVN URL<br /><span class="small">(mit abschließendem Pfadtrenner)</span>';
 $s_plugin_SourceWebSVN_websvn_name = 'WebSVN Name<br /><span class="small">(Name des Projektarchivs)</span>';
 $s_plugin_SourceWebSVN_websvn_path = 'WebSVN Pfad<br /><span class="small">(Relativ zum Projektarchiv)</span>';

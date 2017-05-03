@@ -4,10 +4,10 @@
 # Licensed under the MIT license
 
 $s_plugin_SourceWebSVN_ = '';
+$s_plugin_SourceWebSVN_websvn = 'WebSVN';
 $s_plugin_SourceWebSVN_title = 'Integración Subversion / WebSVN';
 $s_plugin_SourceWebSVN_description = 'Afegeix la integració amb Subversion al framework d\'Integració de Cod fent servir WebSVN.';
 
-$s_plugin_SourceWebSVN_svn = 'WebSVN';
 $s_plugin_SourceWebSVN_websvn_url = 'URL de WebSVN<br/><span class="small">(incloent / al final)</span>';
 $s_plugin_SourceWebSVN_websvn_name = 'Nom WebSVN<br/><span class="small">(Ruta del repositori)</span>';
 $s_plugin_SourceWebSVN_websvn_path = 'Ruta WebSVN<br/><span class="small">(Des de l\'arrel del repositori)</span>';

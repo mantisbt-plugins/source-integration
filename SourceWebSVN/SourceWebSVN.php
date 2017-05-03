@@ -14,8 +14,8 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	const SOURCESVN_VERSION_REQUIRED = '2.0.0';
 
 	public function register() {
-		$this->name = lang_get( 'plugin_SourceWebSVN_title' );
-		$this->description = lang_get( 'plugin_SourceWebSVN_description' );
+		$this->name = plugin_lang_get( 'title' );
+		$this->description = plugin_lang_get( 'description' );
 
 		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
@@ -32,7 +32,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 	public $type = 'websvn';
 
 	public function show_type() {
-		return lang_get( 'plugin_SourceWebSVN_svn' );
+		return plugin_lang_get( 'websvn' );
 	}
 
 	/**
@@ -174,25 +174,28 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 
 ?>
 <tr>
-	<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_url' ) ?></td>
+	<td class="category"><?php echo plugin_lang_get( 'websvn_url' ) ?></td>
 	<td>
 		<input type="text" name="websvn_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_multiviews' ) ?></td>
+	<td class="category"><?php echo plugin_lang_get( 'websvn_multiviews' ) ?></td>
 	<td>
-		<input type="text" name="websvn_multiviews" type="checkbox" <?php check_checked( $this->is_multiviews( $p_repo ) ) ?>/>
+		<label>
+			<input name="websvn_multiviews" type="checkbox" class="ace" <?php echo ($this->is_multiviews( $p_repo ) ? 'checked="checked"' : '') ?>/>
+			<span class="lbl"></span>
+		</label>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_name' ) ?></td>
+	<td class="category"><?php echo plugin_lang_get( 'websvn_name' ) ?></td>
 	<td>
 		<input type="text" name="websvn_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo lang_get( 'plugin_SourceWebSVN_websvn_path' ) ?></td>
+	<td class="category"><?php echo plugin_lang_get( 'websvn_path' ) ?></td>
 	<td>
 		<input type="text" name="websvn_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_path ) ?>"/>
 	</td>
