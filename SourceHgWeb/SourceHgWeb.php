@@ -268,7 +268,7 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 
 			$t_changeset->author_email = empty($t_commit['author_email'])? '': $t_commit['author_email'];
 
-			preg_match_all('#diff[\s]*-r[\s]([^\s]*)[\s]*-r[\s]([^\s]*)[\s]([^\n]*)\n(Binary file[\s]([^\s]*)[\s]has changed|\-{3}[\s](/dev/null)?[^\t]*[^\n]*\n\+{3}[\s](/dev/null)?[^\t]*\t[^\n]*)#', $p_input, $t_matches, PREG_SET_ORDER);
+			preg_match_all('#diff[\s]*-r[\s]([^\s]*)[\s]*-r[\s]([^\s]*)[\s]([^\n]*)\n(Binary file[\s]([^\n]*)[\s]has changed|\-{3}[\s](/dev/null)?[^\t]*[^\n]*\n\+{3}[\s](/dev/null)?[^\t]*\t[^\n]*)#', $p_input, $t_matches, PREG_SET_ORDER);
 
 			$t_commit['files'] = array();
 
