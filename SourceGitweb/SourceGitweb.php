@@ -34,11 +34,9 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 	public function url_get_auth( $p_url, $p_user, $p_pass ) {
 		if( strlen( $p_user ) > 0 && strlen( $p_pass ) > 0 ) {
 			$t_url_parts = preg_split("/:\\/\\//", $p_url );
-			$t_url_with_credentials = $t_url_parts[0] . "://" . $p_user . ":" . $p_pass . "@" .$t_url_parts[1];
-			return file_get_contents( $t_url_with_credentials );
-		} else {
-			return url_get( $p_url );
+			$p_url = $t_url_parts[0] . "://" . $p_user . ":" . $p_pass . "@" .$t_url_parts[1];
 		}
+		return url_get( $p_url );
 	}
 
 	public function show_type() {
