@@ -35,5 +35,3 @@ if ( SourceGithubPlugin::oauth_get_access_token( $t_repo, $f_code ) === true ) {
 
 <?php
 layout_page_end();
-
-?>
