@@ -34,6 +34,6 @@ if ( SourceGithubPlugin::oauth_get_access_token( $t_repo, $f_code ) === true ) {
 </table>
 
 <?php
-layout_page_end( __FILE__ );
+layout_page_end();
 
 ?>

@@ -209,5 +209,5 @@ if ( $t_can_update ) {
 </div>
 
 <?php
-layout_page_end( __FILE__ );
+layout_page_end();
 

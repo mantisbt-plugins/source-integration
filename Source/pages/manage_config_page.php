@@ -330,5 +330,5 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 </div>
 
 <?php
-layout_page_end( __FILE__ );
+layout_page_end();
 
