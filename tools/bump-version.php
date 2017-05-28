@@ -70,7 +70,7 @@ if( $t_create_tag ) {
  * Prints command-line help
  */
 function print_help() {
-	echo basename( $argv[0] ) .  "[-v version] [-t] [-h]\n\n", <<<EOF
+	echo basename( __FILE__ ) .  " [-v version] [-t] [-h]\n\n", <<<EOF
 Helper script to increase Source Integration versions
 
   -v [version] Set version if specified, and create bump commit
