@@ -70,4 +70,4 @@ layout_page_begin();
 	</div>
 </div>
 <?php
-layout_page_end( __FILE__ );
+layout_page_end();
