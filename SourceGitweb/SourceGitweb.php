@@ -31,13 +31,13 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 
 	public $type = 'gitweb';
 
-	public function url_get_auth($url, $user, $pass) {
-		if (strlen($user) > 0 && strlen($pass) > 0) {
-			$urlParts = preg_split("/:\\/\\//", $url);
-			$urlWithCredentials = $urlParts[0] . "://" . $user . ":" . $pass . "@" .$urlParts[1];
-			return file_get_contents($urlWithCredentials);
+	public function url_get_auth( $p_url, $p_user, $p_pass ) {
+		if( strlen( $p_user ) > 0 && strlen( $p_pass ) > 0 ) {
+			$t_url_parts = preg_split("/:\\/\\//", $p_url );
+			$t_url_with_credentials = $t_url_parts[0] . "://" . $p_user . ":" . $p_pass . "@" .$t_url_parts[1];
+			return file_get_contents( $t_url_with_credentials );
 		} else {
-			return url_get($url);
+			return url_get( $p_url );
 		}
 	}
 
