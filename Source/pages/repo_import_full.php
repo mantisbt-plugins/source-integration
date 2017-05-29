@@ -70,5 +70,5 @@ if ( $t_error ) {
 
 form_security_purge( 'plugin_Source_repo_import_full' );
 
-layout_page_end( __FILE__ );
+layout_page_end();
 
