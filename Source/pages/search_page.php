@@ -78,7 +78,7 @@ layout_page_begin();
 				<tr>
 					<td class="center" ><?php Source_Username_Select( $t_filter->filters['c.user_id']->value ) ?></td>
 					<td class="center"><?php Source_Author_Select( $t_filter->filters['c.author']->value ) ?></td>
-					<td class="center"><input type="text" name="revision" size="10" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
+					<td class="center"><input type="text" name="revision" size="40" value="<?php echo string_attribute( $t_filter->filters['f.revision']->value ) ?>"/></td>
 					<td class="center"><input type="text" name="bug_id" size="10" value="<?php echo string_attribute( join( ',', $t_filter->filters['b.bug_id']->value ) ) ?>"/></td>
 				</tr>
 			</tbody>
