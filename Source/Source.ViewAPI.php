@@ -79,24 +79,36 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 	?>
 </td>
 <td>
-	<span class="bold"><?php
-		echo plugin_lang_get( 'affected_issues' );
-		?>
-	</span>
-	<br>
-	<span><?php
-		# Print list of related issues with link
+<?php
+		# Build list of related issues with link
 		$t_bugs = array_map( 'string_get_bug_view_link', $t_changeset->bugs );
-		echo $t_bugs ? implode( ', ', $t_bugs ) : lang_get( 'none' );
-		?>
-	</span>
+
+		if( $t_bugs ) {
+			echo '<span class="bold">',
+				plugin_lang_get( 'affected_issues' ),
+				'</span><br>';
+			echo '<span>', implode( ', ', $t_bugs ), '</span>';
+		} else {
+?>
+		<form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
+			<?php echo form_security_field( 'plugin_Source_attach' ) ?>
+			<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
+			<?php echo plugin_lang_get( 'attach_to_issue' ) ?><br>
+			<input type="text" class="input-sm" name="bug_ids" size="12"/>
+			<input type="submit"
+                   class="btn btn-sm btn-primary btn-white btn-round"
+                   value="<?php echo plugin_lang_get( 'attach' ) ?>"/>
+		</form>
+<?php
+		}
+?>
 </td>
 </tr>
 
 		<?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr>
 <td class="small" colspan="2"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
-<td class="center" width="12%">
+<td class="center" width="15%">
 		<?php
 		if ( $t_url = $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ) { ?>
 			<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
