@@ -36,6 +36,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 <tr>
 
 <td class="category" width="25%" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
+	<a id="<?php echo $t_changeset->revision; ?>"></a>
 	<p class="no-margin" name="changeset<?php echo $t_changeset->id ?>"><?php echo string_display(
 		( $p_show_repos ? $t_repo->name . ': ' : '' ) .
 		$t_vcs->show_changeset( $t_repo, $t_changeset )
@@ -93,11 +94,12 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		<form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
 			<?php echo form_security_field( 'plugin_Source_attach' ) ?>
 			<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
+			<input type="hidden" name="redirect" value="<?php echo $t_changeset->revision ?>"/>
 			<?php echo plugin_lang_get( 'attach_to_issue' ) ?><br>
 			<input type="text" class="input-sm" name="bug_ids" size="12"/>
 			<input type="submit"
-                   class="btn btn-sm btn-primary btn-white btn-round"
-                   value="<?php echo plugin_lang_get( 'attach' ) ?>"/>
+				   class="btn btn-sm btn-primary btn-white btn-round"
+				   value="<?php echo plugin_lang_get( 'attach' ) ?>" />
 		</form>
 <?php
 		}
