@@ -26,6 +26,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		$t_repo = $t_repos[ $t_changeset->repo_id ];
 		$t_vcs = SourceVCS::repo( $t_repo );
 
+		$t_changeset->load_bugs();
 		$t_changeset->load_files();
 
 		$t_author = Source_View_Author( $t_changeset, false );
@@ -63,7 +64,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		<?php }
 		?>
 </td>
-<td colspan="3"><?php
+<td colspan="2"><?php
 	# The commit message is manually transformed (adding href, bug and bugnote
 	# links + nl2br) instead of calling string_display_links(), which avoids
 	# unwanted html tags processing by the MantisCoreFormatting plugin.
@@ -75,7 +76,21 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 					string_insert_hrefs(
 						string_html_specialchars( $t_changeset->message )
 		) ) ) );
-?></td>
+	?>
+</td>
+<td>
+	<span class="bold"><?php
+		echo plugin_lang_get( 'affected_issues' );
+		?>
+	</span>
+	<br>
+	<span><?php
+		# Print list of related issues with link
+		$t_bugs = array_map( 'string_get_bug_view_link', $t_changeset->bugs );
+		echo $t_bugs ? implode( ', ', $t_bugs ) : lang_get( 'none' );
+		?>
+	</span>
+</td>
 </tr>
 
 		<?php foreach ( $t_changeset->files as $t_file ) { ?>
