@@ -326,40 +326,50 @@ function Source_Generate_Filter() {
 	return array( $t_filter, $t_permalink );
 }
 
+/**
+ * Validate and return a full date/time string.
+ * @param string $p_string     The timestamp to validate
+ * @param bool   $p_end_of_day If true, and the trailing bits of the time
+ *                             are zero or not defined, they will be set to
+ *                             "end of day" (i.e. 11:00 becomes 11:59:59)
+ * @return null|string Null if date is invalid
+ */
 function Source_Date_Validate( $p_string, $p_end_of_day=false ) {
 	$t_date = gpc_get_string( $p_string, null );
-	if ( !is_null( $t_date ) ) {
-		list( $t_year, $t_month, $t_day ) = Source_Date_StampArray( $t_date );
-	} else {
-		$t_year = gpc_get_int( "${p_string}_year", 0 );
-		$t_month = gpc_get_int( "${p_string}_month", 0 );
-		$t_day = gpc_get_int( "${p_string}_day", 0 );
-	}
 
-	if ( $t_month < 1 || $t_month > 12
-		|| $t_day < 1 || $t_day > 31
-		|| $t_year < 1970 ) {
+	if( $t_date === null ) {
+		return null;
+	}
+	try {
+		$t_date = new DateTime( $t_date );
+	}
+	catch( Exception $e ) {
+		return null;
+	}
+	if( $t_date->format( 'Y' ) < 1970 ) {
 		return null;
 	}
 
-	$t_default = gpc_get_string( "${p_string}_default", null );
-	if ( !is_null( $t_default ) ) {
-		$t_default = Source_Date_StampArray( $t_default );
-		if ( $t_default[0] == $t_year
-			&& $t_default[1] == $t_month
-			&& $t_default[2] == $t_day ) {
-			return null;
+	# Upper boundary timestamp processing
+	if( $p_end_of_day ) {
+		$t_time = date_parse( $t_date->format( 'H:i:s' ) );
+		$t_sec = $t_time['second'];
+		$t_min = $t_time['minute'];
+		$t_hour = $t_time['hour'];
+
+		if( $t_sec == 0 ) {
+			$t_sec = 59;
+			if( $t_min == 0 ) {
+				$t_min = 59;
+				if( $t_hour == 0 ) {
+					$t_hour = 23;
+				}
+			}
 		}
+		$t_date->setTime( $t_hour, $t_min, $t_sec );
 	}
 
-	$t_month = $t_month < 10 ? "0$t_month" : $t_month;
-	$t_day = $t_day < 10 ? "0$t_day" : $t_day;
-
-	if ( !$p_end_of_day ) {
-		return "$t_year-$t_month-$t_day 00:00:00";
-	} else {
-		return "$t_year-$t_month-$t_day 23:59:59";
-	}
+	return $t_date->format( 'Y-m-d H:i:s' );
 }
 
 function Source_FilterOption_Permalink( $p_string=null, $p_array=false, $p_type='string' ) {
@@ -581,56 +591,48 @@ function Source_Ported_Select( $p_selected=null ) {
 		'</select>';
 }
 
-function Source_Date_StampArray( $t_input ) {
-	if ( !preg_match( '/^(\d{4})\-(\d{1,2})\-(\d{1,2})/', $t_input, $t_matches ) ) {
-		return null;
+/**
+ * Print a date entry field with selector and default value set
+ * @param string $p_name     Name of the field
+ * @param string $p_default  Default date value
+ */
+function Source_Date_Select( $p_name, $p_default = null ) {
+	static $s_timestamp_min = null;
+
+	$t_format = config_get( 'normal_date_format' );
+
+	switch( $p_default ) {
+		case 'start':
+			if( $s_timestamp_min === null ) {
+				# Retrieve earliest changeset's timestamp
+				$t_query = 'SELECT MIN(timestamp) FROM ' . plugin_table( 'changeset'
+					);
+				$s_timestamp_min = db_result( db_query( $t_query ) );
+				# If there are no changesets in the table, $t_min will be null,
+				# so timestamp will be set to current time
+				# Set the day to Jan 1st and clear the time
+				$t_timestamp = new DateTime( $s_timestamp_min );
+				$t_timestamp->setDate( $t_timestamp->format( 'Y' ), 1, 1 );
+				$t_timestamp->setTime( 0, 0 );
+				$s_timestamp_min = $t_timestamp;
+			} else {
+				$t_timestamp = $s_timestamp_min;
+			}
+			break;
+		case 'now':
+			$t_timestamp = new DateTime();
+			break;
+		default:
+			$t_timestamp = new DateTime( $p_default );
 	}
 
-	return array_map( create_function( '$in', 'return (int) $in;' ), array_slice( $t_matches, 1, 3 ) );
-}
-
-function Source_Date_Select( $p_name, $p_selected=null ) {
-	static $s_min=null, $s_max=null;
-
-	if ( is_null( $s_min ) || is_null( $s_max ) ) {
-		$t_changeset_table = plugin_table( 'changeset' );
-		$t_query = "SELECT MIN( timestamp ) AS min, MAX( timestamp ) AS max FROM $t_changeset_table";
-		$t_result = db_query( $t_query );
-
-		$t_row = db_fetch_array( $t_result );
-		$t_row = array_map( 'Source_Date_StampArray', $t_row );
-
-		$s_min = $t_row['min'][0];
-		$s_max = $t_row['max'][0];
-
-		# Handle the case when there are no changesets in the table
-		if( is_null( $s_min ) ) {
-			$s_min = $s_max = idate( 'Y' );
-		}
-	}
-
-	if ( $p_selected == 'now' ) {
-		$t_selected = array( (int) date('Y'), (int) date('m'), (int) date('d') );
-		echo '<input type="hidden" name="', $p_name, '_default" value="', "$t_selected[0]-$t_selected[1]-$t_selected[2]" , '"/>';
-	} elseif ( $p_selected == 'start' ) {
-		$t_selected = array( $s_min, 1, 1 );
-		echo '<input type="hidden" name="', $p_name, '_default" value="', "$t_selected[0]-$t_selected[1]-$t_selected[2]" , '"/>';
-	} else {
-		$t_selected = Source_Date_StampArray( $p_selected );
-	}
-
-	echo '<select name="', $p_name, '_year">';
-	for( $t_year = $s_max; $t_year >= $s_min; $t_year-- ) {
-		echo '<option value="', $t_year, ( $t_year === $t_selected[0] ? '" selected="selected"' : '"' ),
-			'>', $t_year, '</option>';
-	}
-	echo '</select> ';
-
-	echo '<select name="', $p_name, '_month">';
-	print_month_option_list( $t_selected[1] );
-	echo '</select> ';
-
-	echo '<select name="', $p_name, '_day">';
-	print_day_option_list( $t_selected[2] );
-	echo '</select> ';
+?>
+	<input type="text" name="<?php echo $p_name; ?>"
+		class="datetimepicker input-sm"
+		data-picker-locale="<?php echo lang_get_current_datetime_locale() ?>"
+		data-picker-format="<?php echo config_get( 'datetime_picker_format' ) ?>"
+		size="16" value="<?php echo $t_timestamp->format( $t_format ); ?>"
+	/>
+	<i class="fa fa-calendar fa-xlg datetimepicker"></i>
+<?php
 }
