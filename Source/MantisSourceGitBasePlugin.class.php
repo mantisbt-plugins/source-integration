@@ -45,7 +45,7 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 			$t_errors[$t_error] = plugin_lang_get( 'error_' . $t_error, 'Source' );
 		}
 
-		return $t_errors;
+		return array_merge( parent::errors(), $t_errors );
 	}
 
 	/**

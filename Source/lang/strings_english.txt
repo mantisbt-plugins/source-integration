@@ -147,4 +147,12 @@ $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
 
 $s_plugin_Source_changeset_column_title = 'C';
 
+$s_plugin_Source_error_changeset_missing_id = 'Changeset id "%1$s" does not exist.';
+$s_plugin_Source_error_changeset_missing_repo = 'Changeset revision "%1$s" not found in repository "%2$s".';
+$s_plugin_Source_error_changeset_invalid_repo = 'Invalid repository for Changeset id "$1$s".';
+$s_plugin_Source_error_file_missing = 'File id "%1$s" does not exist.';
+$s_plugin_Source_error_file_invalid_changeset = 'Invalid Changeset for file id "%1$s".';
 $s_plugin_Source_error_invalid_branch = 'Invalid characters in Branch name "%1$s".';
+$s_plugin_Source_error_productmatrix_not_loaded = 'Product Matrix integration is enabled, but the plugin is not loaded.';
+$s_plugin_Source_error_repo_missing = 'Repository "%1$s" not found.';
+$s_plugin_Source_error_repo_missing_changeset = 'No repositories found for Changeset "%1$s".';

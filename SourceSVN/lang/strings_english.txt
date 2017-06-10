@@ -23,3 +23,6 @@ $s_plugin_SourceSVN_svnargs = 'SVN: Command arguments';
 $s_plugin_SourceSVN_svnssl = 'SVN: Trust All SSL Certs<br/><span class="small">(Requires Subversion 1.6 or newer)</span>';
 $s_plugin_SourceSVN_winstart = 'SVN: Use Windows `start`<br/><span class="small">(Requires a configured path to binary)</span>';
 
+$s_plugin_SourceSVN_error_path_invalid = 'Path to Subversion binary is invalid, inaccessible or not a directory.';
+$s_plugin_SourceSVN_error_run_svn = 'shell_exec() failed to execute Subversion.';
+

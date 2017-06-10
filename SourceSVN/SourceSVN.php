@@ -12,6 +12,12 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	const PLUGIN_VERSION = '2.0.0';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
+	/**
+	 * Error constants
+	 */
+	const ERROR_PATH_INVALID = 'path_invalid';
+	const ERROR_RUN_SVN = 'run_svn';
+
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -37,9 +43,16 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	}
 
 	public function errors() {
-		return array(
-			'SVNPathInvalid' => 'Path to Subversion binary invalid or inaccessible',
+		$t_errors_list = array(
+			self::ERROR_PATH_INVALID,
+			self::ERROR_RUN_SVN,
 		);
+
+		foreach( $t_errors_list as $t_error ) {
+			$t_errors[$t_error] = plugin_lang_get( 'error_' . $t_error, 'SourceSVN' );
+		}
+
+		return array_merge( parent::errors(), $t_errors );
 	}
 
 	public $type = 'svn';
@@ -213,7 +226,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 					if ( ( $t_binary = SourceSVNPlugin::svn_binary( $f_svnpath, true ) ) != 'svn' ) {
 						plugin_config_set( 'svnpath', $f_svnpath );
 					} else {
-						plugin_error( 'SVNPathInvalid', ERROR );
+						plugin_error( self::ERROR_PATH_INVALID );
 					}
 				}
 			}
@@ -308,7 +321,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		$svn = self::svn_call();
 
 		if ( is_blank( shell_exec( "$svn help" ) ) ) {
-			trigger_error( ERROR_GENERIC, ERROR );
+			plugin_error( self::ERROR_RUN_SVN );
 		}
 	}
 

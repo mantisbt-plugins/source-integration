@@ -27,7 +27,8 @@ $t_affected_rowspan = count( $t_bug_rows ) + ( $t_can_update ? 1 : 0 );
 
 $t_repos = SourceRepo::load_by_changesets( $t_changeset );
 if ( count( $t_repos ) < 1 ) {
-	trigger_error( ERROR_GENERIC, ERROR );
+	error_parameters( $f_changeset_id );
+	plugin_error( SourcePlugin::ERROR_REPO_MISSING_CHANGESET );
 }
 
 $t_repo = array_shift( $t_repos );
