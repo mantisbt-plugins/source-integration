@@ -11,7 +11,7 @@ require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '1.4.0';
+	const PLUGIN_VERSION = '1.4.1';
 	const FRAMEWORK_VERSION_REQUIRED = '1.5.0';
 
 	public $linkPullRequest = '/pull/%s';

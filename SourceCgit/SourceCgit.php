@@ -16,7 +16,7 @@ if ( !defined('testing') ) {
 
 class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '1.1.0';
+	const PLUGIN_VERSION = '1.1.1';
 	const FRAMEWORK_VERSION_REQUIRED = '1.5.0';
 
 	public function register() {
