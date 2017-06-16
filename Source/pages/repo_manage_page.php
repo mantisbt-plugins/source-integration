@@ -194,7 +194,11 @@ layout_page_begin();
 
 	foreach( $t_mappings as $t_mapping ) {
 		$t_branch = str_replace( '.', '_', $t_mapping->branch );
+		# Since it is not possible to update the branch's name (see #230),
+		# the input field is disabled, except for the 'new mapping' row
+		$t_disabled = 'disabled';
 		if( is_null( $t_mapping->branch ) ) {
+			$t_disabled = '';
 ?>
 			<tr class="spacer"></tr><tr></tr>
 <?php
@@ -204,7 +208,9 @@ layout_page_begin();
 				<td class="center">
 					<input type="text" name="<?php echo $t_branch ?>_branch" value="<?php
 						echo string_attribute( $t_mapping->branch )
-						?>" class="input-sm" />
+						?>" class="input-sm"
+						<?php echo $t_disabled; ?>
+					/>
 				</td>
 				<td class="center">
 					<select class="input-sm" name="<?php echo $t_branch ?>_type"><?php
