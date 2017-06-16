@@ -199,9 +199,9 @@ layout_page_begin();
 		$t_disabled = 'disabled';
 		if( is_null( $t_mapping->branch ) ) {
 			$t_disabled = '';
-?>
-			<tr class="spacer"></tr><tr></tr>
-<?php
+			if( count( $t_mappings ) > 1 ) {
+				echo '<tr class="spacer"></tr>';
+			}
 		}
 ?>
 			<tr>
