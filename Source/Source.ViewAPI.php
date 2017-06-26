@@ -26,6 +26,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		$t_repo = $t_repos[ $t_changeset->repo_id ];
 		$t_vcs = SourceVCS::repo( $t_repo );
 
+		$t_changeset->load_bugs();
 		$t_changeset->load_files();
 
 		$t_author = Source_View_Author( $t_changeset, false );
@@ -35,6 +36,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 <tr>
 
 <td class="category" width="25%" rowspan="<?php echo count( $t_changeset->files ) + 1 ?>">
+	<a id="<?php echo $t_changeset->revision; ?>"></a>
 	<p class="no-margin" name="changeset<?php echo $t_changeset->id ?>"><?php echo string_display(
 		( $p_show_repos ? $t_repo->name . ': ' : '' ) .
 		$t_vcs->show_changeset( $t_repo, $t_changeset )
@@ -63,7 +65,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		<?php }
 		?>
 </td>
-<td colspan="3"><?php
+<td colspan="2"><?php
 	# The commit message is manually transformed (adding href, bug and bugnote
 	# links + nl2br) instead of calling string_display_links(), which avoids
 	# unwanted html tags processing by the MantisCoreFormatting plugin.
@@ -75,13 +77,40 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 					string_insert_hrefs(
 						string_html_specialchars( $t_changeset->message )
 		) ) ) );
-?></td>
+	?>
+</td>
+<td>
+<?php
+		# Build list of related issues with link
+		$t_bugs = array_map( 'string_get_bug_view_link', $t_changeset->bugs );
+
+		if( $t_bugs ) {
+			echo '<span class="bold">',
+				plugin_lang_get( 'affected_issues' ),
+				'</span><br>';
+			echo '<span>', implode( ', ', $t_bugs ), '</span>';
+		} else {
+?>
+		<form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
+			<?php echo form_security_field( 'plugin_Source_attach' ) ?>
+			<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
+			<input type="hidden" name="redirect" value="<?php echo $t_changeset->revision ?>"/>
+			<?php echo plugin_lang_get( 'attach_to_issue' ) ?><br>
+			<input type="text" class="input-sm" name="bug_ids" size="12"/>
+			<input type="submit"
+				   class="btn btn-sm btn-primary btn-white btn-round"
+				   value="<?php echo plugin_lang_get( 'attach' ) ?>" />
+		</form>
+<?php
+		}
+?>
+</td>
 </tr>
 
 		<?php foreach ( $t_changeset->files as $t_file ) { ?>
 <tr>
 <td class="small" colspan="2"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
-<td class="center" width="12%">
+<td class="center" width="15%">
 		<?php
 		if ( $t_url = $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ) { ?>
 			<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
