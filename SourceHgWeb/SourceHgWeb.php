@@ -248,7 +248,9 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 				} else if( !isset( $t_commit['parent'] ) && preg_match( '@^# Parent +([a-f0-9]+)@', $t_line, $t_matches ) ) {
 					$t_parents[] = $t_matches[1];
 					$t_commit['parent'] = $t_matches[1];
-				}
+				} else if ( preg_match( '@^#\S.*@', $t_line ) )	{
++					$t_message[] = $t_line;
+ 				}
 			} else if( isset( $t_commit['revision'] ) ) {
 				if ( preg_match( '@^diff @', $t_line, $t_matches ) ) {
 					break;
