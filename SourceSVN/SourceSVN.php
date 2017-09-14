@@ -315,9 +315,9 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		# Get a full binary call, including configured parameters
 		if ( is_null( $s_call ) ) {
-			$s_call = self::svn_binary() . ' --non-interactive';
-
 			plugin_push_current( 'SourceSVN' );
+
+			$s_call = self::svn_binary() . ' --non-interactive';
 
 			if ( plugin_config_get( 'svnssl', false ) ) {
 				$s_call .= ' --trust-server-cert';
