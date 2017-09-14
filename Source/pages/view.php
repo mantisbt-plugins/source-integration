@@ -139,10 +139,31 @@ layout_page_begin();
 
 <?php
 $t_first = true;
+$t_user_id = auth_get_current_user_id();
 foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
+	$t_color_class = html_get_status_css_class(
+		$t_bug_row['status'],
+		$t_user_id,
+		$t_bug_row['project_id']
+	);
+	$t_status_description = get_enum_element(
+		'status',
+		bug_get_field( $t_bug_id, 'status' ),
+		$t_bug_row['project_id']
+	);
+
 	echo ( $t_first ? '' : '<tr>' );
 ?>
-<td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug_row['summary'] ) ?></td>
+<td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php
+	# Status color box with tooltip
+	echo '<i class="fa fa-square fa-status-box ' . $t_color_class
+		. '" title="' . string_attribute( $t_status_description ) . '"></i>&nbsp;';
+
+	# Issue ID and description
+	echo '<a href="view.php?id=', $t_bug_id, '">',
+		bug_format_id( $t_bug_id ), '</a>: ',
+		string_display_line( $t_bug_row['summary'] ) ?>
+</td>
 <?php if ( $t_can_update ) { ?>
 <td class="center">
 	<?php print_small_button( plugin_page( 'detach' ) . '&id=' . $t_changeset->id . '&bug_id=' . $t_bug_id . form_security_param( 'plugin_Source_detach' ), plugin_lang_get( 'detach' ) ) ?>
