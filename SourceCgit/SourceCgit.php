@@ -233,7 +233,7 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
 	/**
 	 * Parses the revision from a cgit page.
-	 * 
+	 *
 	 * @param string $p_input cgit html page
 	 * @return string the revision
 	 */
@@ -244,7 +244,7 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
 	/**
 	 * Parses the author and comitter from a cgit page.
-	 * 
+	 *
 	 * @param string $p_input cgit html page
 	 * @return array author / committer
 	 */
@@ -280,7 +280,7 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
 	/**
 	 * Parses the message from a cgit page.
-	 * 
+	 *
 	 * @param string $p_input cgit html page
 	 * @return string
 	 */
@@ -328,7 +328,7 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
 	/**
 	 * Cleans the input html.
-	 * 
+	 *
 	 * @param string $p_input cgit html page
 	 * @return string
 	 */

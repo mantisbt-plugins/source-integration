@@ -57,7 +57,7 @@ layout_page_begin();
 
 <div class="col-md-12 col-xs-12">
 	<div class="space-10"></div>
-		
+
 <?php if ( $t_update_form ) { ?>
 	<form action="<?php echo plugin_page( 'update' ) ?>" method="post">
 	<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
@@ -83,7 +83,7 @@ layout_page_begin();
 							<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'list' ) . '&id=' . $t_repo->id . '&offset=' . $f_offset ?>">
 								<?php echo plugin_lang_get( 'back_repo' ) ?>
 							</a>
-						</div>	
+						</div>
 
 <table class="table table-striped table-bordered table-condensed">
 <tbody>
@@ -139,13 +139,41 @@ layout_page_begin();
 
 <?php
 $t_first = true;
+$t_user_id = auth_get_current_user_id();
 foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
-	echo ( $t_first ? '' : '<tr>' );
+	$t_color_class = html_get_status_css_class(
+		$t_bug_row['status'],
+		$t_user_id,
+		$t_bug_row['project_id']
+	);
+	$t_status_description = get_enum_element(
+		'status',
+		bug_get_field( $t_bug_id, 'status' ),
+		$t_bug_row['project_id']
+	);
+
+	echo ( $t_first ? '' : "<tr>\n" );
 ?>
-<td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php echo '<a href="view.php?id=', $t_bug_id, '">', bug_format_id( $t_bug_id ), '</a>: ', string_display_line( $t_bug_row['summary'] ) ?></td>
+<td colspan="<?php echo $t_columns-( $t_can_update ? 2 : 1 ) ?>"><?php
+	# Status color box with tooltip
+	echo '<i class="fa fa-square fa-status-box ' . $t_color_class
+		. '" title="' . string_attribute( $t_status_description ) . '"></i>&nbsp;';
+
+	# Issue ID and description
+	echo '<a href="view.php?id=', $t_bug_id, '">',
+		bug_format_id( $t_bug_id ), '</a>: ',
+		string_display_line( $t_bug_row['summary'] ) ?>
+</td>
 <?php if ( $t_can_update ) { ?>
-<td class="center">
-	<?php print_small_button( plugin_page( 'detach' ) . '&id=' . $t_changeset->id . '&bug_id=' . $t_bug_id . form_security_param( 'plugin_Source_detach' ), plugin_lang_get( 'detach' ) ) ?>
+<td class="center"><?php
+	print_small_button(
+		plugin_page( 'detach' )
+			. '&id=' . $t_changeset->id
+			. '&bug_id=' . $t_bug_id
+			. form_security_param( 'plugin_Source_detach' ),
+		plugin_lang_get( 'detach' )
+	) ?>
+</td>
 <?php } ?>
 </tr>
 
@@ -164,7 +192,8 @@ if ( $t_can_update ) {
 	<input type="text" class="input-sm" name="bug_ids" size="15"/>
 	<input type="submit" class="btn btn-sm btn-primary btn-white btn-round" value="<?php echo plugin_lang_get( 'attach' ) ?>"/>
 </form>
-</td></tr>
+</td>
+</tr>
 <?php } ?>
 
 <tr class="spacer" />

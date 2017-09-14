@@ -18,7 +18,6 @@ function display_strategies( $p_type=null ) {
 	$t_strategies = array();
 	if ( is_null( $p_type ) ) {
 		$t_strategies[] = array( 0, 'select_one' );
-		echo '<option value="0">', plugin_lang_get( 'select_one' ), '</option>';
 	}
 	$t_strategies[] = array( SOURCE_EXPLICIT, 'mapping_explicit' );
 	if( !Source_PVM() ) {
@@ -194,17 +193,23 @@ layout_page_begin();
 
 	foreach( $t_mappings as $t_mapping ) {
 		$t_branch = str_replace( '.', '_', $t_mapping->branch );
+		# Since it is not possible to update the branch's name (see #230),
+		# the input field is disabled, except for the 'new mapping' row
+		$t_disabled = 'disabled';
 		if( is_null( $t_mapping->branch ) ) {
-?>
-			<tr class="spacer"></tr><tr></tr>
-<?php
+			$t_disabled = '';
+			if( count( $t_mappings ) > 1 ) {
+				echo '<tr class="spacer"></tr>';
+			}
 		}
 ?>
 			<tr>
 				<td class="center">
 					<input type="text" name="<?php echo $t_branch ?>_branch" value="<?php
 						echo string_attribute( $t_mapping->branch )
-						?>" class="input-sm" />
+						?>" class="input-sm"
+						<?php echo $t_disabled; ?>
+					/>
 				</td>
 				<td class="center">
 					<select class="input-sm" name="<?php echo $t_branch ?>_type"><?php
