@@ -17,7 +17,6 @@ function display_strategies( $p_type=null ) {
 	$t_strategies = array();
 	if ( is_null( $p_type ) ) {
 		$t_strategies[] = array( 0, 'select_one' );
-		echo '<option value="0">', plugin_lang_get( 'select_one' ), '</option>';
 	}
 	$t_strategies[] = array( SOURCE_EXPLICIT, 'mapping_explicit' );
 	if( !Source_PVM() ) {
