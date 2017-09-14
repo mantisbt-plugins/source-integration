@@ -86,7 +86,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 
 		if( $t_bugs ) {
 			echo '<span class="bold">',
-				plugin_lang_get( 'affected_issues' ),
+				plugin_lang_get( 'affected_issues', 'Source' ),
 				'</span><br>';
 			echo '<span>', implode( ', ', $t_bugs ), '</span>';
 		} else {
@@ -207,7 +207,7 @@ function Source_View_Pagination( $p_link, $p_current, $p_count, $p_perpage = 25 
 				return '...';
 			} elseif( $p_page == $p_current ) {
 				return "<strong>$p_page</strong>";
-			} else { 
+			} else {
 				$page_button = '<a class="btn btn-xs btn-primary btn-white btn-round" href="'. $p_link . $p_page .'">'.$p_text.'</a>';
 				return $page_button;
 			}
@@ -234,7 +234,7 @@ function Source_View_Pagination( $p_link, $p_current, $p_count, $p_perpage = 25 
 			$t_page_set = range( 1, $t_pages );
 		}
 
-		if( $p_current > 1 ) { 
+		if( $p_current > 1 ) {
 			echo '&nbsp;', $t_page_link( 1, lang_get( 'first' ) );
 			echo '&nbsp;&nbsp;', $t_page_link( $p_current - 1, lang_get( 'prev' ) );
 			echo '&nbsp;&nbsp;';
