@@ -23,10 +23,13 @@ $t_new_repo->id = 0;
 $t_new_repo->name = 'Import ' . date( 'Y-m-d H:i:s' );
 $t_new_repo->save();
 
+# Set the temp repo's name so it displays the correct value during import
+# and when saved at the end
+$t_new_repo->name = $t_repo->name;
+
 # keep checking for more changesets to import
 $t_error = false;
 while( true ) {
-
 	# import the next batch of changesets
 	$t_changesets = $t_vcs->import_full( $t_new_repo );
 
@@ -41,7 +44,6 @@ while( true ) {
 		break;
 	}
 
-	$t_new_repo->name = $t_repo->name;
 	Source_Process_Changesets( $t_changesets, $t_new_repo );
 }
 
