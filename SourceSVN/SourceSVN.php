@@ -459,52 +459,51 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			# files
 			if(isset($t_entry->paths->path)){
 				foreach( $t_entry->paths->path as $t_path ) {
-				switch( (string)$t_path['action'] ) {
-					case 'A': $t_action = 'add'; break;
-					case 'D': $t_action = 'rm'; break;
-					case 'M': $t_action = 'mod'; break;
-					case 'R': $t_action = 'mv'; break;
-					default: $t_action = (string)$t_path['action'];
-				}
+					switch( (string)$t_path['action'] ) {
+						case 'A': $t_action = 'add'; break;
+						case 'D': $t_action = 'rm'; break;
+						case 'M': $t_action = 'mod'; break;
+						case 'R': $t_action = 'mv'; break;
+						default: $t_action = (string)$t_path['action'];
+					}
 
-				$t_file = new SourceFile( $t_changeset->id, '', (string)$t_path, $t_action );
-				$t_changeset->files[] = $t_file;
+					$t_file = new SourceFile( $t_changeset->id, '', (string)$t_path, $t_action );
+					$t_changeset->files[] = $t_file;
 
-				# Branch-checking
-				if( is_blank( $t_changeset->branch ) ) {
-					# Look for standard trunk/branches/tags information
-					if( $p_repo->info['standard_repo'] ) {
-						if( preg_match( '@/(?:(trunk)|(?:branches|tags)/([^/]+))@i', $t_file->filename, $t_matches ) ) {
-							if( !is_blank( $t_matches[1] ) ) {
+					# Branch-checking
+					if( is_blank( $t_changeset->branch ) ) {
+						# Look for standard trunk/branches/tags information
+						if( $p_repo->info['standard_repo'] ) {
+							if( preg_match( '@/(?:(trunk)|(?:branches|tags)/([^/]+))@i', $t_file->filename, $t_matches ) ) {
+								if( !is_blank( $t_matches[1] ) ) {
+									$t_changeset->branch = $t_matches[1];
+								} else {
+									$t_changeset->branch = $t_matches[2];
+								}
+							}
+						} else {
+							# Look for non-standard trunk path
+							if( !is_blank( $t_trunk_path ) && preg_match( '@^/*(' . $t_trunk_path . ')@i', $t_file->filename, $t_matches ) ) {
 								$t_changeset->branch = $t_matches[1];
-							} else {
-								$t_changeset->branch = $t_matches[2];
+
+							# Look for non-standard branch path
+							} else if( !is_blank( $t_branch_path ) && preg_match( '@^/*(?:' . $t_branch_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
+								$t_changeset->branch = $t_matches[1];
+
+							# Look for non-standard tag path
+							} else if( !is_blank( $t_tag_path ) && preg_match( '@^/*(?:' . $t_tag_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
+								$t_changeset->branch = $t_matches[1];
+
+							# Fall back to just using the root folder as the branch name
+							} else if( !$t_ignore_paths && preg_match( '@/([^/]+)@', $t_file->filename, $t_matches ) ) {
+								$t_changeset->branch = $t_matches[1];
 							}
 						}
-					} else {
-						# Look for non-standard trunk path
-						if( !is_blank( $t_trunk_path ) && preg_match( '@^/*(' . $t_trunk_path . ')@i', $t_file->filename, $t_matches ) ) {
-							$t_changeset->branch = $t_matches[1];
-
-						# Look for non-standard branch path
-						} else if( !is_blank( $t_branch_path ) && preg_match( '@^/*(?:' . $t_branch_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
-							$t_changeset->branch = $t_matches[1];
-
-						# Look for non-standard tag path
-						} else if( !is_blank( $t_tag_path ) && preg_match( '@^/*(?:' . $t_tag_path . ')/([^/]+)@i', $t_file->filename, $t_matches ) ) {
-							$t_changeset->branch = $t_matches[1];
-
-						# Fall back to just using the root folder as the branch name
-						} else if( !$t_ignore_paths && preg_match( '@/([^/]+)@', $t_file->filename, $t_matches ) ) {
-							$t_changeset->branch = $t_matches[1];
-						}
-					}
-				} # end is_blank( $t_changeset->branch ) if
-			} # end files in revision ($t_path) foreach
+					} # end is_blank( $t_changeset->branch ) if
+				} # end files in revision ($t_path) foreach
 			} else { # no file paths set
-                                $t_changeset->branch = $t_trunk_path;
-                        }
-
+				$t_changeset->branch = $t_trunk_path;
+			}
 
 			# get the log message
 			$t_changeset->message = (string)$t_entry->msg;
