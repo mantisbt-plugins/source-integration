@@ -22,6 +22,19 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 	const PLUGIN_VERSION = '1.0.1';
 	const FRAMEWORK_VERSION_REQUIRED = '1.3.2';
 
+	/**
+	 * Various PCRE patterns used to parse HgWeb output when retrieving
+	 * changeset info
+	 * @see commit_changeset()
+	 */
+	const PATTERN_USER = '(?<id>User) (?<user>[^<>]*)(?(?=(?=<))<(?<email>[^<>]*)>|.*)';
+	const PATTERN_DATE = '(?<id>Date) (?<date>\d+) (?<tz>-?\d+)';
+	const PATTERN_REVISION = '(?<id>Node ID|Parent) +(?<rev>[0-9a-f]+)';
+	const PATTERN_DIFF = 'diff[\s]*-r[\s]([^\s]*)[\s]*-r[\s]([^\s]*)[\s]([^\n]*)';
+	const PATTERN_BINARY_FILE = 'Binary file[\s]([^\r\n\t\f\v]*)[\s]has changed';
+	# Don't use '/' as pattern delimiter with this one
+	const PATTERN_PLUS_MINUS = '\-{3}[\s](/dev/null)?[^\t]*[^\n]*\n\+{3}[\s](/dev/null)?[^\t]*\t[^\n]*';
+
 	function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -231,41 +244,69 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		return $t_changesets;
 	}
 
+	/**
+	 * Parse changeset data and store it if it does not exist already.
+	 * This assumes a standard Mercurial template for raw changesets. Using a
+	 * customized one may break the parsing logic.
+	 * @param SourceRepo $p_repo Repository
+	 * @param string     $p_input Raw changeset data
+	 * @param string     $p_branch
+	 * @return array SourceChangeset object, list of parent revisions
+	 */
 	private function commit_changeset( $p_repo, $p_input, $p_branch='' ) {
-		$t_parents = array();
-		$t_message = array();
-
 		$t_input = explode( "\n", $p_input );
+		$i = 0;
 
-		foreach( $t_input as $t_line ) {
-			if( strpos( $t_line, '#' ) === 0 ) {
-				if( !isset( $t_commit['revision'] ) && preg_match( '@^# Node ID +([a-f0-9]+)@', $t_line, $t_matches ) ) {
-					$t_commit['revision'] = $t_matches[1];
-					echo 'Processing ' . string_display_line( $t_commit['revision'] ) . '... ';
-					if ( SourceChangeset::exists( $p_repo->id, $t_commit['revision'] ) ) {
-						echo "already exists.\n";
-						return array( null, array() );
-					}
-				} else if( !isset( $t_commit['author'] ) && preg_match( '@^# User ([^<>]*)(?(?=(?=<))<([^<>]*)>|.*)@', $t_line, $t_matches ) ) {
-					$t_commit['author'] = trim($t_matches[1]);
-					$t_commit['author_email'] = $t_matches[2];
-				} else if( !isset( $t_commit['date'] ) && preg_match( '@^# Date +(\d+) (-?\d+)@', $t_line, $t_matches ) ) {
-					$t_timestamp_gmt = $t_matches[1] - (int)$t_matches[2];
-					$t_commit['date'] = gmdate( 'Y-m-d H:i:s', $t_timestamp_gmt );
-				} else if( !isset( $t_commit['parent'] ) && preg_match( '@^# Parent +([a-f0-9]+)@', $t_line, $t_matches ) ) {
-					$t_parents[] = $t_matches[1];
-					$t_commit['parent'] = $t_matches[1];
-				}
-			} else if( isset( $t_commit['revision'] ) ) {
-				if ( preg_match( '@^diff @', $t_line, $t_matches ) ) {
-					break;
-				}
-				$t_message[] = $t_line;
+		# Skip changeset header
+		while( strpos( $t_input[$i++], '# HG changeset patch' ) === false );
+
+		# Process changeset metadata
+		$t_commit = array();
+		$t_parents = array();
+		static $s_pattern_metadata = '/^# (?:'
+			. self::PATTERN_USER . '|'
+			. self::PATTERN_DATE . '|'
+			. self::PATTERN_REVISION
+			. ')/J';
+		while( true ) {
+			$t_match = preg_match( $s_pattern_metadata, $t_input[$i], $t_metadata );
+			if( $t_match == false ) {
+				# We reached the end of metadata, next line is the commit message
+				break;
 			}
+			switch( $t_metadata['id'] ) {
+				case 'User':
+					$t_commit['author'] = isset( $t_metadata['user'] ) ? trim( $t_metadata['user'] ) : '';
+					$t_commit['author_email'] = isset( $t_metadata['email'] ) ? $t_metadata['email'] : '';
+					break;
+				case 'Date':
+					$t_timestamp_gmt = $t_metadata['date'] - (int)$t_metadata['tz'];
+					$t_commit['date'] = gmdate( 'Y-m-d H:i:s', $t_timestamp_gmt );
+					break;
+				case 'Node ID':
+					$t_commit['revision'] = $t_metadata['rev'];
+					break;
+				case 'Parent':
+					$t_parents[] = $t_commit['parent'] = $t_metadata['rev'];
+					break;
+			}
+			$i++;
 		}
 
-		if ( !SourceChangeset::exists( $p_repo->id, $t_commit['revision'] ) ) {
-			$t_commit['message'] = implode( "\n", $t_message );
+		if( !SourceChangeset::exists( $p_repo->id, $t_commit['revision'] ) ) {
+			# Read commit message
+			$t_message = '';
+			while( $i < count( $t_input ) ) {
+				$t_match = preg_match(
+					'/^' . self::PATTERN_DIFF . '/',
+					$t_input[$i]
+				);
+				if( $t_match ) {
+					break;
+				}
+				$t_message .= $t_input[$i++] . "\n";
+			}
+			$t_commit['message'] = trim( $t_message );
 
 			$t_changeset = new SourceChangeset( $p_repo->id, $t_commit['revision'],
 				$p_branch, $t_commit['date'], $t_commit['author'],
@@ -275,7 +316,12 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 
 			$t_changeset->author_email = empty($t_commit['author_email'])? '': $t_commit['author_email'];
 
-			preg_match_all('#diff[\s]*-r[\s]([^\s]*)[\s]*-r[\s]([^\s]*)[\s]([^\n]*)\n(Binary file[\s]([^\r\n\t\f\v]*)[\s]has changed|\-{3}[\s](/dev/null)?[^\t]*[^\n]*\n\+{3}[\s](/dev/null)?[^\t]*\t[^\n]*)#u', $p_input, $t_matches, PREG_SET_ORDER);
+			static $s_pattern_diff = '#'
+				. self::PATTERN_DIFF . '\n('
+				. self::PATTERN_BINARY_FILE . '|'
+				. self::PATTERN_PLUS_MINUS
+				. ')#u';
+			preg_match_all( $s_pattern_diff, $p_input, $t_matches, PREG_SET_ORDER );
 
 			$t_commit['files'] = array();
 
