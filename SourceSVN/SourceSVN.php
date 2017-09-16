@@ -311,9 +311,9 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	/**
 	 * Execute SVN command, catching & raising errors in both
 	 *   execution and output
-	 * @param string p_cmd Command and any parameters
-	 * @param SourceRepo p_repo Repository to access
-	 * @return string Output of SVN command
+	 * @param  string     $p_cmd  Command and any parameters
+	 * @param  SourceRepo $p_repo Repository to access
+	 * @return string             Output of SVN command
 	 */
 	private function svn_run( $p_cmd, $p_repo = null )
 	{
