@@ -14,6 +14,7 @@ The **SourceSVN** plugin requires Mantis 1.2.x. See the
 Ensure that all of the following plugins are installed:
 * **Source**
 * **SourceSVN**
+
 See the [README](../README.md#installation) for overall instructions
 with regard to installing SourceIntegration plugins.
 

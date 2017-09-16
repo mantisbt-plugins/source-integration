@@ -14,6 +14,7 @@ Ensure that all of the following plugins are installed:
 * **Source**
 * **SourceSVN**
 * **SourceViewVC**
+
 See the [README](../README.md#installation) for overall instructions.
 
 ## Configuration
