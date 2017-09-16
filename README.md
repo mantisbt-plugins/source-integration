@@ -116,6 +116,7 @@ MantisBT version | Tags | Branch | Notes
 
     * [SourceGithub](docs/CONFIGURING.SourceGithub.md)
     * [SourceViewVC](docs/CONFIGURING.SourceViewVC.md)
+    * [SourceSVN](docs/CONFIGURING.SourceSVN.md)
 
 9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial
