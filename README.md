@@ -24,7 +24,7 @@ plugins:
 * **SourceBitBucket**: Git repositories hosted on [BitBucket](http://bitbucket.org/).
 * **SourceCgit**: Git repositories accessible via a
   [cgit](http://hjemli.net/git/cgit/) web frontend installation.
-* **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).  See [instructions](docs/CONFIGURING.SourceGithub.md).
+* **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).
 * **SourceGitlab**: Git repositories hosted on [GitLab](https://about.gitlab.com/).
 * **SourceGitphp**: Git repositories accessible via a
   [Gitphp](https://gitphp.org/) web frontend installation.
@@ -36,9 +36,9 @@ plugins:
   frontend installation.
 * **SourceSFSVN**: SVN repositories hosted on
   [SourceForge](http://sourceforge.net/).
-* **SourceSVN**: SVN repositories locally accessible by the SVN binaries.  See [instructions](docs/CONFIGURING.SourceSVN.md).
+* **SourceSVN**: SVN repositories locally accessible by the SVN binaries.
 * **SourceViewVC**: SVN repositories accessible via a
-  [ViewVC](http://www.viewvc.org/) web frontend installation.  See [instructions](docs/CONFIGURING.SourceViewVC.md).
+  [ViewVC](http://www.viewvc.org/) web frontend installation.
 * **SourceWebSVN**: SVN repositories accessible via a
   [WebSVN](http://www.websvn.info/) web frontend installation.
 
@@ -116,6 +116,7 @@ MantisBT version | Tags | Branch | Notes
 
     * [SourceGithub](docs/CONFIGURING.SourceGithub.md)
     * [SourceViewVC](docs/CONFIGURING.SourceViewVC.md)
+    * [SourceSVN](docs/CONFIGURING.SourceSVN.md)
 
 9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial
