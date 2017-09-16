@@ -24,7 +24,7 @@ plugins:
 * **SourceBitBucket**: Git repositories hosted on [BitBucket](http://bitbucket.org/).
 * **SourceCgit**: Git repositories accessible via a
   [cgit](http://hjemli.net/git/cgit/) web frontend installation.
-* **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).
+* **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).  See [instructions](docs/CONFIGURING.SourceGithub.md).
 * **SourceGitlab**: Git repositories hosted on [GitLab](https://about.gitlab.com/).
 * **SourceGitphp**: Git repositories accessible via a
   [Gitphp](https://gitphp.org/) web frontend installation.
@@ -36,9 +36,9 @@ plugins:
   frontend installation.
 * **SourceSFSVN**: SVN repositories hosted on
   [SourceForge](http://sourceforge.net/).
-* **SourceSVN**: SVN repositories locally accessible by the SVN binaries.
+* **SourceSVN**: SVN repositories locally accessible by the SVN binaries.  See [instructions](CONFIGURING.SourceSVN.md).
 * **SourceViewVC**: SVN repositories accessible via a
-  [ViewVC](http://www.viewvc.org/) web frontend installation.
+  [ViewVC](http://www.viewvc.org/) web frontend installation.  See [instructions](docs/CONFIGURING.SourceViewVC.md).
 * **SourceWebSVN**: SVN repositories accessible via a
   [WebSVN](http://www.websvn.info/) web frontend installation.
 
