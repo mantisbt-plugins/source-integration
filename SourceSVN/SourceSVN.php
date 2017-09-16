@@ -16,7 +16,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	 * Error constants
 	 */
 	const ERROR_PATH_INVALID = 'path_invalid';
-	const ERROR_RUN_SVN = 'run_svn';
+	const ERROR_SVN_RUN = 'svn_run';
+	const ERROR_SVN_CMD = 'svn_cmd';
 
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
@@ -45,7 +46,8 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	public function errors() {
 		$t_errors_list = array(
 			self::ERROR_PATH_INVALID,
-			self::ERROR_RUN_SVN,
+			self::ERROR_SVN_RUN,
+			self::ERROR_SVN_CMD,
 		);
 
 		foreach( $t_errors_list as $t_error ) {
@@ -250,11 +252,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 	public function commit( $p_repo, $p_data ) {
 		if ( preg_match( '/(\d+)/', $p_data, $p_matches ) ) {
-			$svn = $this->svn_call( $p_repo );
 
 			$t_url = $p_repo->url;
 			$t_revision = $p_matches[1];
-			$t_svnlog_xml = shell_exec( "$svn log -v $t_url -r$t_revision --xml" );
+			$t_svnlog_xml = $this->svn_run( "log -v $t_url -r$t_revision --xml", $p_repo );
 
 			if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
 				echo "Revision $t_revision already committed!\n";
@@ -266,8 +267,6 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	}
 
 	public function import_full( $p_repo ) {
-		$this->svn_check();
-		$svn = $this->svn_call( $p_repo );
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
@@ -279,18 +278,11 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		$t_url = $p_repo->url;
 		$t_rev = ( false === $t_db_revision ? 0 : $t_db_revision + 1 );
 
-
 		# finding max revision
-		$t_svninfo_xml = shell_exec( "$svn info $t_url --xml" );
-		try {
-			# create parser
-			$t_svninfo_parsed_xml = new SimpleXMLElement($t_svninfo_xml);
-		}
-		catch( Exception $e ) {
-			# parsing error - no success here
-			echo '<pre>svn info returned invalid xml code</pre>';
-			return array();
-		}
+		$t_svninfo_xml = $this->svn_run( "info $t_url --xml", $p_repo );
+		# create parser
+		$t_svninfo_parsed_xml = new SimpleXMLElement($t_svninfo_xml);
+
 		$t_max_rev = (integer) $t_svninfo_parsed_xml->entry->commit['revision'];
 
 		# this is required because invalid revision number render invalid xml output for svn log
@@ -299,12 +291,11 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			return array();
 		}
 
-
 		echo '<pre>';
 		echo "Requesting svn log for {$p_repo->name} starting with revision {$t_rev}...\n";
 
 		# get the svn log in xml format
-		$t_svnlog_xml = shell_exec( "$svn log -v -r $t_rev:HEAD --limit 200 $t_url --xml" );
+		$t_svnlog_xml = $this->svn_run( "log -v -r $t_rev:HEAD --limit 200 $t_url --xml", $p_repo );
 
 		# parse the changesets
 		$t_changesets = $this->process_svn_log_xml( $p_repo, $t_svnlog_xml );
@@ -317,12 +308,46 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		return $this->import_full( $p_repo );
 	}
 
-	private function svn_check() {
-		$svn = self::svn_call();
+	/**
+	 * Execute SVN command, catching & raising errors in both
+	 *   execution and output
+	 * @param string Command and any parameters
+	 * @param SourceRepo Repository to access
+	 * @return string Output of SVN command
+	 */
+	private function svn_run( $p_cmd, $p_repo = null )
+	{
+		# Get "base" SVN command, including any configured parameters
+		$t_svn_exe = self::svn_call( $p_repo );
+		# Append specific cmd & params
+		$t_svn_cmd = "$t_svn_exe $p_cmd";
 
-		if ( is_blank( shell_exec( "$svn help" ) ) ) {
-			plugin_error( self::ERROR_RUN_SVN );
+		$t_svn_proc = proc_open(
+			$t_svn_cmd,
+			array( array( 'pipe', 'r' ), array( 'pipe', 'w' ), array( 'pipe', 'w' ) ),
+			$t_pipes
+		);
+
+		# Check & report execution failure
+		if( $t_svn_proc === false ) {
+			plugin_error( self::ERROR_SVN_RUN );
 		}
+
+		# Get output of the process & clean up
+		$t_stderr = stream_get_contents( $t_pipes[2] );
+		fclose( $t_pipes[2] );
+		$t_svn_out = stream_get_contents( $t_pipes[1] );
+		fclose( $t_pipes[1] );
+		fclose( $t_pipes[0] );
+		proc_close( $t_svn_proc );
+
+		# Error handling
+		if( $t_stderr ) {
+			error_parameters( trim( $t_stderr ) );
+			plugin_error( self::ERROR_SVN_CMD );
+		}
+
+		return $t_svn_out;
 	}
 
 	private function svn_call( $p_repo=null ) {
@@ -435,13 +460,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			return array();
 
 		# parse XML
-		try {
-			$t_xml = new SimpleXMLElement($p_svnlog_xml);
-		}
-		catch( Exception $e ) {
-			echo 'Parsing error of xml log...';
-			return array();
-		}
+		$t_xml = new SimpleXMLElement($p_svnlog_xml);
 
 		# timezone for conversions in loca
 		$t_utc = new DateTimeZone('UTC');
