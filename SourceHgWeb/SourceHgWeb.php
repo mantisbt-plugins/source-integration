@@ -241,7 +241,7 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 			if( strpos( $t_line, '#' ) === 0 ) {
 				if( !isset( $t_commit['revision'] ) && preg_match( '@^# Node ID +([a-f0-9]+)@', $t_line, $t_matches ) ) {
 					$t_commit['revision'] = $t_matches[1];
-					echo 'Processing ' . string_display_line( $t_commit[revision] ) . '... ';
+					echo 'Processing ' . string_display_line( $t_commit['revision'] ) . '... ';
 					if ( SourceChangeset::exists( $p_repo->id, $t_commit['revision'] ) ) {
 						echo "already exists.\n";
 						return array( null, array() );
@@ -285,20 +285,20 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 				$t_file['revision'] = $t_commit['revision'];
 
 				if(!empty($t_file_matches[3])) {
-					if(!empty($t_file_matches[5])) {
-						$t_file['action'] = 'bin';
+					if (empty($t_file_matches[5]) && empty($t_file_matches[6]) && empty($t_file_matches[7])) {
+						$t_file['action'] = 'mod';
 					}
-					else if ("/dev/null" == $t_file_matches[7]) {
-						$t_file['action'] = 'rm';
+					else if(!empty($t_file_matches[5])) {
+						$t_file['action'] = 'bin';
 					}
 					else if ("/dev/null" == $t_file_matches[6]) {
 						$t_file['action'] = 'add';
 					}
+					else if ("/dev/null" == $t_file_matches[7]) {
+						$t_file['action'] = 'rm';
+					}
 					else if ("/dev/null" == $t_file_matches[7] && "/dev/null" == $t_file_matches[6]) {
 						$t_file['action'] = 'n/a';
-					}
-					else if (empty($t_file_matches[5]) && empty($t_file_matches[6]) && empty($t_file_matches[7])) {
-						$t_file['action'] = 'mod';
 					}
 				}
 				$t_commit['files'][] = $t_file;
