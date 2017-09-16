@@ -36,7 +36,7 @@ plugins:
   frontend installation.
 * **SourceSFSVN**: SVN repositories hosted on
   [SourceForge](http://sourceforge.net/).
-* **SourceSVN**: SVN repositories locally accessible by the SVN binaries.  See [instructions](CONFIGURING.SourceSVN.md).
+* **SourceSVN**: SVN repositories locally accessible by the SVN binaries.  See [instructions](docs/CONFIGURING.SourceSVN.md).
 * **SourceViewVC**: SVN repositories accessible via a
   [ViewVC](http://www.viewvc.org/) web frontend installation.  See [instructions](docs/CONFIGURING.SourceViewVC.md).
 * **SourceWebSVN**: SVN repositories accessible via a
