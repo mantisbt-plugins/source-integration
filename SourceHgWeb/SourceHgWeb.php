@@ -214,7 +214,7 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 			$t_commit_url = $this->uri_base( $p_repo ) . 'raw-rev/' . $t_commit_id;
 			$t_input = url_get( $t_commit_url );
 
-			if ( false === $t_input ) {
+			if( !$t_input ) {
 				echo "failed.\n";
 				continue;
 			}
