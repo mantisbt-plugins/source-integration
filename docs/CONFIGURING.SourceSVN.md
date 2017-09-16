@@ -20,7 +20,7 @@ with regard to installing SourceIntegration plugins.
 
 ## Configuration of the Plugin
 
-1. Click the *Manage" link in the navigation bar.
+1. Click the *Manage* link in the navigation bar.
 
 2. Click the *Manage Plugins* link in the management navigation bar.
 
@@ -54,8 +54,7 @@ with regard to installing SourceIntegration plugins.
      2a above.
 
    - Paste in the SVN repository's URL in the *URL* field
-     (e.g. `https://localhost.localdomain/repos/myrepo` or
-      `file:///var/repos/myrepo`).
+     (e.g. `https://localhost.localdomain/repos/myrepo` or `file:///var/repos/myrepo`).
 
    - If access controls are configured on your SVN repository such that anonymous read access is not permitted, within the *SVN Username* and *SVN Password*, enter
      appropriate credentials that have read access to the repo.
