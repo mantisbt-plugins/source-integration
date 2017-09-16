@@ -17,7 +17,11 @@ Ensure that all of the following plugins are installed:
 
 See the [README](../README.md#installation) for overall instructions.
 
-## Configuration
+## Configuration of SVN
+
+See [SourceSVN](CONFIGURING.SourceSVN.md#configuration-of-the-plugin)
+
+## Configuration of a Repository
 
 1. Click the *Repositories* link in the navigation bar.
 
