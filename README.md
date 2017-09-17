@@ -59,6 +59,8 @@ The Source Integration framework's version numbering follows
 [Semantic Versioning](http://semver.org/). Major version increments indicate a
 change in the minimum required MantisBT version.
 
+See the [Change log](docs/CHANGELOG.md) for detailed revision history.
+
 Depending on which version of MantisBT you are using, please make sure to
 get the appropriate version of the source code.
 Use [release tags](https://github.com/mantisbt-plugins/source-integration/releases),
