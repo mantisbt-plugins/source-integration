@@ -8,6 +8,120 @@ specification.
 
 --------------------------------------------------------------------------------
 
+## [Unreleased 2.x]
+
+### Added
+
+- Display linked changesets and allow adding new ones on list page
+  [#202](https://github.com/mantisbt-plugins/source-integration/pull/202)
+- SourceSVN documentation  
+  [#250](https://github.com/mantisbt-plugins/source-integration/pull/250)
+
+### Changed
+
+- Minimum MantisBT version increased to 2.0.1
+- Search page improvements:
+  increase size of 'Revision' field
+  [#206](https://github.com/mantisbt-plugins/source-integration/pull/206),
+  use new datetime picker
+  [#223](https://github.com/mantisbt-plugins/source-integration/pull/223)
+- Display text descriptions instead of raw keys on repository manage page
+  [#215](https://github.com/mantisbt-plugins/source-integration/pull/215)
+- Use specific error messages instead of ERROR_GENERIC
+  [#203](https://github.com/mantisbt-plugins/source-integration/pull/203)
+- Disable 'branch' field except for new mapping
+  [#243](https://github.com/mantisbt-plugins/source-integration/pull/243)
+- Only display spacer row when necessary in branch mappings list
+  [#244](https://github.com/mantisbt-plugins/source-integration/pull/244)
+- Show status color box next to issue id in view page
+  [#234](https://github.com/mantisbt-plugins/source-integration/pull/234)  
+- SVN: improve error detection & handling
+  [#247](https://github.com/mantisbt-plugins/source-integration/pull/247)
+- WebSVN: updated German translation
+  [#225](https://github.com/mantisbt-plugins/source-integration/pull/225)
+
+### Fixed
+
+Includes all changes and fixes from 1.5.3 and 1.5.4.
+
+--------------------------------------------------------------------------------
+
+# Releases for MantisBT 2.x
+
+## [2.0.3] - 2017-05-28
+
+### Added
+
+- Document requirement for cURL / shell_exec 
+  [#214](https://github.com/mantisbt-plugins/source-integration/issues/214)
+
+### Fixed
+
+- HgWeb: replace invalid function map() by array_map() 
+  [#213](https://github.com/mantisbt-plugins/source-integration/issues/213)
+- Gitweb: can't retrieve changesets when protected by HTTP basic auth 
+  [#218](https://github.com/mantisbt-plugins/source-integration/issues/218)
+
+
+## [2.0.2] - 2017-03-16
+
+Includes all changes and fixes from 1.5.2.
+
+### Security
+
+- CVE-2017-6958: XSS in search page 
+  [#205](https://github.com/mantisbt-plugins/source-integration/issues/205), 
+  thanks to Dmitry Ivanov ([d1m0ck](https://twitter.com/d1m0ck))
+
+
+## [2.0.1] - 2017-03-06
+
+Includes all changes and fixes from 1.5.1.
+
+
+## [2.0.0] - 2017-03-06
+
+Includes all changes and fixes from 1.5.0.
+
+### Fixed
+
+- Apply Modern UI to SourceGitphp repository update page
+
+
+## [2.0.0-beta.2] - 2016-11-26
+
+### Changed
+
+- Display repo settings as key-value instead of vardump
+
+### Fixed
+
+- Menu options
+- PHP system notice and display of 'Array' under the manage menu items 
+  [#175](https://github.com/mantisbt-plugins/source-integration/issues/175)
+- Broken main menu item links 
+  [#176](https://github.com/mantisbt-plugins/source-integration/issues/176)
+- Repository list alignment of type column
+- Source control username in account preferences 
+  [#180](https://github.com/mantisbt-plugins/source-integration/issues/180)
+
+
+## [2.0.0-beta.1] - 2016-07-21
+
+### Added
+
+- Support for MantisBT 2.0
+
+### Changed
+
+- Adapt pages layout for MantisBT Modern UI
+
+### Removed
+
+- Support for MantisBT 1.3
+
+--------------------------------------------------------------------------------
+
 # Releases for MantisBT 1.3
 
 ## [1.5.4] - 2017-09-17
@@ -196,7 +310,15 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.4...master-1.3.x
+[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.3...HEAD
+[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.3...master-1.3.x
+
+[2.0.3]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.2...v2.0.3
+[2.0.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.0-beta.2...v2.0.0
+[2.0.0-beta.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.0-beta.1...v2.0.0-beta.2
+[2.0.0-beta.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.2...v2.0.0-beta.1
 
 [1.5.4]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.3...v1.5.4
 [1.5.3]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.2...v1.5.3
