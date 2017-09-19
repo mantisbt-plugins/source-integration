@@ -22,3 +22,7 @@ $s_plugin_SourceSVN_svnpath = 'SVN: Pfad zur Programmdatei';
 $s_plugin_SourceSVN_svnargs = 'SVN: Kommandozeilenargumente';
 $s_plugin_SourceSVN_svnssl = 'SVN: Allen SSL-Zertifikaten vertrauen<br /><span class="small">(Verfügbar ab Subversion 1.6 oder neuer)</span>';
 $s_plugin_SourceSVN_winstart = 'SVN: Nutze `start`-Befehl der Kommandozeile von Windows<br /><span class="small">(Benötigt den Pfad zur Programmdatei)</span>';
+
+$s_plugin_SourceSVN_error_path_invalid = 'Der Pfad zur Subversion Programmdatei ist ungültig, nicht zugreifbar oder kein Verzeichnis.';
+$s_plugin_SourceSVN_error_svn_run = 'Die Subversion Programmdatei konnte nicht ausgeführt werden.';
+$s_plugin_SourceSVN_error_svn_cmd = 'Die Ausführung der Subversion Programmdatei meldet einen Fehler: "%1$s".';
