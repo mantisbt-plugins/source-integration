@@ -168,7 +168,6 @@ function Source_Process_FilterOption( $key, $option ) {
 	}
 
 	$sql = null;
-	$text = false;
 
 	# Date searching
 	if ( $key == 'date_start' && !is_null( $value ) ) {
@@ -533,7 +532,6 @@ function Source_Author_Select( $p_selected=null ) {
 	}
 
 	$t_changeset_table = plugin_table( 'changeset' );
-	$t_user_table = db_get_table( 'user' );
 
 	$t_query = "SELECT DISTINCT( author ) FROM $t_changeset_table ORDER BY author ASC";
 	$t_result = db_query( $t_query );
