@@ -110,7 +110,6 @@ class SourcePlugin extends MantisSourceBase {
 	function hooks() {
 		return array(
 			'EVENT_CORE_READY' => 'core_ready',
-			'EVENT_LAYOUT_RESOURCES' => 'css',
 			'EVENT_MENU_MAIN' => 'menu_main',
 			'EVENT_FILTER_COLUMNS' => 'filter_columns',
 		);
@@ -163,10 +162,6 @@ class SourcePlugin extends MantisSourceBase {
 		return array(
 			'SourceRelatedChangesetsColumn',
 		);
-	}
-
-	function css() {
-		return '<link rel="stylesheet" type="text/css" href="' . plugin_file( 'style.css' ) . '"/>';
 	}
 
 	function menu_main() {
