@@ -324,7 +324,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		$t_svn_proc = proc_open(
 			$t_svn_cmd,
-			array( array( 'pipe', 'r' ), array( 'pipe', 'w' ), array( 'pipe', 'a' ) ),
+			array( array( 'pipe', 'r' ), array( 'pipe', 'w' ), array( 'pipe', 'w' ) ),
 			$t_pipes
 		);
 
@@ -334,10 +334,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		}
 
 		# Get output of the process & clean up
-		$t_stderr = stream_get_contents( $t_pipes[2] );
-		fclose( $t_pipes[2] );
 		$t_svn_out = stream_get_contents( $t_pipes[1] );
 		fclose( $t_pipes[1] );
+		$t_stderr = stream_get_contents( $t_pipes[2] );
+		fclose( $t_pipes[2] );
 		fclose( $t_pipes[0] );
 		proc_close( $t_svn_proc );
 
