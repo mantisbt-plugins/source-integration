@@ -14,7 +14,23 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [2.1.1] - 2018-04-09
+
+Includes all changes and fixes from 1.5.5.
+
+### Changed
+
+- Updated German translation
+  [#251](https://github.com/mantisbt-plugins/source-integration/pull/251)
+
+### Fixed
+
+- Code cleanup
+
+
 ## [2.1.0] - 2017-09-17
+
+Includes all changes and fixes from 1.5.3 and 1.5.4.
 
 ### Added
 
@@ -45,10 +61,6 @@ specification.
   [#247](https://github.com/mantisbt-plugins/source-integration/pull/247)
 - WebSVN: updated German translation
   [#225](https://github.com/mantisbt-plugins/source-integration/pull/225)
-
-### Fixed
-
-Includes all changes and fixes from 1.5.3 and 1.5.4.
 
 
 ## [2.0.3] - 2017-05-28
@@ -320,9 +332,10 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.0...HEAD
+[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.1...HEAD
 [Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.5...master-1.3.x
 
+[2.1.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.3...v2.1.0
 [2.0.3]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.1...v2.0.2
