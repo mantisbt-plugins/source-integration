@@ -10,6 +10,13 @@ specification.
 
 # Releases for MantisBT 1.3
 
+## [1.5.5] - 2018-04-09
+
+### Fixed
+
+- HgWeb: syntax error
+  [#265](https://github.com/mantisbt-plugins/source-integration/pull/265)
+
 ## [1.5.4] - 2017-09-17
 
 ### Changed
@@ -23,7 +30,7 @@ specification.
   [#238](https://github.com/mantisbt-plugins/source-integration/issues/238)
 - Change of repo name after full import
   [#245](https://github.com/mantisbt-plugins/source-integration/issues/245)
-- HgWeb: fix handling of commit message lines beginning with `#` 
+- HgWeb: fix handling of commit message lines beginning with `#`
   [#233](https://github.com/mantisbt-plugins/source-integration/issues/233)
 - HgWeb: fix errors while importing the repository
   [#248](https://github.com/mantisbt-plugins/source-integration/issues/248)
@@ -48,12 +55,12 @@ specification.
 
 ### Changed
 
-- Source_FilterOption_Permalink() should not handle integer params as strings 
+- Source_FilterOption_Permalink() should not handle integer params as strings
   [#207](https://github.com/mantisbt-plugins/source-integration/issues/207)
 
 ### Fixed
 
-- Changeset reference is not processed when preceded by @-mention  
+- Changeset reference is not processed when preceded by @-mention
   [#204](https://github.com/mantisbt-plugins/source-integration/issues/204)
 
 
@@ -61,8 +68,8 @@ specification.
 
 ### Fixed
 
-- Bug preventing use of Git-based plugins on PHP versions < 5.6  
-  [#199](https://github.com/mantisbt-plugins/source-integration/issues/199) 
+- Bug preventing use of Git-based plugins on PHP versions < 5.6
+  [#199](https://github.com/mantisbt-plugins/source-integration/issues/199)
 
 ## [1.5.0] - 2017-03-06
 
@@ -79,13 +86,13 @@ specification.
 
 ### Changed
 
-- Workaround for 4-bytes UTF-8 characters (e.g. emojis) in commit messages  
+- Workaround for 4-bytes UTF-8 characters (e.g. emojis) in commit messages
   [#194](https://github.com/mantisbt-plugins/source-integration/issues/194)
 - Github: branch validation regex now follows rules defined in git check-ref-format man page
 
 ### Fixed
 
-- Github: handling branches containing '/'  
+- Github: handling branches containing '/'
   [#193](https://github.com/mantisbt-plugins/source-integration/issues/193)
 
 
@@ -108,9 +115,9 @@ scheme.
 ### Added
 
 - Support for MantisBT 1.3
-- Gitweb: Add support for HTTP basic auth  
+- Gitweb: Add support for HTTP basic auth
   [#144](https://github.com/mantisbt-plugins/source-integration/issues/144)
-- Support for Pull Request linking (Bitbucket, Github)  
+- Support for Pull Request linking (Bitbucket, Github)
   [#116](https://github.com/mantisbt-plugins/source-integration/issues/116)
 - New 'MantisSourceBase' common ancestor class
 - Classes hierarchy documentation
@@ -120,10 +127,10 @@ scheme.
 - Update MantisCore dependency to 1.3 for all child plugins
 - Adapt pages layout for Mantis 1.3.0
 - Improve layout of 'Enabled Features' in config page
-- Improve bug resolution and assignment logic  
-  [#80](https://github.com/mantisbt-plugins/source-integration/issues/80)  
+- Improve bug resolution and assignment logic
+  [#80](https://github.com/mantisbt-plugins/source-integration/issues/80)
   [#104](https://github.com/mantisbt-plugins/source-integration/issues/104)
-- Hide edit controls for unauthorized users on changeset details page  
+- Hide edit controls for unauthorized users on changeset details page
   [#188](https://github.com/mantisbt-plugins/source-integration/issues/188)
 - Plugins title prefixed with 'Source' to group them in Mantis Plugin admin page
 - Set all plugins' URL to point Github's page
@@ -136,23 +143,23 @@ scheme.
 ### Fixed
 
 - Javascript change event on search page
-- Data type mismatch error on edit page  
+- Data type mismatch error on edit page
   [#134](https://github.com/mantisbt-plugins/source-integration/issues/134)
-- Changeset linking  
-  [#146](https://github.com/mantisbt-plugins/source-integration/issues/146),  
+- Changeset linking
+  [#146](https://github.com/mantisbt-plugins/source-integration/issues/146),
   [#161](https://github.com/mantisbt-plugins/source-integration/issues/161)
-- Set issue resolution to 'fixed' when processing changesets  
+- Set issue resolution to 'fixed' when processing changesets
   [#191](https://github.com/mantisbt-plugins/source-integration/issues/191)
-- Cgit: filter out decoration tag from commit message  
+- Cgit: filter out decoration tag from commit message
   [#185](https://github.com/mantisbt-plugins/source-integration/issues/185)
-- GitHub: system notice when authorizing application  
+- GitHub: system notice when authorizing application
   [#168](https://github.com/mantisbt-plugins/source-integration/issues/168)
-- GitHub: allow clearing OAuth access token  
+- GitHub: allow clearing OAuth access token
   [#133](https://github.com/mantisbt-plugins/source-integration/issues/133)
 - GitLab: Remove calls to deprecated helper_alternate_class()
-- SVN: prevent Data Type mismatch error in config page  
+- SVN: prevent Data Type mismatch error in config page
   [#167](https://github.com/mantisbt-plugins/source-integration/issues/167)
-- SVN: force SourceSVN plugin in svn_call  
+- SVN: force SourceSVN plugin in svn_call
   [#186](https://github.com/mantisbt-plugins/source-integration/issues/186)
 
 
@@ -196,8 +203,9 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.4...master-1.3.x
+[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.5...master-1.3.x
 
+[1.5.5]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.4...v1.5.5
 [1.5.4]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.3...v1.5.4
 [1.5.3]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.2...v1.5.3
 [1.5.2]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.1...v1.5.2
