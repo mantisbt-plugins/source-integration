@@ -263,11 +263,14 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		# Process changeset metadata
 		$t_commit = array();
 		$t_parents = array();
-		static $s_pattern_metadata = '/^# (?:'
-			. self::PATTERN_USER . '|'
-			. self::PATTERN_DATE . '|'
-			. self::PATTERN_REVISION
-			. ')/J';
+		static $s_pattern_metadata;
+		if( !$s_pattern_metadata ) {
+			$s_pattern_metadata = '/^# (?:'
+				. self::PATTERN_USER . '|'
+				. self::PATTERN_DATE . '|'
+				. self::PATTERN_REVISION
+				. ')/J';
+		}
 		while( true ) {
 			$t_match = preg_match( $s_pattern_metadata, $t_input[$i], $t_metadata );
 			if( $t_match == false ) {
@@ -316,11 +319,14 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 
 			$t_changeset->author_email = empty($t_commit['author_email'])? '': $t_commit['author_email'];
 
-			static $s_pattern_diff = '#'
+			static $s_pattern_diff;
+			if( !$s_pattern_diff ) {
+				$s_pattern_diff = '#'
 				. self::PATTERN_DIFF . '\n('
 				. self::PATTERN_BINARY_FILE . '|'
 				. self::PATTERN_PLUS_MINUS
 				. ')#u';
+			}
 			preg_match_all( $s_pattern_diff, $p_input, $t_matches, PREG_SET_ORDER );
 
 			$t_commit['files'] = array();
