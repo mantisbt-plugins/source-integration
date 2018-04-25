@@ -1,0 +1,13 @@
+<?php
+
+# Copyright (c) 2018 wcreis
+# Licensed under the MIT license
+
+$s_plugin_SourceCgit_ = '';
+$s_plugin_SourceCgit_cgit = 'Cgit';
+$s_plugin_SourceCgit_title = 'Integração Repositório Cgit';
+$s_plugin_SourceCgit_description = 'Adiciona a Integração do Repositório Cgit para o framework de Integração de Repositório.';
+
+$s_plugin_SourceCgit_cgit_root = 'URL principal do Cgit <br/><span class="small">(incluindo a barra /)</span>';
+$s_plugin_SourceCgit_cgit_project = ' Projecto Cgit';
+$s_plugin_SourceCgit_master_branch = 'Branches principais<br/><span class="small">(lista separada por vírgula)</span>';
