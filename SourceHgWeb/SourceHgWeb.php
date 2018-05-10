@@ -254,7 +254,10 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		while( $i < count( $t_input ) && strpos( $t_input[$i++], '# HG changeset patch' ) === false );
 
 		# Check we haven't exhausted the input
-		if ( $i == count( $t_input )) return array (null, array());
+		if ( $i == count( $t_input )) {
+			echo 'repository may be empty?\n';
+			return array (null, array());
+		}
 
 		# Process changeset metadata
 		$t_commit = array();
