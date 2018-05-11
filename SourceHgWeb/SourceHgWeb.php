@@ -255,7 +255,7 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 
 		# Check we haven't exhausted the input
 		if ( $i == count( $t_input )) {
-			echo 'repository may be empty?\n';
+			echo "Unexpected HgWeb response (" . trim( $p_input ) . ") - repository may be empty.\n";
 			return array (null, array());
 		}
 
