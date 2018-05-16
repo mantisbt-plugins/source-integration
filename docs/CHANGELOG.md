@@ -10,6 +10,12 @@ specification.
 
 ## [Unreleased 2.x]
 
+### Fixed
+
+- HgWeb: prevent lockup and display warning when importing empty repository
+  [#269](https://github.com/mantisbt-plugins/source-integration/pull/269)
+
+
 --------------------------------------------------------------------------------
 
 # Releases for MantisBT 2.x

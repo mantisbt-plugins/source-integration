@@ -19,7 +19,7 @@ require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceHgWebPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '2.1.1';
+	const PLUGIN_VERSION = '2.1.2';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
 	/**
@@ -251,7 +251,13 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		$i = 0;
 
 		# Skip changeset header
-		while( strpos( $t_input[$i++], '# HG changeset patch' ) === false );
+		while( $i < count( $t_input ) && strpos( $t_input[$i++], '# HG changeset patch' ) === false );
+
+		# Check we haven't exhausted the input
+		if ( $i == count( $t_input )) {
+			echo "Unexpected HgWeb response (" . trim( $p_input ) . ") - repository may be empty.\n";
+			return array (null, array());
+		}
 
 		# Process changeset metadata
 		$t_commit = array();
