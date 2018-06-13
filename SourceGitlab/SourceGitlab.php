@@ -13,8 +13,14 @@ require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '1.1.1';
+	const PLUGIN_VERSION = '1.1.2';
 	const FRAMEWORK_VERSION_REQUIRED = '1.5.0';
+
+    /**
+     * GitLab API version, used to build the API URI
+     * @see api_uri()
+     */
+    const API_VERSION = 'v4';
 
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
@@ -194,7 +200,7 @@ public function update_repo_form( $p_repo ) {
 
 	private function api_uri( $p_repo, $p_path ) {
 		$t_root = $p_repo->info['hub_root'];
-		$t_uri = $t_root . '/api/v3/' . $p_path;
+		$t_uri = $t_root . '/api/' . self::API_VERSION . '/' . $p_path;
 
 		if( isset( $p_repo->info['hub_app_secret'] ) ) {
 			$t_access_token = $p_repo->info['hub_app_secret'];
