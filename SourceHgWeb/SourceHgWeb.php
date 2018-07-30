@@ -265,11 +265,11 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		$t_parents = array();
 		static $s_pattern_metadata;
 		if( !$s_pattern_metadata ) {
-			$s_pattern_metadata = '/^# (?:'
+			$s_pattern_metadata = '/^# (?J)(?:'
 				. self::PATTERN_USER . '|'
 				. self::PATTERN_DATE . '|'
 				. self::PATTERN_REVISION
-				. ')/J';
+				. ')/';
 		}
 		while( true ) {
 			$t_match = preg_match( $s_pattern_metadata, $t_input[$i], $t_metadata );
