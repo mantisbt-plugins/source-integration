@@ -10,6 +10,13 @@ specification.
 
 # Releases for MantisBT 1.3
 
+## [1.5.7] - 2018-07-30
+
+### Fixed
+
+- HgWeb: fix unsupported PCRE /J modifier on PHP < 7.2
+  [#275](https://github.com/mantisbt-plugins/source-integration/pull/275)
+
 ## [1.5.6] - 2018-06-13
 
 ### Fixed
@@ -210,8 +217,9 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.6...master-1.3.x
+[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.7...master-1.3.x
 
+[1.5.7]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.6...v1.5.7
 [1.5.6]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.5...v1.5.6
 [1.5.5]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.4...v1.5.5
 [1.5.4]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.3...v1.5.4
