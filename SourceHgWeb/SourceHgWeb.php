@@ -19,7 +19,7 @@ require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceHgWebPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '2.1.2';
+	const PLUGIN_VERSION = '2.1.3';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
 	/**
@@ -264,11 +264,11 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 		$t_parents = array();
 		static $s_pattern_metadata;
 		if( !$s_pattern_metadata ) {
-			$s_pattern_metadata = '/^# (?:'
+			$s_pattern_metadata = '/^# (?J)(?:'
 				. self::PATTERN_USER . '|'
 				. self::PATTERN_DATE . '|'
 				. self::PATTERN_REVISION
-				. ')/J';
+				. ')/';
 		}
 		while( true ) {
 			$t_match = preg_match( $s_pattern_metadata, $t_input[$i], $t_metadata );
