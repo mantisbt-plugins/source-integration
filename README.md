@@ -117,6 +117,7 @@ MantisBT version | Tags | Branch | Notes
    relevant plugin extension:
 
     * [SourceGithub](docs/CONFIGURING.SourceGithub.md)
+    * [SourceGitlab](SourceGitlab/README.md)
     * [SourceViewVC](docs/CONFIGURING.SourceViewVC.md)
     * [SourceSVN](docs/CONFIGURING.SourceSVN.md)
 
