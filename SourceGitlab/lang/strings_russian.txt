@@ -1,0 +1,17 @@
+<?php
+
+# Copyright (c) 2018 Oleg Kainov
+# Licensed under the MIT license
+
+$s_plugin_SourceGitlab_ = '';
+$s_plugin_SourceGitlab_gitlab = 'GitLab';
+$s_plugin_SourceGitlab_title = 'Интеграция с GitLab';
+$s_plugin_SourceGitlab_description = 'Добавляет интеграцию с GitLab к плагину "Интеграция контроля версий".';
+
+$s_plugin_SourceGitlab_hub_root = 'GitLab URL<br /><span class="small">Адрес (домен) вашего GitLab (например, https://gitlab.com/)</span>';
+$s_plugin_SourceGitlab_hub_repoid = 'ID репозитория GitLab<br /><span class="small">Число, если пусто, будет заполнено автоматически</span>';
+$s_plugin_SourceGitlab_hub_reponame = 'Имя репозитория GitLab<br /><span class="small">Группа и имя репозитория без слэшей в начале или в конце (namespace/project)</span>';
+$s_plugin_SourceGitlab_hub_app_secret = 'Ключ API GitLab<br /><span class="small">GitLab Personal Token с уровнем доступа "api"</span>';
+$s_plugin_SourceGitlab_master_branch = 'Отслеживаемые ветки<br/><span class="small">Список веток через запятую или *</span>';
+
+$s_plugin_SourceGitlab_back_repo = 'Назад в репозиторий';

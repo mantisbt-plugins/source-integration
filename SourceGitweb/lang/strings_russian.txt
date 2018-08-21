@@ -10,4 +10,4 @@ $s_plugin_SourceGitweb_description = 'Добавляет интеграцию Gi
 
 $s_plugin_SourceGitweb_gitweb_root = 'Корневой URL для Gitweb';
 $s_plugin_SourceGitweb_gitweb_project = 'Проект Gitweb<br/><span class="small">(включая ".git")</span>';
-$s_plugin_SourceGitweb_master_branch = 'Главные ветки<br/><span class="small">(список разделенный запятыми)</span>';
+$s_plugin_SourceGitweb_master_branch = 'Главные ветки<br/><span class="small">(список, разделенный запятыми)</span>';

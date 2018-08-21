@@ -10,4 +10,4 @@ $s_plugin_SourceGitphp_description = 'Добавляет интеграцию Gi
 
 $s_plugin_SourceGitphp_gitphp_root = 'Корневой URL для Gitphp';
 $s_plugin_SourceGitphp_gitphp_project = 'Проект Gitphp<br/><span class="small">(включая ".git")</span>';
-$s_plugin_SourceGitphp_master_branch = 'Главные ветки<br/><span class="small">(список разделенный запятыми)</span>';
+$s_plugin_SourceGitphp_master_branch = 'Главные ветки<br/><span class="small">(список, разделенный запятыми)</span>';
