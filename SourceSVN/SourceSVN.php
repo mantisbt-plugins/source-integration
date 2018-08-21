@@ -332,13 +332,21 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		if( $t_svn_proc === false ) {
 			plugin_error( self::ERROR_SVN_RUN );
 		}
-
-		# Get output of the process & clean up
-		$t_stderr = stream_get_contents( $t_pipes[2] );
-		fclose( $t_pipes[2] );
+		
+		# Closing STDIN because we don't need it
+		fclose( $t_pipes[0] );
+		
+		# Get STDOUT of the process, should read it first
 		$t_svn_out = stream_get_contents( $t_pipes[1] );
 		fclose( $t_pipes[1] );
-		fclose( $t_pipes[0] );
+
+		# STDERR should not block
+		stream_set_blocking( $t_pipes[2], 0 );
+		
+		# Get STDERR of the process if any
+		$t_stderr = stream_get_contents( $t_pipes[2] );
+		fclose( $t_pipes[2] );
+		
 		proc_close( $t_svn_proc );
 
 		# Error handling
