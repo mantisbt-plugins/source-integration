@@ -201,8 +201,8 @@ function Source_Process_FilterOption( $key, $option ) {
 		}
 
 		$wc = array_map( 'db_param', $value );
-		$wc = array_map( create_function( '$item','return "' . $key . ' LIKE $item";' ), $wc );
-		$value = array_map( create_function( '$item', 'return "%$item%";' ), $value );
+		$wc = array_map( function ( $item ) use ( $key ) { return "$key LIKE $item"; }, $wc);
+		$value = array_map( function( $item ) { return "%$item%"; }, $value );
 
 		$sql = '(' . implode( ' OR ', $wc ) . ')';
 

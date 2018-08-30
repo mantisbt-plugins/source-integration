@@ -149,6 +149,16 @@ Includes all changes and fixes from 1.5.0.
 
 # Releases for MantisBT 1.3
 
+## [1.5.8] - 2018-08-30
+
+### Fixed
+
+- Remove usage of create_function(), deprecated in PHP 7.2 
+  [#284](https://github.com/mantisbt-plugins/source-integration/issues/284)
+- ViewVC: fix links to moved/deleted files
+  [#273](https://github.com/mantisbt-plugins/source-integration/issues/273)
+
+
 ## [1.5.7] - 2018-07-30
 
 ### Fixed
@@ -357,7 +367,7 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 
 
 [Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.3...HEAD
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.7...master-1.3.x
+[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...master-1.3.x
 
 [2.1.3]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.1...v2.1.2
@@ -370,6 +380,7 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 [2.0.0-beta.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.0-beta.1...v2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.2...v2.0.0-beta.1
 
+[1.5.8]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.7...v1.5.8
 [1.5.7]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.6...v1.5.7
 [1.5.6]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.5...v1.5.6
 [1.5.5]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.4...v1.5.5
