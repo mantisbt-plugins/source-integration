@@ -10,7 +10,7 @@ specification.
 
 # Releases for MantisBT 2.x
 
-## [Unreleased 2.x]
+## [2.1.5] - 2018-08-30
 
 Includes all changes and fixes from 1.5.8.
 
@@ -381,7 +381,7 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.3...HEAD
+[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.4...HEAD
 [Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...master-1.3.x
 
 [2.1.4]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.3...v2.1.4
