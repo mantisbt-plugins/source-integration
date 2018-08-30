@@ -10,6 +10,21 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [Unreleased 2.x]
+
+Includes all changes and fixes from 1.5.8.
+
+### Changed
+
+- Improve labels for RegEx strings
+  [#283](https://github.com/mantisbt-plugins/source-integration/pull/283)
+- Update Russian translations
+  [#280](https://github.com/mantisbt-plugins/source-integration/pull/280)
+- Cgit: Portuguese-Brazil translation
+  [#267](https://github.com/mantisbt-plugins/source-integration/pull/267)
+- Gitlab: Improve integration Readme
+  [#278](https://github.com/mantisbt-plugins/source-integration/pull/278)
+
 ## [2.1.3] - 2018-07-30
 
 Includes all changes and fixes from 1.5.7.
@@ -369,6 +384,7 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 [Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.3...HEAD
 [Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...master-1.3.x
 
+[2.1.4]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.0...v2.1.1
