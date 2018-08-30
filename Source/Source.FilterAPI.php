@@ -202,8 +202,8 @@ function Source_Process_FilterOption( $key, $option ) {
 		}
 
 		$wc = array_map( 'db_param', $value );
-		$wc = array_map( create_function( '$item','return "' . $key . ' LIKE $item";' ), $wc );
-		$value = array_map( create_function( '$item', 'return "%$item%";' ), $value );
+		$wc = array_map( function ( $item ) use ( $key ) { return "$key LIKE $item"; }, $wc);
+		$value = array_map( function( $item ) { return "%$item%"; }, $value );
 
 		$sql = '(' . implode( ' OR ', $wc ) . ')';
 
@@ -586,7 +586,7 @@ function Source_Date_StampArray( $t_input ) {
 		return null;
 	}
 
-	return array_map( create_function( '$in', 'return (int) $in;' ), array_slice( $t_matches, 1, 3 ) );
+	return array_map( function ( $in ) { return (int) $in; }, array_slice( $t_matches, 1, 3 ) );
 }
 
 function Source_Date_Select( $p_name, $p_selected=null ) {
