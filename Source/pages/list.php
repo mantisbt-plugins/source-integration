@@ -28,7 +28,7 @@ layout_page_begin();
 	<div class="widget-box widget-color-blue2">
 		<div class="widget-header widget-header-small">
 			<h4 class="widget-title lighter">
-				<?php echo plugin_lang_get( 'changesets' ), ': ', $t_repo->name ?>
+				<?php echo plugin_lang_get( 'changesets' ), ': ', string_display_line( $t_repo->name ) ?>
 			</h4>
 		</div>
 
@@ -48,7 +48,7 @@ layout_page_begin();
 								</a>
 							<?php
 							if( $t_url = $t_vcs->url_repo( $t_repo ) ) { ?>
-								<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
+								<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo string_display_line( $t_url ) ?>">
 									<?php echo plugin_lang_get( 'browse' ) ?>
 								</a>
 							<?php } ?>
