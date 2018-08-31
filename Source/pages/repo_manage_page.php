@@ -123,7 +123,7 @@ layout_page_begin();
 		?>
 		<tr>
 			<td class="category"><?php echo plugin_lang_get_defaulted( $t_key, $t_key, $t_vcs->basename ) ?></td>
-			<td><?php echo is_bool( $t_value ) ? trans_bool( $t_value ) : $t_value ?></td>
+			<td><?php echo is_bool( $t_value ) ? trans_bool( $t_value ) : string_display_line( $t_value )?></td>
 		</tr>
 		<?php } ?>
 	</table>
