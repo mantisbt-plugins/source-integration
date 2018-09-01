@@ -164,6 +164,13 @@ Includes all changes and fixes from 1.5.0.
 
 # Releases for MantisBT 1.3
 
+## [1.5.9] - 2018-09-02
+
+### Security
+
+- Fix XSS in Manage Repository and Changesets List pages (CVE request pending)
+  [#286](https://github.com/mantisbt-plugins/source-integration/issues/286)
+
 ## [1.5.8] - 2018-08-30
 
 ### Fixed
@@ -382,7 +389,7 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 
 
 [Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.4...HEAD
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...master-1.3.x
+[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.9...master-1.3.x
 
 [2.1.4]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.2...v2.1.3
@@ -396,6 +403,7 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 [2.0.0-beta.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.0-beta.1...v2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.2...v2.0.0-beta.1
 
+[1.5.9]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...v1.5.9
 [1.5.8]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.7...v1.5.8
 [1.5.7]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.6...v1.5.7
 [1.5.6]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.5...v1.5.6
