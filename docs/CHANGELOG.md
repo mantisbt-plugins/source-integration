@@ -10,6 +10,13 @@ specification.
 
 # Releases for MantisBT 1.3
 
+## [1.5.9] - 2018-09-02
+
+### Security
+
+- Fix XSS in Manage Repository and Changesets List pages (CVE request pending)
+  [#286](https://github.com/mantisbt-plugins/source-integration/issues/286)
+
 ## [1.5.8] - 2018-08-30
 
 ### Fixed
@@ -227,8 +234,9 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...master-1.3.x
+[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.9...master-1.3.x
 
+[1.5.9]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...v1.5.9
 [1.5.8]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.7...v1.5.8
 [1.5.7]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.6...v1.5.7
 [1.5.6]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.5...v1.5.6
