@@ -10,7 +10,22 @@ specification.
 
 # Releases for MantisBT 2.x
 
-## [2.1.5] - 2018-08-30
+## [2.1.5] - 2018-09-02
+
+Includes all changes and fixes from 1.5.9.
+
+### Fixed
+
+- Fix French regex labels
+  [#285](https://github.com/mantisbt-plugins/source-integration/issues/285)
+
+### Security
+
+- Fix XSS in Manage Repository and Changesets List pages (CVE request pending)
+  [#286](https://github.com/mantisbt-plugins/source-integration/issues/286)
+
+
+## [2.1.4] - 2018-08-30
 
 Includes all changes and fixes from 1.5.8.
 
@@ -25,9 +40,11 @@ Includes all changes and fixes from 1.5.8.
 - Gitlab: Improve integration Readme
   [#278](https://github.com/mantisbt-plugins/source-integration/pull/278)
 
+
 ## [2.1.3] - 2018-07-30
 
 Includes all changes and fixes from 1.5.7.
+
 
 ## [2.1.2] - 2018-06-13
 
@@ -388,9 +405,10 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.4...HEAD
+[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.5...HEAD
 [Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.9...master-1.3.x
 
+[2.1.5]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.1...v2.1.2
