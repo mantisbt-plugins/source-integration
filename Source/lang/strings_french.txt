@@ -89,11 +89,6 @@ $s_plugin_Source_buglink_regex_1 = '<abbr title="Expression régulière">RegEx</
 $s_plugin_Source_buglink_regex_2 = '<abbr title="Expression régulière">RegEx</abbr> référençant des bogues (passe 2)<br><span class="small">Extraction des identifiants de bogues (i.e. "3", "87") du résultat de la passe 1</span>';
 $s_plugin_Source_bugfix_regex_1 = '<abbr title="Expression régulière">RegEx</abbr> référençant des bogues résolus (passe 1)<br><span class="small">Utilisée pour analyser les messages de soumission et identifies les bogues résolus, e.g. "Fixes #21 #35"</span>';
 $s_plugin_Source_bugfix_regex_2 = '<abbr title="Expression régulière">RegEx</abbr> référençant des bogues résolus (passe 2)<br><span class="small">Extraction des identifiants de bogues (i.e. "21", "35") du résultat de la passe 1</span>';
-
-$s_plugin_Source_buglink_regex_1 = 'Regex de lien de demande, Passe 1';
-$s_plugin_Source_buglink_regex_2 = 'Regex de lien de demande, Passe 2';
-$s_plugin_Source_bugfix_regex_1 = 'Regex de résolution de demande, Passe 1';
-$s_plugin_Source_bugfix_regex_2 = 'Regex de résolution de demande, Passe 2';
 $s_plugin_Source_bugfix_status = 'Status de résolution de la demande';
 $s_plugin_Source_bugfix_status_off = '[Désactivé]';
 $s_plugin_Source_bugfix_status_default = '[Statut résolu]';
