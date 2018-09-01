@@ -26,7 +26,7 @@ html_page_top2();
 
 <div class="table-container">
 
-	<h2><?php echo plugin_lang_get( 'changesets' ), ': ', $t_repo->name ?></h2>
+	<h2><?php echo plugin_lang_get( 'changesets' ), ': ', string_display_line( $t_repo->name ) ?></h2>
 
 	<div class="right">
 		<?php
