@@ -95,6 +95,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_hub_app_client_id = null;
 		$t_hub_app_secret = null;
 		$t_hub_app_access_token = null;
+		$t_hub_webhook_secret = null;
 
 		if ( isset( $p_repo->info['hub_username'] ) ) {
 			$t_hub_username = $p_repo->info['hub_username'];
@@ -114,6 +115,10 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 		if ( isset( $p_repo->info['hub_app_access_token'] ) ) {
 			$t_hub_app_access_token = $p_repo->info['hub_app_access_token'];
+		}
+
+		if ( isset( $p_repo->info['hub_webhook_secret'] ) ) {
+			$t_hub_webhook_secret = $p_repo->info['hub_webhook_secret'];
 		}
 
 		if ( isset( $p_repo->info['master_branch'] ) ) {
@@ -172,6 +177,13 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 </tr>
 
 <tr>
+	<td class="category"><?php echo plugin_lang_get( 'hub_webhook_secret' ) ?></td>
+	<td>
+		<input type="text" name="hub_webhook_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_webhook_secret ) ?>"/>
+	</td>
+</tr>
+
+<tr>
 	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
 	<td>
 		<input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
@@ -191,6 +203,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
 		$f_hub_app_client_id = gpc_get_string( 'hub_app_client_id' );
 		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
+		$f_hub_webhook_secret = gpc_get_string( 'hub_webhook_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
 		$this->validate_branch_list( $f_master_branch );
@@ -199,6 +212,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$p_repo->info['hub_reponame'] = $f_hub_reponame;
 		$p_repo->info['hub_app_client_id'] = $f_hub_app_client_id;
 		$p_repo->info['hub_app_secret'] = $f_hub_app_secret;
+		$p_repo->info['hub_webhook_secret'] = $f_hub_webhook_secret;
 		$p_repo->info['master_branch'] = $f_master_branch;
 
 		return $p_repo;
@@ -273,6 +287,29 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			$t_repo->id = $t_row['id'];
 
 			if ( $t_repo->info['hub_reponame'] == $t_reponame ) {
+				# Retrieve the payload's signature from the request headers
+				# Reference https://developer.github.com/webhooks/#delivery-headers
+				$t_signature = null;
+				if( array_key_exists( 'HTTP_X_HUB_SIGNATURE', $_SERVER ) ) {
+					$t_signature = explode( '=', $_SERVER['HTTP_X_HUB_SIGNATURE'] );
+					if( $t_signature[0] != 'sha1' ) {
+						# Invalid hash - as per docs, only sha1 is supported
+						return;
+					}
+					$t_signature = $t_signature[1];
+				}
+
+				# Validate payload against webhook secret: checks OK if
+				# - Webhook secret not defined and no signature received from GitHub, OR
+				# - Payload's SHA1 hash salted with Webhook secret matches signature
+				$t_secret = $t_repo->info['hub_webhook_secret'];
+				$t_valid = ( !$t_secret && !$t_signature )
+					|| $t_signature == hash_hmac('sha1', $f_payload, $t_secret);
+				if( !$t_valid ) {
+					# Invalid signature
+					return;
+				}
+
 				return array( 'repo' => $t_repo, 'data' => $t_data );
 			}
 		}
