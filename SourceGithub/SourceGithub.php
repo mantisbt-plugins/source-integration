@@ -248,9 +248,14 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	public function precommit() {
+		# Legacy GitHub Service sends the payload via eponymous form variable
 		$f_payload = gpc_get_string( 'payload', null );
 		if ( is_null( $f_payload ) ) {
-			return;
+			# If empty, retrieve the webhook's payload from the body
+			$f_payload = file_get_contents( 'php://input' );
+			if ( is_null( $f_payload ) ) {
+				return;
+			}
 		}
 
 		if ( false === stripos( $f_payload, 'github.com' ) ) {
