@@ -13,7 +13,7 @@ $s_plugin_SourceGithub_hub_reponame = 'GitHub Repository Name<br/><span class="s
 $s_plugin_SourceGithub_hub_app_client_id = 'GitHub Application Client ID<br><span class="small">This is required for private repositories and also allows to get around the <a href="https://developer.github.com/v3/#rate-limiting">Rate Limit</a> when importing data.<br>Create a new <a href="https://github.com/settings/applications">GitHub Application</a> if needed.</span>';
 $s_plugin_SourceGithub_hub_app_secret = 'GitHub Application Secret';
 $s_plugin_SourceGithub_hub_app_access_token = 'GitHub Application Access Token';
-$s_plugin_SourceGithub_hub_webhook_secret = 'GitHub Webhook Secret';
+$s_plugin_SourceGithub_hub_webhook_secret = 'GitHub Webhook Secret<br/><span class="small">This must match the <em>Secret</em> set in the webhook\'s definition, and is used to validate the payload\'s signature.</span>';
 $s_plugin_SourceGithub_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list or "*" for all branches)</span>';
 
 $s_plugin_SourceGithub_hub_app_client_id_secret_missing = '<span class="small">You must first enter the GitHub Application <em>Client ID</em> &amp; <em>Secret</em> and update the repository before you can authorize.</span>';
