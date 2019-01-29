@@ -14,6 +14,10 @@ specification.
 
 Includes all changes and fixes from 1.6.0.
 
+### Changed
+
+- GitHub: adjust oauth authorization page for MantisBT 2.x UI
+  [#293](https://github.com/mantisbt-plugins/source-integration/pull/293)
 
 ## [2.1.5] - 2018-09-02
 
