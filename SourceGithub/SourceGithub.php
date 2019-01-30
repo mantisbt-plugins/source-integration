@@ -291,14 +291,20 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		if( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ) {
 			echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
 		} elseif( empty( $t_hub_app_access_token ) ) {
-			print_small_button( $this->oauth_authorize_uri( $p_repo ), plugin_lang_get( 'hub_app_authorize' ) );
+			print_small_button(
+				$this->oauth_authorize_uri( $p_repo ),
+				plugin_lang_get( 'hub_app_authorize' )
+			);
 		} else {
 			$t_hide_webhook_create = false;
 			echo plugin_lang_get( 'hub_app_authorized' );
 			# @TODO This would be better with an AJAX, but this will do for now
 			?>
 			&nbsp;
-			<input type="submit" class="btn btn-primary btn-white btn-round btn-sm" name="revoke" value="<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>"/>
+			<input name="revoke" type="submit"
+			       class="btn btn-primary btn-white btn-round btn-sm"
+			       value="<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>"
+			/>
 			<?php
 		}
 
