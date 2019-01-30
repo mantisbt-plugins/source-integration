@@ -658,14 +658,16 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		}
 
 		if ( !empty( $t_hub_app_client_id ) && !empty( $t_hub_app_secret ) ) {
-			return 'https://github.com/login/oauth/authorize?'
-				. http_build_query( array(
-					'client_id' => $t_hub_app_client_id,
-					'redirect_uri' => config_get( 'path' )
-						. plugin_page( 'oauth_authorize', true )
-						. '&id=' . $p_repo->id,
-					'scope' => 'repo'
-				) );
+			$t_redirect_uri = config_get( 'path' )
+				. plugin_page( 'oauth_authorize', true ) . '&'
+				. http_build_query( array( 'id' => $p_repo->id ) );
+			$t_param = array(
+				'client_id' => $t_hub_app_client_id,
+				'redirect_uri' => $t_redirect_uri,
+				'scope' => 'repo',
+				'allow_signup' => false,
+			);
+			return 'https://github.com/login/oauth/authorize?' . http_build_query( $t_param );
 		} else {
 			return '';
 		}
