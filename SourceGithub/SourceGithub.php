@@ -33,6 +33,102 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 	public $type = 'github';
 
+	public function hooks() {
+		return parent::hooks() + array(
+			'EVENT_REST_API_ROUTES' => 'routes',
+		);
+	}
+
+	/**
+	 * Add the RESTful routes handled by this plugin.
+	 *
+	 * @param string $p_event_name The event name
+	 * @param array  $p_event_args The event arguments
+	 * @return void
+	 */
+	public function routes( $p_event_name, $p_event_args ) {
+		$t_app = $p_event_args['app'];
+		$t_plugin = $this;
+		$t_app->group(
+			plugin_route_group(),
+			function() use ( $t_app, $t_plugin ) {
+				$t_app->post( '/{id}/webhook', [$t_plugin, 'route_webhook'] );
+			}
+		);
+	}
+
+	/**
+	 * RESTful route to create GitHub checkin webhook
+	 *
+	 * @param Slim\Http\Request  $p_request
+	 * @param Slim\Http\Response $p_response
+	 * @param array              $p_args
+	 *
+	 * @return Slim\Http\Response
+	 */
+	public function route_webhook( $p_request, $p_response, $p_args ) {
+		plugin_push_current( 'Source' );
+
+		# Make sure the given repository exists
+		$t_repo_id = isset( $p_args['id'] ) ? $p_args['id'] : $p_request->getParam( 'id' );
+		if( !SourceRepo::exists( $t_repo_id ) ) {
+			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, 'Invalid Repository Id' );
+		}
+
+		# Check that the repo is of GitHub type
+		$t_repo = SourceRepo::load( $t_repo_id );
+		if( $t_repo->type != $this->type ) {
+			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, "Id $t_repo_id is not a GitHub repository" );
+		}
+
+		$t_username = $t_repo->info['hub_username'];
+		$t_reponame = $t_repo->info['hub_reponame'];
+
+		# GitHub webhook payload URL
+		$t_payload_url = config_get( 'path' ) . plugin_page( 'checkin', true )
+			. '&api_key=' . plugin_config_get( 'api_key' );
+
+		# Retrieve existing webhooks
+		$t_github_api = new \GuzzleHttp\Client();
+		$t_api_uri = SourceGithubPlugin::api_uri( $t_repo, "repos/$t_username/$t_reponame/hooks" );
+		$t_response = $t_github_api->get( $t_api_uri );
+		$t_hooks = json_decode( (string) $t_response->getBody() );
+
+		# Determine if there is already a webhook attached to the plugin's payload URL
+		$t_id = false;
+		foreach( $t_hooks as $t_hook ) {
+			if(   $t_hook->name == 'web' && $t_hook->config->url == $t_payload_url ) {
+				$t_id = $t_hook->id;
+				break;
+			}
+		}
+
+		if( $t_id ) {
+			# Webhook already exists for this URL
+			return $p_response
+				->withStatus( HTTP_STATUS_CONFLICT, "Webhook already exists" )
+				->withJson( $t_hook );
+		}
+
+		# Create new webhook
+		$t_payload = array(
+			'name' => 'web',
+			'config' => array(
+				'url' => $t_payload_url,
+				'content_type' => 'json',
+				'secret' => $t_repo->info['hub_webhook_secret'],
+			)
+		);
+		$t_github_response = $t_github_api->post( $t_api_uri,
+			array( GuzzleHttp\RequestOptions::JSON => $t_payload )
+		);
+
+		return $p_response
+			->withStatus( HTTP_STATUS_CREATED, "Webhook id $t_id created" )
+			->withHeader('Content-type', 'application/json')
+			->write( $t_github_response->getBody() );
+	}
+
 	public function show_type() {
 		return plugin_lang_get( 'github' );
 	}
