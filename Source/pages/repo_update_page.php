@@ -38,7 +38,7 @@ if( $f_status ) {
 				<?php echo plugin_lang_get( 'update_repository' ) ?>
 			</h4>
 			<?php echo form_security_field( 'plugin_Source_repo_update' ) ?>
-			<input type="hidden" name="repo_id" value="<?php echo $t_repo->id ?>"/>
+			<input type="hidden" name="repo_id" id="repo_id" value="<?php echo $t_repo->id ?>"/>
 		</div>
 		<div class="widget-body">
 			<div class="widget-main no-padding">
