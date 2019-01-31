@@ -33,8 +33,21 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 	public $type = 'github';
 
+	public function resources( $p_event ) {
+		# Only include the javascript when it's actually needed
+		parse_str( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY ), $t_query );
+		if( array_key_exists( 'page', $t_query ) ) {
+			$t_page = basename( $t_query['page'] );
+			if( $t_page == 'repo_update_page' ) {
+				return '<script src="' . plugin_file( 'sourcegithub.js' ) . '"></script>';
+			}
+		}
+		return null;
+	}
+
 	public function hooks() {
 		return parent::hooks() + array(
+			"EVENT_LAYOUT_RESOURCES" => "resources",
 			'EVENT_REST_API_ROUTES' => 'routes',
 		);
 	}
