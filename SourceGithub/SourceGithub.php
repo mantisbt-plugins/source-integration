@@ -276,6 +276,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	<td class="category"><?php echo plugin_lang_get( 'hub_webhook_secret' ) ?></td>
 	<td>
 		<input type="text" name="hub_webhook_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_webhook_secret ) ?>"/>
+		&nbsp;
+		<button id="webhook_create" name="webhook_create" type="button"
+		        class="btn btn-primary btn-white btn-round btn-sm">
+			Create Webhook
+		</button>
 	</td>
 </tr>
 
