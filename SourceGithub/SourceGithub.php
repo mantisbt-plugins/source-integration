@@ -102,9 +102,15 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			. '&api_key=' . plugin_config_get( 'api_key' );
 
 		# Retrieve existing webhooks
-		$t_github_api = new \GuzzleHttp\Client();
-		$t_api_uri = SourceGithubPlugin::api_uri( $t_repo, "repos/$t_username/$t_reponame/hooks" );
-		$t_response = $t_github_api->get( $t_api_uri );
+		try {
+			$t_github_api = new \GuzzleHttp\Client();
+			$t_api_uri = SourceGithubPlugin::api_uri( $t_repo, "repos/$t_username/$t_reponame/hooks" );
+
+			$t_response = $t_github_api->get( $t_api_uri );
+		}
+		catch( GuzzleHttp\Exception\ClientException $e ) {
+			return $e->getResponse();
+		}
 		$t_hooks = json_decode( (string) $t_response->getBody() );
 
 		# Determine if there is already a webhook attached to the plugin's payload URL
@@ -124,17 +130,23 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		}
 
 		# Create new webhook
-		$t_payload = array(
-			'name' => 'web',
-			'config' => array(
-				'url' => $t_payload_url,
-				'content_type' => 'json',
-				'secret' => $t_repo->info['hub_webhook_secret'],
-			)
-		);
-		$t_github_response = $t_github_api->post( $t_api_uri,
-			array( GuzzleHttp\RequestOptions::JSON => $t_payload )
-		);
+		try {
+			$t_payload = array(
+				'name' => 'web',
+				'config' => array(
+					'url' => $t_payload_url,
+					'content_type' => 'json',
+					'secret' => $t_repo->info['hub_webhook_secret'],
+				)
+			);
+
+			$t_github_response = $t_github_api->post( $t_api_uri,
+				array( GuzzleHttp\RequestOptions::JSON => $t_payload )
+			);
+		}
+		catch( GuzzleHttp\Exception\ClientException $e ) {
+			return $e->getResponse();
+		}
 
 		return $p_response
 			->withStatus( HTTP_STATUS_CREATED, "Webhook id $t_id created" )
