@@ -125,7 +125,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		if( $t_id ) {
 			# Webhook already exists for this URL
 			return $p_response
-				->withStatus( HTTP_STATUS_CONFLICT, "Webhook already exists" )
+				->withStatus( HTTP_STATUS_CONFLICT,
+					plugin_lang_get( 'webhook_exists', 'SourceGithub' ) )
 				->withJson( $t_hook );
 		}
 
@@ -149,7 +150,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		}
 
 		return $p_response
-			->withStatus( HTTP_STATUS_CREATED, "Webhook id $t_id created" )
+			->withStatus( HTTP_STATUS_CREATED,
+				plugin_lang_get( 'webhook_success', 'SourceGithub' ) )
 			->withHeader('Content-type', 'application/json')
 			->write( $t_github_response->getBody() );
 	}
@@ -304,7 +306,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		<div class="space-2"></div>
 		<div id="webhook_create">
 			<button type="button" class="btn btn-primary btn-white btn-round btn-sm">
-				Create Webhook
+				<?php echo plugin_lang_get( 'webhook_create' ); ?>
 			</button>
 
 			<span id="webhook_status">

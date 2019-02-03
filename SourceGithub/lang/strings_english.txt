@@ -21,6 +21,10 @@ $s_plugin_SourceGithub_hub_app_authorize = 'Click to Authorize';
 $s_plugin_SourceGithub_hub_app_authorized = 'Authorized';
 $s_plugin_SourceGithub_hub_app_revoke = 'Revoke';
 
+$s_plugin_SourceGithub_webhook_create = 'Create Webhook';
+$s_plugin_SourceGithub_webhook_success= 'Webhook created successfully';
+$s_plugin_SourceGithub_webhook_exists = 'Webhook already exists';
+
 $s_plugin_SourceGithub_repo_authorized = '<p>MantisBT is now authorized to access this GitHub repository.</p>';
 $s_plugin_SourceGithub_repo_authorization_failed = '<p style="color: red;">Sorry, MantisBT could not be authorized to access this GitHub repository.</p>';
 
