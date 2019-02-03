@@ -18,21 +18,27 @@ SourceGithub.rest_api = function(endpoint) {
 };
 
 jQuery(document).ready(function($) {
-	$('#webhook_create').click(webhook_create);
+	$('#webhook_create > button').click(webhook_create);
 
 	function webhook_create() {
 		var repo_id = $('#repo_id').val();
+		var status_icon = $('#webhook_status > i');
+		var status_message = $('#webhook_status > span');
 
 		$.ajax({
 			type: 'POST',
 			url: SourceGithub.rest_api(repo_id + '/webhook'),
-			success: function() {
-				$('#webhook_create').prop("disabled", true);
+			success: function(data, textStatus, xhr) {
+				status_icon.removeClass("fa-times red").addClass("fa-check green");
+				status_message.text(xhr.statusText);
+				$('#webhook_create > button').prop("disabled", true);
 			},
 			error: function(xhr, textStatus, errorThrown) {
+				status_icon.removeClass("fa-check green").addClass("fa-times red");
+				status_message.text(errorThrown);
 				console.error(
 					'Webhook creation failed',
-					{ error: errorThrown, request: this.url }
+					{ error: errorThrown, details: JSON.parse(xhr.responseText), request: this.url }
 				);
 			}
 		});
