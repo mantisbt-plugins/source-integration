@@ -91,16 +91,16 @@ layout_page_begin();
 
 		<div class="widget-body">
 			<div class="widget-main no-padding">
+				<div class="widget-toolbox padding-8 clearfix">
+					<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'list' ) . "&id=$f_repo_id" ?>">
+						<?php echo plugin_lang_get( 'browse' ) ?>
+					</a>
+					<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'index' ) ?>">
+						<?php echo plugin_lang_get( 'back' ) ?>
+					</a>
+				</div>
 				<div class="table-responsive">
 
-					<div class="widget-toolbox padding-8 clearfix">
-						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'list' ) . "&id=$f_repo_id" ?>">
-							<?php echo plugin_lang_get( 'browse' ) ?>
-						</a>
-						<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'index' ) ?>">
-							<?php echo plugin_lang_get( 'back' ) ?>
-						</a>
-					</div>
 	<table class="table table-bordered table-condensed">
 		<tr>
 			<td class="category" width="30%"><?php echo plugin_lang_get( 'name' ) ?></td>
