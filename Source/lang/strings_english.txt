@@ -64,6 +64,7 @@ $s_plugin_Source_update_repository = 'Update Repository';
 $s_plugin_Source_delete_repository = 'Delete Repository';
 $s_plugin_Source_update_configuration = 'Update Configuration';
 $s_plugin_Source_search_changesets = 'Search Changesets';
+$s_plugin_Source_repository_updated = 'Repository updated successfully.';
 
 $s_plugin_Source_back = 'Back to Index';
 $s_plugin_Source_back_repo = 'Back to Repository';

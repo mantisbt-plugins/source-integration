@@ -6,6 +6,7 @@
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 
 $f_repo_id = gpc_get_int( 'id' );
+$f_status = gpc_get_int( 'status', null );
 
 $t_repo = SourceRepo::load( $f_repo_id );
 $t_vcs = SourceVCS::repo( $t_repo );
@@ -13,6 +14,19 @@ $t_type = SourceType($t_repo->type);
 
 layout_page_header( plugin_lang_get( 'title' ) );
 layout_page_begin();
+
+# Display Repository Updated message if status is true
+if( $f_status ) {
+?>
+<div class="col-md-12 col-xs-12">
+	<div class="alert alert-success center">
+		<p class="bold bigger-110">
+			<?php echo plugin_lang_get( 'repository_updated' ) ?>
+		</p>
+	</div>
+</div>
+<?php
+}
 ?>
 
 <div class="col-md-12 col-xs-12">
