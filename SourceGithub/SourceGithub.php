@@ -301,48 +301,55 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
 	<td>
-		<input type="text" name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/>
+		<input name="hub_app_client_id" id="hub_app_client_id"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"
+			   data-original="<?php echo string_attribute( $t_hub_app_client_id ) ?>"
+		/>
 	</td>
 </tr>
 
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>
 	<td>
-		<input type="text" name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/>
+		<input name="hub_app_secret" id="hub_app_secret"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_app_secret ) ?>"
+			   data-original="<?php echo string_attribute( $t_hub_app_secret ) ?>"
+		/>
 	</td>
 </tr>
 
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></td>
 	<td>
-		<?php
-		$t_hide_webhook_create = true;
+		<div id="id_secret_missing" class="hidden">
+			<?php echo plugin_lang_get( 'hub_app_client_id_secret_missing' ); ?>
+		</div>
 
-		if( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ) {
-			echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
-		} elseif( empty( $t_hub_app_access_token ) ) {
+		<div id="token_missing" class="sourcegithub_token hidden">
+			<?php
 			print_small_button(
 				$this->oauth_authorize_uri( $p_repo ),
 				plugin_lang_get( 'hub_app_authorize' )
 			);
-		} else {
-			$t_hide_webhook_create = false;
-			echo plugin_lang_get( 'hub_app_authorized' );
-			# @TODO This would be better with an AJAX, but this will do for now
 			?>
-			&nbsp;
-			<input name="revoke" type="submit"
-			       class="btn btn-primary btn-white btn-round btn-sm"
-			       value="<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>"
-			/>
-			<?php
-		}
+		</div>
 
-		# Only show the webhook creation div when the app has been authorized
-		if( $t_hide_webhook_create ) {
-			$t_webhook_create_css = ' class="hidden"';
-		}
-		?>
+		<div id="token_authorized" class="sourcegithub_token hidden">
+			<input name="hub_app_access_token" id="hub_app_access_token"
+				   type="hidden" maxlength="250" size="40"
+				   value="<?php echo string_attribute( $t_hub_app_access_token ) ?>"
+			/>
+			<?php echo plugin_lang_get( 'hub_app_authorized' ); ?>&nbsp;
+			<button id="btn_auth_revoke" type="button"
+					class="btn btn-primary btn-white btn-round btn-sm"
+					data-token-set="<?php echo $t_hub_app_access_token ? 'true' : 'false' ?>"
+			>
+				<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>
+			</button>
+		</div>
+
 	</td>
 </tr>
 
@@ -350,7 +357,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	<td class="category"><?php echo plugin_lang_get( 'hub_webhook_secret' ) ?></td>
 	<td>
 		<input type="text" name="hub_webhook_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_webhook_secret ) ?>"/>
-		<div id="webhook_create"<?php echo $t_webhook_create_css; ?>>
+		<div id="webhook_create" class="sourcegithub_token hidden">
 			<div class="space-2"></div>
 			<button type="button" class="btn btn-primary btn-white btn-round btn-sm">
 				<?php echo plugin_lang_get( 'webhook_create' ); ?>
