@@ -18,7 +18,46 @@ SourceGithub.rest_api = function(endpoint) {
 };
 
 jQuery(document).ready(function($) {
+	$('#hub_app_client_id, #hub_app_secret').change(set_visibility);
 	$('#webhook_create > button').click(webhook_create);
+
+	// The PHP code initially hides all token authorization elements using the.
+	// 'hidden' class, which we need to remove so we can set visibility using
+	// show/hide functions
+	set_visibility();
+	$('.sourcegithub_token, #id_secret_missing').removeClass('hidden');
+
+	function set_visibility() {
+		var div_id_secret_missing = $('#id_secret_missing');
+		var client_id = $('#hub_app_client_id');
+		var secret = $('#hub_app_secret');
+
+		// If Client ID and secret are set and equal to the recorded values
+		// for the repository, we hide the information message and display the
+		// authorize or revoke button and authorization status as needed.
+		if (   client_id.val() !== ''
+			&& client_id.val() === client_id.data('original')
+			&& secret.val() !== ''
+			&& secret.val() === secret.data('original')
+		) {
+			var div_token_authorized = $('#token_authorized');
+			var div_token_missing = $('#token_missing');
+			var div_webhook = $('#webhook_create');
+			var token = div_token_authorized.children('input');
+
+			div_id_secret_missing.hide();
+			if (token.val() !== '') {
+				div_token_authorized.add(div_webhook).show();
+				div_token_missing.hide();
+			} else {
+				div_token_authorized.add(div_webhook).hide();
+				div_token_missing.show();
+			}
+		} else {
+			div_id_secret_missing.show();
+			$('.sourcegithub_token').hide();
+		}
+	}
 
 	function webhook_create() {
 		var repo_id = $('#repo_id').val();
