@@ -50,7 +50,7 @@ if( $f_status ) {
 				<div class="table-responsive">
 		<table class="table table-striped table-bordered table-condensed">
 			<tr>
-				<td class="category"><?php echo plugin_lang_get( 'name' ) ?></td>
+				<td class="category" width="35%"><?php echo plugin_lang_get( 'name' ) ?></td>
 				<td>
 					<input name="repo_name" type="text" maxlength="128" size="40" value="<?php echo string_attribute( $t_repo->name ) ?>"/>
 				</td>

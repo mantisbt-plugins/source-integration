@@ -103,7 +103,7 @@ layout_page_begin();
 
 	<table class="table table-bordered table-condensed">
 		<tr>
-			<td class="category" width="30%"><?php echo plugin_lang_get( 'name' ) ?></td>
+			<td class="category" width="35%"><?php echo plugin_lang_get( 'name' ) ?></td>
 			<td><?php echo string_display( $t_repo->name ) ?></td>
 		</tr>
 
