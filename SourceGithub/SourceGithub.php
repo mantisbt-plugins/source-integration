@@ -65,9 +65,39 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_app->group(
 			plugin_route_group(),
 			function() use ( $t_app, $t_plugin ) {
+				$t_app->delete( '/{id}/token', [$t_plugin, 'route_token_revoke'] );
 				$t_app->post( '/{id}/webhook', [$t_plugin, 'route_webhook'] );
 			}
 		);
+	}
+
+	/**
+	 * RESTful route to revoke GitHub application token
+	 *
+	 * @param Slim\Http\Request  $p_request
+	 * @param Slim\Http\Response $p_response
+	 * @param array              $p_args
+	 *
+	 * @return Slim\Http\Response
+	 */
+	public function route_token_revoke( $p_request, $p_response, $p_args ) {
+		# Make sure the given repository exists
+		$t_repo_id = isset( $p_args['id'] ) ? $p_args['id'] : $p_request->getParam( 'id' );
+		if( !SourceRepo::exists( $t_repo_id ) ) {
+			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, 'Invalid Repository Id' );
+		}
+
+		# Check that the repo is of GitHub type
+		$t_repo = SourceRepo::load( $t_repo_id );
+		if( $t_repo->type != $this->type ) {
+			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, "Id $t_repo_id is not a GitHub repository" );
+		}
+
+		# Clear the token
+		unset( $t_repo->info['hub_app_access_token'] );
+		$t_repo->save();
+
+		return $p_response->withStatus( HTTP_STATUS_NO_CONTENT );
 	}
 
 	/**
