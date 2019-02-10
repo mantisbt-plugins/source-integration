@@ -132,9 +132,13 @@ layout_page_begin();
 			</div>
 			<div class="widget-toolbox padding-8 clearfix">
 				<div class="col-md-6 col-xs-12 no-padding">
-					<form action="<?php echo plugin_page( 'repo_update_page' ) . '&amp;id=' . $t_repo->id ?>" method="post" class="pull-left">
-						<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'update_repository' ) ?>"/>
-					</form>
+					<?php
+					print_link_button(
+						plugin_page( 'repo_update_page' ) . '&id=' . $t_repo->id,
+						plugin_lang_get( 'update_repository' ),
+						'btn-sm pull-left'
+					);
+					?>
 					<form action="<?php echo plugin_page( 'repo_delete' ) . '&amp;id=' . $t_repo->id ?>" method="post" class="pull-left">
 						<?php echo form_security_field( 'plugin_Source_repo_delete' ) ?>
 						<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'delete_repository' ) ?>"/>
