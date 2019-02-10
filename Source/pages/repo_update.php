@@ -27,5 +27,5 @@ if ( !is_null( $t_updated_repo ) ) {
 
 form_security_purge( 'plugin_Source_repo_update' );
 
-print_successful_redirect( plugin_page( 'repo_manage_page', true ) . '&id=' . $t_repo->id );
+print_successful_redirect( plugin_page( 'repo_update_page', true ) . '&id=' . $t_repo->id );
 

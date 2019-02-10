@@ -10,7 +10,7 @@ $f_code = gpc_get_string( 'code' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
 $t_authorized = SourceGithubPlugin::oauth_get_access_token( $t_repo, $f_code );
-$t_redirect_url = plugin_page( 'repo_manage_page', false, 'Source' ) . '&id=' . $t_repo->id;
+$t_redirect_url = plugin_page( 'repo_update_page', false, 'Source' ) . '&id=' . $t_repo->id;
 
 layout_page_header( plugin_lang_get( 'title' ) );
 layout_page_begin();
