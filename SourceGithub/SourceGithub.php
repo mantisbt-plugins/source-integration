@@ -65,9 +65,39 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_app->group(
 			plugin_route_group(),
 			function() use ( $t_app, $t_plugin ) {
+				$t_app->delete( '/{id}/token', [$t_plugin, 'route_token_revoke'] );
 				$t_app->post( '/{id}/webhook', [$t_plugin, 'route_webhook'] );
 			}
 		);
+	}
+
+	/**
+	 * RESTful route to revoke GitHub application token
+	 *
+	 * @param Slim\Http\Request  $p_request
+	 * @param Slim\Http\Response $p_response
+	 * @param array              $p_args
+	 *
+	 * @return Slim\Http\Response
+	 */
+	public function route_token_revoke( $p_request, $p_response, $p_args ) {
+		# Make sure the given repository exists
+		$t_repo_id = isset( $p_args['id'] ) ? $p_args['id'] : $p_request->getParam( 'id' );
+		if( !SourceRepo::exists( $t_repo_id ) ) {
+			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, 'Invalid Repository Id' );
+		}
+
+		# Check that the repo is of GitHub type
+		$t_repo = SourceRepo::load( $t_repo_id );
+		if( $t_repo->type != $this->type ) {
+			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, "Id $t_repo_id is not a GitHub repository" );
+		}
+
+		# Clear the token
+		unset( $t_repo->info['hub_app_access_token'] );
+		$t_repo->save();
+
+		return $p_response->withStatus( HTTP_STATUS_NO_CONTENT );
 	}
 
 	/**
@@ -271,41 +301,55 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
 	<td>
-		<input type="text" name="hub_app_client_id" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"/>
+		<input name="hub_app_client_id" id="hub_app_client_id"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_app_client_id ) ?>"
+			   data-original="<?php echo string_attribute( $t_hub_app_client_id ) ?>"
+		/>
 	</td>
 </tr>
 
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>
 	<td>
-		<input type="text" name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/>
+		<input name="hub_app_secret" id="hub_app_secret"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_app_secret ) ?>"
+			   data-original="<?php echo string_attribute( $t_hub_app_secret ) ?>"
+		/>
 	</td>
 </tr>
 
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></td>
 	<td>
-		<?php
-		$t_hide_webhook_create = true;
+		<div id="id_secret_missing" class="hidden">
+			<?php echo plugin_lang_get( 'hub_app_client_id_secret_missing' ); ?>
+		</div>
 
-		if( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ) {
-			echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
-		} elseif( empty( $t_hub_app_access_token ) ) {
-			print_link( $this->oauth_authorize_uri( $p_repo ), plugin_lang_get( 'hub_app_authorize' ) );
-		} else {
-			$t_hide_webhook_create = false;
-			echo plugin_lang_get( 'hub_app_authorized' );
-			# @TODO This would be better with an AJAX, but this will do for now
-			?>
-			<input type="submit" class="btn btn-xs btn-primary btn-white btn-round" name="revoke" value="<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>"/>
+		<div id="token_missing" class="sourcegithub_token hidden">
 			<?php
-		}
+			print_small_button(
+				$this->oauth_authorize_uri( $p_repo ),
+				plugin_lang_get( 'hub_app_authorize' )
+			);
+			?>
+		</div>
 
-		# Only show the webhook creation div when the app has been authorized
-		if( $t_hide_webhook_create ) {
-			$t_webhook_create_css = ' class="hidden"';
-		}
-		?>
+		<div id="token_authorized" class="sourcegithub_token hidden">
+			<input name="hub_app_access_token" id="hub_app_access_token"
+				   type="hidden" maxlength="250" size="40"
+				   value="<?php echo string_attribute( $t_hub_app_access_token ) ?>"
+			/>
+			<?php echo plugin_lang_get( 'hub_app_authorized' ); ?>&nbsp;
+			<button id="btn_auth_revoke" type="button"
+					class="btn btn-primary btn-white btn-round btn-sm"
+					data-token-set="<?php echo $t_hub_app_access_token ? 'true' : 'false' ?>"
+			>
+				<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>
+			</button>
+		</div>
+
 	</td>
 </tr>
 
@@ -313,7 +357,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	<td class="category"><?php echo plugin_lang_get( 'hub_webhook_secret' ) ?></td>
 	<td>
 		<input type="text" name="hub_webhook_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_webhook_secret ) ?>"/>
-		<div id="webhook_create"<?php echo $t_webhook_create_css; ?>>
+		<div id="webhook_create" class="sourcegithub_token hidden">
 			<div class="space-2"></div>
 			<button type="button" class="btn btn-primary btn-white btn-round btn-sm">
 				<?php echo plugin_lang_get( 'webhook_create' ); ?>
@@ -337,12 +381,6 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	public function update_repo( $p_repo ) {
-		# Revoking previously authorized Github access token
-		if( gpc_isset( 'revoke' ) ) {
-			unset( $p_repo->info['hub_app_access_token'] );
-			return $p_repo;
-		}
-
 		$f_hub_username = gpc_get_string( 'hub_username' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
 		$f_hub_app_client_id = gpc_get_string( 'hub_app_client_id' );
@@ -651,7 +689,16 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		}
 
 		if ( !empty( $t_hub_app_client_id ) && !empty( $t_hub_app_secret ) ) {
-			return 'https://github.com/login/oauth/authorize?client_id=' . $t_hub_app_client_id . '&redirect_uri=' . urlencode(config_get('path') . 'plugin.php?page=SourceGithub/oauth_authorize&id=' . $p_repo->id ) . '&scope=repo';
+			$t_redirect_uri = config_get( 'path' )
+				. plugin_page( 'oauth_authorize', true ) . '&'
+				. http_build_query( array( 'id' => $p_repo->id ) );
+			$t_param = array(
+				'client_id' => $t_hub_app_client_id,
+				'redirect_uri' => $t_redirect_uri,
+				'scope' => 'repo',
+				'allow_signup' => false,
+			);
+			return 'https://github.com/login/oauth/authorize?' . http_build_query( $t_param );
 		} else {
 			return '';
 		}
