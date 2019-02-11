@@ -29,12 +29,12 @@ jQuery(document).ready(function($) {
 			type: 'POST',
 			url: SourceGithub.rest_api(repo_id + '/webhook'),
 			success: function(data, textStatus, xhr) {
-				status_icon.removeClass("fa-times red").addClass("fa-check green");
+				status_icon.removeClass("fa-exclamation-triangle red").addClass("fa-check green");
 				status_message.text(xhr.statusText);
 				$('#webhook_create > button').prop("disabled", true);
 			},
 			error: function(xhr, textStatus, errorThrown) {
-				status_icon.removeClass("fa-check green").addClass("fa-times red");
+				status_icon.removeClass("fa-check green").addClass("fa-exclamation-triangle red");
 				status_message.text(errorThrown);
 				console.error(
 					'Webhook creation failed',
