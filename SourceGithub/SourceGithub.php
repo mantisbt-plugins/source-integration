@@ -33,6 +33,131 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 	public $type = 'github';
 
+	public function resources( $p_event ) {
+		# Only include the javascript when it's actually needed
+		parse_str( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY ), $t_query );
+		if( array_key_exists( 'page', $t_query ) ) {
+			$t_page = basename( $t_query['page'] );
+			if( $t_page == 'repo_update_page' ) {
+				return '<script src="' . plugin_file( 'sourcegithub.js' ) . '"></script>';
+			}
+		}
+		return null;
+	}
+
+	public function hooks() {
+		return parent::hooks() + array(
+			"EVENT_LAYOUT_RESOURCES" => "resources",
+			'EVENT_REST_API_ROUTES' => 'routes',
+		);
+	}
+
+	/**
+	 * Add the RESTful routes handled by this plugin.
+	 *
+	 * @param string $p_event_name The event name
+	 * @param array  $p_event_args The event arguments
+	 * @return void
+	 */
+	public function routes( $p_event_name, $p_event_args ) {
+		$t_app = $p_event_args['app'];
+		$t_plugin = $this;
+		$t_app->group(
+			plugin_route_group(),
+			function() use ( $t_app, $t_plugin ) {
+				$t_app->post( '/{id}/webhook', [$t_plugin, 'route_webhook'] );
+			}
+		);
+	}
+
+	/**
+	 * RESTful route to create GitHub checkin webhook
+	 *
+	 * @param Slim\Http\Request  $p_request
+	 * @param Slim\Http\Response $p_response
+	 * @param array              $p_args
+	 *
+	 * @return Slim\Http\Response
+	 */
+	public function route_webhook( $p_request, $p_response, $p_args ) {
+		plugin_push_current( 'Source' );
+
+		# Make sure the given repository exists
+		$t_repo_id = isset( $p_args['id'] ) ? $p_args['id'] : $p_request->getParam( 'id' );
+		if( !SourceRepo::exists( $t_repo_id ) ) {
+			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, 'Invalid Repository Id' );
+		}
+
+		# Check that the repo is of GitHub type
+		$t_repo = SourceRepo::load( $t_repo_id );
+		if( $t_repo->type != $this->type ) {
+			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, "Id $t_repo_id is not a GitHub repository" );
+		}
+
+		$t_username = $t_repo->info['hub_username'];
+		$t_reponame = $t_repo->info['hub_reponame'];
+
+		# GitHub webhook payload URL
+		$t_payload_url = config_get( 'path' ) . plugin_page( 'checkin', true )
+			. '&api_key=' . plugin_config_get( 'api_key' );
+
+		# Retrieve existing webhooks
+		try {
+			$t_github_api = new \GuzzleHttp\Client();
+			$t_api_uri = SourceGithubPlugin::api_uri( $t_repo, "repos/$t_username/$t_reponame/hooks" );
+
+			$t_response = $t_github_api->get( $t_api_uri );
+		}
+		catch( GuzzleHttp\Exception\ClientException $e ) {
+			return $e->getResponse();
+		}
+		$t_hooks = json_decode( (string) $t_response->getBody() );
+
+		# Determine if there is already a webhook attached to the plugin's payload URL
+		$t_id = false;
+		foreach( $t_hooks as $t_hook ) {
+			if(   $t_hook->name == 'web' && $t_hook->config->url == $t_payload_url ) {
+				$t_id = $t_hook->id;
+				break;
+			}
+		}
+
+		if( $t_id ) {
+			# Webhook already exists for this URL
+			# Set the Github URL so user can easily link to it
+			$t_hook->web_url = "https://github.com/$t_username/$t_reponame/settings/hooks/" . $t_hook->id;
+			return $p_response
+				->withStatus( HTTP_STATUS_CONFLICT,
+					plugin_lang_get( 'webhook_exists', 'SourceGithub' ) )
+				->withJson( $t_hook );
+		}
+
+		# Create new webhook
+		try {
+			$t_payload = array(
+				'name' => 'web',
+				'config' => array(
+					'url' => $t_payload_url,
+					'content_type' => 'json',
+					'secret' => $t_repo->info['hub_webhook_secret'],
+				)
+			);
+
+			$t_github_response = $t_github_api->post( $t_api_uri,
+				array( GuzzleHttp\RequestOptions::JSON => $t_payload )
+			);
+		}
+		catch( GuzzleHttp\Exception\ClientException $e ) {
+			return $e->getResponse();
+		}
+
+		return $p_response
+			->withStatus( HTTP_STATUS_CREATED,
+				plugin_lang_get( 'webhook_success', 'SourceGithub' ) )
+			->withHeader('Content-type', 'application/json')
+			->write( $t_github_response->getBody() );
+	}
+
 	public function show_type() {
 		return plugin_lang_get( 'github' );
 	}
@@ -161,16 +286,24 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	<td class="category"><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></td>
 	<td>
 		<?php
+		$t_hide_webhook_create = true;
+
 		if( empty( $t_hub_app_client_id ) || empty( $t_hub_app_secret ) ) {
 			echo plugin_lang_get( 'hub_app_client_id_secret_missing' );
 		} elseif( empty( $t_hub_app_access_token ) ) {
 			print_link( $this->oauth_authorize_uri( $p_repo ), plugin_lang_get( 'hub_app_authorize' ) );
 		} else {
+			$t_hide_webhook_create = false;
 			echo plugin_lang_get( 'hub_app_authorized' );
 			# @TODO This would be better with an AJAX, but this will do for now
 			?>
 			<input type="submit" class="btn btn-xs btn-primary btn-white btn-round" name="revoke" value="<?php echo plugin_lang_get( 'hub_app_revoke' ) ?>"/>
 			<?php
+		}
+
+		# Only show the webhook creation div when the app has been authorized
+		if( $t_hide_webhook_create ) {
+			$t_webhook_create_css = ' class="hidden"';
 		}
 		?>
 	</td>
@@ -180,6 +313,17 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	<td class="category"><?php echo plugin_lang_get( 'hub_webhook_secret' ) ?></td>
 	<td>
 		<input type="text" name="hub_webhook_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_webhook_secret ) ?>"/>
+		<div id="webhook_create"<?php echo $t_webhook_create_css; ?>>
+			<div class="space-2"></div>
+			<button type="button" class="btn btn-primary btn-white btn-round btn-sm">
+				<?php echo plugin_lang_get( 'webhook_create' ); ?>
+			</button>
+
+			<span id="webhook_status">
+				<i class="ace-icon fa fa-lg"></i>
+				<span></span>
+			</span>
+		</div>
 	</td>
 </tr>
 
