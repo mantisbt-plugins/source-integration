@@ -206,6 +206,13 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$f_hub_webhook_secret = gpc_get_string( 'hub_webhook_secret' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
+		# Clear the access token if client id and secret changed
+		if(   $p_repo->info['hub_app_client_id'] != $f_hub_app_client_id
+			|| $p_repo->info['hub_app_secret'] != $f_hub_app_secret
+		) {
+			unset($p_repo->info['hub_app_access_token']);
+		}
+
 		$this->validate_branch_list( $f_master_branch );
 
 		$p_repo->info['hub_username'] = $f_hub_username;
