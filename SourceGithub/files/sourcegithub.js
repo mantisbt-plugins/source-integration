@@ -19,6 +19,7 @@ SourceGithub.rest_api = function(endpoint) {
 
 jQuery(document).ready(function($) {
 	$('#hub_app_client_id, #hub_app_secret').change(set_visibility);
+	$('#btn_auth_revoke').click(revoke_token);
 	$('#webhook_create > button').click(webhook_create);
 
 	// The PHP code initially hides all token authorization elements using the.
@@ -57,6 +58,19 @@ jQuery(document).ready(function($) {
 			div_id_secret_missing.show();
 			$('.sourcegithub_token').hide();
 		}
+	}
+
+	function revoke_token() {
+		var repo_id = $('#repo_id').val();
+
+		$.ajax({
+			type: 'DELETE',
+			url: SourceGithub.rest_api(repo_id + '/token'),
+			success: function(data, textStatus, xhr) {
+					$('#hub_app_access_token').val('');
+					set_visibility();
+				}
+		});
 	}
 
 	function webhook_create() {
