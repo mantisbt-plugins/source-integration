@@ -9,7 +9,7 @@ personal & organization repositories.
 
 ## Requirements
 
-The **SourceGithub** plugin requires Mantis 1.3.0 or later. See the 
+The **SourceGithub** plugin requires MantisBT version 2.3.0 or later. See the 
 [README](../README.md#requirements) for further information.
 
 Ensure both the **Source** and **SourceGithub** plugins are installed.
