@@ -381,12 +381,6 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	public function update_repo( $p_repo ) {
-		# Revoking previously authorized Github access token
-		if( gpc_isset( 'revoke' ) ) {
-			unset( $p_repo->info['hub_app_access_token'] );
-			return $p_repo;
-		}
-
 		$f_hub_username = gpc_get_string( 'hub_username' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
 		$f_hub_app_client_id = gpc_get_string( 'hub_app_client_id' );
