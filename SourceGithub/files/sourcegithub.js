@@ -35,10 +35,19 @@ jQuery(document).ready(function($) {
 			},
 			error: function(xhr, textStatus, errorThrown) {
 				status_icon.removeClass("fa-check green").addClass("fa-exclamation-triangle red");
-				status_message.text(errorThrown);
+
+				var details = JSON.parse(xhr.responseText);
+				if (xhr.status === 409) {
+					status_message.html(
+						'<a href="' + details.web_url + '">' + errorThrown + '</a>'
+					);
+				} else {
+					status_message.text(errorThrown);
+				}
+
 				console.error(
 					'Webhook creation failed',
-					{ error: errorThrown, details: JSON.parse(xhr.responseText), request: this.url }
+					{ error: errorThrown, details: details, request: this.url, x: textStatus }
 				);
 			}
 		});

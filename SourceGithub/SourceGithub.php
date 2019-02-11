@@ -124,6 +124,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 		if( $t_id ) {
 			# Webhook already exists for this URL
+			# Set the Github URL so user can easily link to it
+			$t_hook->web_url = "https://github.com/$t_username/$t_reponame/settings/hooks/" . $t_hook->id;
 			return $p_response
 				->withStatus( HTTP_STATUS_CONFLICT,
 					plugin_lang_get( 'webhook_exists', 'SourceGithub' ) )
