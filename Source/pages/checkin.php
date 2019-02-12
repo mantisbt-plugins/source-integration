@@ -61,6 +61,9 @@ if ( !$t_valid ) {
 # Let plugins try to intepret POST data before we do
 $t_predata = event_signal( 'EVENT_SOURCE_PRECOMMIT' );
 
+# Try to gracefully detect revprop changes flag
+$f_revprop = gpc_get_bool( 'revprop', false );
+
 # Expect plugin data in form of array( repo_name, data )
 if ( is_array( $t_predata ) && count( $t_predata ) == 2 ) {
 	$t_repo = $t_predata['repo'];
@@ -79,7 +82,7 @@ if ( is_null( $t_repo ) ) {
 $t_vcs = SourceVCS::repo( $t_repo );
 
 # Let the plugins handle commit data
-$t_changesets = $t_vcs->commit( $t_repo, $f_data );
+$t_changesets = $t_vcs->commit( $t_repo, $f_data, $f_revprop );
 
 # Changesets couldn't be loaded apparently
 if ( !is_array( $t_changesets ) ) {
