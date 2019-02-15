@@ -26,3 +26,6 @@ $s_plugin_SourceSVN_winstart = 'SVN: Use Windows `start`<br/><span class="small"
 $s_plugin_SourceSVN_error_path_invalid = 'Path to Subversion binary is invalid, inaccessible or not a directory.';
 $s_plugin_SourceSVN_error_svn_run = 'Failed to execute Subversion.';
 $s_plugin_SourceSVN_error_svn_cmd = 'Subversion execution returned an error: "%1$s".';
+
+$s_plugin_SourceSVN_revision_already_committed = 'Revision %s already committed!';
+$s_plugin_SourceSVN_revprop_detected = '  SVN:LOG revision property change detected.';
