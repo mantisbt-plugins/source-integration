@@ -473,8 +473,8 @@ class SourceVCS {
 			foreach ( $t_callbacks as $t_callback => $t_object ) {
 				if ( is_subclass_of( $t_object, 'MantisSourcePlugin' ) &&
 					is_string( $t_object->type ) && !is_blank( $t_object->type ) ) {
-						$t_type = strtolower($t_object->type);
-						self::$cache[ $t_type ] = new SourceVCSWrapper( $t_object );
+					$t_type = strtolower($t_object->type);
+					self::$cache[ $t_type ] = new SourceVCSWrapper( $t_object );
 				}
 			}
 		}
@@ -914,7 +914,7 @@ class SourceChangeset {
 	 * @param string $p_author_email
 	 */
 	function __construct( $p_repo_id, $p_revision, $p_branch='', $p_timestamp='',
-		$p_author='', $p_message='', $p_user_id=0, $p_parent='', $p_ported='', $p_author_email='' ) {
+						  $p_author='', $p_message='', $p_user_id=0, $p_parent='', $p_ported='', $p_author_email='' ) {
 
 		$this->id				= 0;
 		$this->user_id			= $p_user_id;
@@ -1039,24 +1039,14 @@ class SourceChangeset {
 			$t_params = array();
 
 			foreach( $t_bugs_added as $t_bug_id ) {
-				$t_params_2 = array();
-				$t_query_2 = "SELECT COUNT(*) AS b FROM $t_bug_table WHERE change_id=" . db_param() . " AND bug_id=" . db_param();
-				$t_params_2[] = $this->id;
-				$t_params_2[] = $t_bug_id;
-				$t_result = db_query( $t_query_2, $t_params_2 );
-				$t_row = db_fetch_array( $t_result );
-				if ($t_row['b'] < 1) {
-					$t_query .= ( $t_count == 0 ? '' : ', ' ) .
-						'(' . db_param() . ', ' . db_param() . ')';
-					$t_params[] = $this->id;
-					$t_params[] = $t_bug_id;
-					$t_count++;
-				}
+				$t_query .= ( $t_count == 0 ? '' : ', ' ) .
+					'(' . db_param() . ', ' . db_param() . ')';
+				$t_params[] = $this->id;
+				$t_params[] = $t_bug_id;
+				$t_count++;
 			}
 
-			if ( substr( $t_query, -1 ) == ")" ) {
-				db_query( $t_query, $t_params );
-			}
+			db_query( $t_query, $t_params );
 
 			foreach( $t_bugs_added as $t_bug_id ) {
 				plugin_history_log( $t_bug_id, 'changeset_attached', '',
@@ -1624,7 +1614,7 @@ class SourceUser {
 				$this->new = false;
 			}
 
-		# handle loaded objects
+			# handle loaded objects
 		} else {
 			if ( is_blank( $this->username ) ) { # delete existing entry
 				$t_query = "DELETE FROM $t_user_table WHERE user_id=" . db_param();
