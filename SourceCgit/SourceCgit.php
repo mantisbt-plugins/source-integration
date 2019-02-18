@@ -16,7 +16,7 @@ if ( !defined('testing') ) {
 
 class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '1.1.1';
+	const PLUGIN_VERSION = '1.1.2';
 	const FRAMEWORK_VERSION_REQUIRED = '1.5.0';
 
 	public function register() {
@@ -150,7 +150,7 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 		# i.e. DATA=`echo $INPUT | sed -e 's/ /+/g'`
 		list( , $t_commit_id, $t_branch ) = explode( ' ', $p_data );
 		list( , , $t_branch ) = explode( '/', $t_branch );
-		$master_branches = map( 'trim', explode( ',', $p_repo->info['master_branch']));
+		$master_branches = array_map( 'trim', explode( ',', $p_repo->info['master_branch'] ) );
 		if (!in_array($t_branch,$master_branches) )
 		{
 				return;

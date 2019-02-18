@@ -10,6 +10,13 @@ specification.
 
 # Releases for MantisBT 1.3
 
+## [Unreleased 1.x]
+
+### Fixed
+
+- CGit: replace invalid function map() by array_map()
+  [#306](https://github.com/mantisbt-plugins/source-integration/issues/306)
+
 ## [1.6.0] - 2019-01-31
 
 ### Changed
