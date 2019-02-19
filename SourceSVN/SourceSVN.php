@@ -260,7 +260,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			$t_revision = $p_matches[1];
 			$t_svnlog_xml = $this->svn_run( "log -v $t_url -r$t_revision --xml", $p_repo );
 
-			if ( $t_revprop == false ) {
+			if ( !$t_revprop ) {
 				if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
 					echo sprintf( plugin_lang_get( 'revision_already_committed' ), $t_revision );
 					return null;
