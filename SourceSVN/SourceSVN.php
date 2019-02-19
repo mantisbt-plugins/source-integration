@@ -253,16 +253,21 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	public function commit( $p_repo, $p_data ) {
 		if ( preg_match( '/(\d+)/', $p_data, $p_matches ) ) {
 
+			# Detect if there is a svn:log revprop change, assume not
+			$t_revprop = gpc_get_bool( 'revprop', false );
+
 			$t_url = $p_repo->url;
 			$t_revision = $p_matches[1];
 			$t_svnlog_xml = $this->svn_run( "log -v $t_url -r$t_revision --xml", $p_repo );
 
-			if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
-				echo "Revision $t_revision already committed!\n";
-				return null;
+			if ( !$t_revprop ) {
+				if ( SourceChangeset::exists( $p_repo->id, $t_revision ) ) {
+					echo sprintf( plugin_lang_get( 'revision_already_committed' ), $t_revision );
+					return null;
+				}
 			}
 
-			return $this->process_svn_log_xml( $p_repo, $t_svnlog_xml );
+			return $this->process_svn_log_xml( $p_repo, $t_svnlog_xml, $t_revprop );
 		}
 	}
 
@@ -441,9 +446,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	 * Parse the svn log output (with --xml option)
 	 * @param SourceRepo SVN repository object
 	 * @param string SVN log (XML formated)
+	 * @param boolean REVPROP change flag
 	 * @return SourceChangeset[] Changesets for the provided input (empty on error)
 	 */
-	private function process_svn_log_xml( $p_repo, $p_svnlog_xml ) {
+	private function process_svn_log_xml( $p_repo, $p_svnlog_xml, $p_revprop = false ) {
 		$t_changesets = array();
 		$t_changeset = null;
 		$t_comments = '';
@@ -530,6 +536,18 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			// Save changeset and append to array
 			if( !is_null( $t_changeset) ) {
 				if( !is_blank( $t_changeset->branch ) ) {
+					if( $p_revprop ) {
+						echo plugin_lang_get( 'revprop_detected' );
+						$t_existing_changeset = SourceChangeset::load_by_revision( $p_repo, $t_changeset->revision );
+						$t_changeset->id = $t_existing_changeset->id;
+						$t_changeset->user_id = $t_existing_changeset->user_id;
+						$t_changeset->files = $t_existing_changeset->files;
+						$t_old_bugs = array_unique( Source_Parse_Buglinks( $t_existing_changeset->message ));
+						$t_new_bugs = array_unique( Source_Parse_Buglinks( $t_changeset->message ));
+						if( count( $t_old_bugs ) >= count( $t_new_bugs )) {
+							$t_changeset->__bugs = array_diff( $t_old_bugs, $t_new_bugs );
+						}
+					}
 					$t_changeset->save();
 					$t_changesets[] = $t_changeset;
 				}
