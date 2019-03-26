@@ -14,10 +14,35 @@ specification.
 
 Includes all changes and fixes from 1.6.0.
 
+### Added
+
+- GitHub: Use AJAX to automate Webhook creation
+  [#302](https://github.com/mantisbt-plugins/source-integration/pull/302)
+
 ### Changed
 
+- Avoid going back and forth between repository manage & update pages
+  [#297](https://github.com/mantisbt-plugins/source-integration/pull/297)
+- Give visual feedback that the repo was updated
+  [#298](https://github.com/mantisbt-plugins/source-integration/pull/298)
+- Adjust left column width on Update Repo page
+  [#299](https://github.com/mantisbt-plugins/source-integration/pull/299)
+- Do not use POST action on Manage Repo page Update button
+  [#300](https://github.com/mantisbt-plugins/source-integration/pull/300)
 - GitHub: adjust oauth authorization page for MantisBT 2.x UI
   [#293](https://github.com/mantisbt-plugins/source-integration/pull/293)
+- GitHub: Use AJAX to revoke app token
+  [#303](https://github.com/mantisbt-plugins/source-integration/pull/303)
+- GitHub: improve documentation
+  [#304](https://github.com/mantisbt-plugins/source-integration/pull/304)
+
+### Fixed
+
+- Display problem on narrow screens in repo_update_page
+  [#296](https://github.com/mantisbt-plugins/source-integration/pull/296)
+- GitHub: token remains valid if Client ID or Secret change
+  [#301](https://github.com/mantisbt-plugins/source-integration/pull/301)
+
 
 ## [2.1.5] - 2018-09-02
 
@@ -210,7 +235,7 @@ Includes all changes and fixes from 1.5.0.
 
 ### Fixed
 
-- Remove usage of create_function(), deprecated in PHP 7.2 
+- Remove usage of create_function(), deprecated in PHP 7.2
   [#284](https://github.com/mantisbt-plugins/source-integration/issues/284)
 - ViewVC: fix links to moved/deleted files
   [#273](https://github.com/mantisbt-plugins/source-integration/issues/273)
