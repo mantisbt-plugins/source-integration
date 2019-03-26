@@ -12,7 +12,7 @@ require_once( config_get( 'core_path' ) . 'json_api.php' );
 class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 	const PLUGIN_VERSION = '2.1.0';
-	const FRAMEWORK_VERSION_REQUIRED = '2.2.0-dev';
+	const FRAMEWORK_VERSION_REQUIRED = '2.2.0';
 	const MANTIS_VERSION = '2.3.0';
 
 	public $linkPullRequest = '/pull/%s';
