@@ -12,7 +12,7 @@ specification.
 
 ## [Unreleased 2.x]
 
-Includes all changes and fixes from 1.6.0.
+Includes all changes and fixes from [1.6.0](#160---2019-01-31).
 
 ### Added
 
@@ -46,7 +46,7 @@ Includes all changes and fixes from 1.6.0.
 
 ## [2.1.5] - 2018-09-02
 
-Includes all changes and fixes from 1.5.9.
+Includes all changes and fixes from [1.5.9](#159---2018-09-02).
 
 ### Fixed
 
@@ -61,7 +61,7 @@ Includes all changes and fixes from 1.5.9.
 
 ## [2.1.4] - 2018-08-30
 
-Includes all changes and fixes from 1.5.8.
+Includes all changes and fixes from [1.5.8](#158---2018-08-30).
 
 ### Changed
 
@@ -77,12 +77,12 @@ Includes all changes and fixes from 1.5.8.
 
 ## [2.1.3] - 2018-07-30
 
-Includes all changes and fixes from 1.5.7.
+Includes all changes and fixes from [1.5.7](#157---2018-07-30).
 
 
 ## [2.1.2] - 2018-06-13
 
-Includes all changes and fixes from 1.5.6.
+Includes all changes and fixes from [1.5.6](#156---2018-06-13).
 
 ### Fixed
 
@@ -92,7 +92,7 @@ Includes all changes and fixes from 1.5.6.
 
 ## [2.1.1] - 2018-04-09
 
-Includes all changes and fixes from 1.5.5.
+Includes all changes and fixes from [1.5.5](#155---2018-04-09).
 
 ### Changed
 
@@ -106,7 +106,7 @@ Includes all changes and fixes from 1.5.5.
 
 ## [2.1.0] - 2017-09-17
 
-Includes all changes and fixes from 1.5.3 and 1.5.4.
+Includes all changes and fixes from [1.5.3](#153---2017-06-12) and [1.5.4](#154---2017-09-17).
 
 ### Added
 
@@ -156,7 +156,7 @@ Includes all changes and fixes from 1.5.3 and 1.5.4.
 
 ## [2.0.2] - 2017-03-16
 
-Includes all changes and fixes from 1.5.2.
+Includes all changes and fixes from [1.5.2](#152---2017-03-16).
 
 ### Security
 
@@ -167,12 +167,12 @@ Includes all changes and fixes from 1.5.2.
 
 ## [2.0.1] - 2017-03-06
 
-Includes all changes and fixes from 1.5.1.
+Includes all changes and fixes from [1.5.1](#151---2017-03-06).
 
 
 ## [2.0.0] - 2017-03-06
 
-Includes all changes and fixes from 1.5.0.
+Includes all changes and fixes from [1.5.0](#150---2017-03-06).
 
 ### Fixed
 
