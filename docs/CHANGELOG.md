@@ -10,7 +10,7 @@ specification.
 
 # Releases for MantisBT 1.3
 
-## [Unreleased 1.x]
+## [1.6.1] - 2019-03-26
 
 ### Fixed
 
@@ -250,8 +250,9 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.9...master-1.3.x
+[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.1...master-1.3.x
 
+[1.6.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.9...v1.6.0
 [1.5.9]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...v1.5.9
 [1.5.8]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.7...v1.5.8
