@@ -19,6 +19,7 @@ Includes all changes and fixes from [1.6.0](#160---2019-01-31).
 - GitHub: Use AJAX to automate Webhook creation
   [#302](https://github.com/mantisbt-plugins/source-integration/pull/302)
 - SVN: support SVN:Log revision property changes
+  [#305](https://github.com/mantisbt-plugins/source-integration/pull/305)
 
 ### Changed
 
