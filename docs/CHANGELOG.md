@@ -12,7 +12,7 @@ specification.
 
 ## [Unreleased 2.x]
 
-Includes all changes and fixes from [1.6.0](#160---2019-01-31).
+Includes all changes and fixes from [1.6.0](#160---2019-01-31) and [1.6.1](#161---2019-03-26).
 
 ### Added
 
@@ -216,6 +216,13 @@ Includes all changes and fixes from [1.5.0](#150---2017-03-06).
 --------------------------------------------------------------------------------
 
 # Releases for MantisBT 1.3
+
+## [1.6.1] - 2019-03-26
+
+### Fixed
+
+- CGit: replace invalid function map() by array_map()
+  [#306](https://github.com/mantisbt-plugins/source-integration/issues/306)
 
 ## [1.6.0] - 2019-01-31
 
@@ -451,7 +458,6 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 
 
 [Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.5...HEAD
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.0...master-1.3.x
 
 [2.1.5]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.3...v2.1.4
@@ -466,6 +472,9 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 [2.0.0-beta.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.0-beta.1...v2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.2...v2.0.0-beta.1
 
+[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.1...master-1.3.x
+
+[1.6.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.9...v1.6.0
 [1.5.9]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...v1.5.9
 [1.5.8]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.7...v1.5.8
