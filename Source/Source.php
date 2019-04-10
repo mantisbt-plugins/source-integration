@@ -83,6 +83,8 @@ class SourcePlugin extends MantisSourceBase {
 			'bugfix_message'	=> 'Fix committed to $1 branch.',
 			'bugfix_message_view_status'	=> VS_PUBLIC,
 
+			'default_branch'    => 'master',
+
 			'remote_checkin'	=> OFF,
 			'checkin_urls'		=> serialize( array( 'localhost' ) ),
 
