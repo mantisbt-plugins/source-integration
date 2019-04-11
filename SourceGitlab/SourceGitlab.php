@@ -115,7 +115,7 @@ public function update_repo_form( $p_repo ) {
 		if ( isset( $p_repo->info['master_branch'] ) ) {
 			$t_master_branch = $p_repo->info['master_branch'];
 		} else {
-			$t_master_branch = config_get('plugin_Source_default_branch', 'master');
+			$t_master_branch = config_get( 'plugin_Source_default_branch', 'master' );
 		}
 ?>
 <tr>
@@ -249,7 +249,7 @@ public function update_repo_form( $p_repo ) {
 
 		$t_branch = $p_repo->info['master_branch'];
 		if ( is_blank( $t_branch ) ) {
-			$t_branch = config_get('plugin_Source_default_branch', 'master');
+			$t_branch = config_get( 'plugin_Source_default_branch', 'master' );
 		}
 
 		# if we're not allowed everything, populate an array of what we are allowed
