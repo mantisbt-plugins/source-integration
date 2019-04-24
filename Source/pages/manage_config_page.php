@@ -260,11 +260,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 	<tr class="spacer"></tr>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'default_branch' ) ?></td>
+		<td class="category"><?php echo plugin_lang_get( 'default_master_branch' ) ?></td>
 		<td>
-			<input name="default_branch" type="text" class="input-sm" size="50" value="<?php echo string_attribute( plugin_config_get( 'default_branch' ) ) ?>"/>
+			<input name="default_master_branch" type="text" class="input-sm" size="50" value="<?php echo string_attribute( plugin_config_get( 'default_master_branch' ) ) ?>"/>
 			<br>
-			<span class="small"><?php echo plugin_lang_get( 'default_branch_info' ) ?></span>
+			<span class="small"><?php echo plugin_lang_get( 'default_master_branch_info' ) ?></span>
 		</td>
 	</tr>
 
