@@ -10,8 +10,8 @@ $s_plugin_SourceVisualSVNServer_description = 'Adds Subversion integration to th
 
 $s_plugin_SourceVisualSVNServer_visualsvnserver_url_prefix = 'VisualSVN Server repository URL prefix<br/><span class="small">(Default "svn")</span>';
 
-$s_plugin_SourceVisualSVNServer_svn_username = 'SVN Username';
-$s_plugin_SourceVisualSVNServer_svn_password = 'SVN Password';
+$s_plugin_SourceVisualSVNServer_svn_username = 'SVN Username<br/><span class="small">(Ignored under Integrated Windows Authentication)</span>';
+$s_plugin_SourceVisualSVNServer_svn_password = 'SVN Password<br/><span class="small">(Ignored under Integrated Windows Authentication)</span>';
 $s_plugin_SourceVisualSVNServer_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</span>';
 $s_plugin_SourceVisualSVNServer_trunk_path = 'Trunk Path<br/><span class="small">(Non-standard repository)</span>';
 $s_plugin_SourceVisualSVNServer_branch_path = 'Branch Path<br/><span class="small">(Non-standard repository)</span>';

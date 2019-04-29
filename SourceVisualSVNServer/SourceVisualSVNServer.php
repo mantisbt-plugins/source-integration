@@ -117,7 +117,7 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 
 ?>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'url_prefix' ) ?></td>
+	<td class="category"><?php echo plugin_lang_get( 'visualsvnserver_url_prefix' ) ?></td>
 	<td>
 		<input type="text" name="visualsvnserver_url_prefix" maxlength="250" size="40" value="<?php echo string_attribute( $t_url_prefix ) ?>"/>
 	</td>
