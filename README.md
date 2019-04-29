@@ -41,6 +41,9 @@ plugins:
   [ViewVC](http://www.viewvc.org/) web frontend installation.
 * **SourceWebSVN**: SVN repositories accessible via a
   [WebSVN](http://www.websvn.info/) web frontend installation.
+* **SourceVisualSVNServer**: SVN repositories hosted on a 
+  [VisualSVN Server](https://www.visualsvn.com/server/) installation,
+  with support for URL linking from MantisBT to VisualSVN Server's web view interface.
 
 Support for additional source control tools should be rather
 straightforward to implement due to the flexibility inherent in the
@@ -120,6 +123,7 @@ MantisBT version | Tags | Branch | Notes
     * [SourceGitlab](SourceGitlab/README.md)
     * [SourceViewVC](docs/CONFIGURING.SourceViewVC.md)
     * [SourceSVN](docs/CONFIGURING.SourceSVN.md)
+    * [SourceVisualSVNServer](docs/CONFIGURING.SourceVisualSVNServer.md)
 
 9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial
