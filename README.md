@@ -43,7 +43,7 @@ plugins:
   [WebSVN](http://www.websvn.info/) web frontend installation.
 * **SourceVisualSVNServer**: SVN repositories hosted on a 
   [VisualSVN Server](https://www.visualsvn.com/server/) installation,
-  with support for URL linking from MantisBT to VisualSVN Server's web view interface.
+  with support for URL linking from MantisBT to VisualSVN Server's built-in web frontend.
 
 Support for additional source control tools should be rather
 straightforward to implement due to the flexibility inherent in the
