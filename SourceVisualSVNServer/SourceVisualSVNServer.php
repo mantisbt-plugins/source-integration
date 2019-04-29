@@ -16,8 +16,8 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 	const SOURCESVN_VERSION_REQUIRED = '2.0.0';
 
 	public function register() {
-		$this->name = lang_get( 'plugin_SourceVisualSVNServer_title' );
-		$this->description = lang_get( 'plugin_SourceVisualSVNServer_description' );
+		$this->name = plugin_lang_get( 'title' );
+		$this->description = plugin_lang_get( 'description' );
 
 		$this->version = self::PLUGIN_VERSION;
 		$this->requires = array(
@@ -34,7 +34,7 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 	public $type = 'vsvns';
 
 	public function show_type() {
-		return lang_get( 'plugin_SourceVisualSVNServer_vsvns' );
+		return plugin_lang_get( 'vsvns' );
 	}
 
 	public function get_visualsvnserver_url_prefix( $p_repo ) {
@@ -75,7 +75,7 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 		$t_repo_url = url_base( $p_repo );
 
 		if ( !is_null( $p_changeset ) ) {
-			$t_repo_url .= '/view/r' . $p_changeset->revision . '/';
+			$t_repo_url .= '/view/r' . urlencode($p_changeset->revision) . '/';
 		}
 
 		return $t_repo_url;
@@ -85,7 +85,7 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 		$t_rev = $p_changeset->revision;
 		$t_repo_url = url_base( $p_repo );
 
-		return $t_repo_url . '/commit/r' . $t_rev + '/';
+		return $t_repo_url . '/commit/r' . urlencode($t_rev) + '/';
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
@@ -97,7 +97,7 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 		
 		$t_repo_url = url_base( $p_repo );
 
-		return $t_repo_url . '/view/r' . $t_revision . '/' . $p_file;
+		return $t_repo_url . '/view/r' . urlencode($t_revision) . '/' . $p_file;
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
@@ -113,11 +113,11 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 	}
 
 	public function update_repo_form( $p_repo ) {
-		$t_url_prefix   = $this->get_VisualSVNServer_url_prefix( $p_repo );
+		$t_url_prefix   = $this->get_visualsvnserver_url_prefix( $p_repo );
 
 ?>
 <tr>
-	<td class="category"><?php echo lang_get( 'plugin_SourceVisualSVNServer_visualsvnserver_url_prefix' ) ?></td>
+	<td class="category"><?php echo plugin_lang_get( 'url_prefix' ) ?></td>
 	<td>
 		<input type="text" name="visualsvnserver_url_prefix" maxlength="250" size="40" value="<?php echo string_attribute( $t_url_prefix ) ?>"/>
 	</td>
