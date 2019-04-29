@@ -66,27 +66,29 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 		}
 
 		# Only include port in final URL if it was present originally
-		$t_port = isset( $t_url['port'] ) ? ':' . $t_url['port'] : '';
-
-		return $t_url['scheme'] . '://' . $t_url['host'] . $t_port . '/!/#' . $t_repo_path;
+		$t_port = isset( $t_repo_url['port'] ) ? ':' . $t_repo_url['port'] : '';
+		
+		$t_url = $t_repo_url['scheme'] . '://' . $t_repo_url['host'] . $t_port . '/!/#' . $t_repo_path;
+		return $t_url;
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
-		$t_repo_url = $this->url_base( $p_repo );
+		$t_url = $this->url_base( $p_repo );
 		
 		if ( !is_null( $p_changeset ) ) {
 			$t_revision = $p_changeset->revision;
-			$t_repo_url .= '/view/r' . urlencode($t_revision) . '/';
+			$t_url .= '/view/r' . urlencode($t_revision) . '/';
 		}
 
-		return $t_repo_url;
+		return $t_url;
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
 		$t_repo_url = $this->url_base( $p_repo );
 		$t_revision = $p_changeset->revision;
 
-		return $t_repo_url . '/commit/r' . urlencode($t_revision) + '/';
+		$t_url = $t_repo_url . '/commit/r' . urlencode($t_revision) . '/';
+		return $t_url;
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
@@ -97,20 +99,24 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 		$t_revision = ($p_file->action == 'rm')
 					? $p_changeset->revision - 1
 					: $p_changeset->revision;
-		
-		return $t_repo_url . '/view/r' . urlencode($t_revision) . '/' . $p_file;
+
+		$t_url = $t_repo_url . '/view/r' . urlencode($t_revision) . $p_file->filename;
+				
+		return $t_url;
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
 		if ( $p_file->action == 'rm' || $p_file->action == 'add' ) {
-			return '';
+			# Return default no-link for add/remove change diffs
+			return parent::url_diff($p_repo, $p_changeset, $p_file);
 		}
 
 		# The web interface for VisualSVN Server displays file diffs as inline content 
 		# when viewing a particular commit.
 		# It doesn't have a specific page for single-file diffs, 
 		# at least as of v3.9.5, 2019-04-29
-		return url_changeset( $p_repo, $p_changeset );
+		$t_url = $this->url_changeset( $p_repo, $p_changeset );
+		return $t_url;
 	}
 
 	public function update_repo_form( $p_repo ) {
