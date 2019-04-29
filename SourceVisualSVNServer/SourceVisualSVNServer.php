@@ -31,10 +31,10 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 		$this->url = 'https://github.com/mantisbt-plugins/source-integration';
 	}
 
-	public $type = 'VisualSVNServer';
+	public $type = 'vsvns';
 
 	public function show_type() {
-		return lang_get( 'plugin_SourceVisualSVNServer_type' );
+		return lang_get( 'plugin_SourceVisualSVNServer_vsvns' );
 	}
 
 	public function get_visualsvnserver_url_prefix( $p_repo ) {
@@ -68,7 +68,7 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 		# Only include port in final URL if it was present originally
 		$t_port = isset( $t_url['port'] ) ? ':' . $t_url['port'] : '';
 
-		return $t_url['scheme'] . "://" . $t_url['host'] . $t_port . "/!/#" . $t_repo_path;
+		return $t_url['scheme'] . '://' . $t_url['host'] . $t_port . '/!/#' . $t_repo_path;
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {

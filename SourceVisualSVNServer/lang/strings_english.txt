@@ -4,9 +4,8 @@
 # Licensed under the MIT license
 
 $s_plugin_SourceVisualSVNServer_ = '';
+$s_plugin_SourceVisualSVNServer_vsvns = 'VisualSVN Server';
 $s_plugin_SourceVisualSVNServer_title = 'Source Subversion / VisualSVN Server Integration';
-$s_plugin_SourceVisualSVNServer_description = 'Adds Subversion integration to the Source plugin framework with browse and view hyperlinks to the VisualSVN Server web interface.';
+$s_plugin_SourceVisualSVNServer_description = 'Adds Subversion integration to the Source plugin framework with hyperlinks to the VisualSVN Server web interface.';
 
-$s_plugin_SourceVisualSVNServer_type = 'VisualSVN Server';
-
-$s_plugin_SourceVisualSVNServer_visualsvnserver_url_prefix = 'VisualSVN Server repository URL prefix<br/><span class="small">(Default 'svn')</span>';
+$s_plugin_SourceVisualSVNServer_visualsvnserver_url_prefix = 'VisualSVN Server repository URL prefix<br/><span class="small">(Default "svn")</span>';
