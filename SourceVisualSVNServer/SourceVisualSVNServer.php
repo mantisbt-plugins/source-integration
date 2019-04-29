@@ -72,31 +72,32 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
-		$t_repo_url = url_base( $p_repo );
-
+		$t_repo_url = $this->url_base( $p_repo );
+		
 		if ( !is_null( $p_changeset ) ) {
-			$t_repo_url .= '/view/r' . urlencode($p_changeset->revision) . '/';
+			$t_revision = $p_changeset->revision;
+			$t_repo_url .= '/view/r' . urlencode($t_revision) . '/';
 		}
 
 		return $t_repo_url;
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
-		$t_rev = $p_changeset->revision;
-		$t_repo_url = url_base( $p_repo );
+		$t_repo_url = $this->url_base( $p_repo );
+		$t_revision = $p_changeset->revision;
 
-		return $t_repo_url . '/commit/r' . urlencode($t_rev) + '/';
+		return $t_repo_url . '/commit/r' . urlencode($t_revision) + '/';
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
+		$t_repo_url = $this->url_base( $p_repo );
+
 		# if the file has been removed, it doesn't exist in current revision
 		# so we generate a link to (current revision - 1)
 		$t_revision = ($p_file->action == 'rm')
 					? $p_changeset->revision - 1
 					: $p_changeset->revision;
 		
-		$t_repo_url = url_base( $p_repo );
-
 		return $t_repo_url . '/view/r' . urlencode($t_revision) . '/' . $p_file;
 	}
 
