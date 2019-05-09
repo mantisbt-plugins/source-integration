@@ -56,13 +56,10 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 
 		$t_url_prefix = $this->get_visualsvnserver_url_prefix( $p_repo );
 
-		# Strip repo prefix (typically 'svn') from path, if present
-		if ( !empty( $t_url_prefix ) ) {
-			$t_prefix = '/' . $t_url_prefix . '/';
-			
-			if (substr($t_repo_path, 0, strlen($t_prefix)) == $t_prefix) {
-				$t_repo_path = substr($t_repo_path, strlen($t_prefix));
-			}
+		# Strip repo prefix (typically '/svn/') from path
+		$t_prefix = empty( $t_url_prefix ) ? '/' : '/' . urlencode($t_url_prefix) . '/';
+		if (substr($t_repo_path, 0, strlen($t_prefix)) == $t_prefix) {
+			$t_repo_path = substr($t_repo_path, strlen($t_prefix));
 		}
 
 		# Only include port in final URL if it was present originally
