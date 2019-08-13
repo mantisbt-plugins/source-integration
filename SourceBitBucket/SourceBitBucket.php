@@ -179,7 +179,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		return $this->api_url_20 . $p_path;
 	}
 
-	private function api_json_url( $p_repo, $p_url) {
+	private function api_json_url( $p_repo, $p_url ) {
 		$t_data = $this->url_get( $p_repo, $p_url );
 		$t_json = json_decode( utf8_encode( $t_data ) );
 		return $t_json;
