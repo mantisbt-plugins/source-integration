@@ -186,20 +186,20 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 	}
 
 	private function api_json_url_values( $p_repo, $p_url ) {
-        $t_json = $this->api_json_url( $p_repo, $p_url );
-        $values = [];
+		$t_json = $this->api_json_url( $p_repo, $p_url );
+		$values = [];
 
-        if( property_exists( $t_json, 'values' ) ) {
-            foreach( $t_json->values as $t_item ) {
-                $values[] = $t_item;
-            }
-        }
+		if( property_exists( $t_json, 'values' ) ) {
+		    foreach( $t_json->values as $t_item ) {
+				$values[] = $t_item;
+			}
+		}
 
-        if( property_exists( $t_json, 'next' ) ) {
-            $values = array_merge( $values, $this->api_json_url_values( $p_repo, $t_json->next ) );
-        }
+		if( property_exists( $t_json, 'next' ) ) {
+			$values = array_merge( $values, $this->api_json_url_values( $p_repo, $t_json->next ) );
+		}
 
-        return $values;
+		return $values;
 	}
 
 	public function precommit() {
