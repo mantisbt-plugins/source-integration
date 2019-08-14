@@ -228,7 +228,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		}
 
 		$t_username = $p_repo->info['bit_username'];
-        $t_reponame = $p_repo->info['bit_reponame'];
+		$t_reponame = $p_repo->info['bit_reponame'];
 
 		if( $t_branch != '*' ) {
 			$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
