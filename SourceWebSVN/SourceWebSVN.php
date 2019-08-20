@@ -118,7 +118,7 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 		$t_url .= ( '?' . http_build_query( $p_opts ) );
 
 		if ( plugin_is_installed( 'IFramed' ) ) {
-			$t_url = plugin_page( 'main', false, 'IFramed' ) . '&title=WebSVN&usemime=1&url=' . urlencode($t_url);
+			$t_url = plugin_page( 'main', false, 'IFramed' ) . '&title=WebSVN&usemime=1&url=' . urlencode( $t_url );
 		}
 		
 		return $t_url;
