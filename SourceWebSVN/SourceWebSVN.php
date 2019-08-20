@@ -115,7 +115,13 @@ class SourceWebSVNPlugin extends SourceSVNPlugin {
 			$p_opts['repname'] = $t_name;
 		}
 
-		return $t_url . '?' . http_build_query( $p_opts );
+		$t_url .= ( '?' . http_build_query( $p_opts ) );
+
+		if ( plugin_is_installed( 'IFramed' ) ) {
+			$t_url = plugin_page( 'main', false, 'IFramed' ) . '&title=WebSVN&usemime=1&url=' . urlencode($t_url);
+		}
+		
+		return $t_url;
 	}
 
 	public function url_repo( $p_repo, $p_changeset=null ) {
