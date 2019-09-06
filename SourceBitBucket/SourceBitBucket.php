@@ -15,8 +15,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
 	protected $main_url = "https://bitbucket.org/";
-	protected $api_url_10 = 'https://bitbucket.org/api/1.0/';
-	protected $api_url_20 = 'https://bitbucket.org/api/2.0/';
+	protected $api_url = 'https://bitbucket.org/api/2.0/';
 
 	public $linkPullRequest = '/pull-request/%s';
 
@@ -175,18 +174,31 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		return $p_repo;
 	}
 
-	private function api_url10( $p_path ) {
-		return $this->api_url_10 . $p_path;
-	}
-
-	private function api_url20( $p_path ) {
-		return $this->api_url_20 . $p_path;
+	private function api_url( $p_path ) {
+		return $this->api_url . $p_path;
 	}
 
 	private function api_json_url( $p_repo, $p_url ) {
 		$t_data = $this->url_get( $p_repo, $p_url );
 		$t_json = json_decode( utf8_encode( $t_data ) );
 		return $t_json;
+	}
+
+	private function api_json_url_values( $p_repo, $p_url ) {
+		$t_json = $this->api_json_url( $p_repo, $p_url );
+		$values = [];
+
+		if( property_exists( $t_json, 'values' ) ) {
+		    foreach( $t_json->values as $t_item ) {
+				$values[] = $t_item;
+			}
+		}
+
+		if( property_exists( $t_json, 'next' ) ) {
+			$values = array_merge( $values, $this->api_json_url_values( $p_repo, $t_json->next ) );
+		}
+
+		return $values;
 	}
 
 	public function precommit() {
@@ -209,28 +221,25 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 	public function import_full( $p_repo, $p_use_cache = true ) {
 		echo '<pre>';
 		$t_branch = $p_repo->info['master_branch'];
+
 		if( is_blank( $t_branch ) ) {
 			$t_branch = 'master';
 		}
 
+		$t_username = $p_repo->info['bit_username'];
+		$t_reponame = $p_repo->info['bit_reponame'];
+
 		if( $t_branch != '*' ) {
 			$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
 		} else {
-			$t_username = $p_repo->info['bit_username'];
-			$t_reponame = $p_repo->info['bit_reponame'];
-			$t_uri      = $this->api_url10( "repositories/$t_username/$t_reponame/branches" );
-			$t_json     = $this->api_json_url( $p_repo, $t_uri );
+			$t_uri  = $this->api_url( "repositories/$t_username/$t_reponame/refs/branches" );
+			$t_json = $this->api_json_url_values( $p_repo, $t_uri );
 			$t_branches = array();
-			foreach ( $t_json as $t_branchname => $t_branch ) {
-				if(isset($t_branchname)) {
-					if (strpos($t_branchname, '/') !== FALSE) {
-						$t_branches[] = $t_branch->raw_node;
-					} else {
-						$t_branches[] = $t_branchname;
-					}
+			foreach( $t_json as $t_branch ) {
+				if( isset($t_branch->name) ) {
+					$t_branches[] = $t_branch->name;
 				}
 			}
-			$t_branches = array_unique($t_branches);
 		}
 		$t_changesets = array();
 
@@ -272,7 +281,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		$t_username = $p_repo->info['bit_username'];
 		$t_reponame = $p_repo->info['bit_reponame'];
 
-		$t_url  = empty($p_next) ? $this->api_url20( "repositories/$t_username/$t_reponame/commits/$p_commit_id" ) : $p_next;
+		$t_url  = empty($p_next) ? $this->api_url( "repositories/$t_username/$t_reponame/commits/$p_commit_id" ) : $p_next;
 		$t_json = $this->api_json_url( $p_repo, $t_url );
 
 		if( property_exists( $t_json, 'values' ) ) {
@@ -304,7 +313,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 			echo "Retrieving $t_commit_id ... ";
 			$t_json = null;
 			if( empty($this->commits_cache[$t_commit_id]) ) {
-				$t_url  = $this->api_url20( "repositories/$t_username/$t_reponame/commit/$t_commit_id/" );
+				$t_url  = $this->api_url( "repositories/$t_username/$t_reponame/commit/$t_commit_id" );
 				$t_json = $this->api_json_url( $p_repo, $t_url );
 			} else {
 				$t_json = $this->commits_cache[$t_commit_id];
@@ -372,19 +381,19 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 			$t_username  = $p_repo->info['bit_username'];
 			$t_reponame  = $p_repo->info['bit_reponame'];
 			$t_commit_id = $p_json->hash;
-			$t_url       = $this->api_url10( "repositories/$t_username/$t_reponame/changesets/$t_commit_id/diffstat/" );
-			$t_files     = $this->api_json_url( $p_repo, $t_url );
+			$t_url       = $this->api_url( "repositories/$t_username/$t_reponame/diffstat/$t_commit_id" );
+			$t_files     = $this->api_json_url_values( $p_repo, $t_url );
 			if( !empty($t_files) ) {
 				foreach ( $t_files as $t_file ) {
-					switch( $t_file->type ) {
+					switch( $t_file->status ) {
 						case 'added':
-							$t_changeset->files[] = new SourceFile(0, '', $t_file->file, 'add');
+							$t_changeset->files[] = new SourceFile(0, '', $t_file->new->path, 'add');
 							break;
 						case 'modified':
-							$t_changeset->files[] = new SourceFile(0, '', $t_file->file, 'mod');
+							$t_changeset->files[] = new SourceFile(0, '', $t_file->new->path, 'mod');
 							break;
 						case 'removed':
-							$t_changeset->files[] = new SourceFile(0, '', $t_file->file, 'rm');
+							$t_changeset->files[] = new SourceFile(0, '', $t_file->old->path, 'rm');
 							break;
 					}
 				}
