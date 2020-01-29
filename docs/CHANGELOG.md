@@ -21,6 +21,8 @@ specification.
 
 - GitHub: authentication using query parameters is deprecated 
   [#335](https://github.com/mantisbt-plugins/source-integration/issues/335)
+- SVN: Workaround to avoid data import failures due to timeout reading proc_open() buffers
+  [#333](https://github.com/mantisbt-plugins/source-integration/issues/333)
 
 
 ## [2.3.0] - 2019-09-06

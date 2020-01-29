@@ -9,7 +9,7 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 
 class SourceSVNPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '2.2.0';
+	const PLUGIN_VERSION = '2.3.0';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
 	/**
@@ -338,12 +338,23 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			plugin_error( self::ERROR_SVN_RUN );
 		}
 
-		# Get output of the process & clean up
-		$t_stderr = stream_get_contents( $t_pipes[2] );
-		fclose( $t_pipes[2] );
+		# Get the output of the process & clean up
+		# Due to limitations on the buffering of pipes (at least on Windows) and
+		# possible resulting deadlocks, the order the pipes are read is crucial.
+		# Processing STDOUT before STDERR will NOT(!) prevent a deadlock if the
+		# output to STDERR exceeds the pipe's max buffered size.
+		# As discussed in #261, it is better to handle an unlikely error
+		# scenario, than to frequently get stuck when processing good commits.
+
+		#STDOUT
 		$t_svn_out = stream_get_contents( $t_pipes[1] );
 		fclose( $t_pipes[1] );
+		#STDERR
+		$t_stderr = stream_get_contents( $t_pipes[2] );
+		fclose( $t_pipes[2] );
+		#STDIN
 		fclose( $t_pipes[0] );
+
 		proc_close( $t_svn_proc );
 
 		# Error handling
