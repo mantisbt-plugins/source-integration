@@ -632,12 +632,16 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 				$t_parents[] = $t_parent->sha;
 			}
 
+			$author = $p_json->author->login;
+			if ($author == null || $author == "") {
+				$author = $p_json->commit->author->name;
+			}
 			$t_changeset = new SourceChangeset(
 				$p_repo->id,
 				$p_json->sha,
 				$p_branch,
 				date( 'Y-m-d H:i:s', strtotime( $p_json->commit->author->date ) ),
-				$p_json->commit->author->name,
+				$author,
 				$p_json->commit->message
 			);
 
