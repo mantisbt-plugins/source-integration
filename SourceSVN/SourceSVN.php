@@ -338,12 +338,22 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			plugin_error( self::ERROR_SVN_RUN );
 		}
 
-		# Get output of the process & clean up
-		$t_stderr = stream_get_contents( $t_pipes[2] );
-		fclose( $t_pipes[2] );
+		# Get the output of the process & clean up
+		# Due to limitations on the buffering of pipes and therefore possible
+		# resulting deadlocks, the order the pipes are read is crucial.
+		# The reordering (STDOUT before STDERR) will not(!) prevent a deadlock, if the
+		# output of the process to STDERR exceeds the max buffered size on STDERR.
+		# Better to get stuck in the unlikely, than to get the goods not proceeded.
+		
+		#STDOUT
 		$t_svn_out = stream_get_contents( $t_pipes[1] );
 		fclose( $t_pipes[1] );
+		#STDERR
+		$t_stderr = stream_get_contents( $t_pipes[2] );
+		fclose( $t_pipes[2] );
+		#STDIN
 		fclose( $t_pipes[0] );
+		
 		proc_close( $t_svn_proc );
 
 		# Error handling
