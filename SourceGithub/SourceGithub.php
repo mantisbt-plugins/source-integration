@@ -15,7 +15,14 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	const FRAMEWORK_VERSION_REQUIRED = '2.2.0';
 	const MANTIS_VERSION = '2.3.0';
 
+	const URL_API = 'https://api.github.com/';
+	
 	public $linkPullRequest = '/pull/%s';
+
+	/**
+	 * @var \GuzzleHttp\Client
+	 */
+	private $githubApi;
 
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
@@ -133,21 +140,18 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			. '&api_key=' . plugin_config_get( 'api_key' );
 
 		# Retrieve existing webhooks
+		$t_api_uri = "repos/$t_username/$t_reponame/hooks";
 		try {
-			$t_github_api = new \GuzzleHttp\Client();
-			$t_api_uri = SourceGithubPlugin::api_uri( $t_repo, "repos/$t_username/$t_reponame/hooks" );
-
-			$t_response = $t_github_api->get( $t_api_uri );
+			$t_hooks = $this->api_json_url( $t_repo, $t_api_uri );
 		}
 		catch( GuzzleHttp\Exception\ClientException $e ) {
 			return $e->getResponse();
 		}
-		$t_hooks = json_decode( (string) $t_response->getBody() );
 
 		# Determine if there is already a webhook attached to the plugin's payload URL
 		$t_id = false;
 		foreach( $t_hooks as $t_hook ) {
-			if(   $t_hook->name == 'web' && $t_hook->config->url == $t_payload_url ) {
+			if( $t_hook->name == 'web' && $t_hook->config->url == $t_payload_url ) {
 				$t_id = $t_hook->id;
 				break;
 			}
@@ -174,7 +178,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 				)
 			);
 
-			$t_github_response = $t_github_api->post( $t_api_uri,
+			$t_github_response = $this->githubApi->post(
+				$t_api_uri,
 				array( GuzzleHttp\RequestOptions::JSON => $t_payload )
 			);
 		}
@@ -408,17 +413,57 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		return $p_repo;
 	}
 
-	private function api_uri( $p_repo, $p_path ) {
-		$t_uri = 'https://api.github.com/' . $p_path;
+	/**
+	 * Initialize GitHub API for the given Repository.
+	 *
+	 * @param SourceRepo $p_repo Repository
+	 */
+	private function api_init( $p_repo ) {
+		# Initialize Guzzle client if not done already
+		if( !$this->githubApi ) {
+			$t_options = array(
+				'base_uri' => self::URL_API
+			);
 
-		if( isset( $p_repo->info['hub_app_access_token'] ) ) {
-			$t_access_token = $p_repo->info['hub_app_access_token'];
-			if ( !is_blank( $t_access_token ) ) {
-				$t_uri .= '?access_token=' . $t_access_token;
+			# Set the Authorization header
+			if( isset( $p_repo->info['hub_app_access_token'] ) ) {
+				$t_access_token = $p_repo->info['hub_app_access_token'];
+				if ( !is_blank( $t_access_token ) ) {
+					$t_options[RequestOptions::HEADERS] = array(
+						'Authorization' => 'token ' . $t_access_token,
+					);
+				}
 			}
-		}
 
-		return $t_uri;
+			$this->githubApi = new GuzzleHttp\Client( $t_options );
+		}
+		return $this->githubApi;
+	}
+
+	/**
+	 * Retrieves data from the GitHub API for the given repository.
+	 *
+	 * The JSON data is returned as an stdClass object,
+	 *
+	 * @param SourceRepo $p_repo   Repository
+	 * @param string     $p_path   GitHub API path
+	 * @param string     $p_member Optional top-level member to retrieve
+	 *
+	 * @return stdClass|false
+	 */
+	 private function api_get( $p_repo, $p_path, $p_member = '' ) {
+		$this->api_init( $p_repo );
+
+		$t_response = $this->githubApi->get( $p_path );
+		$t_json = json_decode( (string) $t_response->getBody() );
+
+		if( empty( $p_member ) ) {
+			return $t_json;
+		} elseif( property_exists( $t_json, $p_member ) ) {
+			return $t_json->$p_member;
+		} else {
+			return false;
+		}
 	}
 
 	private function api_json_url( $p_repo, $p_url, $p_member = null ) {
@@ -429,8 +474,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			$t_start_time = microtime( true );
 		}
 
-		$t_uri = $this->api_uri( $p_repo, 'rate_limit' );
-		$t_json = json_url( $t_uri, 'rate' );
+		$t_json = $this->api_get( $p_repo, 'rate_limit', 'rate' );
 
 		if ( false !== $t_json && !is_null( $t_json ) ) {
 			if ( $t_json->remaining <= 0 ) {
@@ -442,7 +486,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			}
 		}
 
-		return json_url( $p_url, $p_member );
+		return $this->api_get( $p_repo, $p_url, $p_member );
 	}
 
 	public function precommit() {
@@ -538,12 +582,10 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			$t_username = $p_repo->info['hub_username'];
 			$t_reponame = $p_repo->info['hub_reponame'];
 
-			$t_uri = $this->api_uri( $p_repo, "repos/$t_username/$t_reponame/branches" );
-			$t_json = $this->api_json_url( $p_repo, $t_uri );
+			$t_json = $this->api_json_url( $p_repo, "repos/$t_username/$t_reponame/branches" );
 
 			$t_branches = array();
-			foreach ($t_json as $t_branch)
-			{
+			foreach ($t_json as $t_branch) {
 				$t_branches[] = $t_branch->name;
 			}
 		}
@@ -599,8 +641,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			$t_commit_id = array_shift( $s_parents );
 
 			echo "Retrieving $t_commit_id ... ";
-			$t_uri = $this->api_uri( $p_repo, "repos/$t_username/$t_reponame/commits/$t_commit_id" );
-			$t_json = $this->api_json_url( $p_repo, $t_uri );
+			$t_json = $this->api_json_url( $p_repo, "repos/$t_username/$t_reponame/commits/$t_commit_id" );
 
 			if ( false === $t_json || is_null( $t_json ) ) {
 				# Some error occured retrieving the commit
