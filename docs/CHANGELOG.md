@@ -10,12 +10,26 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [Unreleased 2.x]
+
+### Changed
+
+- GitHub: use GuzzleHttp instead of cURL
+  [#336](https://github.com/mantisbt-plugins/source-integration/issues/336)
+
+### Fixed
+
+- GitHub: authentication using query parameters is deprecated 
+  [#335](https://github.com/mantisbt-plugins/source-integration/issues/335)
+
+
 ## [2.3.0] - 2019-09-06
 
 ### Fixed
 
 - Support for BitBucket API 2.0
   [#320](https://github.com/mantisbt-plugins/source-integration/issues/320)
+
 
 ## [2.2.0] - 2019-03-26
 
