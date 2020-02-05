@@ -3,6 +3,8 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
+use GuzzleHttp\RequestOptions;
+
 if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceGitBasePlugin.class.php' ) ) {
 	return;
 }
@@ -16,7 +18,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	const MANTIS_VERSION = '2.3.0';
 
 	const URL_API = 'https://api.github.com/';
-	
+	const URL_OAUTH = 'https://github.com/login/oauth/';
+
 	public $linkPullRequest = '/pull/%s';
 
 	/**
@@ -717,6 +720,12 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		}
 	}
 
+	/**
+	 * Return the GitHub OAuth URL for the given repository
+	 *
+	 * @param SourceRepo $p_repo
+	 * @return string
+	 */
 	private function oauth_authorize_uri( $p_repo ) {
 		$t_hub_app_client_id = null;
 		$t_hub_app_secret = null;
@@ -740,7 +749,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 				'scope' => 'repo',
 				'allow_signup' => false,
 			);
-			return 'https://github.com/login/oauth/authorize?' . http_build_query( $t_param );
+			return self::URL_OAUTH . 'authorize?' . http_build_query( $t_param );
 		} else {
 			return '';
 		}
@@ -748,11 +757,12 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 	public static function oauth_get_access_token( $p_repo, $p_code ) {
 		# build the GitHub URL & POST data
-		$t_url = 'https://github.com/login/oauth/access_token';
-		$t_post_data = array( 'client_id' => $p_repo->info['hub_app_client_id'],
+		$t_post_data = array(
+			'client_id' => $p_repo->info['hub_app_client_id'],
 			'client_secret' => $p_repo->info['hub_app_secret'],
-			'code' => $p_code );
-		$t_data = self::url_post( $t_url, $t_post_data );
+			'code' => $p_code
+		);
+		$t_data = self::url_post( self::URL_OAUTH . 'access_token', $t_post_data );
 
 		$t_access_token = '';
 		if ( !empty( $t_data ) ) {
@@ -776,26 +786,23 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		}
 	}
 
+	/**
+	 * Sends a POST request.
+	 *
+	 * @param string $p_url       Target URL
+	 * @param array  $p_post_data Post data
+	 *
+	 * @return string Response
+	 */
 	public static function url_post( $p_url, $p_post_data ) {
-		$t_post_data = http_build_query( $p_post_data );
-
-		# Use the PHP cURL extension
-		if( function_exists( 'curl_init' ) ) {
-			$t_curl = curl_init( $p_url );
-			curl_setopt( $t_curl, CURLOPT_RETURNTRANSFER, true );
-			curl_setopt( $t_curl, CURLOPT_POST, true );
-			curl_setopt( $t_curl, CURLOPT_POSTFIELDS, $t_post_data );
-
-			$t_data = curl_exec( $t_curl );
-			curl_close( $t_curl );
-
-			return $t_data;
-		} else {
-			# Last resort system call
-			$t_url = escapeshellarg( $p_url );
-			$t_post_data = escapeshellarg( $t_post_data );
-			return shell_exec( 'curl ' . $t_url . ' -d ' . $t_post_data );
-		}
+		$t_request = new GuzzleHttp\Client();
+		$t_response = $t_request->post(
+			$p_url,
+			array(
+				'form_params' => $p_post_data,
+			)
+		);
+		return (string)$t_response->getBody();
 	}
 
 }
