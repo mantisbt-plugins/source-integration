@@ -98,8 +98,6 @@ $s_plugin_Source_bugfix_message = 'Modèle de message de résolution';
 $s_plugin_Source_bugfix_message_info = 'Utilisez $1 pour la branche, $2 pour la révision, $3 pour l\'horodatage, $4 pour le message de soumission, ou $5 pour le nom du dépôt.';
 $s_plugin_Source_bugfix_message_view_status = 'Type de message de résolution';
 $s_plugin_Source_bugfix_message_view_status_info = 'Note: si l\'auteur du jeu de changement n\'a pas le niveau <em>private_bugnote_threshold</em>, la note sera Publique quel que soit la valeur de cette option.';
-$s_plugin_Source_default_master_branch = 'Branche par défaut';
-$s_plugin_Source_default_master_branch_info = 'Pour les dépôts basés sur Git uniquement. Branches renseignées par defaut lors de la création d\'un dépôt (liste avec séparateur virgule ou *).';
 $s_plugin_Source_reset = 'Réinitialiser';
 $s_plugin_Source_menu_links = 'Liens du menu principal';
 $s_plugin_Source_show_repo_link = 'Dépôts';
@@ -111,6 +109,10 @@ $s_plugin_Source_enable_mapping = 'Association de branche';
 $s_plugin_Source_enable_resolving = 'Résoudre les demandes résolues';
 $s_plugin_Source_enable_message = 'Message de résolution';
 $s_plugin_Source_enable_porting = 'Etat de portage';
+
+$s_plugin_Source_git_title = 'Intégration de greffons basés sur Git';
+$s_plugin_Source_git_default_primary_branch = 'Branche par défaut';
+$s_plugin_Source_git_default_primary_branch_info = 'Branches renseignées par défaut lors de la création d\'un dépôt (liste avec séparateur virgule ou *).';
 
 $s_plugin_Source_branch_mapping = 'Associations de branche';
 $s_plugin_Source_mapping_update = 'Mettre à jour les associations';

@@ -111,7 +111,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		if( isset($p_repo->info['master_branch']) ) {
 			$t_master_branch = $p_repo->info['master_branch'];
 		} else {
-			$t_master_branch = config_get( 'plugin_Source_default_master_branch', 'master' );
+			$t_master_branch = $this->get_default_primary_branches();
 		}
 		?>
 		<tr>
@@ -223,7 +223,7 @@ class SourceBitBucketPlugin extends MantisSourcePlugin {
 		$t_branch = $p_repo->info['master_branch'];
 
 		if( is_blank( $t_branch ) ) {
-			$t_branch = config_get( 'plugin_Source_default_master_branch', 'master' );
+			$t_branch = $this->get_default_primary_branches();
 		}
 
 		$t_username = $p_repo->info['bit_username'];
