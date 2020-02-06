@@ -138,7 +138,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 		</td>
 	</tr>
 	
-	<tr class="spacer" />
+	<tr class="spacer"></tr>
 	<tr>
 		<td class="category"><?php echo plugin_lang_get( 'buglink_regex_1' ) ?></td>
 		<td>
@@ -159,7 +159,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 		</td>
 	</tr>
 
-	<tr class="spacer" />
+	<tr class="spacer"></tr>
 	<tr>
 		<td class="category"><span><?php echo plugin_lang_get( 'bugfix_regex_1' ) ?></td>
 		<td>
@@ -258,7 +258,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 		</td>
 	</tr>
 
-	<tr class="spacer" />
+	<tr class="spacer"></tr>
 	<tr>
 		<td class="category"><?php echo plugin_lang_get( 'api_key' ) ?></td>
 		<td>
@@ -268,7 +268,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 		</td>
 	</tr>
 
-	<tr class="spacer" />
+	<tr class="spacer"></tr>
 	<tr>
 		<td class="category"><?php echo plugin_lang_get( 'allow_remote_checkin' ) ?></td>
 		<td>
@@ -288,7 +288,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 		</td>
 	</tr>
 
-	<tr class="spacer" />
+	<tr class="spacer"></tr>
 	<tr>
 		<td class="category"><?php echo plugin_lang_get( 'allow_remote_import' ) ?></td>
 		<td>
@@ -308,6 +308,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 		</td>
 	</tr>
 
+<?php
+# Add an empty row `<tr></tr>` here as needed, to ensure that any VCS-specific
+# config starts on an even row (i.e. with white background) for better display.
+?>
+	<tr></tr>
 <?php
 	foreach( SourceVCS::all() as $t_type => $t_vcs ) {
 		if ( $t_vcs->configuration ) {

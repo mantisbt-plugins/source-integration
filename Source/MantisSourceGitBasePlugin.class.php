@@ -28,6 +28,21 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	private $valid_branch_regex = '%^(?!/|.*([/.]\.|//|@\{|\\\\)|@$)[^\000-\037\177 ~^:?*[]+(?<!\.lock|[/.])$%';
 
 	/**
+	 * @var bool Parent class includes global configuratino
+	 */
+	public $configuration = true;
+
+	/**
+	 * @var bool Prevent more than one Git-based plugin from processing form
+	 */
+	private static $config_form_handled = false;
+
+	/**
+	 *
+	 */
+	const CFG_DEFAULT_PRIMARY_BRANCH = 'git_default_primary_branch';
+
+	/**
 	 * Error constants
 	 */
 	const ERROR_INVALID_BRANCH = 'invalid_branch';
@@ -85,6 +100,65 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 
 		foreach( explode( ',', $p_list ) as $t_branch ) {
 			$this->ensure_branch_valid( trim( $t_branch ) );
+		}
+	}
+
+	/**
+	 * Retrieves the default primary branches from Source plugin's config
+	 * @return string
+	 */
+	protected function get_default_primary_branches() {
+		plugin_push_current( 'Source' );
+		$t_value = plugin_config_get( self::CFG_DEFAULT_PRIMARY_BRANCH, 'master' );
+		plugin_pop_current();
+		return $t_value;
+	}
+
+	/**
+	 * Output form elements for configuration options.
+	 */
+	public function update_config_form() {
+		# Prevent more than one Git-based class from outputting form elements.
+		if( !MantisSourceGitBasePlugin::$config_form_handled ) {
+			plugin_push_current( 'Source' );
+			MantisSourceGitBasePlugin::$config_form_handled = true;
+?>
+	<tr class="spacer"></tr>
+	<tr>
+		<td colspan="2"><h4><?php echo plugin_lang_get( 'git_title' ) ?></h4></td>
+	</tr>
+	<tr>
+		<td class="category"><?php echo plugin_lang_get( self::CFG_DEFAULT_PRIMARY_BRANCH ) ?></td>
+		<td>
+			<input name="<?php echo self::CFG_DEFAULT_PRIMARY_BRANCH ?>"
+				   type="text" class="input-sm" size="50"
+				   value="<?php echo string_attribute( plugin_config_get( self::CFG_DEFAULT_PRIMARY_BRANCH, 'master' ) ) ?>"
+			/>
+			<br>
+			<span class="small"><?php echo plugin_lang_get( 'git_default_primary_branch_info' ) ?></span>
+		</td>
+	</tr>
+	<tr></tr>
+<?php
+			plugin_pop_current();
+		}
+	}
+
+	/**
+	 * Process form elements for configuration options.
+	 */
+	public function update_config() {
+		# Prevent more than one SVN class from handling form elements.
+		if( !MantisSourceGitBasePlugin::$config_form_handled ) {
+			MantisSourceGitBasePlugin::$config_form_handled = true;
+
+			plugin_push_current( 'Source' );
+			$f_default_branch = trim( gpc_get_string( self::CFG_DEFAULT_PRIMARY_BRANCH ) ) ?: 'master';
+			$t_default_branch = plugin_config_get( self::CFG_DEFAULT_PRIMARY_BRANCH, 'master' );
+			if ( $f_default_branch != $t_default_branch ) {
+				plugin_config_set( self::CFG_DEFAULT_PRIMARY_BRANCH, $f_default_branch );
+			}
+			plugin_pop_current();
 		}
 	}
 }

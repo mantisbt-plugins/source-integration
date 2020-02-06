@@ -12,6 +12,11 @@ specification.
 
 ## [Unreleased 2.x]
 
+### Added
+
+- Default primary branch can be configured for git-based repositories 
+  [#308](https://github.com/mantisbt-plugins/source-integration/issues/308)
+
 ### Changed
 
 - GitHub: use GuzzleHttp instead of cURL

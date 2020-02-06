@@ -167,7 +167,6 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			$t_winstart = plugin_config_get( 'winstart', '' );
 
 ?>
-<table class="table table-striped table-bordered table-condensed">
 	<tr class="spacer"></tr>
 	<tr>
 		<td colspan="2"><h4><?php echo plugin_lang_get( 'title' ) ?></h4></td>
@@ -203,7 +202,6 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		</td>
 	</tr>
 	<tr class="spacer"></tr>
-</table>
 
 <?php
 		}

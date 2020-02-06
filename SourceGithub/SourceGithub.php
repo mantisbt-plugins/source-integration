@@ -288,7 +288,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		if ( isset( $p_repo->info['master_branch'] ) ) {
 			$t_master_branch = $p_repo->info['master_branch'];
 		} else {
-			$t_master_branch = 'master';
+			$t_master_branch = $this->get_default_primary_branches();
 		}
 ?>
 
@@ -572,7 +572,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 		$t_branch = $p_repo->info['master_branch'];
 		if ( is_blank( $t_branch ) ) {
-			$t_branch = 'master';
+			$t_branch = $this->get_default_primary_branches();
 		}
 
 		if ($t_branch != '*')
@@ -804,5 +804,4 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		);
 		return (string)$t_response->getBody();
 	}
-
 }

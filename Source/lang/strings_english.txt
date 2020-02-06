@@ -114,6 +114,10 @@ $s_plugin_Source_enable_message = 'Bug Fixed Message';
 $s_plugin_Source_enable_porting = 'Porting Status';
 $s_plugin_Source_enable_product_matrix = 'Product Matrix Integration';
 
+$s_plugin_Source_git_title = 'Git-based Plugins Integration';
+$s_plugin_Source_git_default_primary_branch = 'Default primary branches';
+$s_plugin_Source_git_default_primary_branch_info = 'Default Branches to use when creating a repository (comma-separated list or *).';
+
 $s_plugin_Source_branch_mapping = 'Branch Mappings';
 $s_plugin_Source_mapping_update = 'Update Mappings';
 $s_plugin_Source_mapping_strategy = 'Strategy';

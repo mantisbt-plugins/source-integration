@@ -110,6 +110,10 @@ $s_plugin_Source_enable_resolving = 'Résoudre les demandes résolues';
 $s_plugin_Source_enable_message = 'Message de résolution';
 $s_plugin_Source_enable_porting = 'Etat de portage';
 
+$s_plugin_Source_git_title = 'Intégration de greffons basés sur Git';
+$s_plugin_Source_git_default_primary_branch = 'Branche par défaut';
+$s_plugin_Source_git_default_primary_branch_info = 'Branches renseignées par défaut lors de la création d\'un dépôt (liste avec séparateur virgule ou *).';
+
 $s_plugin_Source_branch_mapping = 'Associations de branche';
 $s_plugin_Source_mapping_update = 'Mettre à jour les associations';
 $s_plugin_Source_mapping_strategy = 'Stratégie';
