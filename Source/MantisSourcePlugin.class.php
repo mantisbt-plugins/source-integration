@@ -109,7 +109,12 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 
 	/**
 	 * Output form elements for configuration options.
-	 * The first div should have class 'spacer'
+	 *
+	 * They are displayed at the bottom of the plugin's config page
+	 * (see manage_config_page.php). The first row should have class 'spacer',
+	 * and the function should output an even number of rows (including the
+	 * spacer row), to ensure that the VCS-specific section always start on an
+	 * even row (i.e. with white background). Add an empty row if needed.
 	 */
 	public function update_config_form() {}
 

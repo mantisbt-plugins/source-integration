@@ -309,6 +309,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	</tr>
 
 <?php
+# Add an empty row `<tr></tr>` here as needed, to ensure that any VCS-specific
+# config starts on an even row (i.e. with white background) for better display.
+?>
+	<tr></tr>
+<?php
 	foreach( SourceVCS::all() as $t_type => $t_vcs ) {
 		if ( $t_vcs->configuration ) {
 			$t_vcs->update_config_form();
