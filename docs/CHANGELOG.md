@@ -14,6 +14,8 @@ specification.
 
 ### Added
 
+- Support for VisualSVN Server, thanks to David Hopkins, FBR Ltd
+  [#313](https://github.com/mantisbt-plugins/source-integration/pull/313)
 - Default primary branch can be configured for git-based repositories 
   [#308](https://github.com/mantisbt-plugins/source-integration/issues/308)
 
