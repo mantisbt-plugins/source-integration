@@ -5,3 +5,6 @@
 *.buildpath
 *.project
 *.idea
+.vs
+.svn
+*.DotSettings.user

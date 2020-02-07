@@ -1,0 +1,33 @@
+<?php
+# Copyright (c) 2019 David Hopkins, FBR Ltd
+# Copyright (c) 2012 John Reese
+# Licensed under the MIT license
+
+$s_plugin_SourceVisualSVNServer_ = '';
+$s_plugin_SourceVisualSVNServer_vsvns = 'VisualSVN Server';
+$s_plugin_SourceVisualSVNServer_title = 'Source VisualSVN Server Integration';
+$s_plugin_SourceVisualSVNServer_description = 'Adds Subversion integration to the Source plugin framework, with hyperlinks to the VisualSVN Server web interface.';
+
+$s_plugin_SourceVisualSVNServer_visualsvnserver_url_prefix = 'VisualSVN Server repository URL prefix<br/><span class="small">(Default "svn")</span>';
+
+$s_plugin_SourceVisualSVNServer_svn_username = 'SVN Username<br/><span class="small">(Ignored under Integrated Windows Authentication)</span>';
+$s_plugin_SourceVisualSVNServer_svn_password = 'SVN Password<br/><span class="small">(Ignored under Integrated Windows Authentication)</span>';
+$s_plugin_SourceVisualSVNServer_standard_repo = 'Standard Repository<br/><span class="small">(trunk/branches/tags)</span>';
+$s_plugin_SourceVisualSVNServer_trunk_path = 'Trunk Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceVisualSVNServer_branch_path = 'Branch Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceVisualSVNServer_tag_path = 'Tag Path<br/><span class="small">(Non-standard repository)</span>';
+$s_plugin_SourceVisualSVNServer_ignore_paths = 'Ignore Other Paths<br/><span class="small">(Non-standard repository)</span>';
+
+$s_plugin_SourceVisualSVNServer_configuration = 'Configuration';
+$s_plugin_SourceVisualSVNServer_update = 'Configuration';
+$s_plugin_SourceVisualSVNServer_svnpath = 'SVN: Path to binary';
+$s_plugin_SourceVisualSVNServer_svnargs = 'SVN: Command arguments';
+$s_plugin_SourceVisualSVNServer_svnssl = 'SVN: Trust All SSL Certs<br/><span class="small">(Requires Subversion 1.6 or newer)</span>';
+$s_plugin_SourceVisualSVNServer_winstart = 'SVN: Use Windows `start`<br/><span class="small">(Requires a configured path to binary)</span>';
+
+$s_plugin_SourceVisualSVNServer_error_path_invalid = 'Path to Subversion binary is invalid, inaccessible or not a directory.';
+$s_plugin_SourceVisualSVNServer_error_svn_run = 'Failed to execute Subversion.';
+$s_plugin_SourceVisualSVNServer_error_svn_cmd = 'Subversion execution returned an error: "%1$s".';
+
+$s_plugin_SourceVisualSVNServer_revision_already_committed = 'Revision %s already committed!';
+$s_plugin_SourceVisualSVNServer_revprop_detected = '  SVN:LOG revision property change detected.';
