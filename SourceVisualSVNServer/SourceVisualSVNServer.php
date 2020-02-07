@@ -51,30 +51,30 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 	protected function url_base( $p_repo ) {
 		# VisualSVN Server web interface is always on the same host name
 		# as the HTTP(S)-served repositories, accessed via the /!/#reponame path
-		$t_repo_url = parse_url($p_repo->url);
+		$t_repo_url = parse_url( $p_repo->url );
 		$t_repo_path = $t_repo_url['path'];
 
 		$t_url_prefix = $this->get_visualsvnserver_url_prefix( $p_repo );
 
 		# Strip repo prefix (typically '/svn/') from path
-		$t_prefix = empty( $t_url_prefix ) ? '/' : '/' . urlencode($t_url_prefix) . '/';
-		if (substr($t_repo_path, 0, strlen($t_prefix)) == $t_prefix) {
-			$t_repo_path = substr($t_repo_path, strlen($t_prefix));
+		$t_prefix = empty( $t_url_prefix ) ? '/' : '/' . urlencode( $t_url_prefix ) . '/';
+		if( substr( $t_repo_path, 0, strlen( $t_prefix ) ) == $t_prefix ) {
+			$t_repo_path = substr( $t_repo_path, strlen( $t_prefix ) );
 		}
 
 		# Only include port in final URL if it was present originally
 		$t_port = isset( $t_repo_url['port'] ) ? ':' . $t_repo_url['port'] : '';
-		
+
 		$t_url = $t_repo_url['scheme'] . '://' . $t_repo_url['host'] . $t_port . '/!/#' . $t_repo_path;
 		return $t_url;
 	}
 
-	public function url_repo( $p_repo, $p_changeset=null ) {
+	public function url_repo( $p_repo, $p_changeset = null ) {
 		$t_url = $this->url_base( $p_repo );
-		
-		if ( !is_null( $p_changeset ) ) {
+
+		if( !is_null( $p_changeset ) ) {
 			$t_revision = $p_changeset->revision;
-			$t_url .= '/view/r' . urlencode($t_revision) . '/';
+			$t_url .= '/view/r' . urlencode( $t_revision ) . '/';
 		}
 
 		return $t_url;
@@ -84,7 +84,7 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 		$t_repo_url = $this->url_base( $p_repo );
 		$t_revision = $p_changeset->revision;
 
-		$t_url = $t_repo_url . '/commit/r' . urlencode($t_revision) . '/';
+		$t_url = $t_repo_url . '/commit/r' . urlencode( $t_revision ) . '/';
 		return $t_url;
 	}
 
@@ -93,19 +93,19 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 
 		# if the file has been removed, it doesn't exist in current revision
 		# so we generate a link to (current revision - 1)
-		$t_revision = ($p_file->action == 'rm')
-					? $p_changeset->revision - 1
-					: $p_changeset->revision;
+		$t_revision = ( $p_file->action == 'rm' )
+			? $p_changeset->revision - 1
+			: $p_changeset->revision;
 
-		$t_url = $t_repo_url . '/view/r' . urlencode($t_revision) . $p_file->filename;
-				
+		$t_url = $t_repo_url . '/view/r' . urlencode( $t_revision ) . $p_file->filename;
+
 		return $t_url;
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
-		if ( $p_file->action == 'rm' || $p_file->action == 'add' ) {
+		if( $p_file->action == 'rm' || $p_file->action == 'add' ) {
 			# Return default no-link for add/remove change diffs
-			return parent::url_diff($p_repo, $p_changeset, $p_file);
+			return parent::url_diff( $p_repo, $p_changeset, $p_file );
 		}
 
 		# The web interface for VisualSVN Server displays file diffs as inline content 
@@ -117,22 +117,21 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 	}
 
 	public function update_repo_form( $p_repo ) {
-		$t_url_prefix   = $this->get_visualsvnserver_url_prefix( $p_repo );
-
+		$t_url_prefix = $this->get_visualsvnserver_url_prefix( $p_repo );
 ?>
 <tr>
 	<td class="category"><?php echo plugin_lang_get( 'visualsvnserver_url_prefix' ) ?></td>
 	<td>
-		<input type="text" name="visualsvnserver_url_prefix" maxlength="250" size="40" value="<?php echo string_attribute( $t_url_prefix ) ?>"/>
+		<input type="text" name="visualsvnserver_url_prefix" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_url_prefix ) ?>"
+		/>
 	</td>
 </tr>
 <?php
-
 		return parent::update_repo_form( $p_repo );
 	}
 
 	public function update_repo( $p_repo ) {
-
 		$p_repo->info['visualsvnserver_url_prefix'] = gpc_get_string( 'visualsvnserver_url_prefix' );
 
 		return parent::update_repo( $p_repo );
