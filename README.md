@@ -39,11 +39,11 @@ plugins:
 * **SourceSVN**: SVN repositories locally accessible by the SVN binaries.
 * **SourceViewVC**: SVN repositories accessible via a
   [ViewVC](http://www.viewvc.org/) web frontend installation.
-* **SourceWebSVN**: SVN repositories accessible via a
-  [WebSVN](http://www.websvn.info/) web frontend installation.
 * **SourceVisualSVNServer**: SVN repositories hosted on a 
   [VisualSVN Server](https://www.visualsvn.com/server/) installation,
   with support for URL linking from MantisBT to VisualSVN Server's built-in web frontend.
+* **SourceWebSVN**: SVN repositories accessible via a
+  [WebSVN](http://www.websvn.info/) web frontend installation.
 
 Support for additional source control tools should be rather
 straightforward to implement due to the flexibility inherent in the

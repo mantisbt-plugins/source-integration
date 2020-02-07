@@ -17,7 +17,7 @@ Ensure that all of the following plugins are installed:
 * **SourceVisualSVNServer**
 
 See the [README](../README.md#installation) for overall instructions
-with regard to installing SourceIntegration plugins.
+with regards to installing SourceIntegration plugins.
 
 ## Configuration of SVN
 
