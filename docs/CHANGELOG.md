@@ -21,6 +21,8 @@ specification.
 
 - GitHub: use GuzzleHttp instead of cURL
   [#336](https://github.com/mantisbt-plugins/source-integration/issues/336)
+- SVN: improve documentation
+  [#311](https://github.com/mantisbt-plugins/source-integration/pull/311)
 
 ### Fixed
 

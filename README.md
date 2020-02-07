@@ -143,7 +143,16 @@ MantisBT version | Tags | Branch | Notes
 
     This will import new changesets for all configured repositories.
 
-11. Add additional repositories as needed.
+11. You can also configure event-driven import of new changesets. Many source control 
+    systems support configurable hooks or triggers which can be used to notify the 
+    **Source** plugin that new commits or revisions are available for import. This 
+    improves user experience by eliminating delays between source control commits and 
+    MantisBT state updates.
+
+    Refer to the configuration documentation for the relevant plugin extension(s) for more 
+    information.
+
+12. Add additional repositories as needed.
 
 ## Support
 
