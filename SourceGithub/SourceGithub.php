@@ -446,19 +446,46 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	/**
 	 * Retrieves data from the GitHub API for the given repository.
 	 *
-	 * The JSON data is returned as an stdClass object,
+	 * The JSON data is returned as an stdClass object.
 	 *
 	 * @param SourceRepo $p_repo   Repository
 	 * @param string     $p_path   GitHub API path
 	 * @param string     $p_member Optional top-level member to retrieve
 	 *
-	 * @return stdClass|false
+	 * @return stdClass|stdClass[]|false
 	 */
 	 private function api_get( $p_repo, $p_path, $p_member = '' ) {
 		$this->api_init( $p_repo );
+		$t_json = array();
 
-		$t_response = $this->githubApi->get( $p_path );
-		$t_json = json_decode( (string) $t_response->getBody() );
+ 		# Add pagination parameter, setting page count to maximum authorized by
+		# GitHub to minimize the number of requests
+		$t_path = $p_path
+			. ( parse_url( $p_path, PHP_URL_QUERY ) ? '&' : '?' )
+			. 'per_page=100';
+		do {
+			$t_response = $this->githubApi->get( $t_path );
+			$t_data = json_decode( $t_response->getBody() );
+
+			# No need for pagination if returned data is a single object
+			if( !is_array( $t_data ) ) {
+				$t_json = $t_data;
+				break;
+			}
+			# Store retrieved data and proceed with next page
+			$t_json = array_merge( $t_json, $t_data );
+
+			$t_links = GuzzleHttp\Psr7\parse_header( $t_response->getHeader( 'Link' ) );
+			foreach( $t_links as $t_link ) {
+				if( $t_link['rel'] == 'next' ) {
+					$t_path = trim( $t_link[0], '<>' );
+					continue 2;
+				}
+			}
+
+			# There is no "next" link - all pages have been processed
+			break;
+		} while( true );
 
 		if( empty( $p_member ) ) {
 			return $t_json;
@@ -585,7 +612,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			$t_username = $p_repo->info['hub_username'];
 			$t_reponame = $p_repo->info['hub_reponame'];
 
-			$t_json = $this->api_json_url( $p_repo, "repos/$t_username/$t_reponame/branches" );
+			$t_json = $this->api_json_url( $p_repo, "repos/$t_username/$t_reponame/branches?per_page=" );
 
 			$t_branches = array();
 			foreach ($t_json as $t_branch) {
