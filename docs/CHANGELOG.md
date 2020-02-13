@@ -14,7 +14,7 @@ specification.
 
 ### Security
 
-- Fix XSS in Delete Repository page (CVE request pending)
+- Fix XSS in Delete Repository page (CVE-2020-8981)
   [#338](https://github.com/mantisbt-plugins/source-integration/issues/338)
 
 
