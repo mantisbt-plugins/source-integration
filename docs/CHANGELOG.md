@@ -28,6 +28,8 @@ specification.
 
 ### Fixed
 
+- GitHub: allow processing more than 30 branches 
+  [#327](https://github.com/mantisbt-plugins/source-integration/issues/327)
 - GitHub: authentication using query parameters is deprecated 
   [#335](https://github.com/mantisbt-plugins/source-integration/issues/335)
 - SVN: Workaround to avoid data import failures due to timeout reading proc_open() buffers
@@ -40,7 +42,7 @@ Includes all changes and fixes from [1.6.2](#162---2020-02-13).
 
 ### Security
 
-- Fix XSS in Delete Repository page (CVE request pending)
+- Fix XSS in Delete Repository page (CVE-2020-8981)
   [#338](https://github.com/mantisbt-plugins/source-integration/issues/338)
 
 
