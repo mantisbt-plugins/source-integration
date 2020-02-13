@@ -36,7 +36,7 @@ specification.
 
 ## [2.3.1] - 2020-02-13
 
-Includes all changes and fixes from [1.6.1](#161---2020-02-13).
+Includes all changes and fixes from [1.6.2](#162---2020-02-13).
 
 ### Security
 
