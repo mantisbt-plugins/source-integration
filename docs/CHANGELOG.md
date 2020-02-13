@@ -263,7 +263,7 @@ Includes all changes and fixes from [1.5.0](#150---2017-03-06).
 
 ### Security
 
-- Fix XSS in Delete Repository page (CVE request pending)
+- Fix XSS in Delete Repository page (CVE-2020-8981)
   [#338](https://github.com/mantisbt-plugins/source-integration/issues/338)
 
 
