@@ -10,6 +10,16 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [2.3.1] - 2020-02-13
+
+Includes all changes and fixes from [1.6.1](#161---2020-02-13).
+
+### Security
+
+- Fix XSS in Delete Repository page (CVE request pending)
+  [#338](https://github.com/mantisbt-plugins/source-integration/issues/338)
+
+
 ## [2.3.0] - 2019-09-06
 
 ### Fixed
@@ -64,7 +74,7 @@ Includes all changes and fixes from [1.5.9](#159---2018-09-02).
 
 ### Security
 
-- Fix XSS in Manage Repository and Changesets List pages (CVE request pending)
+- Fix XSS in Manage Repository and Changesets List pages (CVE-2018-16362)
   [#286](https://github.com/mantisbt-plugins/source-integration/issues/286)
 
 
@@ -472,8 +482,9 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.3.0...HEAD
+[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.3.1...HEAD
 
+[2.3.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.5...v2.2.0
 [2.1.5]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.4...v2.1.5
