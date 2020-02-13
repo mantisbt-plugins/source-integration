@@ -34,6 +34,16 @@ specification.
   [#333](https://github.com/mantisbt-plugins/source-integration/issues/333)
 
 
+## [2.3.1] - 2020-02-13
+
+Includes all changes and fixes from [1.6.1](#161---2020-02-13).
+
+### Security
+
+- Fix XSS in Delete Repository page (CVE request pending)
+  [#338](https://github.com/mantisbt-plugins/source-integration/issues/338)
+
+
 ## [2.3.0] - 2019-09-06
 
 ### Fixed
@@ -89,7 +99,7 @@ Includes all changes and fixes from [1.5.9](#159---2018-09-02).
 
 ### Security
 
-- Fix XSS in Manage Repository and Changesets List pages (CVE request pending)
+- Fix XSS in Manage Repository and Changesets List pages (CVE-2018-16362)
   [#286](https://github.com/mantisbt-plugins/source-integration/issues/286)
 
 
@@ -249,6 +259,14 @@ Includes all changes and fixes from [1.5.0](#150---2017-03-06).
 
 # Releases for MantisBT 1.3
 
+## [1.6.2] - 2020-02-13
+
+### Security
+
+- Fix XSS in Delete Repository page (CVE request pending)
+  [#338](https://github.com/mantisbt-plugins/source-integration/issues/338)
+
+
 ## [1.6.1] - 2019-03-26
 
 ### Fixed
@@ -269,7 +287,7 @@ Includes all changes and fixes from [1.5.0](#150---2017-03-06).
 
 ### Security
 
-- Fix XSS in Manage Repository and Changesets List pages (CVE request pending)
+- Fix XSS in Manage Repository and Changesets List pages (CVE-2018-16362)
   [#286](https://github.com/mantisbt-plugins/source-integration/issues/286)
 
 ## [1.5.8] - 2018-08-30
@@ -489,8 +507,9 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.3.0...HEAD
+[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.3.1...HEAD
 
+[2.3.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.5...v2.2.0
 [2.1.5]: https://github.com/mantisbt-plugins/source-integration/compare/v2.1.4...v2.1.5
@@ -506,8 +525,9 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 [2.0.0-beta.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.0-beta.1...v2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.2...v2.0.0-beta.1
 
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.1...master-1.3.x
+[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.2...master-1.3.x
 
+[1.6.2]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.9...v1.6.0
 [1.5.9]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.8...v1.5.9
