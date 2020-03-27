@@ -1,0 +1,14 @@
+<?php
+
+$s_plugin_SourceAzureDevOps_ = '';
+$s_plugin_SourceAzureDevOps_azure = 'Azure DevOps';
+$s_plugin_SourceAzureDevOps_title = 'Source Azure DevOps Integration';
+$s_plugin_SourceAzureDevOps_description = 'Adds AzureDevOps integration to the Source Integration framework.';
+
+$s_plugin_SourceAzureDevOps_az_reponame = 'Azure DevOps Repository Name<br/><span class="small">no spaces, use %20</span>';
+$s_plugin_SourceAzureDevOps_az_projectname = 'Azure DevOps Project Name<br/><span class="small">no spaces, use %20</span>';
+$s_plugin_SourceAzureDevOps_az_app_access_token = 'Azure DevOps Application Access Token';
+$s_plugin_SourceAzureDevOps_az_http_proxy = 'Http Proxy<br/><span class="small">e.g. http://someproxy:8080</span>';
+$s_plugin_SourceAzureDevOps_master_branch = 'Primary Branches<br/><span class="small">comma-separated list, * imports all branches</span>';
+
+$s_plugin_SourceAzureDevOps_error_bad_request = 'Azure DevOps REST API call returned: "%1$s".';
