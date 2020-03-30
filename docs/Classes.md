@@ -13,6 +13,7 @@
             - **SourceCgitPlugin**
             - **SourceGithubPlugin**
             - **SourceGitlabPlugin**
+            - **SourceAzureDevOpsPlugin**
             - **SourceGitphpPlugin**
             - **SourceGitwebPlugin**
         - **SourceHgWebPlugin**
