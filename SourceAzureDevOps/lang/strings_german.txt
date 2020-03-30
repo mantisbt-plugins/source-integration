@@ -1,0 +1,14 @@
+<?php
+
+$s_plugin_SourceAzureDevOps_ = '';
+$s_plugin_SourceAzureDevOps_azure = 'Azure DevOps';
+$s_plugin_SourceAzureDevOps_title = 'Azure DevOps Integration';
+$s_plugin_SourceAzureDevOps_description = 'Integration für Azure DevOps Repos über die VCS Basisintegration.';
+
+$s_plugin_SourceAzureDevOps_az_reponame = 'Azure DevOps Projektarchiv (repository)<br/><span class="small">keine Leerzeichen, %20 benutzen</span>';
+$s_plugin_SourceAzureDevOps_az_projectname = 'Azure DevOps Projekt<br/><span class="small">keine Leerzeichen, %20 benutzen</span>';
+$s_plugin_SourceAzureDevOps_az_app_access_token = 'Azure DevOps Application Access Token';
+$s_plugin_SourceAzureDevOps_az_http_proxy = 'Http Proxy<br/><span class="small">e.g. http://someproxy:8080</span>';
+$s_plugin_SourceAzureDevOps_master_branch = 'Hauptzweige<br/><span class="small">kommaseparierte Liste oder "*" für alle</span>';
+
+$s_plugin_SourceAzureDevOps_error_bad_request = 'Aufruf von Azure DevOps REST API ist fehlgeschlagen: "%1$s".';

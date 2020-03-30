@@ -14,6 +14,8 @@ specification.
 
 ### Added
 
+- New Azure DevOps Service VCS Plugin, thanks to Stefan Gross
+  [#340](https://github.com/mantisbt-plugins/source-integration/issues/340)
 - GitLab: Pull Request linking
   [#353](https://github.com/mantisbt-plugins/source-integration/issues/353)
 - Allow disabling file stats on Index page

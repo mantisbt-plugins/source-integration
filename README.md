@@ -26,6 +26,7 @@ plugins:
   [cgit](http://hjemli.net/git/cgit/) web frontend installation.
 * **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).
 * **SourceGitlab**: Git repositories hosted on [GitLab](https://about.gitlab.com/).
+* **SourceAzureDevOps**: Git repositories hosted on [Azure DevOps Services Repos](https://azure.microsoft.com/en-us/services/devops/).
 * **SourceGitphp**: Git repositories accessible via a
   [Gitphp](https://gitphp.org/) web frontend installation.
 * **SourceGitweb**: Git repositories accessible via a
@@ -125,6 +126,7 @@ MantisBT version | Tags | Branch | Notes
 
     * [SourceGithub](docs/CONFIGURING.SourceGithub.md)
     * [SourceGitlab](SourceGitlab/README.md)
+    * [SourceAzureDevOps](docs/CONFIGURING.SourceAzureDevOps.md)
     * [SourceViewVC](docs/CONFIGURING.SourceViewVC.md)
     * [SourceSVN](docs/CONFIGURING.SourceSVN.md)
     * [SourceVisualSVNServer](docs/CONFIGURING.SourceVisualSVNServer.md)
