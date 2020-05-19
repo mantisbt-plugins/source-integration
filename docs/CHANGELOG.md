@@ -10,7 +10,7 @@ specification.
 
 # Releases for MantisBT 2.x
 
-## [2.4.0]
+## [2.4.0] - 2020-05-19
 
 ### Added
 
