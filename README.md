@@ -3,7 +3,7 @@
 [![Gitter](https://img.shields.io/gitter/room/mantisbt-plugins/source-integration.svg)](https://gitter.im/mantisbt-plugins/source-integration)
 
 Copyright (c) 2008 - 2012  John Reese - http://noswap.com  
-Copyright (c) 2012 - 2017  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+Copyright (c) 2012 - 2020  MantisBT Team - mantisbt-dev@lists.sourceforge.net
 
 Released under the [MIT license](http://opensource.org/licenses/MIT)
 
@@ -51,12 +51,19 @@ integration framework and API.
 
 ## Requirements
 
-The Source Integration framework requires [MantisBT](http://www.mantisbt.org/)
-version **2.0.1** or higher.
+The Source Integration framework requires **[MantisBT](http://www.mantisbt.org/)
+version 2.0.1** or higher.
 
-Additionally, the _SourceBitBucket_ and _SourceGithub_ plugins
-require the [PHP Curl extension](http://php.net/book.curl), or the ability to
-execute system calls ([shell_exec](http://php.net/function.shell-exec)).
+### VCS plugins
+
+Some VCS plugins have additional, specific requirements:
+
+- **SourceBitBucket** requires the 
+  [PHP Curl extension](http://php.net/book.curl), or the ability to execute  
+  system calls (via [shell_exec](http://php.net/function.shell-exec)).
+- Starting with version 2.2.0 (bundled with Source Integration 2.4.0), 
+  **SourceGithub**  relies on [Guzzle](http://guzzlephp.org/) to access the 
+  GitHub API, and therefore requires **MantisBT 2.5.0** or later.
 
 
 ## Installation
