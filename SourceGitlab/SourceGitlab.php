@@ -316,9 +316,14 @@ public function update_repo_form( $p_repo ) {
 		}
 
 		$t_changesets = array();
+		$t_fetched = array();
 
 		while( count( $s_parents ) > 0 && $s_counter < 200 ) {
 			$t_commit_id = array_shift( $s_parents );
+			if ( isset( $t_fetched[$t_commit_id] ) ) {
+				continue;
+			}
+			
 			echo "Retrieving $t_commit_id ... <br/>";
 			$t_uri = $this->api_uri( $p_repo, "projects/$t_repoid/repository/commits/$t_commit_id" );
 			$t_member = null;
@@ -331,6 +336,8 @@ public function update_repo_form( $p_repo ) {
 				echo "failed ($t_json->message).\n";
 				continue;
 			}
+			
+			$t_fetched[$t_commit_id] = 1;
 
 			list( $t_changeset, $t_commit_parents ) = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
 			if ( $t_changeset ) {
