@@ -109,6 +109,7 @@ $s_plugin_Source_enable_mapping = 'Association de branche';
 $s_plugin_Source_enable_resolving = 'Résoudre les demandes résolues';
 $s_plugin_Source_enable_message = 'Message de résolution';
 $s_plugin_Source_enable_porting = 'Etat de portage';
+$s_plugin_Source_enable_file_stats = 'Statistiques des fichiers <span class="small">(peut être lent sur les grands dépôts)</span>';
 
 $s_plugin_Source_git_title = 'Intégration de greffons basés sur Git';
 $s_plugin_Source_git_default_primary_branch = 'Branche par défaut';

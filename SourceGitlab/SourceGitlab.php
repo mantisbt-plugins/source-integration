@@ -99,6 +99,9 @@ public function update_repo_form( $p_repo ) {
 		$t_hub_repoid = null;
 		$t_hub_reponame = null;
 		$t_hub_app_secret = null;
+		$t_hub_reponame = null;
+		$t_import_limit = 200;
+
 
 		if ( isset( $p_repo->info['hub_root'] ) ) {
 			$t_hub_root = $p_repo->info['hub_root'];
@@ -116,6 +119,9 @@ public function update_repo_form( $p_repo ) {
 			$t_master_branch = $p_repo->info['master_branch'];
 		} else {
 			$t_master_branch = $this->get_default_primary_branches();
+		}
+		if ( isset( $p_repo->info['import_limit'] ) ) {
+			$t_import_limit = $p_repo->info['import_limit'];
 		}
 ?>
 <tr>
@@ -147,6 +153,10 @@ public function update_repo_form( $p_repo ) {
 	<td>
 		<input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
 	</td>
+</tr>
+<tr <?php echo helper_alternate_class() ?>>
+<td class="category"><?php echo plugin_lang_get( 'import_limit' ) ?></td>
+<td><input name="import_limit" maxlength="250" size="40" value="<?php echo string_attribute( $t_import_limit ) ?>"/></td>
 </tr>
 <?php
 	}
@@ -183,6 +193,7 @@ public function update_repo_form( $p_repo ) {
 		# Update other fields
 		$p_repo->info['hub_repoid'] = $f_hub_repoid;
 		$p_repo->info['master_branch'] = $f_master_branch;
+		$p_repo->info['import_limit'] = gpc_get_string( 'import_limit' );
 
 		return $p_repo;
 	}
@@ -241,31 +252,48 @@ public function update_repo_form( $p_repo ) {
 		$t_refData = explode( '/', $p_data['ref'], 3 );
 		$t_branch = $t_refData[2];
 
-		return $this->import_commits( $p_repo, $t_commits, $t_branch );
+		if ( $this->branch_allowed( $t_branch, $p_repo ) ) {
+			return $this->import_commits( $p_repo, $t_commits, $t_branch, null );
+		} else {
+			# Branch not allowed
+			return array();
+		}
+	}
+
+
+	public function branch_allowed( $p_branch, $p_repo ) {
+		$t_branch_filter = $p_repo->info['master_branch'];
+		if ( is_blank( $t_branch_filter ) ) {
+			$t_branch_filter = $this->get_default_primary_branches();
+		}
+
+		if ( trim( $t_branch_filter ) == '*' ) {
+			return true;
+		}
+
+		# with / / interpret as regexp instead , separated list
+		if ( preg_match( '@^/.*/$@', trim( $t_branch_filter ) ) ) {
+			return preg_match( trim( $t_branch_filter ), $p_branch );
+		}
+
+		# if we're not allowed everything, populate an array of what we are allowed
+		return in_array( $p_branch, array_map( 'trim', explode( ',', $t_branch_filter ) ) );
 	}
 
 	public function import_full( $p_repo ) {
 		echo '<pre>';
 
-		$t_branch = $p_repo->info['master_branch'];
-		if ( is_blank( $t_branch ) ) {
-			$t_branch = $this->get_default_primary_branches();
-		}
-
-		# if we're not allowed everything, populate an array of what we are allowed
-		if( $t_branch != '*' ) {
-			$t_branches_allowed = array_map( 'trim', explode( ',', $t_branch ) );
-		}
-
 		# Always pull back full list of repos
 		$t_repoid = $p_repo->info['hub_repoid'];
+
+		# BUG: If more than 20 branches, gitlab requires per_page=100 (max. 100) and/or pagination
 		$t_uri = $this->api_uri( $p_repo, "projects/$t_repoid/repository/branches" );
 
 		$t_member = null;
 		$t_json = json_url( $t_uri, $t_member );
 		$t_branches = array();
 		foreach( $t_json as $t_branch ) {
-			if( empty( $t_branches_allowed ) || in_array( $t_branch->name, $t_branches_allowed ) ) {
+			if ( $this->branch_allowed( $t_branch->name, $p_repo ) ) {
 				$t_branches[] = $t_branch;
 			}
 		}
@@ -274,10 +302,17 @@ public function update_repo_form( $p_repo ) {
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
+		$t_import_limit = isset($p_repo->info['import_limit']) ? $p_repo->info['import_limit'] : 200;
 		foreach( $t_branches as $t_branch ) {
+			echo( "Retrieving branch ".$t_branch->name."\n" );
+			if ( $t_import_limit && $t_import_limit <= count( $t_changesets ) ) {
+				echo( "Stop, import limit reached.\n" );
+				break;
+			}
+
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
-				' ORDER BY timestamp ASC';
+				' ORDER BY timestamp ASC, id DESC';
 			$t_result = db_query( $t_query, array( $p_repo->id, $t_branch->name ), 1 );
 
 			$t_commits = array( $t_branch->commit->id );
@@ -287,12 +322,16 @@ public function update_repo_form( $p_repo ) {
 
 				if ( !empty( $t_parent ) ) {
 					$t_commits[] = $t_parent;
-					echo "Parents not empty";
 				}
-				echo "Parents  empty";
 			}
 
-			$t_changesets = array_merge( $t_changesets, $this->import_commits( $p_repo, $t_commits, $t_branch->name ) );
+			$t_changesets = array_merge( $t_changesets,
+			                             $this->import_commits( $p_repo,
+				                                                  $t_commits,
+				                                                  $t_branch->name,
+				                                                  ( $t_import_limit ?
+				                                                    $t_import_limit - count( $t_changesets ) :
+				                                                    null ) ) );
 		}
 
 		echo '</pre>';
@@ -301,60 +340,75 @@ public function update_repo_form( $p_repo ) {
 	}
 
 	public function import_latest( $p_repo ) {
+		# because this is called in a loop, it will only end if there is no more changeset is returned.
+		# To activate import_limits, this is should be called only once
+		static $run_before = false;
+		if ( $run_before ) {
+			return array();
+		}
+		$run_before = true;
+
 		return $this->import_full( $p_repo );
 	}
 
-	public function import_commits( $p_repo, $p_commit_ids, $p_branch='' ) {
-		static $s_parents = array();
-		static $s_counter = 0;
+	public function import_commits( $p_repo, $p_commit_ids, $p_branch, $p_limit ) {
 		$t_repoid = $p_repo->info['hub_repoid'];
 
+		$t_parents = array();
 		if ( is_array( $p_commit_ids ) ) {
-			$s_parents = array_merge( $s_parents, $p_commit_ids );
+			$t_parents = array_merge( $p_commit_ids );
 		} else {
-			$s_parents[] = $p_commit_ids;
+			$t_parents[] = $p_commit_ids;
 		}
 
 		$t_changesets = array();
 
-		while( count( $s_parents ) > 0 && $s_counter < 200 ) {
-			$t_commit_id = array_shift( $s_parents );
-			echo "Retrieving $t_commit_id ... <br/>";
+		while( count( $t_parents ) > 0 &&
+		       ( is_null( $p_limit ) || count( $t_changesets ) < $p_limit ) ) {
+			echo "Remaining commits: " . print_r( $t_parents, true ) . "<br/>";
+
+			$t_commit_id = array_shift( $t_parents );
+			echo "Retrieving commit " . $t_commit_id . "<br/>";
 			$t_uri = $this->api_uri( $p_repo, "projects/$t_repoid/repository/commits/$t_commit_id" );
+			$t_uri_diff = $this->api_uri( $p_repo, "projects/$t_repoid/repository/commits/$t_commit_id/diff" );
 			$t_member = null;
 			$t_json = json_url( $t_uri, $t_member );
 			if ( false === $t_json || is_null( $t_json ) ) {
 				# Some error occured retrieving the commit
-				echo "failed.\n";
+				echo "failed (isnull) " .  print_r( $t_json, true ) . "\n";
 				continue;
 			} else if ( !property_exists( $t_json, 'id' ) ) {
-				echo "failed ($t_json->message).\n";
+				echo "failed, " . print_r( $t_json, true ) - "\n";
 				continue;
 			}
 
-			list( $t_changeset, $t_commit_parents ) = $this->json_commit_changeset( $p_repo, $t_json, $p_branch );
+			list( $t_changeset, $t_commit_parents ) = $this->json_commit_changeset( $p_repo, $t_json, $t_uri_diff, $p_branch );
 			if ( $t_changeset ) {
 				$t_changesets[] = $t_changeset;
+				echo "Imported " . count( $t_changesets ) . " commits on branch " . $p_branch . "\n";
 			}
 
-			$s_parents = array_merge( $s_parents, $t_commit_parents );
+			$t_parents = array_merge( $t_parents, $t_commit_parents );
 		}
 
-		$s_counter = 0;
 		return $t_changesets;
 	}
 
-	private function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
-		echo "processing $p_json->id ... ";
+	private function json_commit_changeset( $p_repo, $p_json, $p_uri_diff, $p_branch ) {
+		echo "Processing changeset " . print_r( $p_json, true ) . "\n";
 		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
 			$t_parents = array();
 			foreach( $p_json->parent_ids as $t_parent ) {
 				$t_parents[] = $t_parent;
 			}
+
 			# Message will be replaced by title in gitlab version earlier than 7.2
 			$t_message = ( !property_exists( $p_json, 'message' ) )
 				? $p_json->title
 				: $p_json->message;
+			# Hint: for push hooks, the push time in some sense the better choice for the
+			# time, but in a multiple commits are fetched puring a push hook this gives incorrect times.
+                        # Therefore, created_at is the bbetter choice
 			$t_changeset = new SourceChangeset(
 				$p_repo->id,
 				$p_json->id,
@@ -364,12 +418,26 @@ public function update_repo_form( $p_repo ) {
 				$t_message
 			);
 
-			if ( count( $p_json->parents ) > 0 ) {
-				$t_parent = $p_json->parents[0];
-				$t_changeset->parent = $t_parent->id;
+			if ( !empty( $t_parents ) ) {
+				$t_changeset->parent = $t_parents[0];
 			}
 
 			$t_changeset->author_email = $p_json->author_email;
+
+			# retrieving files
+			$t_member = null;
+			$t_json_diff = json_url( $p_uri_diff, $t_member );
+			foreach ( $t_json_diff as $t_diff ) {
+				$t_filename = $t_diff->new_path;
+				if ( $t_diff->new_file ) {
+					$t_changeset->files[] = new SourceFile( 0, '', $t_filename, 'add' );
+				} else if ( $t_diff->deleted_file ) {
+					$t_changeset->files[] = new SourceFile( 0, '', $t_filename, 'rm' );
+				} else {
+					$t_changeset->files[] = new SourceFile( 0, '', $t_filename, 'mod' );
+				}
+			}
+
 			$t_changeset->save();
 
 			echo "saved.\n";
@@ -379,7 +447,6 @@ public function update_repo_form( $p_repo ) {
 			return array( null, array() );
 		}
 	}
-
 
 
 	public static function url_post( $p_url, $p_post_data ) {

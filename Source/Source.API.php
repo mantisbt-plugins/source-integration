@@ -679,11 +679,16 @@ class SourceRepo {
 		$t_stats['changesets'] = db_result( db_query( $t_query, array( $this->id ) ) );
 
 		if ( $p_all ) {
-			$t_query = "SELECT COUNT(DISTINCT filename) FROM $t_file_table AS f
+			# files can be very slow
+			if ( plugin_config_get( 'enable_file_stats' ) ) {
+				$t_query = "SELECT COUNT(DISTINCT filename) FROM $t_file_table AS f
 						JOIN $t_changeset_table AS c
 						ON c.id=f.change_id
 						WHERE c.repo_id=" . db_param();
-			$t_stats['files'] = db_result( db_query( $t_query, array( $this->id ) ) );
+				$t_stats['files'] = db_result( db_query_bound( $t_query, array( $this->id ) ) );
+			} else { 
+				$t_stats['files'] = -1;
+			}
 
 			$t_query = "SELECT COUNT(DISTINCT bug_id) FROM $t_bug_table AS b
 						JOIN $t_changeset_table AS c

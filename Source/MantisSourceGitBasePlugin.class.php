@@ -46,6 +46,7 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	 * Error constants
 	 */
 	const ERROR_INVALID_BRANCH = 'invalid_branch';
+	const ERROR_INVALID_BRANCH_REGEXP = 'invalid_branch_regexp';
 
 	/**
 	 * Define plugin's Error strings
@@ -54,6 +55,7 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	public function errors() {
 		$t_errors_list = array(
 			self::ERROR_INVALID_BRANCH,
+			self::ERROR_INVALID_BRANCH_REGEXP,
 		);
 
 		foreach( $t_errors_list as $t_error ) {
@@ -87,14 +89,23 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	}
 
 	/**
-	 * Validates a comma-delimited list of git branches.
+	 * Validates regexp or a comma-delimited list of git branches.
 	 * Triggers an ERROR_INVALID_BRANCH if one of the branches is invalid
-	 * @param string $p_list Comma-delimited list of branch names (or '*')
+	 * Triggers an ERROR_INVALID_BRANCH_REGEXP if regexp has an error
+	 * @param string $p_list Comma-delimited list of branch names (or regexp or '*')
 	 * @return void
 	 */
 	protected function validate_branch_list( $p_list )
 	{
 		if( $p_list == '*' ) {
+			return;
+		}
+
+		if ( preg_match( '@^/.*/$@', trim( $p_list ) ) ) {
+			if (@preg_match( $p_list, null ) === false ) {
+				error_parameters( $p_list );
+				plugin_error( self::ERROR_INVALID_BRANCH_REGEXP );
+			}
 			return;
 		}
 
