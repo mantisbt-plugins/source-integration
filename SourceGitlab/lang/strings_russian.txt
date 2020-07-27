@@ -12,6 +12,7 @@ $s_plugin_SourceGitlab_hub_root = 'GitLab URL<br /><span class="small">Адре�
 $s_plugin_SourceGitlab_hub_repoid = 'ID репозитория GitLab<br /><span class="small">Число, если пусто, будет заполнено автоматически</span>';
 $s_plugin_SourceGitlab_hub_reponame = 'Имя репозитория GitLab<br /><span class="small">Группа и имя репозитория без слэшей в начале или в конце (namespace/project)</span>';
 $s_plugin_SourceGitlab_hub_app_secret = 'Ключ API GitLab<br /><span class="small">GitLab Personal Token с уровнем доступа "api"</span>';
-$s_plugin_SourceGitlab_master_branch = 'Отслеживаемые ветки<br/><span class="small">Список веток через запятую или *</span>';
+$s_plugin_SourceGitlab_master_branch = 'Разрешенные ветви<br/><span class="small">(список, разделенный запятыми, регулярное выражение с /.../ или *)</span>";
+$s_plugin_SourceGitlab_import_limit = 'Импорт лимит<br/><span class="маленький"> в большинстве случаев это количество коммитов на одно действие по импорту (0: неограниченный)</span>";
 
 $s_plugin_SourceGitlab_back_repo = 'Назад в репозиторий';
