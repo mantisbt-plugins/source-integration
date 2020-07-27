@@ -22,6 +22,7 @@ $f_enable_resolving = gpc_get_bool( 'enable_resolving', OFF );
 $f_enable_message = gpc_get_bool( 'enable_message', OFF );
 $f_enable_porting = gpc_get_bool( 'enable_porting', OFF );
 $f_enable_product_matrix = gpc_get_bool( 'enable_product_matrix', OFF );
+$f_enable_file_stats = gpc_get_bool( 'enable_file_stats', OFF );
 
 $f_buglink_regex_1 = gpc_get_string( 'buglink_regex_1' );
 $f_buglink_reset_1 = gpc_get_string( 'buglink_reset_1', OFF );
@@ -87,6 +88,7 @@ maybe_set_option( 'enable_resolving', $f_enable_resolving );
 maybe_set_option( 'enable_message', $f_enable_message );
 maybe_set_option( 'enable_porting', $f_enable_porting );
 maybe_set_option( 'enable_product_matrix', $f_enable_product_matrix );
+maybe_set_option( 'enable_file_stats', $f_enable_file_stats );
 
 if ( ! $f_buglink_reset_1 ) {
 	maybe_set_option( 'buglink_regex_1', $f_buglink_regex_1 );

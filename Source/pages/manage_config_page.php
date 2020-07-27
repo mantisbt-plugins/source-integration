@@ -124,6 +124,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 					check_checked( ON == plugin_config_get( 'enable_porting' ) ) ?>/>
 				<span class="lbl"> <?php echo plugin_lang_get( 'enable_porting' ) ?></span>
 			</label><br>
+			<label>
+				<input type="checkbox" name="enable_file_stats" class="ace" <?php
+					check_checked( ON == plugin_config_get( 'enable_file_stats' ) ) ?>/>
+				<span class="lbl"> <?php echo plugin_lang_get( 'enable_file_stats' ) ?></span>
+			</label><br>
 <?php
 	if( plugin_is_installed( 'ProductMatrix' ) || plugin_config_get( 'enable_product_matrix' ) ) {
 ?>
