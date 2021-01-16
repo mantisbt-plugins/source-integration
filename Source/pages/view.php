@@ -189,14 +189,14 @@ $t_first = true;
 $t_user_id = auth_get_current_user_id();
 
 foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
-	$t_color_class = html_get_status_css_class(
+	$t_color_class = html_get_status_css_fg(
 		$t_bug_row['status'],
 		$t_user_id,
 		$t_bug_row['project_id']
 	);
 	$t_status_description = get_enum_element(
 		'status',
-		bug_get_field( $t_bug_id, 'status' ),
+		$t_bug_row['status'],
 		$t_bug_row['project_id']
 	);
 

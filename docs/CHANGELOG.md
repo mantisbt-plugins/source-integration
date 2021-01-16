@@ -15,7 +15,12 @@ specification.
 ### Changed
 
 - Minimum MantisBT version increased to 2.21.0
+- Code cleanup
 
+### Fixed
+
+- Replace deprecated html_get_status_css_class() function
+  [#350](https://github.com/mantisbt-plugins/source-integration/issues/350)
 
 ## [2.4.1] - 2021-01-19
 
