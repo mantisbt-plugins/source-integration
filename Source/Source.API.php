@@ -486,7 +486,7 @@ class SourceVCS {
 	 * Retrieve an extension plugin that can handle the requested repo's VCS type.
 	 * If the requested type is not available, the "generic" type will be returned.
 	 * @param object $p_repo Repository object
-	 * @return object VCS plugin
+	 * @return MantisSourcePlugin VCS plugin
 	 */
 	static public function repo( $p_repo ) {
 		return self::type( $p_repo->type );
@@ -496,7 +496,7 @@ class SourceVCS {
 	 * Retrieve an extension plugin that can handle the requested VCS type.
 	 * If the requested type is not available, the "generic" type will be returned.
 	 * @param string $p_type VCS type
-	 * @return object VCS plugin
+	 * @return MantisSourcePlugin VCS plugin
 	 */
 	static public function type( $p_type ) {
 		$p_type = strtolower( $p_type );
@@ -521,7 +521,14 @@ class SourceVCS {
  * Class for wrapping VCS objects with plugin API calls
  */
 class SourceVCSWrapper {
+	/**
+	 * @var MantisSourcePlugin $object
+	 */
 	private $object;
+
+	/**
+	 * @var string $basename
+	 */
 	private $basename;
 
 	/**
