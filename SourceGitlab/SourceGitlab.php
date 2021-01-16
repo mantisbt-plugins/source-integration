@@ -347,10 +347,6 @@ public function update_repo_form( $p_repo ) {
 	private function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
 		echo "processing $p_json->id ... ";
 		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
-			$t_parents = array();
-			foreach( $p_json->parent_ids as $t_parent ) {
-				$t_parents[] = $t_parent;
-			}
 			# Message will be replaced by title in gitlab version earlier than 7.2
 			$t_message = ( !property_exists( $p_json, 'message' ) )
 				? $p_json->title
@@ -364,9 +360,12 @@ public function update_repo_form( $p_repo ) {
 				$t_message
 			);
 
-			if ( count( $p_json->parents ) > 0 ) {
-				$t_parent = $p_json->parents[0];
-				$t_changeset->parent = $t_parent->id;
+			$t_parents = array();
+			foreach( $p_json->parent_ids as $t_parent ) {
+				$t_parents[] = $t_parent;
+			}
+			if( $t_parents ) {
+				$t_changeset->parent = $t_parents[0];
 			}
 
 			$t_changeset->author_email = $p_json->author_email;
