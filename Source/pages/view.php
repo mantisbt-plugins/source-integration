@@ -6,6 +6,7 @@
 access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
 $t_can_update = access_has_global_level( plugin_config_get( 'update_threshold' ) );
 
+/** @noinspection PhpIncludeInspection */
 require_once( config_get( 'plugin_path' ) . 'Source/Source.ViewAPI.php' );
 
 $f_changeset_id = gpc_get_int( 'id' );
@@ -27,6 +28,7 @@ $t_visible_bugs = array_filter(
 bug_cache_array_rows( $t_visible_bugs );
 $t_bug_rows = array();
 foreach( $t_visible_bugs as $t_bug_id ) {
+	/** @noinspection PhpUnhandledExceptionInspection */
 	$t_bug_rows[$t_bug_id] = bug_get_row( $t_bug_id );
 }
 
@@ -98,7 +100,7 @@ layout_page_begin();
 <th class="category"><?php echo plugin_lang_get( 'timestamp' ) ?></th>
 <th class="category"><?php echo plugin_lang_get( 'parent' ) ?></th>
 <?php if ( $t_use_porting ) { ?>
-<th class="category"><?php echo plugin_lang_get( 'ported' ) ?></th>
+<th class="category"><label for="ported"><?php echo plugin_lang_get( 'ported' ) ?></label></th>
 <?php } ?>
 </tr>
 
@@ -128,7 +130,7 @@ layout_page_begin();
 	<form action="<?php echo plugin_page( 'update' ) ?>" method="post">
 		<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
 		<?php echo form_security_field( 'plugin_Source_update' ) ?>
-		<select name="ported">
+		<select id="ported" name="ported">
 			<option value="" <?php check_selected( "", $t_changeset->ported ) ?>>
 				<?php echo plugin_lang_get( 'pending' ) ?>
 			</option>
@@ -232,8 +234,8 @@ if ( $t_can_update ) {
 <form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
 	<?php echo form_security_field( 'plugin_Source_attach' ) ?>
 	<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
-	<?php echo plugin_lang_get( 'attach_to_issue' ) ?>
-	<input type="text" class="input-sm" name="bug_ids" size="15"/>
+	<label for="bug_ids"><?php echo plugin_lang_get( 'attach_to_issue' ) ?></label>
+	<input id="bug_ids" name="bug_ids" type="text" class="input-sm" size="15"/>
 	<button class="btn btn-sm btn-primary btn-white btn-round"><?php echo plugin_lang_get( 'attach' ) ?></button>
 </form>
 </td>
