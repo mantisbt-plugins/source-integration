@@ -118,7 +118,16 @@ layout_page_begin();
 </select>
 <input type="submit" value="<?php echo plugin_lang_get( 'update' ) ?>"/>
 <?php } else {
-	echo $t_changeset->ported == "0" ? plugin_lang_get( 'na' ) : $t_changeset->ported == "" ? plugin_lang_get( 'pending' ) : string_display_line( $t_changeset->ported );
+	switch( $t_changeset->ported ) {
+		case '0':
+			echo plugin_lang_get( 'na' );
+			break;
+		case '':
+			echo plugin_lang_get( 'pending' );
+			break;
+		default:
+			echo string_display_line( $t_changeset->ported );
+	}
 } ?>
 </td>
 <?php } ?>
