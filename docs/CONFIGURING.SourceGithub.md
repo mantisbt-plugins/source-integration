@@ -39,10 +39,10 @@ processing of commits, as they are pushed to the repository.
 3. Fill in the form
    - Give a name to your app, e.g. `MantisBT Source Integration`
    - Set _Homepage URL_ as appropriate (e.g. point to your website or your
-	 MantisBT instance)
+     MantisBT instance)
    - Provide an _Application description_ if necessary
    - _Authorization callback URL_ should point to your MantisBT instance's
-	 base URL, e.g. `https://path.to/mantis/`
+     base URL, e.g. `https://path.to/mantis/`
 
 4. Click on **Register application**
 
@@ -68,19 +68,19 @@ configured in a given MantisBT instance.
 
    - The *Name* will be pre-populated with whatever you entered in step 2 above.
    - Paste in the GitHub repository's URL in the *URL* field
-	 (e.g. `https://github.com/mantisbt-plugins/source-integration`).
+     (e.g. `https://github.com/mantisbt-plugins/source-integration`).
    - Enter the name of the repository's owner in *GitHub Username*
-	 (e.g. `mantisbt-plugins`)
+     (e.g. `mantisbt-plugins`)
    - Enter the name of the GitHub repository in the *GitHub Repository Name*
-	 field (e.g. `source-integration`)
-   - Paste the your OAuth app's _Client ID_ and _Client Secret_ in the
-	 GitHub Application Client ID and Secret fields
+     field (e.g. `source-integration`)
+   - Paste the OAuth app's _Client ID_ and _Client Secret_ in the
+     GitHub Application Client ID and Secret fields
    - The _GitHub Webhook Secret_ is not mandatory, but provides additional
-	 security as it will allows the plugin to validate the payload received
-	 from the GitHub Webhook to ensure it's legit
+     security as it will allows the plugin to validate the payload received
+     from the GitHub Webhook to ensure it's legit
    - By default, the *Primary Branches* is set to `master`, but you can specify
-	 another branch or additional ones (comma-separated), or use `*` for all
-	 branches
+     another branch or additional ones (comma-separated), or use `*` for all
+     branches
 
 5. Click the **Update Repository** button to save your changes
 
@@ -144,12 +144,12 @@ If you prefer, it is also possible to setup the webhook manually:
 
 3. Fill in the form
    - Set _Payload URL_ to
-	 `https://path.to/mantis/plugin.php?page=Source/checkin&api_key=XXXX`,
-	 where XXXX is your _API Key_, as defined in the Source Integration plugin's
-	 Configuration page.
+     `https://path.to/mantis/plugin.php?page=Source/checkin&api_key=XXXX`,
+     where XXXX is your _API Key_, as defined in the Source Integration plugin's
+     Configuration page.
    -  _Content type_ must be set to `application/json`
    - _Secret_ must match the _GitHub Webhook Secret_ defined in step 4 of the
-	 [Create a Repository](#create-a-repository) section above
+     [Create a Repository](#create-a-repository) section above
    - Select _Just the push event_
    - Make sure the _Active_ checkbox is checked
 
