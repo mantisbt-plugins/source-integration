@@ -128,6 +128,9 @@ public function update_repo_form( $p_repo ) {
 	<td class="category"><?php echo plugin_lang_get( 'hub_repoid' ) ?></td>
 	<td>
 		<input type="text" name="hub_repoid" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_repoid ) ?>"/>
+<?php if( !is_numeric( $t_hub_repoid ) ) { ?>
+		<i class="fa fa-warning ace-icon fa-lg red"></i>
+<?php } ?>
 	</td>
 </tr>
 <tr>
@@ -153,9 +156,15 @@ public function update_repo_form( $p_repo ) {
 
 	public function update_repo( $p_repo ) {
 		$f_hub_root = gpc_get_string( 'hub_root' );
-		$f_hub_repoid = gpc_get_string( 'hub_repoid' );
 		$f_hub_reponame = gpc_get_string( 'hub_reponame' );
 		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
+
+		# Clear the repoid if reponame has changed
+		if( $p_repo->info['hub_reponame'] != $f_hub_reponame ) {
+			$f_hub_repoid = null;
+		} else {
+			$f_hub_repoid = gpc_get_string( 'hub_repoid' );
+		}
 
 		# Update info required for getting the repoid
 		$p_repo->info['hub_root'] = $f_hub_root;
@@ -166,14 +175,28 @@ public function update_repo_form( $p_repo ) {
 		if( !is_numeric( $f_hub_repoid ) && !empty( $f_hub_reponame ) ) {
 			$t_hub_reponame_enc = urlencode( $f_hub_reponame );
 			$t_uri = $this->api_uri( $p_repo, "projects/$t_hub_reponame_enc" );
-			$t_member = null;
-			$t_json = json_url( $t_uri, $t_member );
+			$t_json = json_url( $t_uri );
 
-			$f_hub_repoid = 'Repository Name is invalid';
-			if( !is_null( $t_json ) ) {
-				if ( property_exists( $t_json, 'id' ) ) {
+			# Error handling
+			$t_message = '';
+			if( $t_json ) {
+				if( property_exists( $t_json, 'id' ) ) {
 					$f_hub_repoid = (string)$t_json ->id;
+				} elseif( property_exists( $t_json, 'error_description' ) ) {
+					$t_message = $t_json ->error_description;
+				} elseif( property_exists( $t_json, 'message' ) ) {
+					$t_message = $t_json ->message;
 				}
+			}
+			# repoid was not retrieved - format error message
+			if( !is_numeric( $f_hub_repoid ) ) {
+				if( !$t_message ) {
+					$t_message = plugin_lang_get( 'error_api_generic' );
+				}
+				$f_hub_repoid = sprintf(
+					plugin_lang_get( 'error_api' ),
+					$t_message
+				);
 			}
 		}
 

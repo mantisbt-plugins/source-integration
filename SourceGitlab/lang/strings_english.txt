@@ -15,4 +15,7 @@ $s_plugin_SourceGitlab_hub_reponame = 'GitLab Repository Name<br /><span class="
 $s_plugin_SourceGitlab_hub_app_secret = 'GitLab API Key<br /><span class="small">api key for mantis user (continuous user)</span>';
 $s_plugin_SourceGitlab_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list or *)</span>';
 
+$s_plugin_SourceGitlab_error_api = 'GitLab API error (%1$s)';
+$s_plugin_SourceGitlab_error_api_generic = 'Unable to retrieve Repository ID';
+
 $s_plugin_SourceGitlab_back_repo = 'Back to Repository';

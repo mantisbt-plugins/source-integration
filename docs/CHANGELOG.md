@@ -15,6 +15,8 @@ specification.
 ### Changed
 
 - Minimum MantisBT version increased to 2.21.0
+- GitLab: improve error handling when setting repoid
+  [#352](https://github.com/mantisbt-plugins/source-integration/issues/352)
 - Code cleanup
 
 ### Fixed
