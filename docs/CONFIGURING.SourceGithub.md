@@ -76,8 +76,13 @@ configured in a given MantisBT instance.
    - Paste the OAuth app's _Client ID_ and _Client Secret_ in the
      GitHub Application Client ID and Secret fields
    - The _GitHub Webhook Secret_ is not mandatory, but provides additional
-     security as it will allows the plugin to validate the payload received
-     from the GitHub Webhook to ensure it's legit
+     security as it will allow the plugin to validate the payload received
+     from the GitHub Webhook to ensure it's legit.
+     This field's value must match that of the _Secret_ field in the GitHub 
+     Webhook's definition, as shown in the screenshot below.
+     If the Webhook is generated with the _Create Webhook_ button, this field 
+     will automatically be set to the value stored in the Repository definition. 
+     ![Github Webhook secret screenshot](github_webhook_secret.png)
    - By default, the *Primary Branches* is set to `master`, but you can specify
      another branch or additional ones (comma-separated), or use `*` for all
      branches
