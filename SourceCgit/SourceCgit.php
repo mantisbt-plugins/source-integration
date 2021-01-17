@@ -57,8 +57,8 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 		return $t_uri_base;
 	}
 
-	public function url_repo( $p_repo, $t_changeset=null ) {
-		return $this->uri_base( $p_repo ) . ( $t_changeset ? 'commit/?id=' . $t_changeset->revision : '' );
+	public function url_repo($p_repo, $p_changeset=null ) {
+		return $this->uri_base( $p_repo ) . ( $p_changeset ? 'commit/?id=' . $p_changeset->revision : '' );
 	}
 
 	public function url_commit ( $p_repo, $commit_rev) {

@@ -67,7 +67,7 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 	 * @param object Changeset
 	 * @return string URL
 	 */
-	abstract public function url_repo( $p_repo, $t_changeset=null );
+	abstract public function url_repo( $p_repo, $p_changeset=null );
 
 	/**
 	 * Get a URL to a diff view of the given changeset.
@@ -126,7 +126,7 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 	/**
 	 * If necessary, check GPC inputs to determine if the checkin data
 	 * is for a repository handled by this VCS type.
-	 * @return array Array with "repo"=>Repository, "data"=>...
+	 * @return array|null Array with "repo"=>Repository, "data"=>...
 	 */
 	public function precommit() {}
 
@@ -196,7 +196,7 @@ class SourceGenericPlugin extends MantisSourcePlugin {
 		return $p_file->filename . ' (' . $p_file->revision . ')';
 	}
 
-	function url_repo( $p_repo, $t_changeset=null ) {
+	function url_repo( $p_repo, $p_changeset=null ) {
 		return $p_repo->url;
 	}
 

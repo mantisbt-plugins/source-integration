@@ -3,6 +3,7 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
+/** @noinspection PhpIncludeInspection */
 require_once( config_get( 'plugin_path' ) . 'Source/Source.ViewAPI.php' );
 
 access_ensure_global_level( plugin_config_get( 'view_threshold' ) );

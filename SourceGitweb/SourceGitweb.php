@@ -60,8 +60,8 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 		return $t_uri_base;
 	}
 
-	public function url_repo( $p_repo, $t_changeset=null ) {
-		return $this->uri_base( $p_repo ) . ( $t_changeset ? 'h=' . $t_changeset->revision : '' );
+	public function url_repo($p_repo, $p_changeset=null ) {
+		return $this->uri_base( $p_repo ) . ( $p_changeset ? 'h=' . $p_changeset->revision : '' );
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
