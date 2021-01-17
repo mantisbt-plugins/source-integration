@@ -12,6 +12,11 @@ specification.
 
 ## [Unreleased]
 
+### Added
+
+- GitLab: Pull Request linking
+  [#353](https://github.com/mantisbt-plugins/source-integration/issues/353)
+
 ### Changed
 
 - Minimum MantisBT version increased to 2.21.0

@@ -24,6 +24,8 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 	 */
 	const API_VERSION = 'v4';
 
+	public $linkPullRequest = 'merge_requests/%s';
+
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
