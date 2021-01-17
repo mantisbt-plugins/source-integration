@@ -1,8 +1,9 @@
 // Copyright (c) 2019 Damien Regad
 // Licensed under the MIT license
 
+// noinspection ES6ConvertVarToLetConst
 /**
- * Namespace for global function used in list_action.js
+ * Namespace for global function used in this script
  */
 var SourceGithub = SourceGithub || {};
 
@@ -17,10 +18,10 @@ SourceGithub.rest_api = function(endpoint) {
 	return "api/rest/index.php/plugins/SourceGithub/" + endpoint;
 };
 
-jQuery(document).ready(function($) {
-	$('#hub_app_client_id, #hub_app_secret').change(set_visibility);
-	$('#btn_auth_revoke').click(revoke_token);
-	$('#webhook_create > button').click(webhook_create);
+jQuery(function($) {
+	$('#hub_app_client_id, #hub_app_secret').on("change", set_visibility);
+	$('#btn_auth_revoke').on("click", revoke_token);
+	$('#webhook_create > button').on("click", webhook_create);
 
 	// The PHP code initially hides all token authorization elements using the.
 	// 'hidden' class, which we need to remove so we can set visibility using
@@ -29,9 +30,9 @@ jQuery(document).ready(function($) {
 	$('.sourcegithub_token, #id_secret_missing').removeClass('hidden');
 
 	function set_visibility() {
-		var div_id_secret_missing = $('#id_secret_missing');
-		var client_id = $('#hub_app_client_id');
-		var secret = $('#hub_app_secret');
+		const div_id_secret_missing = $('#id_secret_missing');
+		const client_id = $('#hub_app_client_id');
+		const secret = $('#hub_app_secret');
 
 		// If Client ID and secret are set and equal to the recorded values
 		// for the repository, we hide the information message and display the
@@ -41,10 +42,10 @@ jQuery(document).ready(function($) {
 			&& secret.val() !== ''
 			&& secret.val() === secret.data('original')
 		) {
-			var div_token_authorized = $('#token_authorized');
-			var div_token_missing = $('#token_missing');
-			var div_webhook = $('#webhook_create');
-			var token = div_token_authorized.children('input');
+			const div_token_authorized = $('#token_authorized');
+			const div_token_missing = $('#token_missing');
+			const div_webhook = $('#webhook_create');
+			const token = div_token_authorized.children('input');
 
 			div_id_secret_missing.hide();
 			if (token.val() !== '') {
@@ -61,12 +62,12 @@ jQuery(document).ready(function($) {
 	}
 
 	function revoke_token() {
-		var repo_id = $('#repo_id').val();
+		const repo_id = $('#repo_id').val();
 
 		$.ajax({
 			type: 'DELETE',
 			url: SourceGithub.rest_api(repo_id + '/token'),
-			success: function(data, textStatus, xhr) {
+			success: function() {
 					$('#hub_app_access_token').val('');
 					set_visibility();
 				}
@@ -74,12 +75,13 @@ jQuery(document).ready(function($) {
 	}
 
 	function webhook_create() {
-		var repo_id = $('#repo_id').val();
-		var status_icon = $('#webhook_status > i');
-		var status_message = $('#webhook_status > span');
+		const repo_id = $('#repo_id').val();
+		const status_icon = $('#webhook_status > i');
+		const status_message = $('#webhook_status > span');
 
 		$.ajax({
 			type: 'POST',
+			dataType: 'json',
 			url: SourceGithub.rest_api(repo_id + '/webhook'),
 			success: function(data, textStatus, xhr) {
 				status_icon.removeClass("fa-exclamation-triangle red").addClass("fa-check green");
@@ -89,10 +91,10 @@ jQuery(document).ready(function($) {
 			error: function(xhr, textStatus, errorThrown) {
 				status_icon.removeClass("fa-check green").addClass("fa-exclamation-triangle red");
 
-				var details = JSON.parse(xhr.responseText);
 				if (xhr.status === 409) {
+					// noinspection JSUnresolvedVariable
 					status_message.html(
-						'<a href="' + details.web_url + '">' + errorThrown + '</a>'
+						'<a href="' + xhr.responseJSON.web_url + '">' + errorThrown + '</a>'
 					);
 				} else {
 					status_message.text(errorThrown);
@@ -100,7 +102,7 @@ jQuery(document).ready(function($) {
 
 				console.error(
 					'Webhook creation failed',
-					{ error: errorThrown, details: details, request: this.url, x: textStatus }
+					{ error: errorThrown, details: xhr.responseJSON, request: this.url, x: textStatus }
 				);
 			}
 		});
