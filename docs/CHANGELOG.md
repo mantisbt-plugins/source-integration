@@ -28,6 +28,8 @@ specification.
 
 - Replace deprecated html_get_status_css_class() function
   [#350](https://github.com/mantisbt-plugins/source-integration/issues/350)
+- GitHub: prevent creating Webhook if secret changed
+  [#357](https://github.com/mantisbt-plugins/source-integration/issues/357)
 
 ## [2.4.1] - 2021-01-19
 

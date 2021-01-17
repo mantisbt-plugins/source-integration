@@ -19,15 +19,41 @@ SourceGithub.rest_api = function(endpoint) {
 };
 
 jQuery(function($) {
+	const webhook_secret = $("#hub_webhook_secret");
+	const status_message = $('#webhook_status > span');
+
 	$('#hub_app_client_id, #hub_app_secret').on("change", set_visibility);
 	$('#btn_auth_revoke').on("click", revoke_token);
 	$('#webhook_create > button').on("click", webhook_create);
+
+	webhook_secret.on("change", function() {
+		if (webhook_secret.val() != webhook_secret.attr('value')) {
+			set_status_icon("fa-exclamation-triangle orange");
+			console.log(webhook_secret.data('changed'));
+			status_message.text(webhook_secret.data('changed'));
+			disable_webhook_button();
+		} else {
+			set_status_icon()
+			status_message.text("");
+			disable_webhook_button(false);
+		}
+	});
+
+	function set_status_icon(icon='') {
+		$('#webhook_status > i')
+			.removeClass("fa-exclamation-triangle fa-check green orange red")
+			.addClass(icon);
+	}
 
 	// The PHP code initially hides all token authorization elements using the.
 	// 'hidden' class, which we need to remove so we can set visibility using
 	// show/hide functions
 	set_visibility();
 	$('.sourcegithub_token, #id_secret_missing').removeClass('hidden');
+
+	function disable_webhook_button(value=true) {
+		$('#webhook_create > button').prop("disabled", value);
+	}
 
 	function set_visibility() {
 		const div_id_secret_missing = $('#id_secret_missing');
@@ -76,20 +102,17 @@ jQuery(function($) {
 
 	function webhook_create() {
 		const repo_id = $('#repo_id').val();
-		const status_icon = $('#webhook_status > i');
-		const status_message = $('#webhook_status > span');
 
 		$.ajax({
 			type: 'POST',
 			dataType: 'json',
 			url: SourceGithub.rest_api(repo_id + '/webhook'),
 			success: function(data, textStatus, xhr) {
-				status_icon.removeClass("fa-exclamation-triangle red").addClass("fa-check green");
+				set_status_icon("fa-check green");
 				status_message.text(xhr.statusText);
-				$('#webhook_create > button').prop("disabled", true);
 			},
 			error: function(xhr, textStatus, errorThrown) {
-				status_icon.removeClass("fa-check green").addClass("fa-exclamation-triangle red");
+				set_status_icon("fa-exclamation-triangle red");
 
 				if (xhr.status === 409) {
 					// noinspection JSUnresolvedVariable
