@@ -16,11 +16,11 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 	const PLUGIN_VERSION = '2.0.4';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
-    /**
-     * GitLab API version, used to build the API URI
-     * @see api_uri()
-     */
-    const API_VERSION = 'v4';
+	/**
+	 * GitLab API version, used to build the API URI
+	 * @see api_uri()
+	 */
+	const API_VERSION = 'v4';
 
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
@@ -94,7 +94,7 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 		return "$t_root/$t_reponame/commit/$t_ref?view=parallel";
 	}
 
-public function update_repo_form( $p_repo ) {
+	public function update_repo_form( $p_repo ) {
 		$t_hub_root = null;
 		$t_hub_repoid = null;
 		$t_hub_reponame = null;
@@ -401,8 +401,6 @@ public function update_repo_form( $p_repo ) {
 			return array( null, array() );
 		}
 	}
-
-
 
 	public static function url_post( $p_url, $p_post_data ) {
 		$t_post_data = http_build_query( $p_post_data );
