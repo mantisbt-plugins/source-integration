@@ -10,7 +10,7 @@ specification.
 
 # Releases for MantisBT 2.x
 
-## [Unreleased 2.x]
+## [Unreleased]
 
 ## [2.4.1] - 2021-01-19
 
@@ -288,7 +288,9 @@ Includes all changes and fixes from [1.5.0](#150---2017-03-06).
 
 --------------------------------------------------------------------------------
 
-# Releases for MantisBT 1.3
+# Legacy Releases for MantisBT 1.3
+
+Support for the 1.x branch ended on 2020-12-31. 
 
 ## [1.6.2] - 2020-02-13
 
@@ -514,6 +516,8 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 
 # Legacy releases for MantisBT 1.2
 
+Support for the 0.x branch ended on 2017-06-30.
+
 ## [0.19] - 2017-02-06
 ## [0.18] - 2013-02-22
 ## [0.17] - 2012-12-07
@@ -538,7 +542,7 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.4.1...HEAD
+[Unreleased]: https://github.com/mantisbt-plugins/source-integration/compare/v2.4.1...HEAD
 
 [2.4.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.3.1...v2.4.0
@@ -557,8 +561,6 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 [2.0.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.0-beta.2...v2.0.0
 [2.0.0-beta.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.0.0-beta.1...v2.0.0-beta.2
 [2.0.0-beta.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.5.2...v2.0.0-beta.1
-
-[Unreleased 1.x]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.2...master-1.3.x
 
 [1.6.2]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/mantisbt-plugins/source-integration/compare/v1.6.0...v1.6.1

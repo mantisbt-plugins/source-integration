@@ -84,8 +84,8 @@ or the relevant branch in the Plugin's GitHub repository, as per the table below
 MantisBT version | Tags | Branch | Notes
 :---:|---|---|---
 2.x   | v2.* | [master](https://github.com/mantisbt-plugins/source-integration/archive/master.zip) | **Current release**
-1.3.x | v1.* | [master-1.3.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.3.x.zip) | Old stable (bug fixes only)
-1.2.x | v0.* | [master-1.2.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.2.x.zip) | Legacy (no longer supported)
+1.3.x | v1.* | [master-1.3.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.3.x.zip) | Support ended 2020-12-31
+1.2.x | v0.* | [master-1.2.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.2.x.zip) | Support ended 2017-06-30
 
 
 ### Setup instructions
