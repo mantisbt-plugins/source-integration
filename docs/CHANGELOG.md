@@ -25,17 +25,17 @@ specification.
   [#347](https://github.com/mantisbt-plugins/source-integration/issues/347)
 - On List page, "Attach issues" is shown for users with read-only access
   [#354](https://github.com/mantisbt-plugins/source-integration/issues/354)
-  
+
 ### Security
 
 - Private issue information disclosure (CVE-2020-36192),
   thanks to [d3vpoo1](https://gitlab.com/jrckmcsb)
   [#344](https://github.com/mantisbt-plugins/source-integration/issues/344)
-- Only attach Issues to changeset if authorized (CVE-2020-36192),
+- Only attach Issues to changeset if authorized (CVE-2020-36192)
   [#344](https://github.com/mantisbt-plugins/source-integration/issues/344)
 - Unprivileged user can detach private Issue from Changeset
   [#356](https://github.com/mantisbt-plugins/source-integration/issues/356)
-  
+
 
 ## [2.4.0] - 2020-05-19
 
