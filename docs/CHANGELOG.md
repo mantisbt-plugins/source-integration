@@ -10,6 +10,33 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [2.4.1] - 2021-01-19
+
+### Changed
+
+- Confusing documentation for GitHub Webhook Secret
+  [#345](https://github.com/mantisbt-plugins/source-integration/issues/345)
+
+### Fixed
+
+- GitLab: Fix system warning when committing
+  [#346](https://github.com/mantisbt-plugins/source-integration/issues/346)
+- Unparenthesized `a ? b : c ? d : e` not supported (PHP8)
+  [#347](https://github.com/mantisbt-plugins/source-integration/issues/347)
+- On List page, "Attach issues" is shown for users with read-only access
+  [#354](https://github.com/mantisbt-plugins/source-integration/issues/354)
+  
+### Security
+
+- Private issue information disclosure (CVE-2020-36192),
+  thanks to [d3vpoo1](https://gitlab.com/jrckmcsb)
+  [#344](https://github.com/mantisbt-plugins/source-integration/issues/344)
+- Only attach Issues to changeset if authorized (CVE-2020-36192),
+  [#344](https://github.com/mantisbt-plugins/source-integration/issues/344)
+- Unprivileged user can detach private Issue from Changeset
+  [#356](https://github.com/mantisbt-plugins/source-integration/issues/356)
+  
+
 ## [2.4.0] - 2020-05-19
 
 ### Added
@@ -509,8 +536,9 @@ Includes all changes and fixes from master-1.2.x branch, up to commit
 ## [0.9] - 2008-04-11
 
 
-[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.4.0...HEAD
+[Unreleased 2.x]: https://github.com/mantisbt-plugins/source-integration/compare/v2.4.1...HEAD
 
+[2.4.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.3.1...v2.4.0
 [2.3.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.2.0...v2.3.0
