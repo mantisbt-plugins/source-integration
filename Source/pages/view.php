@@ -212,12 +212,12 @@ foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
 </td>
 <?php if ( $t_can_update ) { ?>
 <td class="center"><?php
-	print_small_button(
-		plugin_page( 'detach' )
-			. '&id=' . $t_changeset->id
-			. '&bug_id=' . $t_bug_id
-			. form_security_param( 'plugin_Source_detach' ),
-		plugin_lang_get( 'detach' )
+	print_form_button(
+		plugin_page( 'detach' ),
+		plugin_lang_get( 'detach' ),
+		array( 'id' => $t_changeset->id, 'bug_id' => $t_bug_id),
+		'plugin_Source_detach',
+		'btn btn-round btn-white btn-primary btn-sm'
 	) ?>
 </td>
 <?php } ?>
