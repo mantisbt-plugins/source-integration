@@ -14,6 +14,10 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		return;
 	}
 
+	plugin_push_current( 'Source' );
+	$t_can_update = access_has_global_level( plugin_config_get( 'update_threshold' ) );
+	plugin_pop_current();
+	
 	if ( is_null( $p_repos ) || !is_array( $p_repos ) ) {
 		$t_repos = SourceRepo::load_by_changesets( $p_changesets );
 	} else {
@@ -103,7 +107,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 				plugin_lang_get( 'affected_issues', 'Source' ),
 				'</span><br>';
 			echo '<span>', implode( ', ', $t_bugs ), '</span>';
-		} else {
+		} elseif( $t_can_update ) {
 ?>
 		<form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
 			<?php echo form_security_field( 'plugin_Source_attach' ) ?>
