@@ -97,8 +97,11 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 				}
 			)
 		);
+
+		# Only display the table cell for attached issues if necessary
+		$t_show_linked_bugs_column = $t_bugs || $t_can_update;
 ?>
-<td colspan=2><?php
+<td colspan=<?php echo $t_show_linked_bugs_column ? 2 : 3 ?>><?php
 	# The commit message is manually transformed (adding href, bug and bugnote
 	# links + nl2br) instead of calling string_display_links(), which avoids
 	# unwanted html tags processing by the MantisCoreFormatting plugin.
@@ -112,28 +115,33 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		) ) ) );
 	?>
 </td>
+
+<?php
+		if( $t_show_linked_bugs_column ) {
+?>
 <td>
 <?php
-		if( $t_bugs ) {
-			echo '<span class="bold">',
-				plugin_lang_get( 'affected_issues', 'Source' ),
-				'</span><br>';
-			echo '<span>', implode( ', ', $t_bugs ), '</span>';
-		} elseif( $t_can_update ) {
+			if( $t_bugs ) {
+				echo '<span class="bold">',
+					plugin_lang_get( 'affected_issues', 'Source' ),
+					'</span><br>';
+				echo '<span>', implode( ', ', $t_bugs ), '</span>';
+			} elseif( $t_can_update ) {
 ?>
-		<form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
-			<?php echo form_security_field( 'plugin_Source_attach' ) ?>
-			<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
-			<input type="hidden" name="redirect" value="<?php echo $t_changeset->revision ?>"/>
-			<label>
-				<?php echo plugin_lang_get( 'attach_to_issue' ) ?><br>
-				<input type="text" class="input-sm" name="bug_ids" size="12"/>
-			</label>
-			<input type="submit"
-				   class="btn btn-sm btn-primary btn-white btn-round"
-				   value="<?php echo plugin_lang_get( 'attach' ) ?>" />
-		</form>
+	<form action="<?php echo plugin_page( 'attach' )  ?>" method="post">
+		<?php echo form_security_field( 'plugin_Source_attach' ) ?>
+		<input type="hidden" name="id" value="<?php echo $t_changeset->id ?>"/>
+		<input type="hidden" name="redirect" value="<?php echo $t_changeset->revision ?>"/>
+		<label>
+			<?php echo plugin_lang_get( 'attach_to_issue' ) ?><br>
+			<input type="text" class="input-sm" name="bug_ids" size="12"/>
+		</label>
+		<input type="submit"
+			   class="btn btn-sm btn-primary btn-white btn-round"
+			   value="<?php echo plugin_lang_get( 'attach' ) ?>" />
+	</form>
 <?php
+			}
 		}
 ?>
 </td>

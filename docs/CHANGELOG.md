@@ -20,6 +20,8 @@ specification.
 ### Changed
 
 - Minimum MantisBT version increased to 2.21.0
+- Only show "Attach issues" column if needed
+  [#355](https://github.com/mantisbt-plugins/source-integration/issues/355)
 - GitLab: improve error handling when setting repoid
   [#352](https://github.com/mantisbt-plugins/source-integration/issues/352)
 - Code cleanup
