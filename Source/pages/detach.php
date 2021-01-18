@@ -9,6 +9,8 @@ access_ensure_global_level( plugin_config_get( 'update_threshold' ) );
 $f_changeset_id = gpc_get_int( 'id' );
 $f_bug_id = gpc_get_int( 'bug_id' );
 
+access_ensure_bug_level( config_get('view_bug_threshold'), $f_bug_id );
+
 $t_changeset = SourceChangeset::load( $f_changeset_id );
 $t_changeset->load_bugs();
 
