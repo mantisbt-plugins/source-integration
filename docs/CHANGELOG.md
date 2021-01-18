@@ -10,6 +10,8 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [Unreleased 2.x]
+
 ## [2.4.1] - 2021-01-19
 
 ### Changed
