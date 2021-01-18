@@ -64,17 +64,24 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		( $t_changeset->ported ? string_display_line( $t_changeset->ported ) :
 			( is_null( $t_changeset->ported ) ? plugin_lang_get( 'pending', 'Source' ) : plugin_lang_get( 'na', 'Source' ) ) ) ?>
 		</p>
-	<?php } ?>
-		<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id ?>">
-			<?php echo plugin_lang_get( 'details', 'Source' ) ?>
-		</a>
-		<?php
-		if ( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) { ?>
-		<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
-			<?php echo plugin_lang_get( 'diff', 'Source' ) ?>
-		</a>
-		<?php }
-		?>
+<?php
+		}
+
+		print_link_button(
+			plugin_page( 'view', false, 'Source' ) . '&id=' . $t_changeset->id,
+			plugin_lang_get( 'details', 'Source' ),
+			'btn-xs'
+		);
+
+		if( $t_url = $t_vcs->url_changeset( $t_repo, $t_changeset ) ) {
+			echo "\n";
+			print_link_button(
+				$t_url,
+				plugin_lang_get( 'diff', 'Source' ),
+				'btn-xs'
+			);
+		}
+?>
 </td>
 
 <?php
@@ -136,18 +143,24 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 <tr>
 <td class="small" colspan="2"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
 <td class="center width-13">
-		<?php
-		if ( $t_url = $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ) { ?>
-			<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
-				<?php echo plugin_lang_get( 'diff', 'Source' ) ?>
-			</a>
-		<?php }
-		if ( $t_url = $t_vcs->url_file( $t_repo, $t_changeset, $t_file ) ) { ?>
-			<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo $t_url ?>">
-				<?php echo plugin_lang_get( 'file', 'Source' ) ?>
-			</a>
-		<?php }
-		?></td>
+<?php
+			if( $t_url = $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ) {
+				print_link_button(
+					$t_url,
+					plugin_lang_get( 'diff', 'Source' ),
+					'btn-xs'
+				);
+			}
+			echo "\n";
+			if( $t_url = $t_vcs->url_file( $t_repo, $t_changeset, $t_file ) ) {
+				print_link_button(
+					$t_url,
+					plugin_lang_get( 'file', 'Source' ),
+					'btn-xs'
+				);
+			}
+?>
+</td>
 </tr>
 		<?php } ?>
 		<?php
