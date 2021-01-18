@@ -19,7 +19,6 @@
 // Change this based on your dev environment's setting
 $g_mantis_root = '../../mantisbt';
 
-
 // ---------------------------------------------------------------------------
 // Main program
 //
@@ -35,6 +34,12 @@ if( array_key_exists( 'h', $t_options ) || !$t_bump_version && !$t_create_tag ) 
 
 // Change to framework's root dir
 chdir( dirname( __DIR__ ) );
+
+// Since we include the plugin files to load the classes, which in turn
+// include some of MantisBT core APIs, we need the following so required
+// constants are defined.
+require_once $g_mantis_root . '/core/constant_inc.php';
+require_once $g_mantis_root . '/vendor/adodb/adodb-php/adodb.inc.php';
 
 // Load plugins and get their version numbers
 foreach( new DirectoryIterator( getcwd() ) as $t_file ) {
