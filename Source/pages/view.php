@@ -14,16 +14,23 @@ $f_offset = gpc_get_int( 'offset', 0 );
 $t_changeset = SourceChangeset::load( $f_changeset_id );
 $t_changeset->load_files();
 $t_changeset->load_bugs();
-bug_cache_array_rows( $t_changeset->bugs );
 
+# Get the list of related bugs the user has access to
+$t_view_bug_threshold = config_get('view_bug_threshold');
+$t_visible_bugs = array_filter(
+	$t_changeset->bugs,
+	function( $p_bug_id ) use ( $t_view_bug_threshold ) {
+		return bug_exists( $p_bug_id)
+			&& access_has_bug_level( $t_view_bug_threshold, $p_bug_id );
+	}
+);
+bug_cache_array_rows( $t_visible_bugs );
 $t_bug_rows = array();
-foreach( $t_changeset->bugs as $t_bug_id ) {
-	$t_bug_row = bug_cache_row( $t_bug_id, false );
-	if ( false === $t_bug_row ) { continue; }
-
-	$t_bug_rows[$t_bug_id] = $t_bug_row;
+foreach( $t_visible_bugs as $t_bug_id ) {
+	$t_bug_rows[$t_bug_id] = bug_get_row( $t_bug_id );
 }
-$t_affected_rowspan = count( $t_bug_rows ) + ( $t_can_update ? 1 : 0 );
+
+$t_affected_rowspan = count( $t_visible_bugs ) + ( $t_can_update ? 1 : 0 );
 
 $t_repos = SourceRepo::load_by_changesets( $t_changeset );
 if ( count( $t_repos ) < 1 ) {
@@ -149,6 +156,7 @@ layout_page_begin();
 <?php
 $t_first = true;
 $t_user_id = auth_get_current_user_id();
+
 foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
 	$t_color_class = html_get_status_css_class(
 		$t_bug_row['status'],

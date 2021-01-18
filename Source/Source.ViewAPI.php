@@ -29,6 +29,8 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		$t_changeset->load_bugs();
 		$t_changeset->load_files();
 
+		bug_cache_array_rows( $t_changeset->bugs );
+
 		$t_author = Source_View_Author( $t_changeset, false );
 		$t_committer = Source_View_Committer( $t_changeset, false );
 		?>
@@ -65,7 +67,22 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		<?php }
 		?>
 </td>
-<td colspan="2"><?php
+
+<?php
+		# Build list of related issues the user has access to, with link
+		$t_view_bug_threshold = config_get('view_bug_threshold');
+		$t_bugs = array_map(
+			'string_get_bug_view_link',
+			array_filter(
+				$t_changeset->bugs,
+				function( $p_bug_id ) use ( $t_view_bug_threshold ) {
+					return bug_exists( $p_bug_id )
+						&& access_has_bug_level( $t_view_bug_threshold, $p_bug_id );
+				}
+			)
+		);
+?>
+<td colspan=2><?php
 	# The commit message is manually transformed (adding href, bug and bugnote
 	# links + nl2br) instead of calling string_display_links(), which avoids
 	# unwanted html tags processing by the MantisCoreFormatting plugin.
@@ -81,9 +98,6 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 </td>
 <td>
 <?php
-		# Build list of related issues with link
-		$t_bugs = array_map( 'string_get_bug_view_link', $t_changeset->bugs );
-
 		if( $t_bugs ) {
 			echo '<span class="bold">',
 				plugin_lang_get( 'affected_issues', 'Source' ),
