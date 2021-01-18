@@ -16,10 +16,14 @@ $t_changeset->load_bugs();
 $t_user_id = auth_get_current_user_id();
 
 $t_bug_ids = explode( ',', $f_bug_ids );
+$t_view_bug_threshold = config_get('view_bug_threshold');
 foreach( $t_bug_ids as $t_bug_id ) {
 	$t_bug_id = (int) $t_bug_id;
 
-	if ( $t_bug_id < 1 || !bug_exists( $t_bug_id ) ) {
+	if ( $t_bug_id < 1
+		|| !bug_exists( $t_bug_id )
+		|| !access_has_bug_level( $t_view_bug_threshold, $t_bug_id )
+	) {
 		continue;
 	}
 
