@@ -12,6 +12,11 @@ specification.
 
 ## [Unreleased]
 
+### Changed
+
+- Minimum MantisBT version increased to 2.21.0
+
+
 ## [2.4.1] - 2021-01-19
 
 ### Changed

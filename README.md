@@ -52,7 +52,7 @@ integration framework and API.
 ## Requirements
 
 The Source Integration framework requires **[MantisBT](http://www.mantisbt.org/)
-version 2.0.1** or higher.
+version 2.21.0** or higher.
 
 ### VCS plugins
 
@@ -61,9 +61,6 @@ Some VCS plugins have additional, specific requirements:
 - **SourceBitBucket** requires the 
   [PHP Curl extension](http://php.net/book.curl), or the ability to execute  
   system calls (via [shell_exec](http://php.net/function.shell-exec)).
-- Starting with version 2.2.0 (bundled with Source Integration 2.4.0), 
-  **SourceGithub**  relies on [Guzzle](http://guzzlephp.org/) to access the 
-  GitHub API, and therefore requires **MantisBT 2.5.0** or later.
 
 
 ## Installation
