@@ -20,6 +20,7 @@ specification.
 ### Changed
 
 - Minimum MantisBT version increased to 2.21.0
+  [#350](https://github.com/mantisbt-plugins/source-integration/issues/350)
 - Only show "Attach issues" column if needed
   [#355](https://github.com/mantisbt-plugins/source-integration/issues/355)
 - GitLab: improve error handling when setting repoid
@@ -46,6 +47,8 @@ specification.
   [#346](https://github.com/mantisbt-plugins/source-integration/issues/346)
 - Unparenthesized `a ? b : c ? d : e` not supported (PHP8)
   [#347](https://github.com/mantisbt-plugins/source-integration/issues/347)
+- Changeset reference not processed at beginning of bugnote
+  [#351](https://github.com/mantisbt-plugins/source-integration/issues/351)
 - On List page, "Attach issues" is shown for users with read-only access
   [#354](https://github.com/mantisbt-plugins/source-integration/issues/354)
 
