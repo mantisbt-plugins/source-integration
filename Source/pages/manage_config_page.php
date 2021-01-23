@@ -19,6 +19,8 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 ?>
 
+<script src="<?php echo plugin_file( 'config.js' ) ?>"></script>
+
 <div class="col-md-12 col-xs-12">
 	<div class="space-10"></div>
 <div class="form-container">
@@ -93,12 +95,12 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 		<td class="category"><?php echo plugin_lang_get( 'enabled_features' ) ?></td>
 		<td>
 			<label>
-				<input type="checkbox" name="show_repo_stats" class="ace" <?php
+				<input type="checkbox" id="show_repo_stats" name="show_repo_stats" class="ace" <?php
 					check_checked( ON == plugin_config_get( 'show_repo_stats' ) ) ?>/>
 				<span class="lbl"> <?php echo plugin_lang_get( 'show_repo_stats' ) ?></span>
 			</label><br>
 			<label class="margin-left-8">
-				<input type="checkbox" name="show_file_stats" class="ace" <?php
+				<input type="checkbox" id="show_file_stats" name="show_file_stats" class="ace" <?php
 					check_checked( ON == plugin_config_get( 'show_file_stats' ) ) ?>/>
 				<span class="lbl"> <?php echo plugin_lang_get( 'show_file_stats' ) ?></span>
 			</label><br>
