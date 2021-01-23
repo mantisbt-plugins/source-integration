@@ -108,7 +108,7 @@ $s_plugin_Source_enable_resolving = 'Resoldre incidèncias arreglades';
 $s_plugin_Source_enable_message = 'Missatge d\'incidència resolta';
 $s_plugin_Source_enable_porting = 'Estat de portabilitat';
 $s_plugin_Source_enable_product_matrix = 'Integració de la Matriu de Producte';
-$s_plugin_Source_enable_file_stats = 'Estadístiques de fitxers <span class="small" (pot ser lent als dipòsits grans)</span>";
+$s_plugin_Source_show_file_stats = 'Estadístiques de fitxers <span class="small" (pot ser lent als dipòsits grans)</span>";
 
 $s_plugin_Source_branch_mapping = 'Mapejos de branques';
 $s_plugin_Source_mapping_update = 'Actualitzar mapejats';

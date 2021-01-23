@@ -113,7 +113,7 @@ $s_plugin_Source_enable_resolving = 'Resolve Fixed Issues';
 $s_plugin_Source_enable_message = 'Bug Fixed Message';
 $s_plugin_Source_enable_porting = 'Porting Status';
 $s_plugin_Source_enable_product_matrix = 'Product Matrix Integration';
-$s_plugin_Source_enable_file_stats = 'File statistics <span class="small">(may be slow on large repositories)</span>';
+$s_plugin_Source_show_file_stats = 'File statistics <span class="small">(may be slow on large repositories)</span>';
 
 $s_plugin_Source_git_title = 'Git-based Plugins Integration';
 $s_plugin_Source_git_default_primary_branch = 'Default primary branches';

@@ -110,7 +110,7 @@ $s_plugin_Source_enable_resolving = 'Eintrag automatisch auf "Erledigt" setzen';
 $s_plugin_Source_enable_message = 'Nach dem automatischen Erledigen eine Eintragsnotiz hinzufügen';
 $s_plugin_Source_enable_porting = 'Portierungsstatus';
 $s_plugin_Source_enable_product_matrix = 'Integration von Product Matrix';
-$s_plugin_Source_enable_file_stats = 'Dateistatistiken <span class="small">(kann bei großen Repositories langsam sein)</span>';
+$s_plugin_Source_show_file_stats = 'Dateistatistiken <span class="small">(kann bei großen Repositories langsam sein)</span>';
 
 $s_plugin_Source_branch_mapping = 'Automatische Versionszuordnung';
 $s_plugin_Source_mapping_update = 'Aktualisiere Zuordnung';

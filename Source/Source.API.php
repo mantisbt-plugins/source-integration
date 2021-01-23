@@ -687,7 +687,7 @@ class SourceRepo {
 
 		if ( $p_all ) {
 			# files can be very slow
-			if( plugin_config_get( 'enable_file_stats' ) ) {
+			if( plugin_config_get( 'show_file_stats' ) ) {
 				$t_query = "SELECT COUNT(DISTINCT filename) FROM $t_file_table AS f
 						JOIN $t_changeset_table AS c
 						ON c.id=f.change_id

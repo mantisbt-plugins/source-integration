@@ -70,7 +70,7 @@ class SourcePlugin extends MantisSourceBase {
 			'enable_resolving'	=> OFF,
 			'enable_message'	=> OFF,
 			'enable_product_matrix' => OFF,
-			'enable_file_stats'	=> OFF,
+			'show_file_stats'	=> OFF,
 
 			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s*:?\s+(?:#(?:\d+)[,\.\s]*)+/i',
 			'buglink_regex_2'	=> '/#?(\d+)/',

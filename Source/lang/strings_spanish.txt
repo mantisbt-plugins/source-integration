@@ -108,7 +108,7 @@ $s_plugin_Source_enable_resolving = 'Resolver incidencias arregladas';
 $s_plugin_Source_enable_message = 'Mensaje de incidencia resuelta';
 $s_plugin_Source_enable_porting = 'Estado de portabilidad';
 $s_plugin_Source_enable_product_matrix = 'Integración de la Matriz de Producto';
-$s_plugin_Source_enable_file_stats = 'Estadísticas de archivos <span class="small">(puede ser lento en grandes repositorios)</span>';
+$s_plugin_Source_show_file_stats = 'Estadísticas de archivos <span class="small">(puede ser lento en grandes repositorios)</span>';
 
 $s_plugin_Source_branch_mapping = 'Mapeados de ramas';
 $s_plugin_Source_mapping_update = 'Actualizar mapeados';
