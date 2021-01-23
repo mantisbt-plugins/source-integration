@@ -15,6 +15,7 @@ $f_username_threshold = gpc_get_int( 'username_threshold' );
 $f_show_repo_link = gpc_get_bool( 'show_repo_link', OFF );
 $f_show_search_link = gpc_get_bool( 'show_search_link', OFF );
 $f_show_repo_stats = gpc_get_bool( 'show_repo_stats', OFF );
+$f_show_file_stats = gpc_get_bool( 'show_file_stats', OFF );
 
 $f_enable_linking = gpc_get_bool( 'enable_linking', OFF );
 $f_enable_mapping = gpc_get_bool( 'enable_mapping', OFF );
@@ -80,6 +81,7 @@ maybe_set_option( 'username_threshold', $f_username_threshold );
 maybe_set_option( 'show_repo_link', $f_show_repo_link );
 maybe_set_option( 'show_search_link', $f_show_search_link );
 maybe_set_option( 'show_repo_stats', $f_show_repo_stats );
+maybe_set_option( 'show_file_stats', $f_show_file_stats );
 
 maybe_set_option( 'enable_linking', $f_enable_linking );
 maybe_set_option( 'enable_mapping', $f_enable_mapping );

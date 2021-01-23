@@ -58,6 +58,7 @@ class SourcePlugin extends MantisSourceBase {
 			'show_repo_link'	=> ON,
 			'show_search_link'	=> OFF,
 			'show_repo_stats'	=> ON,
+			'show_file_stats'	=> OFF,
 
 			'view_threshold'	=> VIEWER,
 			'update_threshold'	=> UPDATER,

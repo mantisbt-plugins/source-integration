@@ -12,6 +12,7 @@ $s_plugin_SourceGitlab_hub_root = 'GitLab Root<br /><span class="small">The full
 $s_plugin_SourceGitlab_hub_repoid = 'GitLab Repository ID<br /><span class="small">wird über Repo Name automatisch ermittelt falls leer</span>';
 $s_plugin_SourceGitlab_hub_reponame = 'GitLab Repository Name<br /><span class="small">Ohne Namespace Slash am Anfang oder Ende (namespace/project)</span>';
 $s_plugin_SourceGitlab_hub_app_secret = 'GitLab API Key<br /><span class="small">API Schlüssel für den Mantis Benutzer (continuous Benutzer)</span>';
-$s_plugin_SourceGitlab_master_branch = 'Hauptzweige<br/><span class="small">(Komma-separierte Liste oder *)</span>';
+$s_plugin_SourceGitlab_master_branch = 'Erlaubte Branches<br/><span class="small">(Komma-separierte Liste, regulärer Ausdruck mit /.../ oder *)</span>';
+$s_plugin_SourceGitlab_import_limit = 'Import-Limit<br/><span class="small">höchstens so viele Commits pro Import-Aktion (0: unbegrenzt)</span>';
 
 $s_plugin_SourceGitlab_back_repo = 'Zurück zum Repository';

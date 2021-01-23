@@ -103,6 +103,7 @@ $s_plugin_Source_menu_links = 'Hauptmenüeinträge';
 $s_plugin_Source_show_repo_link = 'Projektarchive';
 $s_plugin_Source_show_search_link = 'Projektarchive durchsuchen';
 $s_plugin_Source_show_repo_stats = 'Statistiken zum Projektarchiv';
+$s_plugin_Source_show_file_stats = 'Dateistatistiken <span class="small">(kann bei großen Repositories langsam sein)</span>';
 $s_plugin_Source_enabled_features = 'Aktivierte Funktionen';
 $s_plugin_Source_enable_linking = 'Änderungssätze automatisch verknüpfen <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
 $s_plugin_Source_enable_mapping = 'Automatische Versionszuordnung';

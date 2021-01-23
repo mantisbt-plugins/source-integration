@@ -7,6 +7,7 @@ access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
 $t_can_manage = access_has_global_level( plugin_config_get( 'manage_threshold' ) );
 
 $t_show_stats = plugin_config_get( 'show_repo_stats' );
+$t_show_file_stats = plugin_config_get( 'show_file_stats' );
 
 $t_repos = SourceRepo::load_all();
 
@@ -48,7 +49,13 @@ layout_page_begin();
 	if( $t_show_stats ) {
 ?>
 				<th width="10%"><?php echo plugin_lang_get( 'changesets' ) ?></th>
+<?php
+		if( $t_show_file_stats ) {
+?>
 				<th width="10%"><?php echo plugin_lang_get( 'files' ) ?></th>
+<?php
+		}
+?>
 				<th width="10%"><?php echo plugin_lang_get( 'issues' ) ?></th>
 <?php
 	}
@@ -69,7 +76,13 @@ layout_page_begin();
 			$t_stats = $t_repo->stats();
 ?>
 				<td><?php echo $t_stats['changesets'] ?></td>
+<?php
+			if( $t_show_file_stats ) {
+?>
 				<td><?php echo $t_stats['files'] ?></td>
+<?php
+			}
+?>
 				<td><?php echo $t_stats['bugs'] ?></td>
 <?php
 		}

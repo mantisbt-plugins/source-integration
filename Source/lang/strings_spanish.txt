@@ -101,6 +101,7 @@ $s_plugin_Source_menu_links = 'Enlaces en el menú principal';
 $s_plugin_Source_show_repo_link = 'Repositorios';
 $s_plugin_Source_show_search_link = 'Buscar en repositorios';
 $s_plugin_Source_show_repo_stats = 'Estadísticas de repositorio';
+$s_plugin_Source_show_file_stats = 'Estadísticas de archivos <span class="small">(puede ser lento en grandes repositorios)</span>';
 $s_plugin_Source_enabled_features = 'Características habilitadas';
 $s_plugin_Source_enable_linking = 'Enlace a cambios <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
 $s_plugin_Source_enable_mapping = 'Mapeado de ramas';

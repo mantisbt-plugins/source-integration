@@ -103,6 +103,7 @@ $s_plugin_Source_menu_links = 'Ссылки в главном меню';
 $s_plugin_Source_show_repo_link = 'Репозитории';
 $s_plugin_Source_show_search_link = 'Поиск';
 $s_plugin_Source_show_repo_stats = 'Статистика репозитория';
+$s_plugin_Source_show_file_stats = 'Файловая статистика <span class="маленький">(может быть медленным на больших репозиториях)</span>";
 $s_plugin_Source_enabled_features = 'Доступные возможности';
 $s_plugin_Source_enable_linking = 'Связывание изменений <span class="small">([sv]:&lt;имя репозитория&gt;:&lt;ревизия&gt;:)</span>';
 $s_plugin_Source_enable_mapping = 'Маппинг веток';
