@@ -3,6 +3,7 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
+/** @noinspection PhpUndefinedFunctionInspection */
 auth_reauthenticate();
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 
@@ -36,7 +37,8 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 					<div class="table-responsive">
 						
 						<div class="widget-toolbox padding-8 clearfix">
-							<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'index' ) ?>">
+							<a class="btn btn-xs btn-primary btn-white btn-round"
+							   href="<?php echo plugin_page( 'index' ) ?>">
 								<?php echo plugin_lang_get( 'repositories' ) ?>
 							</a>
 						</div>	
