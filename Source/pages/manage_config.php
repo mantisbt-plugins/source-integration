@@ -15,6 +15,7 @@ $f_username_threshold = gpc_get_int( 'username_threshold' );
 $f_show_repo_link = gpc_get_bool( 'show_repo_link', OFF );
 $f_show_search_link = gpc_get_bool( 'show_search_link', OFF );
 $f_show_repo_stats = gpc_get_bool( 'show_repo_stats', OFF );
+$f_show_file_stats = gpc_get_bool( 'show_file_stats', OFF );
 
 $f_enable_linking = gpc_get_bool( 'enable_linking', OFF );
 $f_enable_mapping = gpc_get_bool( 'enable_mapping', OFF );
@@ -22,7 +23,6 @@ $f_enable_resolving = gpc_get_bool( 'enable_resolving', OFF );
 $f_enable_message = gpc_get_bool( 'enable_message', OFF );
 $f_enable_porting = gpc_get_bool( 'enable_porting', OFF );
 $f_enable_product_matrix = gpc_get_bool( 'enable_product_matrix', OFF );
-$f_show_file_stats = gpc_get_bool( 'show_file_stats', OFF );
 
 $f_buglink_regex_1 = gpc_get_string( 'buglink_regex_1' );
 $f_buglink_reset_1 = gpc_get_string( 'buglink_reset_1', OFF );
@@ -81,6 +81,7 @@ maybe_set_option( 'username_threshold', $f_username_threshold );
 maybe_set_option( 'show_repo_link', $f_show_repo_link );
 maybe_set_option( 'show_search_link', $f_show_search_link );
 maybe_set_option( 'show_repo_stats', $f_show_repo_stats );
+maybe_set_option( 'show_file_stats', $f_show_file_stats );
 
 maybe_set_option( 'enable_linking', $f_enable_linking );
 maybe_set_option( 'enable_mapping', $f_enable_mapping );
@@ -88,7 +89,6 @@ maybe_set_option( 'enable_resolving', $f_enable_resolving );
 maybe_set_option( 'enable_message', $f_enable_message );
 maybe_set_option( 'enable_porting', $f_enable_porting );
 maybe_set_option( 'enable_product_matrix', $f_enable_product_matrix );
-maybe_set_option( 'show_file_stats', $f_show_file_stats );
 
 if ( ! $f_buglink_reset_1 ) {
 	maybe_set_option( 'buglink_regex_1', $f_buglink_regex_1 );

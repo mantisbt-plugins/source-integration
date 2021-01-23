@@ -58,6 +58,7 @@ class SourcePlugin extends MantisSourceBase {
 			'show_repo_link'	=> ON,
 			'show_search_link'	=> OFF,
 			'show_repo_stats'	=> ON,
+			'show_file_stats'	=> OFF,
 
 			'view_threshold'	=> VIEWER,
 			'update_threshold'	=> UPDATER,
@@ -70,7 +71,6 @@ class SourcePlugin extends MantisSourceBase {
 			'enable_resolving'	=> OFF,
 			'enable_message'	=> OFF,
 			'enable_product_matrix' => OFF,
-			'show_file_stats'	=> OFF,
 
 			'buglink_regex_1'	=> '/(?:bugs?|issues?|reports?)+\s*:?\s+(?:#(?:\d+)[,\.\s]*)+/i',
 			'buglink_regex_2'	=> '/#?(\d+)/',

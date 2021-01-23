@@ -103,13 +103,13 @@ $s_plugin_Source_menu_links = 'Liens du menu principal';
 $s_plugin_Source_show_repo_link = 'Dépôts';
 $s_plugin_Source_show_search_link = 'Rechercher';
 $s_plugin_Source_show_repo_stats = 'Statistiques du dépôt';
+$s_plugin_Source_show_file_stats = 'Statistiques des fichiers <span class="small">(peut être lent sur les grands dépôts)</span>';
 $s_plugin_Source_enabled_features = 'Fonctionnalités activées';
 $s_plugin_Source_enable_linking = 'Liaison de jeu de changements <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
 $s_plugin_Source_enable_mapping = 'Association de branche';
 $s_plugin_Source_enable_resolving = 'Résoudre les demandes résolues';
 $s_plugin_Source_enable_message = 'Message de résolution';
 $s_plugin_Source_enable_porting = 'Etat de portage';
-$s_plugin_Source_show_file_stats = 'Statistiques des fichiers <span class="small">(peut être lent sur les grands dépôts)</span>';
 
 $s_plugin_Source_git_title = 'Intégration de greffons basés sur Git';
 $s_plugin_Source_git_default_primary_branch = 'Branche par défaut';

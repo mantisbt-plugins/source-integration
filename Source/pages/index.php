@@ -77,11 +77,11 @@ layout_page_begin();
 ?>
 				<td><?php echo $t_stats['changesets'] ?></td>
 <?php
-		if( $t_show_file_stats ) {
+			if( $t_show_file_stats ) {
 ?>
 				<td><?php echo $t_stats['files'] ?></td>
 <?php
-		}
+			}
 ?>
 				<td><?php echo $t_stats['bugs'] ?></td>
 <?php
