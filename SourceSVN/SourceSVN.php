@@ -92,49 +92,63 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 ?>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'svn_username' ) ?></td>
+	<td class="category">
+		<label for="svn_username"><?php echo plugin_lang_get( 'svn_username' ) ?></label>
+	</td>
 	<td>
-		<input type="text" name="svn_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_username ) ?>"/>
+		<input type="text" id="svn_username" name="svn_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_username ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'svn_password' ) ?></td>
+	<td class="category">
+		<label for="svn_password"><?php echo plugin_lang_get( 'svn_password' ) ?></label>
+	</td>
 	<td>
-		<input type="text" name="svn_password" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_password ) ?>"/>
+		<input type="text" id="svn_password" name="svn_password" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_password ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'standard_repo' ) ?></td>
+	<td class="category">
+		<label for="standard_repo"><?php echo plugin_lang_get( 'standard_repo' ) ?></label>
+	</td>
 	<td>
 		<label>
-			<input name="standard_repo" type="checkbox" class="ace" <?php echo ($t_standard_repo ? 'checked="checked"' : '') ?>/>
+			<input id="standard_repo" name="standard_repo" type="checkbox" class="ace" <?php echo ($t_standard_repo ? 'checked="checked"' : '') ?>/>
 			<span class="lbl"></span>
 		</label>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'trunk_path' ) ?></td>
+	<td class="category">
+		<label for="trunk_path"><?php echo plugin_lang_get( 'trunk_path' ) ?></label>
+	</td>
 	<td>
-		<input type="text" name="trunk_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_trunk_path ) ?>"/>
+		<input type="text" id="trunk_path" name="trunk_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_trunk_path ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'branch_path' ) ?></td>
+	<td class="category">
+		<label for="branch_path"><?php echo plugin_lang_get( 'branch_path' ) ?></label>
+	</td>
 	<td>
-		<input type="text" name="branch_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_branch_path ) ?>"/>
+		<input type="text" id="branch_path" name="branch_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_branch_path ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'tag_path' ) ?></td>
+	<td class="category">
+		<label for="tag_path"><?php echo plugin_lang_get( 'tag_path' ) ?></label>
+	</td>
 	<td>
-		<input type="text" name="tag_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_tag_path ) ?>"/>
+		<input type="text" id="tag_path" name="tag_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_tag_path ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'ignore_paths' ) ?></td>
+	<td class="category">
+		<label for="ignore_paths"><?php echo plugin_lang_get( 'ignore_paths' ) ?></label>
+	</td>
 	<td>
 		<label>
-			<input name="ignore_paths" type="checkbox" class="ace" <?php echo ($t_ignore_paths ? 'checked="checked"' : '') ?>/>
+			<input id="ignore_paths" name="ignore_paths" type="checkbox" class="ace" <?php echo ($t_ignore_paths ? 'checked="checked"' : '') ?>/>
 			<span class="lbl"></span>
 		</label>
 	</td>
@@ -172,31 +186,40 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		<td colspan="2"><h4><?php echo plugin_lang_get( 'title' ) ?></h4></td>
 	</tr>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'svnpath' ) ?></td>
+		<td class="category">
+			<label for="plugin_SourceSVN_svnpath"><?php echo plugin_lang_get( 'svnpath' ) ?></label>
+		</td>
 		<td>
-			<input type="text" name="plugin_SourceSVN_svnpath" value="<?php echo string_attribute( $t_svnpath ) ?>" size="40"/>
+			<input type="text" id="plugin_SourceSVN_svnpath" name="plugin_SourceSVN_svnpath" value="<?php echo string_attribute( $t_svnpath ) ?>" size="40"/>
 		</td>
 	</tr>
 	<tr>
+		<td class="category">
+			<label for="plugin_SourceSVN_svnargs"><?php echo plugin_lang_get( 'svnargs' ) ?></label>
+		</td>
 		<td class="category"><?php echo plugin_lang_get( 'svnargs' ) ?></td>
 		<td>
-			<input type="text" name="plugin_SourceSVN_svnargs" value="<?php echo string_attribute( $t_svnargs ) ?>" size="40"/>
+			<input type="text" id="plugin_SourceSVN_svnargs" name="plugin_SourceSVN_svnargs" value="<?php echo string_attribute( $t_svnargs ) ?>" size="40"/>
 		</td>
 	</tr>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'svnssl' ) ?></td>
+		<td class="category">
+			<label for="plugin_SourceSVN_svnssl"><?php echo plugin_lang_get( 'svnssl' ) ?></label>
+		</td>
 		<td>
 			<label>
-				<input name="plugin_SourceSVN_svnssl" type="checkbox" class="ace" <?php check_checked( (bool)$t_svnssl ) ?>/>
+				<input id="plugin_SourceSVN_svnssl" name="plugin_SourceSVN_svnssl" type="checkbox" class="ace" <?php check_checked( (bool)$t_svnssl ) ?>/>
 				<span class="lbl"></span>
 			</label>
 		</td>
 	</tr>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'winstart' ) ?></td>
+		<td class="category">
+			<label for="plugin_SourceSVN_winstart"><?php echo plugin_lang_get( 'winstart' ) ?></label>
+		</td>
 		<td>
 			<label>
-				<input name="plugin_SourceSVN_winstart" type="checkbox" class="ace" <?php check_checked( (bool)$t_winstart ) ?>/>
+				<input id="plugin_SourceSVN_winstart" name="plugin_SourceSVN_winstart" type="checkbox" class="ace" <?php check_checked( (bool)$t_winstart ) ?>/>
 				<span class="lbl"></span>
 			</label>
 		</td>

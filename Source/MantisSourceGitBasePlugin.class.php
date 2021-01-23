@@ -128,9 +128,14 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 		<td colspan="2"><h4><?php echo plugin_lang_get( 'git_title' ) ?></h4></td>
 	</tr>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( self::CFG_DEFAULT_PRIMARY_BRANCH ) ?></td>
+		<td class="category">
+			<label for="<?php echo self::CFG_DEFAULT_PRIMARY_BRANCH ?>">
+				<?php echo plugin_lang_get( self::CFG_DEFAULT_PRIMARY_BRANCH ) ?>
+			</label>
+		</td>
 		<td>
-			<input name="<?php echo self::CFG_DEFAULT_PRIMARY_BRANCH ?>"
+			<input id="<?php echo self::CFG_DEFAULT_PRIMARY_BRANCH ?>"
+				   name="<?php echo self::CFG_DEFAULT_PRIMARY_BRANCH ?>"
 				   type="text" class="input-sm" size="50"
 				   value="<?php echo string_attribute( plugin_config_get( self::CFG_DEFAULT_PRIMARY_BRANCH, 'master' ) ) ?>"
 			/>

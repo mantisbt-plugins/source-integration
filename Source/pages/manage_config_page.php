@@ -45,43 +45,53 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	<?php echo form_security_field( 'plugin_Source_manage_config' ) ?>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'view_threshold' ) ?></td>
+		<td class="category">
+			<label for="view_threshold"><?php echo plugin_lang_get( 'view_threshold' ) ?></label>
+		</td>
 		<td>
-			<select name="view_threshold" class="input-sm">
+			<select id="view_threshold" name="view_threshold" class="input-sm">
 				<?php print_enum_string_option_list( 'access_levels', plugin_config_get( 'view_threshold' ) ) ?>
 			</select>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'update_threshold' ) ?></td>
+		<td class="category">
+			<label for="update_threshold"><?php echo plugin_lang_get( 'update_threshold' ) ?></label>
+		</td>
 		<td>
-			<select name="update_threshold" class="input-sm">
+			<select id="update_threshold" name="update_threshold" class="input-sm">
 				<?php print_enum_string_option_list( 'access_levels', plugin_config_get( 'update_threshold' ) ) ?>
 			</select>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'manage_threshold' ) ?></td>
+		<td class="category">
+			<label for="manage_threshold"><?php echo plugin_lang_get( 'manage_threshold' ) ?></label>
+		</td>
 		<td>
-			<select name="manage_threshold">
+			<select id="manage_threshold" name="manage_threshold">
 				<?php print_enum_string_option_list( 'access_levels', plugin_config_get( 'manage_threshold' ) ) ?>
 			</select>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'username_threshold' ) ?></td>
+		<td class="category">
+			<label for="username_threshold"><?php echo plugin_lang_get( 'username_threshold' ) ?></label>
+		</td>
 		<td>
-			<select name="username_threshold" class="input-sm">
+			<select id="username_threshold" name="username_threshold" class="input-sm">
 				<?php print_enum_string_option_list( 'access_levels', plugin_config_get( 'username_threshold' ) ) ?>
 			</select>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'menu_links' ) ?></td>
+		<td class="category">
+			<label><?php echo plugin_lang_get( 'menu_links' ) ?></label>
+		</td>
 		<td>
 			<label><input type="checkbox" name="show_repo_link" class="ace" <?php check_checked( ON == plugin_config_get( 'show_repo_link' ) ) ?>/>
 			<span class="lbl"> <?php echo plugin_lang_get( 'show_repo_link' ) ?></span></label>
@@ -92,7 +102,9 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'enabled_features' ) ?></td>
+		<td class="category">
+			<label><?php echo plugin_lang_get( 'enabled_features' ) ?></label>
+		</td>
 		<td>
 			<label>
 				<input type="checkbox" id="show_repo_stats" name="show_repo_stats" class="ace" <?php
@@ -147,50 +159,60 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	
 	<tr class="spacer"></tr>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'buglink_regex_1' ) ?></td>
+		<td class="category">
+			<label for="buglink_regex_1"><?php echo plugin_lang_get( 'buglink_regex_1' ) ?></label>
+		</td>
 		<td>
-			<input name="buglink_regex_1" type="text" class="input-sm" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'buglink_regex_1' ) ) ?>"/>
+			<input id="buglink_regex_1" name="buglink_regex_1" type="text" class="input-sm" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'buglink_regex_1' ) ) ?>"/>
 			<br>
-			<label><input name="buglink_reset_1" type="checkbox" class="ace"/>
+			<label><input id="buglink_reset_1" name="buglink_reset_1" type="checkbox" class="ace"/>
 			<span class="lbl"> <?php echo plugin_lang_get( 'reset' ) ?></span></label>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><span><?php echo plugin_lang_get( 'buglink_regex_2' ) ?></td>
+		<td class="category">
+			<label for="buglink_regex_2"><?php echo plugin_lang_get( 'buglink_regex_2' ) ?></label>
+		</td>
 		<td>
-			<input name="buglink_regex_2" type="text" class="input-sm" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'buglink_regex_2' ) ) ?>"/>
+			<input id="buglink_regex_2" name="buglink_regex_2" type="text" class="input-sm" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'buglink_regex_2' ) ) ?>"/>
 			<br>
-			<label><input name="buglink_reset_2" type="checkbox" class="ace"/>
+			<label><input id="buglink_reset_2" name="buglink_reset_2" type="checkbox" class="ace"/>
 			<span class="lbl"> <?php echo plugin_lang_get( 'reset' ) ?></span></label>
 		</td>
 	</tr>
 
 	<tr class="spacer"></tr>
 	<tr>
-		<td class="category"><span><?php echo plugin_lang_get( 'bugfix_regex_1' ) ?></td>
+		<td class="category">
+			<label for="bugfix_regex_1"><?php echo plugin_lang_get( 'bugfix_regex_1' ) ?></label>
+		</td>
 		<td>
-			<input name="bugfix_regex_1" type="text" class="input-sm" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'bugfix_regex_1' ) ) ?>"/>
+			<input id="bugfix_regex_1" name="bugfix_regex_1" type="text" class="input-sm" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'bugfix_regex_1' ) ) ?>"/>
 			<br>
-			<label><input name="bugfix_reset_1" type="checkbox" class="ace"/>
+			<label><input id="bugfix_reset_1" name="bugfix_reset_1" type="checkbox" class="ace"/>
 			<span class="lbl"> <?php echo plugin_lang_get( 'reset' ) ?></span></label>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><span><?php echo plugin_lang_get( 'bugfix_regex_2' ) ?></td>
+		<td class="category">
+			<label for="bugfix_regex_2"><?php echo plugin_lang_get( 'bugfix_regex_2' ) ?></label>
+		</td>
 		<td>
-			<input name="bugfix_regex_2" type="text" class="input-sm" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'bugfix_regex_2' ) ) ?>"/>
+			<input id="bugfix_regex_2" name="bugfix_regex_2" type="text" class="input-sm" size="50" maxlength="500" value="<?php echo string_attribute( plugin_config_get( 'bugfix_regex_2' ) ) ?>"/>
 			<br>
-			<label><input name="bugfix_reset_2" type="checkbox" class="ace"/>
+			<label><input id="bugfix_reset_2" name="bugfix_reset_2" type="checkbox" class="ace"/>
 			<span class="lbl"> <?php echo plugin_lang_get( 'reset' ) ?></span></label>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'bugfix_status' ) ?></td>
+		<td class="category">
+			<label for="bugfix_status"><?php echo plugin_lang_get( 'bugfix_status' ) ?></label>
+		</td>
 		<td>
-			<select name="bugfix_status" class="input-sm">
+			<select id="bugfix_status" name="bugfix_status" class="input-sm">
 				<option value="0" <?php check_selected( 0, plugin_config_get( 'bugfix_status' ) ) ?>>
 					<?php echo plugin_lang_get( 'bugfix_status_off' ) ?>
 				</option>
@@ -203,9 +225,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'bugfix_resolution' ) ?></td>
+		<td class="category">
+			<label for="bugfix_resolution"><?php echo plugin_lang_get( 'bugfix_resolution' ) ?></label>
+		</td>
 		<td>
-			<select name="bugfix_resolution" class="input-sm">
+			<select id="bugfix_resolution" name="bugfix_resolution" class="input-sm">
 				<?php print_enum_string_option_list( 'resolution', plugin_config_get( 'bugfix_resolution' ) ) ?>
 			</select>
 		</td>
@@ -215,9 +239,11 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	if( plugin_is_installed( 'ProductMatrix' ) || plugin_config_get( 'enable_product_matrix' ) ) {
 ?>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'bugfix_status_pvm' ) ?></td>
+		<td class="category">
+			<label for="bugfix_status_pvm"><?php echo plugin_lang_get( 'bugfix_status_pvm' ) ?></label>
+		</td>
 		<td>
-			<select name="bugfix_status_pvm" class="input-sm">
+			<select id="bugfix_status_pvm" name="bugfix_status_pvm" class="input-sm">
 				<option value="0" <?php check_selected( 0, plugin_config_get( 'bugfix_status_pvm' ) ) ?>>
 					<?php echo plugin_lang_get( 'bugfix_status_off' ) ?>
 				</option>
@@ -238,18 +264,22 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 ?>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'bugfix_message' ) ?></td>
+		<td class="category">
+			<label for="bugfix_message"><?php echo plugin_lang_get( 'bugfix_message' ) ?></label>
+		</td>
 		<td>
-			<input name="bugfix_message" type="text" class="input-sm" size="50" value="<?php echo string_attribute( plugin_config_get( 'bugfix_message' ) ) ?>"/>
+			<input id="bugfix_message" name="bugfix_message" type="text" class="input-sm" size="50" value="<?php echo string_attribute( plugin_config_get( 'bugfix_message' ) ) ?>"/>
 			<br>
 			<span class="small"><?php echo plugin_lang_get( 'bugfix_message_info' ) ?></span>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'bugfix_message_view_status' ) ?></td>
+		<td class="category">
+			<label for="bugfix_message_view_status"><?php echo plugin_lang_get( 'bugfix_message_view_status' ) ?></label>
+		</td>
 		<td>
-			<select name="bugfix_message_view_status" class="input-sm">
+			<select id="bugfix_message_view_status" name="bugfix_message_view_status" class="input-sm">
 				<?php print_enum_string_option_list( 'view_state', plugin_config_get( 'bugfix_message_view_status' ) ) ?>
 			</select>
 			<br>
@@ -258,18 +288,22 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'bugfix_handler' ) ?></td>
+		<td class="category">
+			<label for="bugfix_handler"><?php echo plugin_lang_get( 'bugfix_handler' ) ?></label>
+		</td>
 		<td>
-			<input name="bugfix_handler" type="checkbox" class="ace" <?php check_checked( ON == plugin_config_get( 'bugfix_handler' ) ) ?>/>
+			<input id="bugfix_handler" name="bugfix_handler" type="checkbox" class="ace" <?php check_checked( ON == plugin_config_get( 'bugfix_handler' ) ) ?>/>
 			<span class="lbl"> </span>
 		</td>
 	</tr>
 
 	<tr class="spacer"></tr>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'api_key' ) ?></td>
+		<td class="category">
+			<label for="api_key"><?php echo plugin_lang_get( 'api_key' ) ?></label>
+		</td>
 		<td>
-			<input name="api_key" type="text" class="input-sm" size="50" value="<?php echo string_attribute( plugin_config_get( 'api_key' ) ) ?>"/>
+			<input id="api_key" name="api_key" type="text" class="input-sm" size="50" value="<?php echo string_attribute( plugin_config_get( 'api_key' ) ) ?>"/>
 			<br>
 			<span class="small"><?php echo plugin_lang_get( 'api_key_info' ) ?></span>
 		</td>
@@ -277,17 +311,21 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 	<tr class="spacer"></tr>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'allow_remote_checkin' ) ?></td>
+		<td class="category">
+			<label for="remote_checkin"><?php echo plugin_lang_get( 'allow_remote_checkin' ) ?></label>
+		</td>
 		<td>
-			<input name="remote_checkin" type="checkbox" class="ace" <?php check_checked( ON == $t_remote_checkin ) ?>/>
+			<input id="remote_checkin" name="remote_checkin" type="checkbox" class="ace" <?php check_checked( ON == $t_remote_checkin ) ?>/>
 			<span class="lbl"> </span>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'remote_checkin_urls' ) ?></td>
+		<td class="category">
+			<label for="checkin_urls"><?php echo plugin_lang_get( 'remote_checkin_urls' ) ?></label>
+		</td>
 		<td>
-			<textarea name="checkin_urls" rows="8" cols="50" class="form-control"><?php
+			<textarea id="checkin_urls" name="checkin_urls" rows="8" cols="50" class="form-control"><?php
 				foreach( $t_checkin_urls as $t_ip ) {
 					echo string_textarea( $t_ip ),"\n";
 				}
@@ -297,17 +335,21 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 
 	<tr class="spacer"></tr>
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'allow_remote_import' ) ?></td>
+		<td class="category">
+			<label for="remote_imports"><?php echo plugin_lang_get( 'allow_remote_import' ) ?></label>
+		</td>
 		<td>
-			<input name="remote_imports" type="checkbox" class="ace" <?php check_checked( ON == $t_remote_imports ) ?>/>
+			<input id="remote_imports" name="remote_imports" type="checkbox" class="ace" <?php check_checked( ON == $t_remote_imports ) ?>/>
 			<span class="lbl"> </span>
 		</td>
 	</tr>
 
 	<tr>
-		<td class="category"><?php echo plugin_lang_get( 'remote_import_urls' ) ?></td>
+		<td class="category">
+			<label for="import_urls"><?php echo plugin_lang_get( 'remote_import_urls' ) ?></label>
+		</td>
 		<td>
-			<textarea name="import_urls" rows="8" cols="50" class="form-control"><?php
+			<textarea id="import_urls" name="import_urls" rows="8" cols="50" class="form-control"><?php
 				foreach( $t_import_urls as $t_ip ) {
 					echo string_textarea( $t_ip ),"\n";
 				}
