@@ -97,7 +97,7 @@ $t_import_urls = unserialize( plugin_config_get( 'import_urls' ) );
 					check_checked( ON == plugin_config_get( 'show_repo_stats' ) ) ?>/>
 				<span class="lbl"> <?php echo plugin_lang_get( 'show_repo_stats' ) ?></span>
 			</label><br>
-			<label>
+			<label class="margin-left-8">
 				<input type="checkbox" name="show_file_stats" class="ace" <?php
 					check_checked( ON == plugin_config_get( 'show_file_stats' ) ) ?>/>
 				<span class="lbl"> <?php echo plugin_lang_get( 'show_file_stats' ) ?></span>
