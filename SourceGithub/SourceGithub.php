@@ -753,7 +753,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 				$p_repo->id,
 				$p_json->sha,
 				$p_branch,
-				date( 'Y-m-d H:i:s', strtotime( $p_json->commit->author->date ) ),
+				$p_json->commit->author->date,
 				$p_json->commit->author->name,
 				$p_json->commit->message
 			);

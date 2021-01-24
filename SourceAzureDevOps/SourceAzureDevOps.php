@@ -361,7 +361,7 @@ class SourceAzureDevOpsPlugin extends MantisSourceGitBasePlugin {
 				$p_repo->id,
 				$t_commit->commitId,
 				$p_branch,
-				date( 'Y-m-d H:i:s', strtotime( $t_commit->author->date ) ),
+				$t_commit->author->date,
 				$t_commit->author->name,
 				$t_commit->comment
 			);

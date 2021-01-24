@@ -399,7 +399,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 				$p_repo->id,
 				$p_json->hash,
 				$p_branch,
-				date( 'Y-m-d H:i:s', strtotime( $p_json->date ) ),
+				$p_json->date,
 				$this->get_author_name( $p_json->author->raw ),
 				$p_json->message
 			);
