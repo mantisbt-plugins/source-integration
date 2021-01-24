@@ -3,6 +3,8 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
+/** @noinspection SqlResolve */
+
 require_once( 'MantisSourcePlugin.class.php' );
 
 /**
@@ -365,9 +367,12 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 
 		if ( Source_PVM() ) {
 			if ( $t_bugfix_status_pvm > 0 && $t_pvm_version_id > 0 ) {
+				/** @noinspection PhpUndefinedClassInspection */
 				$t_matrix = new ProductMatrix( $t_bug_id );
 				if ( isset( $t_matrix->status[ $t_pvm_version_id ] ) ) {
+					/** @noinspection PhpUndefinedFieldInspection */
 					$t_matrix->status[ $t_pvm_version_id ] = $t_bugfix_status_pvm;
+					/** @noinspection PhpUndefinedMethodInspection */
 					$t_matrix->save();
 				}
 			}
@@ -621,7 +626,7 @@ class SourceRepo {
 			$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 			$t_query = "SELECT DISTINCT branch FROM $t_changeset_table WHERE repo_id=" .
-				db_param() . ' ORDER BY branch ASC';
+				db_param() . ' ORDER BY branch';
 			$t_result = db_query( $t_query, array( $this->id ) );
 
 			while( $t_row = db_fetch_array( $t_result ) ) {
@@ -736,7 +741,7 @@ class SourceRepo {
 	static function load_all() {
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
-		$t_query = "SELECT * FROM $t_repo_table ORDER BY name ASC";
+		$t_query = "SELECT * FROM $t_repo_table ORDER BY name";
 		$t_result = db_query( $t_query );
 
 		$t_repos = array();
@@ -812,7 +817,7 @@ class SourceRepo {
 		}
 		$t_query = "SELECT * FROM $t_repo_table WHERE id IN ("
 			. join( ', ', $t_list )
-			. ') ORDER BY name ASC';
+			. ') ORDER BY name';
 		$t_result = db_query( $t_query, $t_param );
 
 		while ( $t_row = db_fetch_array( $t_result ) ) {
@@ -1538,6 +1543,8 @@ class SourceMapping {
 	 * to find and return the appropriate product matrix version ID.
 	 * @param int $p_bug_id Bug ID
 	 * @return int Product version ID
+	 *
+	 * @noinspection PhpUnusedParameterInspection
 	 */
 	function apply_pvm( $p_bug_id ) {
 		# if it's explicit, return the version_id before doing anything else
