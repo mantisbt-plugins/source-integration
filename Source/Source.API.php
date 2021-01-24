@@ -349,7 +349,7 @@ function Source_Process_Changesets( $p_changesets, $p_repo=null ) {
 			$t_message = sprintf( $t_message_template,
 				$t_changeset->branch,
 				$t_changeset->revision,
-				$t_changeset->timestamp,
+				$t_changeset->timestamp->format( DATE_ATOM ),
 				$t_changeset->message,
 				$t_repos[ $t_changeset->repo_id ]->name,
 				$t_changeset->id
@@ -871,6 +871,10 @@ class SourceChangeset {
 	var $parent;
 	var $branch;
 	var $ported;
+
+	/**
+	 * @var DateTimeImmutable $timestamp Commit's time stamp (UTC)
+	 */
 	var $timestamp;
 	var $author;
 	var $author_email;
@@ -890,7 +894,7 @@ class SourceChangeset {
 	 * @param int    $p_repo_id    Repository ID
 	 * @param string $p_revision   Changeset revision
 	 * @param string $p_branch
-	 * @param string $p_timestamp  Timestamp
+	 * @param string $p_timestamp  Commit Timestamp; if no timezone given, assume UTC.
 	 * @param string $p_author     Author
 	 * @param string $p_message    Commit message
 	 * @param int    $p_user_id
@@ -901,6 +905,13 @@ class SourceChangeset {
 	function __construct( $p_repo_id, $p_revision, $p_branch='', $p_timestamp='',
 		$p_author='', $p_message='', $p_user_id=0, $p_parent='', $p_ported='', $p_author_email='' ) {
 
+		try {
+			$t_timestamp = new DateTimeImmutable( $p_timestamp, new DateTimeZone( 'UTC' ) );
+		} catch( Exception $e ) {
+			trigger_error( ERROR_INVALID_DATE_FORMAT, WARNING );
+			$t_timestamp = new DateTimeImmutable( "@0" );
+		}
+
 		$this->id				= 0;
 		$this->user_id			= $p_user_id;
 		$this->repo_id			= $p_repo_id;
@@ -908,7 +919,7 @@ class SourceChangeset {
 		$this->parent			= $p_parent;
 		$this->branch			= $p_branch;
 		$this->ported			= $p_ported;
-		$this->timestamp		= $p_timestamp;
+		$this->timestamp		= $t_timestamp;
 		$this->author			= $p_author;
 		$this->author_email		= $p_author_email;
 		$this->message			= $p_message;
@@ -934,6 +945,11 @@ class SourceChangeset {
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
+		# Commit timestamp: can't use DATE_ATOM format to insert datetime,
+		# as MySQL < 8.0.19 does not support specifying timezone
+		# @see https://dev.mysql.com/doc/refman/8.0/en/datetime.html
+		$t_timestamp = $this->timestamp->format( 'Y-m-d H:i:s' );
+
 		if ( 0 == $this->id ) { # create
 			$t_query = "INSERT INTO $t_changeset_table ( repo_id, revision, parent, branch, user_id,
 				timestamp, author, message, info, ported, author_email, committer, committer_email, committer_id
@@ -944,7 +960,7 @@ class SourceChangeset {
 				db_param() . ', ' . db_param() . ' )';
 			db_query( $t_query, array(
 				$this->repo_id, $this->revision, $this->parent, $this->branch,
-				$this->user_id, $this->timestamp, $this->author, db_mysql_fix_utf8( $this->message ), $this->info,
+				$this->user_id, $t_timestamp, $this->author, db_mysql_fix_utf8( $this->message ), $this->info,
 				$this->ported, $this->author_email, $this->committer, $this->committer_email,
 				$this->committer_id ) );
 
@@ -964,7 +980,7 @@ class SourceChangeset {
 			db_query( $t_query, array(
 				$this->repo_id, $this->revision,
 				$this->parent, $this->branch, $this->user_id,
-				$this->timestamp, $this->author, $this->message,
+				$t_timestamp, $this->author, $this->message,
 				$this->info, $this->ported, $this->author_email,
 				$this->committer, $this->committer_email,
 				$this->committer_id, $this->id ) );
@@ -1205,10 +1221,20 @@ class SourceChangeset {
 		while ( $t_row = db_fetch_array( $p_result ) ) {
 			$t_changeset = new SourceChangeset( $t_row['repo_id'], $t_row['revision'] );
 
+			try {
+				$t_timestamp = new DateTimeImmutable(
+					$t_row['timestamp'],
+					new DateTimeZone( 'UTC' )
+				);
+			} catch( Exception $e ) {
+				trigger_error( ERROR_INVALID_DATE_FORMAT, WARNING );
+				$t_timestamp = new DateTimeImmutable( "@0" );
+			}
+
 			$t_changeset->id = $t_row['id'];
 			$t_changeset->parent = $t_row['parent'];
 			$t_changeset->branch = $t_row['branch'];
-			$t_changeset->timestamp = $t_row['timestamp'];
+			$t_changeset->timestamp = $t_timestamp;
 			$t_changeset->user_id = $t_row['user_id'];
 			$t_changeset->author = $t_row['author'];
 			$t_changeset->author_email = $t_row['author_email'];
