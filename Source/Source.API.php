@@ -1269,6 +1269,22 @@ class SourceChangeset {
 		db_query( $t_query, array( $p_repo_id ) );
 	}
 
+	/**
+	 * Get the changeset's timestamp in the user's timezone.
+	 *
+	 * @param string $p_format Date format, defaults to $g_normal_date_format.
+	 *
+	 * @return string
+	 */
+	public function getLocalTimestamp( $p_format = null )
+	{
+		if( !$p_format ) {
+			$p_format = config_get( 'normal_date_format' );
+		}
+
+		return date( $p_format, $this->timestamp->getTimestamp() );
+	}
+
 }
 
 /**
