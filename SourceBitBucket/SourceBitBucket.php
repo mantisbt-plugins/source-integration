@@ -3,13 +3,13 @@
 # Copyright (c) 2014 Sergey Marchenko
 # Licensed under the MIT license
 
-if( false === include_once(config_get( 'plugin_path' ) . 'Source/MantisSourcePlugin.class.php') ) {
+if( false === include_once(config_get( 'plugin_path' ) . 'Source/MantisSourceGitBasePlugin.class.php') ) {
 	return;
 }
 
 require_once(config_get( 'core_path' ) . 'json_api.php');
 
-class SourceBitBucketPlugin extends MantisSourcePlugin {
+class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
 	const PLUGIN_VERSION = '2.1.0';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
