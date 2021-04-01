@@ -276,7 +276,9 @@ layout_page_begin();
 			</div>
 
 			<div class="widget-toolbox padding-8 clearfix">
-				<input type="submit" class="btn btn-primary btn-white btn-sm btn-round" value="<?php echo plugin_lang_get( 'mapping_update' ) ?>"/>
+				<button class="btn btn-primary btn-white btn-sm btn-round">
+					<?php echo plugin_lang_get( 'mapping_update' ) ?>
+				</button>
 			</div>
 		</div>
 	</div>
