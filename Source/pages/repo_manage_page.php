@@ -38,6 +38,9 @@ function display_strategies( $p_type=null ) {
  * Prints Product versions options list.
  *
  * @param int|null $t_version_id
+ *
+ * @noinspection PhpUndefinedClassInspection Code is only called when the
+ * ProductMatrix plugin is available.
  */
 function display_pvm_versions($t_version_id=null) {
 	static $s_products = null;
@@ -113,7 +116,7 @@ layout_page_begin();
 
 	<table class="table table-bordered table-condensed">
 		<tr>
-			<td class="category" width="35%"><?php echo plugin_lang_get( 'name' ) ?></td>
+			<td class="category width-35"><?php echo plugin_lang_get( 'name' ) ?></td>
 			<td><?php echo string_display( $t_repo->name ) ?></td>
 		</tr>
 
@@ -222,6 +225,7 @@ layout_page_begin();
 ?>
 			<tr>
 				<td class="center">
+					<!--suppress HtmlFormInputWithoutLabel -->
 					<input type="text" name="<?php echo $t_branch ?>_branch" value="<?php
 						echo string_attribute( $t_mapping->branch )
 						?>" class="input-sm"
@@ -229,24 +233,28 @@ layout_page_begin();
 					/>
 				</td>
 				<td class="center">
+					<!--suppress HtmlFormInputWithoutLabel -->
 					<select class="input-sm" name="<?php echo $t_branch ?>_type"><?php
 						display_strategies( $t_mapping->type ) ?>
 					</select>
 				</td>
 <?php if( Source_PVM() ) { ?>
 				<td class="center">
+					<!--suppress HtmlFormInputWithoutLabel -->
 					<select class="input-sm" name="<?php echo $t_branch ?>_pvm_version_id"><?php
 						display_pvm_versions( $t_mapping->pvm_version_id ) ?>
 					</select>
 				</td>
 <?php } else { ?>
 				<td class="center">
+					<!--suppress HtmlFormInputWithoutLabel -->
 					<select class="input-sm" name="<?php echo $t_branch ?>_version"><?php
-						print_version_option_list( $t_mapping->version, ALL_PROJECTS, false, true, true ) ?>
+						print_version_option_list( $t_mapping->version, ALL_PROJECTS, false ) ?>
 					</select>
 				</td>
 <?php } ?>
 				<td class="center">
+					<!--suppress HtmlFormInputWithoutLabel -->
 					<input type="text" name="<?php echo $t_branch ?>_regex" value="<?php
 						echo string_attribute( $t_mapping->regex )
 						?>" class="input-sm" />
