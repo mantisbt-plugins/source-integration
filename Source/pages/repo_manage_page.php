@@ -34,6 +34,11 @@ function display_strategies( $p_type=null ) {
 	}
 }
 
+/**
+ * Prints Product versions options list.
+ *
+ * @param int|null $t_version_id
+ */
 function display_pvm_versions($t_version_id=null) {
 	static $s_products = null;
 
@@ -54,6 +59,13 @@ function display_pvm_versions($t_version_id=null) {
 	}
 }
 
+/**
+ * Converts raw Repository information to ready-for-display values.
+ *
+ * @param array $p_array Repository information (SourceRepo::$info)
+ *
+ * @return array key => value escaped for output
+ */
 function convert_to_key_value( $p_array ) {
 	$t_result = array();
 
