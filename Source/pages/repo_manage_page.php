@@ -59,15 +59,13 @@ function convert_to_key_value( $p_array ) {
 
 	foreach( $p_array as $t_key => $t_value ) {
 		if( is_bool( $t_value ) ) {
-			$t_simple_value = (bool)$t_value ? lang_get( 'on' ) : lang_get( 'off' );
-		} else if( is_integer( $t_value ) ) {
-			$t_simple_value = (int)$t_value;
-		} else if( is_string( $t_value ) ) {
-			$t_simple_value = $t_value;
-		} else if( is_array( $t_value ) ) {
-			$t_simple_value = var_export( $t_value, /* return */ true );
+			$t_value = trans_bool($t_value);
+		} else {
+			if( is_array( $t_value ) ) {
+				$t_value = var_export( $t_value, true );
+			}
+			$t_value = string_display_line( $t_value );
 		}
-
 		$t_result[$t_key] = $t_value;
 	}
 
@@ -117,15 +115,18 @@ layout_page_begin();
 			<td><?php echo string_display( $t_repo->url ) ?></td>
 		</tr>
 
-		<?php
-			$t_formatted_array = convert_to_key_value( $t_repo->info );
-			foreach( $t_formatted_array as $t_key => $t_value ) {
-		?>
+<?php
+	foreach( convert_to_key_value( $t_repo->info ) as $t_key => $t_value ) {
+?>
 		<tr>
-			<td class="category"><?php echo plugin_lang_get_defaulted( $t_key, $t_key, $t_vcs->basename ) ?></td>
-			<td><?php echo is_bool( $t_value ) ? trans_bool( $t_value ) : string_display_line( $t_value )?></td>
+			<td class="category">
+				<?php echo plugin_lang_get_defaulted( $t_key, $t_key, $t_vcs->basename ) ?>
+			</td>
+			<td><?php echo $t_value ?></td>
 		</tr>
-		<?php } ?>
+<?php
+	}
+?>
 	</table>
 
 				</div>
