@@ -3,13 +3,14 @@
 # Copyright (c) 2012 John Reese
 # Licensed under the MIT license
 
+/** @noinspection PhpFullyQualifiedNameUsageInspection */
+
 use GuzzleHttp\RequestOptions;
 
+/** @noinspection PhpIncludeInspection */
 if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceGitBasePlugin.class.php' ) ) {
 	return;
 }
-
-require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
@@ -43,6 +44,21 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 	public $type = 'github';
 
+	public function hooks() {
+		return parent::hooks() + array(
+			"EVENT_LAYOUT_RESOURCES" => "resources",
+			'EVENT_REST_API_ROUTES' => 'routes',
+		);
+	}
+
+	/**
+	 * Hook for EVENT_LAYOUT_RESOURCES, {@see hooks()}.
+	 *
+	 * @param string $p_event
+	 * @return string
+	 *
+	 * @noinspection PhpUnusedParameterInspection
+	 */
 	public function resources( $p_event ) {
 		# Only include the javascript when it's actually needed
 		parse_str( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY ), $t_query );
@@ -52,22 +68,19 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 				return '<script src="' . plugin_file( 'sourcegithub.js' ) . '"></script>';
 			}
 		}
-		return null;
-	}
-
-	public function hooks() {
-		return parent::hooks() + array(
-			"EVENT_LAYOUT_RESOURCES" => "resources",
-			'EVENT_REST_API_ROUTES' => 'routes',
-		);
+		return '';
 	}
 
 	/**
 	 * Add the RESTful routes handled by this plugin.
 	 *
+	 * Hook for EVENT_REST_API_ROUTES, {@see hooks()}.
+	 *
 	 * @param string $p_event_name The event name
 	 * @param array  $p_event_args The event arguments
 	 * @return void
+	 *
+	 * @noinspection PhpUnusedParameterInspection
 	 */
 	public function routes( $p_event_name, $p_event_args ) {
 		$t_app = $p_event_args['app'];
@@ -89,6 +102,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	 * @param array              $p_args
 	 *
 	 * @return Slim\Http\Response
+	 *
+	 * @noinspection PhpUnused {@see routes()}
 	 */
 	public function route_token_revoke( $p_request, $p_response, $p_args ) {
 		# Make sure the given repository exists
@@ -118,6 +133,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	 * @param array              $p_args
 	 *
 	 * @return Slim\Http\Response
+	 *
+	 * @noinspection PhpUnused {@see routes()}
 	 */
 	public function route_webhook( $p_request, $p_response, $p_args ) {
 		plugin_push_current( 'Source' );
@@ -162,6 +179,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		if( $t_id ) {
 			# Webhook already exists for this URL
 			# Set the Github URL so user can easily link to it
+			/** @noinspection PhpUndefinedVariableInspection */
 			$t_hook->web_url = "https://github.com/$t_username/$t_reponame/settings/hooks/" . $t_hook->id;
 			return $p_response
 				->withStatus( HTTP_STATUS_CONFLICT,
@@ -247,7 +265,6 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = $p_changeset->revision;
-		$t_filename = $p_file->filename;
 
 		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
 	}
@@ -292,22 +309,40 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 ?>
 
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'hub_username' ) ?></td>
+	<td class="category">
+		<label for="hub_username">
+			<?php echo plugin_lang_get( 'hub_username' ) ?>
+		</label>
+	</td>
 	<td>
-		<input type="text" name="hub_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_username ) ?>"/>
+		<input id="hub_username" name="hub_username"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_username ) ?>"
+		/>
 	</td>
 </tr>
 
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'hub_reponame' ) ?></td>
+	<td class="category">
+		<label for="hub_reponame">
+			<?php echo plugin_lang_get( 'hub_reponame' ) ?>
+		</label>
+	</td>
 	<td>
-		<input type="text" name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/>
+		<input id="hub_reponame" name="hub_reponame"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_reponame ) ?>"
+		/>
 	</td>
 </tr>
 
 
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'hub_app_client_id' ) ?></td>
+	<td class="category">
+		<label for="hub_app_client_id">
+			<?php echo plugin_lang_get( 'hub_app_client_id' ) ?>
+		</label>
+	</td>
 	<td>
 		<input name="hub_app_client_id" id="hub_app_client_id"
 			   type="text" maxlength="250" size="40"
@@ -318,7 +353,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 </tr>
 
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></td>
+	<td class="category">
+		<label for="hub_app_secret">
+			<?php echo plugin_lang_get( 'hub_app_secret' ) ?>
+		</label>
+	</td>
 	<td>
 		<input name="hub_app_secret" id="hub_app_secret"
 			   type="text" maxlength="250" size="40"
@@ -362,7 +401,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 </tr>
 
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'hub_webhook_secret' ) ?></td>
+	<td class="category">
+		<label for="hub_webhook_secret">
+			<?php echo plugin_lang_get( 'hub_webhook_secret' ) ?>
+		</label>
+	</td>
 	<td>
 		<input id="hub_webhook_secret" name="hub_webhook_secret"
 			   type="text" maxlength="250" size="40"
@@ -384,9 +427,16 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 </tr>
 
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
+	<td class="category">
+		<label for="master_branch">
+			<?php echo plugin_lang_get( 'master_branch' ) ?>
+		</label>
+	</td>
 	<td>
-		<input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+		<input id="master_branch" name="master_branch"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_master_branch ) ?>"
+		/>
 	</td>
 </tr>
 <?php
@@ -423,6 +473,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	 * Initialize GitHub API for the given Repository.
 	 *
 	 * @param SourceRepo $p_repo Repository
+	 * @return \GuzzleHttp\Client
 	 */
 	private function api_init( $p_repo ) {
 		# Initialize Guzzle client if not done already
@@ -478,7 +529,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			# Store retrieved data and proceed with next page
 			$t_json = array_merge( $t_json, $t_data );
 
-			$t_links = GuzzleHttp\Psr7\parse_header( $t_response->getHeader( 'Link' ) );
+			$t_links = GuzzleHttp\Psr7\Header::parse( $t_response->getHeader( 'Link' ) );
 			foreach( $t_links as $t_link ) {
 				if( $t_link['rel'] == 'next' ) {
 					$t_path = trim( $t_link[0], '<>' );
@@ -510,9 +561,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_json = $this->api_get( $p_repo, 'rate_limit', 'rate' );
 
 		if ( false !== $t_json && !is_null( $t_json ) ) {
-			if ( $t_json->remaining <= 0 ) {
-				// do we need to do something here?
-			} else if ( $t_json->remaining < ( $t_json->limit / 2 ) ) {
+			if( $t_json->remaining > 0 && $t_json->remaining < ( $t_json->limit / 2 ) ) {
 				$t_time_remaining = 3600.0 - ( microtime( true ) - $t_start_time );
 				$t_sleep_time = ( $t_time_remaining / $t_json->remaining ) * 1000000;
 				usleep( $t_sleep_time );
@@ -524,17 +573,17 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 	public function precommit() {
 		# Legacy GitHub Service sends the payload via eponymous form variable
-		$f_payload = gpc_get_string( 'payload', null );
+		$f_payload = gpc_get_string( 'payload' );
 		if ( is_null( $f_payload ) ) {
 			# If empty, retrieve the webhook's payload from the body
 			$f_payload = file_get_contents( 'php://input' );
 			if ( is_null( $f_payload ) ) {
-				return;
+				return null;
 			}
 		}
 
 		if ( false === stripos( $f_payload, 'github.com' ) ) {
-			return;
+			return null;
 		}
 
 		$t_data = json_decode( $f_payload, true );
@@ -542,13 +591,14 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
+		/** @noinspection SqlResolve */
 		$t_query = "SELECT * FROM $t_repo_table"
 			. " WHERE type = " . db_param()
 			. " AND info LIKE " . db_param();
 		$t_result = db_query( $t_query, array( $this->type, '%' . $t_reponame . '%' ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
-			return;
+			return null;
 		}
 
 		while ( $t_row = db_fetch_array( $t_result ) ) {
@@ -563,7 +613,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 					$t_signature = explode( '=', $_SERVER['HTTP_X_HUB_SIGNATURE_256'] );
 					if( $t_signature[0] != 'sha256' ) {
 						# Invalid hash - as per docs, only sha256 is supported
-						return;
+						return null;
 					}
 					$t_signature = $t_signature[1];
 				}
@@ -576,14 +626,14 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 					|| $t_signature == hash_hmac('sha256', $f_payload, $t_secret);
 				if( !$t_valid ) {
 					# Invalid signature
-					return;
+					return null;
 				}
 
 				return array( 'repo' => $t_repo, 'data' => $t_data );
 			}
 		}
 
-		return;
+		return null;
 	}
 
 	public function commit( $p_repo, $p_data ) {
@@ -633,6 +683,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		foreach( $t_branches as $t_branch ) {
+			/** @noinspection SqlResolve */
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
 				' ORDER BY timestamp ASC';
