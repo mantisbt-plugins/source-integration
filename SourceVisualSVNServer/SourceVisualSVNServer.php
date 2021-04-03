@@ -16,19 +16,12 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 	const SOURCESVN_VERSION_REQUIRED = '2.0.0';
 
 	public function register() {
-		$this->name = plugin_lang_get( 'title' );
-		$this->description = plugin_lang_get( 'description' );
+		parent::register();
 
-		$this->version = self::PLUGIN_VERSION;
-		$this->requires = array(
-			'MantisCore' => self::MANTIS_VERSION,
-			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
-			'SourceSVN' => self::SOURCESVN_VERSION_REQUIRED,
-		);
+		$this->requires['SourceSVN'] = self::SOURCESVN_VERSION_REQUIRED;
 
 		$this->author = 'David Hopkins';
 		$this->contact = 'david.hopkins@fbr.com.au';
-		$this->url = 'https://github.com/mantisbt-plugins/source-integration';
 	}
 
 	public $type = 'vsvns';

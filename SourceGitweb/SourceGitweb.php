@@ -14,21 +14,6 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 	const PLUGIN_VERSION = '2.0.3';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
-	public function register() {
-		$this->name = plugin_lang_get( 'title' );
-		$this->description = plugin_lang_get( 'description' );
-
-		$this->version = self::PLUGIN_VERSION;
-		$this->requires = array(
-			'MantisCore' => self::MANTIS_VERSION,
-			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
-		);
-
-		$this->author = 'John Reese';
-		$this->contact = 'john@noswap.com';
-		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
-	}
-
 	public $type = 'gitweb';
 
 	public function url_get_auth( $p_url, $p_user, $p_pass ) {

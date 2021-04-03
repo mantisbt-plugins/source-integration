@@ -36,18 +36,10 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 	const PATTERN_PLUS_MINUS = '\-{3}[\s](/dev/null)?[^\t]*[^\n]*\n\+{3}[\s](/dev/null)?[^\t]*\t[^\n]*';
 
 	function register() {
-		$this->name = plugin_lang_get( 'title' );
-		$this->description = plugin_lang_get( 'description' );
-
-		$this->version = self::PLUGIN_VERSION;
-		$this->requires = array(
-			'MantisCore' => self::MANTIS_VERSION,
-			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
-		);
+		parent::register();
 
 		$this->author = 'David Hicks';
 		$this->contact = '';
-		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public $type = 'hgweb';

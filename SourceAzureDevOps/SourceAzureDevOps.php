@@ -32,18 +32,10 @@ class SourceAzureDevOpsPlugin extends MantisSourceGitBasePlugin {
 	 * register plugin
 	 */
 	public function register() {
-		$this->name = plugin_lang_get( 'title' );
-		$this->description = plugin_lang_get( 'description' );
-
-		$this->version = self::PLUGIN_VERSION;
-		$this->requires = array(
-			'MantisCore' => self::MANTIS_VERSION,
-			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
-		);
+		parent::register();
 
 		$this->author = 'Stefan Gross';
 		$this->contact = 'stefan.gross@jenoptik.com';
-		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	/**

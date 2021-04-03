@@ -10,6 +10,39 @@ require_once( 'MantisSourceBase.class.php' );
  * @author John Reese
  */
 abstract class MantisSourcePlugin extends MantisSourceBase {
+
+	/**
+	 * @var string Plugin Version string - MUST BE SET BY VCS PLUGIN
+	 */
+	const PLUGIN_VERSION = '0';
+
+	/**
+	 * @var string Minimum framework version - MUST BE SET BY VCS PLUGIN
+	 */
+	const FRAMEWORK_VERSION_REQUIRED = '0';
+
+	/**
+	 * Standard plugin registration.
+	 *
+	 * Child plugins are expected to override the following class constants
+	 * - PLUGIN_VERSION
+	 * - FRAMEWORK_VERSION_REQUIRED
+	 */
+	public function register() {
+		$this->name = plugin_lang_get( 'title' );
+		$this->description = plugin_lang_get( 'description' );
+
+		$this->version = static::PLUGIN_VERSION;
+		$this->requires = array(
+			'MantisCore' => static::MANTIS_VERSION,
+			'Source' => static::FRAMEWORK_VERSION_REQUIRED,
+		);
+
+		$this->author = 'John Reese';
+		$this->contact = 'john@noswap.com';
+		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
+	}
+
 	public function hooks() {
 		return array(
 			'EVENT_SOURCE_INTEGRATION'		=> 'integration',
