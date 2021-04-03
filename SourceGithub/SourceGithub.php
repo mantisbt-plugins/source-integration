@@ -557,7 +557,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 			if ( $t_repo->info['hub_reponame'] == $t_reponame ) {
 				# Retrieve the payload's signature from the request headers
-				# Reference https://developer.github.com/webhooks/#delivery-headers
+				# Reference https://docs.github.com/en/developers/webhooks-and-events/securing-your-webhooks
 				$t_signature = null;
 				if( array_key_exists( 'HTTP_X_HUB_SIGNATURE', $_SERVER ) ) {
 					$t_signature = explode( '=', $_SERVER['HTTP_X_HUB_SIGNATURE'] );
