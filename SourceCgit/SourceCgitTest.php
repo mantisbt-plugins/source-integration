@@ -67,5 +67,8 @@ function print_n($text = '') {
 
 /**
  * MantisSourcePlugin stub
+ *
+ * This is commented out, as it causes PHPStorm to report multiple
+ * declarations of that class.
  */
-class MantisSourcePlugin {}
+//class MantisSourcePlugin {}
