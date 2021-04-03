@@ -22,12 +22,12 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 	const FRAMEWORK_VERSION_REQUIRED = '0';
 
 	/**
-	 * A short, unique, lowercase string representing the plugin's source control type.
+	 * @var string A short, unique, lowercase string representing the plugin's source control type.
 	 */
 	public $type = null;
 
 	/**
-	 * Override this to "true" if there are configuration options for the vcs plugin.
+	 * @var bool Override this to "true" if there are configuration options for the vcs plugin.
 	 */
 	public $configuration = false;
 
