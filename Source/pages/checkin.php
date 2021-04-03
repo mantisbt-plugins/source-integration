@@ -57,6 +57,7 @@ if ( gpc_get_string( 'api_key' ) == $t_api_key && trim( $t_api_key ) != '') {
 
 # Not validated by this point gets the boot!
 if ( !$t_valid ) {
+	http_response_code( HTTP_STATUS_BAD_REQUEST );
 	die( plugin_lang_get( 'invalid_checkin_url' ) );
 }
 
@@ -75,6 +76,7 @@ if ( is_array( $t_predata ) && count( $t_predata ) == 2 ) {
 }
 # Repo not found
 if ( is_null( $t_repo ) ) {
+	http_response_code( HTTP_STATUS_BAD_REQUEST );
 	die( plugin_lang_get( 'invalid_repo' ) );
 }
 
@@ -85,6 +87,7 @@ $t_changesets = $t_vcs->commit( $t_repo, $f_data );
 
 # Changesets couldn't be loaded apparently
 if ( !is_array( $t_changesets ) ) {
+	http_response_code( HTTP_STATUS_BAD_REQUEST );
 	die( plugin_lang_get( 'invalid_changeset' ) );
 }
 
