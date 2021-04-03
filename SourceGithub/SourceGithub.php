@@ -559,10 +559,10 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 				# Retrieve the payload's signature from the request headers
 				# Reference https://docs.github.com/en/developers/webhooks-and-events/securing-your-webhooks
 				$t_signature = null;
-				if( array_key_exists( 'HTTP_X_HUB_SIGNATURE', $_SERVER ) ) {
-					$t_signature = explode( '=', $_SERVER['HTTP_X_HUB_SIGNATURE'] );
-					if( $t_signature[0] != 'sha1' ) {
-						# Invalid hash - as per docs, only sha1 is supported
+				if( array_key_exists( 'HTTP_X_HUB_SIGNATURE_256', $_SERVER ) ) {
+					$t_signature = explode( '=', $_SERVER['HTTP_X_HUB_SIGNATURE_256'] );
+					if( $t_signature[0] != 'sha256' ) {
+						# Invalid hash - as per docs, only sha256 is supported
 						return;
 					}
 					$t_signature = $t_signature[1];
@@ -570,10 +570,10 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 				# Validate payload against webhook secret: checks OK if
 				# - Webhook secret not defined and no signature received from GitHub, OR
-				# - Payload's SHA1 hash salted with Webhook secret matches signature
+				# - Payload's SHA256 hash salted with Webhook secret matches signature
 				$t_secret = $t_repo->info['hub_webhook_secret'];
 				$t_valid = ( !$t_secret && !$t_signature )
-					|| $t_signature == hash_hmac('sha1', $f_payload, $t_secret);
+					|| $t_signature == hash_hmac('sha256', $f_payload, $t_secret);
 				if( !$t_valid ) {
 					# Invalid signature
 					return;
