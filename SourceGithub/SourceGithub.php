@@ -542,8 +542,10 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 		$t_repo_table = plugin_table( 'repository', 'Source' );
 
-		$t_query = "SELECT * FROM $t_repo_table WHERE info LIKE " . db_param();
-		$t_result = db_query( $t_query, array( '%' . $t_reponame . '%' ) );
+		$t_query = "SELECT * FROM $t_repo_table"
+			. " WHERE type = " . db_param()
+			. " AND info LIKE " . db_param();
+		$t_result = db_query( $t_query, array( $this->type, '%' . $t_reponame . '%' ) );
 
 		if ( db_num_rows( $t_result ) < 1 ) {
 			return;
