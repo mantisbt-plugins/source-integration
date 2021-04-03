@@ -60,7 +60,7 @@ if ( !$t_valid ) {
 	die( plugin_lang_get( 'invalid_checkin_url' ) );
 }
 
-# Let plugins try to intepret POST data before we do
+# Let plugins try to interpret POST data before we do
 $t_predata = event_signal( 'EVENT_SOURCE_PRECOMMIT' );
 
 # Expect plugin data in form of array( repo_name, data )
@@ -94,4 +94,3 @@ if ( count( $t_changesets ) < 1 ) {
 }
 
 Source_Process_Changesets( $t_changesets );
-
