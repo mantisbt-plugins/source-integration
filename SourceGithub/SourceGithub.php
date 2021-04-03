@@ -587,8 +587,12 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	public function commit( $p_repo, $p_data ) {
-		$t_commits = array();
+		if( !isset( $p_data['commits'] ) ) {
+			# Payload does not contain any commits
+			return false;
+		}
 
+		$t_commits = array();
 		foreach( $p_data['commits'] as $t_commit ) {
 			$t_commits[] = $t_commit['id'];
 		}
