@@ -35,14 +35,14 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 	# Don't use '/' as pattern delimiter with this one
 	const PATTERN_PLUS_MINUS = '\-{3}[\s](/dev/null)?[^\t]*[^\n]*\n\+{3}[\s](/dev/null)?[^\t]*\t[^\n]*';
 
+	public $type = 'hgweb';
+
 	function register() {
 		parent::register();
 
 		$this->author = 'David Hicks';
 		$this->contact = '';
 	}
-
-	public $type = 'hgweb';
 
 	public function show_type() {
 		return plugin_lang_get( 'hgweb' );

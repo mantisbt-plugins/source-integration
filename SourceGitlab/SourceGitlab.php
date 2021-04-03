@@ -18,6 +18,8 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 	const PLUGIN_VERSION = '2.0.4';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
+	public $type = 'gitlab';
+
 	/**
 	 * GitLab API version, used to build the API URI
 	 * @see api_uri()
@@ -32,8 +34,6 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 		$this->author = 'Johannes Goehr';
 		$this->contact = 'johannes.goehr@mobilexag.de';
 	}
-
-	public $type = 'gitlab';
 
 	public function show_type() {
 		return plugin_lang_get( 'gitlab' );

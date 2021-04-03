@@ -14,6 +14,8 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 	const SOURCESVN_VERSION_REQUIRED = '2.0.0';
 
+	public $type = 'viewvc';
+
 	public function register() {
 		parent::register();
 
@@ -22,8 +24,6 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 		$this->author = 'John Bailey';
 		$this->contact = 'dev@brightsilence.com';
 	}
-
-	public $type = 'viewvc';
 
 	public function show_type() {
 		return lang_get( 'plugin_SourceViewVC_svn' );

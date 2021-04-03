@@ -19,6 +19,8 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 	const PLUGIN_VERSION = '2.0.3';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
+	public $type = 'cgit';
+
 	public function register() {
 		$this->name = plugin_lang_get( 'title' );
 		$this->description = plugin_lang_get( 'description' );
@@ -33,8 +35,6 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 		$this->contact = 'iam.asm89@gmail.com';
 		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
-
-	public $type = 'cgit';
 
 	public function show_type() {
 		return plugin_lang_get( 'cgit' );

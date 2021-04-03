@@ -15,6 +15,8 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 	const SOURCESVN_VERSION_REQUIRED = '2.0.0';
 
+	public $type = 'vsvns';
+
 	public function register() {
 		parent::register();
 
@@ -23,8 +25,6 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 		$this->author = 'David Hopkins';
 		$this->contact = 'david.hopkins@fbr.com.au';
 	}
-
-	public $type = 'vsvns';
 
 	public function show_type() {
 		return plugin_lang_get( 'vsvns' );

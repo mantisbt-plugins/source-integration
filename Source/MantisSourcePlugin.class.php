@@ -22,6 +22,16 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 	const FRAMEWORK_VERSION_REQUIRED = '0';
 
 	/**
+	 * A short, unique, lowercase string representing the plugin's source control type.
+	 */
+	public $type = null;
+
+	/**
+	 * Override this to "true" if there are configuration options for the vcs plugin.
+	 */
+	public $configuration = false;
+
+	/**
 	 * Standard plugin registration.
 	 *
 	 * Child plugins are expected to override the following class constants
@@ -49,16 +59,6 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 			'EVENT_SOURCE_PRECOMMIT'		=> '_precommit',
 		);
 	}
-
-	/**
-	 * A short, unique, lowercase string representing the plugin's source control type.
-	 */
-	public $type = null;
-
-	/**
-	 * Override this to "true" if there are configuration options for the vcs plugin.
-	 */
-	public $configuration = false;
 
 	/**
 	 * Define the VCS's ability to handle links to Pull Requests.
@@ -210,12 +210,12 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
  * to execute the event.
  */
 class SourceGenericPlugin extends MantisSourcePlugin {
+	public $type = 'generic';
+
 	function register() {
 		$this->name = plugin_lang_get( 'title', 'Source' );
 		$this->version = self::FRAMEWORK_VERSION;
 	}
-
-	public $type = 'generic';
 
 	function show_type() {
 		return 'Generic';

@@ -17,6 +17,8 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 	protected $main_url = "https://bitbucket.org/";
 	protected $api_url = 'https://bitbucket.org/api/2.0/';
 
+	public $type = 'bb';
+
 	public $linkPullRequest = '/pull-request/%s';
 
 	public function register() {
@@ -25,8 +27,6 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		$this->author  = 'Sergey Marchenko';
 		$this->contact = 'sergey@mzsl.ru';
 	}
-
-	public $type = 'bb';
 
 	public function show_type() {
 		return plugin_lang_get( 'bitbucket' );

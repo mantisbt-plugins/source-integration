@@ -19,6 +19,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	const ERROR_SVN_RUN = 'svn_run';
 	const ERROR_SVN_CMD = 'svn_cmd';
 
+	public $type = 'svn';
+
+	public $configuration = true;
+
 	public function config() {
 		return array(
 			'svnpath' => '',
@@ -41,10 +45,6 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 		return array_merge( parent::errors(), $t_errors );
 	}
-
-	public $type = 'svn';
-
-	public $configuration = true;
 
 	public function show_type() {
 		return plugin_lang_get( 'svn' );

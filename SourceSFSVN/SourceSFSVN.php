@@ -13,13 +13,13 @@ class SourceSFSVNPlugin extends SourceSVNPlugin {
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 	const SOURCESVN_VERSION_REQUIRED = '2.0.0';
 
+	public $type = 'sfsvn';
+
 	public function register() {
 		parent::register();
 
 		$this->requires['SourceSVN'] = self::SOURCESVN_VERSION_REQUIRED;
 	}
-
-	public $type = 'sfsvn';
 
 	public function show_type() {
 		return lang_get( 'plugin_SourceSFSVN_svn' );
