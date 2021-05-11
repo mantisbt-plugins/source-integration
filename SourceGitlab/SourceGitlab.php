@@ -15,7 +15,7 @@ require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '2.0.4';
+	const PLUGIN_VERSION = '2.0.5';
 	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
 
 	public $type = 'gitlab';
@@ -236,7 +236,7 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 		}
 
 		$t_data = json_decode( $f_payload, true );
-		if( is_null( $t_data ) ) {
+		if( is_null( $t_data ) || !isset( $t_data['project_id'] )) {
 			return null;
 		}
 
