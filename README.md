@@ -2,10 +2,10 @@
 
 [![Gitter](https://img.shields.io/gitter/room/mantisbt-plugins/source-integration.svg)](https://gitter.im/mantisbt-plugins/source-integration)
 
-Copyright (c) 2008 - 2012  John Reese - http://noswap.com  
+Copyright (c) 2008 - 2012  John Reese - https://noswap.com  
 Copyright (c) 2012 - 2020  MantisBT Team - mantisbt-dev@lists.sourceforge.net
 
-Released under the [MIT license](http://opensource.org/licenses/MIT)
+Released under the [MIT license](https://opensource.org/licenses/MIT)
 
 
 ## Description
@@ -17,14 +17,14 @@ It has many features already, such as importing repository history and
 optional support for remote check-ins or imports, and utilizes a
 class-based API to access objects in the database.
 
-Initial support is included for [Subversion](http://subversion.apache.org/)
-and [Git](http://git-scm.com/) repositories using the following extension
+Initial support is included for [Subversion](https://subversion.apache.org/)
+and [Git](https://git-scm.com/) repositories using the following extension
 plugins:
 
-* **SourceBitBucket**: Git repositories hosted on [BitBucket](http://bitbucket.org/).
+* **SourceBitBucket**: Git repositories hosted on [BitBucket](https://bitbucket.org/).
 * **SourceCgit**: Git repositories accessible via a
-  [cgit](http://hjemli.net/git/cgit/) web frontend installation.
-* **SourceGithub**: Git repositories hosted on [GitHub](http://github.com/).
+  [cgit](https://git.zx2c4.com/cgit/about/) web frontend installation.
+* **SourceGithub**: Git repositories hosted on [GitHub](https://github.com/).
 * **SourceGitlab**: Git repositories hosted on [GitLab](https://about.gitlab.com/).
 * **SourceAzureDevOps**: Git repositories hosted on [Azure DevOps Services Repos](https://azure.microsoft.com/en-us/services/devops/).
 * **SourceGitphp**: Git repositories accessible via a
@@ -33,10 +33,10 @@ plugins:
   [GitWeb](https://git.wiki.kernel.org/index.php/Gitweb) web frontend
   installation.
 * **SourceHgWeb**: Mercurial repositories accessible via a
-  [HgWeb](http://mercurial.selenic.com/wiki/PublishingRepositories#hgweb)
+  [HgWeb](https://www.mercurial-scm.org/wiki/PublishingRepositories#hgweb)
   frontend installation.
 * **SourceSFSVN**: SVN repositories hosted on
-  [SourceForge](http://sourceforge.net/).
+  [SourceForge](https://sourceforge.net/).
 * **SourceSVN**: SVN repositories locally accessible by the SVN binaries.
 * **SourceViewVC**: SVN repositories accessible via a
   [ViewVC](http://www.viewvc.org/) web frontend installation.
@@ -44,7 +44,7 @@ plugins:
   [VisualSVN Server](https://www.visualsvn.com/server/) installation,
   with support for URL linking from MantisBT to VisualSVN Server's built-in web frontend.
 * **SourceWebSVN**: SVN repositories accessible via a
-  [WebSVN](http://www.websvn.info/) web frontend installation.
+  [WebSVN](https://websvnphp.github.io/) web frontend installation.
 
 Support for additional source control tools should be rather
 straightforward to implement due to the flexibility inherent in the
@@ -52,7 +52,7 @@ integration framework and API.
 
 ## Requirements
 
-The Source Integration framework requires **[MantisBT](http://www.mantisbt.org/)
+The Source Integration framework requires **[MantisBT](https://mantisbt.org/)
 version 2.21.0** or higher.
 
 ### VCS plugins
@@ -60,8 +60,8 @@ version 2.21.0** or higher.
 Some VCS plugins have additional, specific requirements:
 
 - **SourceBitBucket** requires the 
-  [PHP Curl extension](http://php.net/book.curl), or the ability to execute  
-  system calls (via [shell_exec](http://php.net/function.shell-exec)).
+  [PHP Curl extension](https://www.php.net/book.curl), or the ability to execute  
+  system calls (via [shell_exec](https://www.php.net/function.shell-exec)).
 
 
 ## Installation
@@ -69,7 +69,7 @@ Some VCS plugins have additional, specific requirements:
 ### Compatibility
 
 The Source Integration framework's version numbering follows
-[Semantic Versioning](http://semver.org/). Major version increments indicate a
+[Semantic Versioning](https://semver.org/). Major version increments indicate a
 change in the minimum required MantisBT version.
 
 See the [Change log](docs/CHANGELOG.md) for detailed revision history.
@@ -170,7 +170,7 @@ The following support channels are available if you wish to file a
 [bug report](https://github.com/mantisbt-plugins/source-integration/issues/new),
 or have questions related to use and installation:
 
-  - [GitHub issues tracker](http://github.com/mantisbt-plugins/source-integration/issues)
+  - [GitHub issues tracker](https://github.com/mantisbt-plugins/source-integration/issues)
   - [Gitter chat room](https://gitter.im/mantisbt-plugins/source-integration)
   - If you feel lucky you may also want to try the legacy
     [#mantisbt IRC channel](https://webchat.freenode.net/?channels=%23mantisbt)
@@ -183,5 +183,5 @@ VCS integration plugins) are welcome and highly encouraged, preferably as a
 
 The latest source code is available on
 [GitHub](https://github.com/mantisbt-plugins/source-integration);
-John Reese's original project documentation can be found on his web site,
-[noswap.com](http://noswap.com/projects/source-integration/).
+John Reese's original project documentation can be found on his website,
+[noswap.com](https://noswap.com/projects/source-integration/).

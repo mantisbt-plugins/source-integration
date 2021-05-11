@@ -4,7 +4,7 @@
 
 The **SourceGithub** extension plugin adds support for both public & private as
 well as personal & organization Git repositories hosted on
-[GitHub](http://github.com/).
+[GitHub](https://github.com/).
 
 
 ## Requirements
@@ -180,7 +180,7 @@ This step will perform an initial import of the repository's changesets.
 **NOTE:** This may take a long time or even fail for large repositories.
 Failures are generally caused by timeouts on the PHP or web server side, as
 the maximum time allowed to execute a script is reached
-(see [max_execution_time](http://www.php.net/manual/en/info.configuration.php#ini.max-execution-time)).
+(see [max_execution_time](https://www.php.net/manual/en/info.configuration.php#ini.max-execution-time)).
 The Source Integration plugin does not handle this well; this is a
 [known issue](https://github.com/mantisbt-plugins/source-integration/issues/60),
 but unfortunately there are currently no workarounds.

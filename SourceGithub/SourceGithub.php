@@ -226,7 +226,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			$t_ref = "/tree/$p_changeset->revision";
 		}
 
-		return "http://github.com/$t_username/$t_reponame$t_ref";
+		return "https://github.com/$t_username/$t_reponame$t_ref";
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
@@ -234,7 +234,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = $p_changeset->revision;
 
-		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
+		return "https://github.com/$t_username/$t_reponame/commit/$t_ref";
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
@@ -243,7 +243,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_ref = $p_changeset->revision;
 		$t_filename = $p_file->filename;
 
-		return "http://github.com/$t_username/$t_reponame/tree/$t_ref/$t_filename";
+		return "https://github.com/$t_username/$t_reponame/tree/$t_ref/$t_filename";
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
@@ -251,7 +251,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = $p_changeset->revision;
 
-		return "http://github.com/$t_username/$t_reponame/commit/$t_ref";
+		return "https://github.com/$t_username/$t_reponame/commit/$t_ref";
 	}
 
 	public function update_repo_form( $p_repo ) {
