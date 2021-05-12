@@ -9,8 +9,7 @@ well as personal & organization Git repositories hosted on
 
 ## Requirements
 
-The **SourceGithub** plugin requires MantisBT version 2.5.0 or later. See the
-[README](../README.md#requirements) for further information.
+See the [README](../README.md#requirements) file.
 
 Ensure both the **Source** and **SourceGithub** plugins are properly installed.
 See the [README](../README.md#installation) for overall instructions.
