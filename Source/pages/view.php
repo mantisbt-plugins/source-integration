@@ -185,7 +185,7 @@ layout_page_begin();
 <?php
 $t_first = true;
 $t_user_id = auth_get_current_user_id();
-$t_security_token = form_security_token( 'plugin_Source_detach' );
+$t_security_token = form_security_param( 'plugin_Source_detach' );
 
 foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
 	$t_color_class = html_get_status_css_fg(
@@ -213,12 +213,11 @@ foreach ( $t_bug_rows as $t_bug_id => $t_bug_row ) {
 </td>
 <?php if ( $t_can_update ) { ?>
 <td class="center"><?php
-	print_form_button(
-		plugin_page( 'detach' ),
-		plugin_lang_get( 'detach' ),
-		array( 'id' => $t_changeset->id, 'bug_id' => $t_bug_id),
-		$t_security_token,
-		'btn btn-round btn-white btn-primary btn-sm'
+	$t_param = array( 'id' => $t_changeset->id, 'bug_id' => $t_bug_id);
+	print_small_button(
+		plugin_page( 'detach' )
+		. '&' . http_build_query( $t_param ) . $t_security_token,
+		plugin_lang_get( 'detach' )
 	) ?>
 </td>
 <?php } ?>
