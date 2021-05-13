@@ -119,6 +119,9 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 	</td>
 	<td>
 		<input type="text" id="hub_root" name="hub_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_root ) ?>"/>
+<?php if( !filter_var( $t_hub_root, FILTER_VALIDATE_URL ) ) { ?>
+		<i class="fa fa-warning ace-icon fa-lg red"></i>
+<?php } ?>
 	</td>
 </tr>
 <tr>
@@ -293,6 +296,18 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 
 		$t_member = null;
 		$t_json = json_url( $t_uri, $t_member );
+		if( $t_json === null ) {
+			echo "Could not retrieve data from GitLab at '$t_uri'. Make sure your ";
+			print_link(
+				plugin_page( 'repo_update_page', null, 'Source' )
+				. "&id=$p_repo->id",
+				'repository settings'
+			);
+			echo " are correct.";
+			echo '</pre>';
+			return array();
+		}
+
 		$t_branches = array();
 		foreach( $t_json as $t_branch ) {
 			if( empty( $t_branches_allowed ) || in_array( $t_branch->name, $t_branches_allowed ) ) {
