@@ -165,7 +165,9 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 		$f_hub_app_secret = gpc_get_string( 'hub_app_secret' );
 
 		# Clear the repoid if reponame has changed
-		if( $p_repo->info['hub_reponame'] != $f_hub_reponame ) {
+		if( array_key_exists( 'hub_reponame', $p_repo->info )
+			&& $p_repo->info['hub_reponame'] != $f_hub_reponame
+		) {
 			$f_hub_repoid = null;
 		} else {
 			$f_hub_repoid = gpc_get_string( 'hub_repoid' );
