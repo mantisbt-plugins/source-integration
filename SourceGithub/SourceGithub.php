@@ -294,11 +294,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 ?>
 
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="hub_username">
 			<?php echo plugin_lang_get( 'hub_username' ) ?>
 		</label>
-	</td>
+	</th>
 	<td>
 		<input id="hub_username" name="hub_username"
 			   type="text" maxlength="250" size="40"
@@ -308,11 +308,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 </tr>
 
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="hub_reponame">
 			<?php echo plugin_lang_get( 'hub_reponame' ) ?>
 		</label>
-	</td>
+	</th>
 	<td>
 		<input id="hub_reponame" name="hub_reponame"
 			   type="text" maxlength="250" size="40"
@@ -323,11 +323,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="hub_app_client_id">
 			<?php echo plugin_lang_get( 'hub_app_client_id' ) ?>
 		</label>
-	</td>
+	</th>
 	<td>
 		<input name="hub_app_client_id" id="hub_app_client_id"
 			   type="text" maxlength="250" size="40"
@@ -338,11 +338,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 </tr>
 
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="hub_app_secret">
 			<?php echo plugin_lang_get( 'hub_app_secret' ) ?>
 		</label>
-	</td>
+	</th>
 	<td>
 		<input name="hub_app_secret" id="hub_app_secret"
 			   type="text" maxlength="250" size="40"
@@ -353,7 +353,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 </tr>
 
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></td>
+	<th class="category"><?php echo plugin_lang_get( 'hub_app_access_token' ) ?></th>
 	<td>
 		<div id="id_secret_missing" class="hidden">
 			<?php echo plugin_lang_get( 'hub_app_client_id_secret_missing' ); ?>
@@ -386,11 +386,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 </tr>
 
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="hub_webhook_secret">
 			<?php echo plugin_lang_get( 'hub_webhook_secret' ) ?>
 		</label>
-	</td>
+	</th>
 	<td>
 		<input id="hub_webhook_secret" name="hub_webhook_secret"
 			   type="text" maxlength="250" size="40"
@@ -412,11 +412,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 </tr>
 
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="master_branch">
 			<?php echo plugin_lang_get( 'master_branch' ) ?>
 		</label>
-	</td>
+	</th>
 	<td>
 		<input id="master_branch" name="master_branch"
 			   type="text" maxlength="250" size="40"
