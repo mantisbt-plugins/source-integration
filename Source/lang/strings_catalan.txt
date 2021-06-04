@@ -101,7 +101,7 @@ $s_plugin_Source_menu_links = 'Enllaços al menú principal';
 $s_plugin_Source_show_repo_link = 'Repositoris';
 $s_plugin_Source_show_search_link = 'Cercar en repositoris';
 $s_plugin_Source_show_repo_stats = 'Estadístiques de repositori';
-$s_plugin_Source_show_file_stats = 'Estadístiques de fitxers <span class="small" (pot ser lent als dipòsits grans)</span>";
+$s_plugin_Source_show_file_stats = 'Estadístiques de fitxers <span class="small" (pot ser lent als dipòsits grans)</span>';
 $s_plugin_Source_enabled_features = 'Característiques habilitades';
 $s_plugin_Source_enable_linking = 'Enllaç a canvis <span class="small">([sv]:&lt;reponame&gt;:&lt;revision&gt;:)</span>';
 $s_plugin_Source_enable_mapping = 'Mapeig de branques';
