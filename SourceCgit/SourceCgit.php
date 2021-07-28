@@ -238,7 +238,8 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 	 * @return string the revision
 	 */
 	public function commit_revision( $p_input ) {
-		preg_match( "#<tr><th>commit</th><td colspan='2' class='sha1'><a href='/(.*?)/commit/\?id=([a-f0-9]*)'>([a-f0-9]*)</a>#", $p_input, $t_matches);
+        $pattern = '#<tr><th>commit</th><td colspan=\'2\' class=\'oid\'><a href=\'/(.*?)/commit/\?id=([a-f0-9]*)\'>([a-f0-9]*)</a>#';
+        preg_match($pattern, $p_input, $t_matches);
 		return $t_matches[2];
 	}
 
