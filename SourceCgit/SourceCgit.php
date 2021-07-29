@@ -238,8 +238,8 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 	 * @return string the revision
 	 */
 	public function commit_revision( $p_input ) {
-        $pattern = '#<tr><th>commit</th><td colspan=\'2\' class=\'oid\'><a href=\'/(.*?)/commit/\?id=([a-f0-9]*)\'>([a-f0-9]*)</a>#';
-        preg_match($pattern, $p_input, $t_matches);
+		$patter = '#<tr><th>commit</th><td colspan=\'2\' class=\'oid\'><a href=\'/(.*?)/commit/\?id=([a-f0-9]*)\'>([a-f0-9]*)</a>#';
+		preg_match($patter, $p_input, $t_matches);
 		return $t_matches[2];
 	}
 
@@ -250,14 +250,14 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 	 * @return array author / committer
 	 */
 	public function commit_author( $p_input ) {
-		preg_match( "#<tr><th>author</th><td>(.*?)<(.*?)></td><td class='right'>(.*?)</td>#", $p_input, $t_matches);
-		$t_commit['author'] = trim($t_matches[1]);
-		$t_commit['author_email'] = $t_matches[2];
-		$t_commit['date'] = date( 'Y-m-d H:i:s', strtotime( $t_matches[3] ) );
+		preg_match( "#<tr><th>author</th><td>(.*?</span>|.*?)(.*?) <(.*?@.*?)></td><td class='right'>(.*?)</td>#", $p_input, $t_matches);
+		$t_commit['author'] = trim($t_matches[2]);
+		$t_commit['author_email'] = $t_matches[3];
+		$t_commit['date'] = date( 'Y-m-d H:i:s', strtotime( $t_matches[4] ) );
 
-		if( preg_match( "#<tr><th>committer</th><td>(.*?)<(.*?)></td><td class='right'>(.*?)</td>#", $p_input, $t_matches) ) {
-			$t_commit['committer'] = trim($t_matches[1]);
-			$t_commit['committer_email'] = $t_matches[2];
+		if (preg_match( "#<tr><th>committer</th><td>(.*?</span>|.*?)(.*?) <(.*?@.*?)></td><td class='right'>(.*?)</td>#", $p_input, $t_matches)) {
+			$t_commit['committer'] = trim($t_matches[2]);
+			$t_commit['committer_email'] = $t_matches[3];
 		}
 
 		return $t_commit;
