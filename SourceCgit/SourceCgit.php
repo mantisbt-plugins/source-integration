@@ -250,13 +250,15 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 	 * @return array author / committer
 	 */
 	public function commit_author( $p_input ) {
-		preg_match( "#<tr><th>author</th><td>(.*?)<(.*?)></td><td class='right'>(.*?)</td>#", $p_input, $t_matches);
-		$t_commit['author'] = trim($t_matches[1]);
+		$pattern = "<td>(?:.*?</span>)?(.*?) <(.*?@.*?)></td><td class='right'>(.*?)</td>#";
+
+		preg_match( "#<tr><th>author</th>" . $pattern, $p_input, $t_matches );
+		$t_commit['author'] = trim( $t_matches[1] );
 		$t_commit['author_email'] = $t_matches[2];
 		$t_commit['date'] = date( 'Y-m-d H:i:s', strtotime( $t_matches[3] ) );
 
-		if( preg_match( "#<tr><th>committer</th><td>(.*?)<(.*?)></td><td class='right'>(.*?)</td>#", $p_input, $t_matches) ) {
-			$t_commit['committer'] = trim($t_matches[1]);
+		if( preg_match( "#<tr><th>committer</th>" . $pattern, $p_input, $t_matches ) ) {
+			$t_commit['committer'] = trim( $t_matches[1] );
 			$t_commit['committer_email'] = $t_matches[2];
 		}
 
