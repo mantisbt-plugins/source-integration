@@ -12,7 +12,7 @@ require_once(config_get( 'core_path' ) . 'json_api.php');
 class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
 	const PLUGIN_VERSION = '2.1.0';
-	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
+	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	protected $main_url = "https://bitbucket.org/";
 	protected $api_url = 'https://bitbucket.org/api/2.0/';
@@ -151,10 +151,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		$f_bit_reponame  = gpc_get_string( 'bit_reponame' );
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
-		if( !preg_match( '/\*|^[a-zA-Z0-9_\., -]*$/', $f_master_branch ) ) {
-			echo 'Invalid parameter: \'Primary Branch\'';
-			trigger_error( ERROR_GENERIC, ERROR );
-		}
+		$this->validate_branch_list( $f_master_branch );
 
 		$p_repo->info['bit_basic_login'] = $f_basic_login;
 		$p_repo->info['bit_basic_pwd']   = $f_basic_pwd;
