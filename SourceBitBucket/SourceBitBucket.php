@@ -293,6 +293,20 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 			$s_parents[] = $p_commit_ids;
 		}
 
+		// If branch name contains a '/', lookup its target commit
+		// Workaround for https://jira.atlassian.com/browse/BCLOUD-9969
+		// https://github.com/mantisbt-plugins/source-integration/issues/376
+		foreach( $s_parents as &$t_branch ) {
+			if( strpos( $t_branch, '/' ) !== false ) {
+				echo "Looking up target commit for $t_branch ... ";
+				$t_url  = $this->api_url( "repositories/$t_username/$t_reponame/refs/branches/$t_branch" );
+				$t_json = $this->api_json_url( $p_repo, $t_url );
+				if( false !== $t_json ) {
+					$t_branch = $t_json->target->hash;
+				}
+			}
+		}
+
 		$t_changesets = array();
 
 		while( count( $s_parents ) > 0 && $s_counter < 200 ) {
