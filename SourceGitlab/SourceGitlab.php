@@ -400,7 +400,7 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 				$p_repo->id,
 				$p_json->id,
 				$p_branch,
-				date( 'Y-m-d H:i:s', strtotime( $p_json->created_at ) ),
+				$p_json->created_at,
 				$p_json->author_name,
 				$t_message
 			);

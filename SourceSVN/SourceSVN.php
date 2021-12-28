@@ -485,18 +485,16 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		# parse XML
 		$t_xml = new SimpleXMLElement($p_svnlog_xml);
 
-		# timezone for conversions in loca
-		$t_utc = new DateTimeZone('UTC');
-		$t_localtz = new DateTimeZone( date_default_timezone_get() );
-
 		foreach( $t_xml->logentry as $t_entry ) {
-			# time conversion to local time
-			$t_date = new DateTime( $t_entry->date, $t_utc );
-			$t_date->setTimeZone($t_localtz);
-
 			# create the changeset
-			$t_str_date = $t_date->format('Y-m-d H:i:s');
-			$t_changeset = new SourceChangeset( $p_repo->id, (integer)$t_entry['revision'], '', $t_str_date, (string)$t_entry->author, '');
+			$t_changeset = new SourceChangeset(
+				$p_repo->id,
+				(int)$t_entry['revision'],
+				'',
+				$t_entry->date,
+				(string)$t_entry->author,
+				''
+			);
 
 			# files
 			if(isset($t_entry->paths->path)){

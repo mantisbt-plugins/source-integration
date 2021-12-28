@@ -52,7 +52,8 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 		)
 	?></p>
 	<p class="no-margin small lighter">
-		<i class="fa fa-clock-o grey"></i> <?php echo string_display_line( $t_changeset->timestamp ) ?>
+		<i class="fa fa-clock-o grey"></i>
+		<?php echo string_display_line( $t_changeset->getLocalTimestamp() ) ?>
 	</p>
 	<p class="no-margin lighter">
 		<i class="fa fa-user grey"></i> <?php echo $t_author ?>

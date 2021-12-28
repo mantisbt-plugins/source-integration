@@ -108,7 +108,7 @@ layout_page_begin();
 <td class="center"><?php Source_View_Author( $t_changeset ) ?></td>
 <td class="center"><?php Source_View_Committer( $t_changeset ) ?></td>
 <td class="center"><?php echo string_display_line( $t_changeset->branch ) ?></td>
-<td class="center"><?php echo string_display_line( $t_changeset->timestamp ) ?></td>
+<td class="center"><?php echo string_display_line( $t_changeset->getLocalTimestamp() ) ?></td>
 
 <td class="center"><?php
 	if ( $t_changeset_parent ) {

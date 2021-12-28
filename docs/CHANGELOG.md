@@ -33,6 +33,8 @@ specification.
 
 ### Fixed
 
+- Store Changeset timestamp as UTC and display in user's timezone
+  [#317](https://github.com/mantisbt-plugins/source-integration/issues/317)
 - Replace deprecated html_get_status_css_class() function
   [#350](https://github.com/mantisbt-plugins/source-integration/issues/350)
 - GitHub: prevent creating Webhook if secret changed
