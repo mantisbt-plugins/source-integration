@@ -7,8 +7,6 @@ if( false === include_once(config_get( 'plugin_path' ) . 'Source/MantisSourceGit
 	return;
 }
 
-require_once(config_get( 'core_path' ) . 'json_api.php');
-
 class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
 	const PLUGIN_VERSION = '2.1.0';
@@ -106,28 +104,51 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		}
 		?>
 		<tr>
-			<td class="category"><?php echo plugin_lang_get( 'bit_basic_login' ) ?></td>
+			<td class="category">
+				<label for="bit_basic_login">
+					<?php echo plugin_lang_get( 'bit_basic_login' ) ?>
+				</label>
+			</td>
+
 			<td>
-				<input type="text" name="bit_basic_login" maxlength="250" size="40"
+				<input id="bit_basic_login" name="bit_basic_login"
+					   type="text" maxlength="250" size="40"
 					   value="<?php echo string_attribute( $t_bit_basic_login ) ?>"/>
 			</td>
 		</tr>
 		<tr>
-			<td class="category"><?php echo plugin_lang_get( 'bit_basic_pwd' ) ?></td>
-			<td><input type="text" type="password" name="bit_basic_pwd" maxlength="250" size="40"
-					   value="<?php echo string_attribute( $t_bit_basic_pwd ) ?>"/></td>
+			<td class="category">
+				<label for="bit_basic_pwd">
+					<?php echo plugin_lang_get( 'bit_basic_pwd' ) ?>
+				</label>
+			</td>
+			<td>
+				<input id="bit_basic_pwd" name="bit_basic_pwd"
+					   type="password" maxlength="250" size="40"
+					   value="<?php echo string_attribute( $t_bit_basic_pwd ) ?>"/>
+			</td>
 		</tr>
 		<tr>
-			<td class="category"><?php echo plugin_lang_get( 'bit_username' ) ?></td>
+			<td class="category">
+				<label for="bit_username">
+					<?php echo plugin_lang_get( 'bit_username' ) ?>
+				</label>
+			</td>
 			<td>
-				<input type="text" name="bit_username" maxlength="250" size="40"
+				<input id="bit_username" name="bit_username"
+					   type="text" maxlength="250" size="40"
 					   value="<?php echo string_attribute( $t_bit_username ) ?>"/>
 			</td>
 		</tr>
 		<tr>
-			<td class="category"><?php echo plugin_lang_get( 'bit_reponame' ) ?></td>
+			<td class="category">
+				<label for="bit_reponame">
+					<?php echo plugin_lang_get( 'bit_reponame' ) ?>
+				</label>
+			</td>
 			<td>
-				<input type="text" name="bit_reponame" maxlength="250" size="40"
+				<input id="bit_reponame" name="bit_reponame"
+					   type="text" maxlength="250" size="40"
 					   value="<?php echo string_attribute( $t_bit_reponame ) ?>"/>
 			</td>
 		</tr>
@@ -135,9 +156,14 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 			<td class="spacer"></td>
 		</tr>
 		<tr>
-			<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
+			<td class="category">
+				<label for="master_branch">
+					<?php echo plugin_lang_get( 'master_branch' ) ?>
+				</label>
+			</td>
 			<td>
-				<input type="text" name="master_branch" maxlength="250" size="40"
+				<input id="master_branch" name="master_branch"
+					   type="text" maxlength="250" size="40"
 					   value="<?php echo string_attribute( $t_master_branch ) ?>"/>
 			</td>
 		</tr>
@@ -168,8 +194,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
 	private function api_json_url( $p_repo, $p_url ) {
 		$t_data = $this->url_get( $p_repo, $p_url );
-		$t_json = json_decode( utf8_encode( $t_data ) );
-		return $t_json;
+		return json_decode( utf8_encode( $t_data ) );
 	}
 
 	private function api_json_url_values( $p_repo, $p_url ) {
@@ -189,9 +214,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		return $values;
 	}
 
-	public function precommit() {
-		return;
-	}
+	public function precommit() {}
 
 	public function commit( $p_repo, $p_data ) {
 		$t_commits = array();
@@ -249,9 +272,16 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 					$t_commits[] = $t_parent;
 				}
 			}
-			if( $p_use_cache ) foreach ( $t_commits as $t_commit_id ) $this->load_all_commits( $p_repo, $t_commit_id );
+			if( $p_use_cache ) {
+				foreach ( $t_commits as $t_commit_id ) {
+					$this->load_all_commits( $p_repo, $t_commit_id );
+				}
+			}
 
-			$t_changesets = array_merge( $t_changesets, $this->import_commits( $p_repo, $t_commits, $t_branch ) );
+			$t_changesets = array_merge(
+					$t_changesets,
+					$this->import_commits( $p_repo, $t_commits, $t_branch )
+				);
 		}
 
 		echo '</pre>';
@@ -269,7 +299,9 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		$t_username = $p_repo->info['bit_username'];
 		$t_reponame = $p_repo->info['bit_reponame'];
 
-		$t_url  = empty($p_next) ? $this->api_url( "repositories/$t_username/$t_reponame/commits/$p_commit_id" ) : $p_next;
+		$t_url  = empty($p_next)
+			? $this->api_url( "repositories/$t_username/$t_reponame/commits/$p_commit_id" )
+			: $p_next;
 		$t_json = $this->api_json_url( $p_repo, $t_url );
 
 		if( property_exists( $t_json, 'values' ) ) {
@@ -277,7 +309,9 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 				$this->commits_cache[$t_item->hash] = $t_item;
 			}
 		}
-		if( property_exists( $t_json, 'next' ) ) $this->load_all_commits( $p_repo, $p_commit_id, $t_json->next );
+		if( property_exists( $t_json, 'next' ) ) {
+			$this->load_all_commits( $p_repo, $p_commit_id, $t_json->next );
+		}
 	}
 
 	public function import_commits( $p_repo, $p_commit_ids, $p_branch = '' ) {
