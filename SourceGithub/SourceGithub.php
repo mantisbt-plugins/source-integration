@@ -345,7 +345,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	</th>
 	<td>
 		<input name="hub_app_secret" id="hub_app_secret"
-			   type="text" maxlength="250" size="40"
+			   type="password" maxlength="250" size="40"
 			   value="<?php echo string_attribute( $t_hub_app_secret ) ?>"
 			   data-original="<?php echo string_attribute( $t_hub_app_secret ) ?>"
 		/>
@@ -393,7 +393,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	</th>
 	<td>
 		<input id="hub_webhook_secret" name="hub_webhook_secret"
-			   type="text" maxlength="250" size="40"
+			   type="password" maxlength="250" size="40"
 			   value="<?php echo string_attribute( $t_hub_webhook_secret ) ?>"
 			   data-changed="<?php echo plugin_lang_get( 'webhook_secret_changed' ) ?>"
 		/>

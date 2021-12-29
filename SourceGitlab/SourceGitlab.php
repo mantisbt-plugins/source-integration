@@ -166,7 +166,7 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 	</th>
 	<td>
 		<input id="hub_app_secret" name="hub_app_secret"
-			   type="text" maxlength="250" size="40"
+			   type="password" maxlength="250" size="40"
 			   value="<?php echo string_attribute( $t_hub_app_secret ) ?>"
 		/>
 	</td>

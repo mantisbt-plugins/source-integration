@@ -78,6 +78,15 @@ function convert_to_key_value( $p_array ) {
 		} else {
 			if( is_array( $t_value ) ) {
 				$t_value = var_export( $t_value, true );
+			} else {
+				// Hide data from fields holding sensitive information
+				$t_sensitive_fields = array( 'password', 'pwd', 'secret', 'token');
+				foreach( $t_sensitive_fields as $t_string ) {
+					if( strpos( $t_key, $t_string ) !== false ) {
+						$t_value = str_repeat( '&bull;', strlen( $t_value ) );
+						break;
+					}
+				}
 			}
 			$t_value = string_display_line( $t_value );
 		}

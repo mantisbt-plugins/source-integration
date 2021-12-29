@@ -136,7 +136,7 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 	</th>
 	<td>
 		<input id="gitweb_pass" name="gitweb_pass"
-			   type="text" maxlength="250" size="40"
+			   type="password" maxlength="250" size="40"
 			   value="<?php echo string_attribute( $t_gitweb_pass ) ?>"/>
 	</td>
 </tr>

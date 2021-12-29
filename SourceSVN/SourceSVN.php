@@ -93,7 +93,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 	</th>
 	<td>
 		<input id="svn_password" name="svn_password"
-			   type="text" maxlength="250" size="40"
+			   type="password" maxlength="250" size="40"
 			   value="<?php echo string_attribute( $t_svn_password ) ?>"
 		/>
 	</td>
