@@ -93,33 +93,63 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 		}
 ?>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'gitweb_root' ) ?></td>
+	<th class="category">
+		<label for="gitweb_root">
+			<?php echo plugin_lang_get( 'gitweb_root' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" name="gitweb_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_root ) ?>"/>
+		<input id="gitweb_root" name="gitweb_root"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_gitweb_root ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'gitweb_project' ) ?></td>
+	<th class="category">
+		<label for="gitweb_project">
+			<?php echo plugin_lang_get( 'gitweb_project' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" name="gitweb_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_project ) ?>"/>
+		<input id="gitweb_project" name="gitweb_project"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_gitweb_project ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'gitweb_user' ) ?></td>
+	<th class="category">
+		<label for="gitweb_user">
+			<?php echo plugin_lang_get( 'gitweb_user' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" name="gitweb_user" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_user ) ?>"/>
+		<input id="gitweb_user" name="gitweb_user"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_gitweb_user ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'gitweb_pass' ) ?></td>
+	<th class="category">
+		<label for="gitweb_pass">
+			<?php echo plugin_lang_get( 'gitweb_pass' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" name="gitweb_pass" maxlength="250" size="40" value="<?php echo string_attribute( $t_gitweb_pass ) ?>"/>
+		<input id="gitweb_pass" name="gitweb_pass"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_gitweb_pass ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
+	<th class="category">
+		<label for="master_branch">
+			<?php echo plugin_lang_get( 'master_branch' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+		<input id="master_branch" name="master_branch"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_master_branch ) ?>"/>
 	</td>
 </tr>
 <?php
@@ -163,7 +193,7 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 		$t_branches = explode(',', $p_repo->info['master_branch']);
 		if (!in_array('*', $t_branches) and !in_array($t_branch, $t_branches))
 		{
-			return;
+			return array();
 		}
 
 		return $this->import_commits($p_repo, null, $t_commit_id, $t_branch);
@@ -211,7 +241,7 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 		foreach( $t_branches as $t_branch ) {
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
-				' ORDER BY timestamp ASC';
+				' ORDER BY timestamp';
 			$t_result = db_query( $t_query, array( $p_repo->id, $t_branch ), 1 );
 
 			$t_commits = array( $t_branch );

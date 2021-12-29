@@ -114,49 +114,72 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 		}
 ?>
 <tr>
-	<td class="category">
-		<label for="hub_root"><?php echo plugin_lang_get( 'hub_root' ) ?></label>
-	</td>
+	<th class="category">
+		<label for="hub_root">
+			<?php echo plugin_lang_get( 'hub_root' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" id="hub_root" name="hub_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_root ) ?>"/>
+		<input id="hub_root" name="hub_root"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_root ) ?>"
+		/>
 <?php if( !filter_var( $t_hub_root, FILTER_VALIDATE_URL ) ) { ?>
 		<i class="fa fa-warning ace-icon fa-lg red"></i>
 <?php } ?>
 	</td>
 </tr>
 <tr>
-	<td class="category">
-		<label for="hub_repoid"><?php echo plugin_lang_get( 'hub_repoid' ) ?></label>
-	</td>
+	<th class="category">
+		<label for="hub_repoid">
+			<?php echo plugin_lang_get( 'hub_repoid' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" id="hub_repoid" name="hub_repoid" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_repoid ) ?>"/>
+		<input id="hub_repoid" name="hub_repoid"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_repoid ) ?>"
+		/>
 <?php if( !is_numeric( $t_hub_repoid ) ) { ?>
 		<i class="fa fa-warning ace-icon fa-lg red"></i>
 <?php } ?>
 	</td>
 </tr>
 <tr>
-	<td class="category">
-		<label for="hub_reponame"><?php echo plugin_lang_get( 'hub_reponame' ) ?></label>
-	</td>
+	<th class="category">
+		<label for="hub_reponame">
+			<?php echo plugin_lang_get( 'hub_reponame' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" id="hub_reponame" name="hub_reponame" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_reponame ) ?>"/>
+		<input id="hub_reponame" name="hub_reponame"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_reponame ) ?>"
+		/>
 	</td>
 </tr>
 <tr>
-	<td class="category">
-		<label for="hub_app_secret"><?php echo plugin_lang_get( 'hub_app_secret' ) ?></label>
-	</td>
+	<th class="category">
+		<label for="hub_app_secret">
+			<?php echo plugin_lang_get( 'hub_app_secret' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" id="hub_app_secret" name="hub_app_secret" maxlength="250" size="40" value="<?php echo string_attribute( $t_hub_app_secret ) ?>"/>
+		<input id="hub_app_secret" name="hub_app_secret"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_hub_app_secret ) ?>"
+		/>
 	</td>
 </tr>
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="master_branch"><?php echo plugin_lang_get( 'master_branch' ) ?></label>
-	</td>
+	</th>
 	<td>
-		<input type="text" id="master_branch" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+		<input id="master_branch" name="master_branch"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_master_branch ) ?>"
+		/>
 	</td>
 </tr>
 <?php

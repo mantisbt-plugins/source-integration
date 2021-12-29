@@ -104,11 +104,11 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		}
 		?>
 		<tr>
-			<td class="category">
-				<label for="bit_basic_login">
+			<th class="category">
+				<label for="bit_basic_login" class="category">
 					<?php echo plugin_lang_get( 'bit_basic_login' ) ?>
 				</label>
-			</td>
+			</th>
 
 			<td>
 				<input id="bit_basic_login" name="bit_basic_login"
@@ -117,11 +117,11 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 			</td>
 		</tr>
 		<tr>
-			<td class="category">
+			<th class="category">
 				<label for="bit_basic_pwd">
 					<?php echo plugin_lang_get( 'bit_basic_pwd' ) ?>
 				</label>
-			</td>
+			</th>
 			<td>
 				<input id="bit_basic_pwd" name="bit_basic_pwd"
 					   type="password" maxlength="250" size="40"
@@ -129,11 +129,11 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 			</td>
 		</tr>
 		<tr>
-			<td class="category">
+			<th class="category">
 				<label for="bit_username">
 					<?php echo plugin_lang_get( 'bit_username' ) ?>
 				</label>
-			</td>
+			</th>
 			<td>
 				<input id="bit_username" name="bit_username"
 					   type="text" maxlength="250" size="40"
@@ -141,11 +141,11 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 			</td>
 		</tr>
 		<tr>
-			<td class="category">
+			<th class="category">
 				<label for="bit_reponame">
 					<?php echo plugin_lang_get( 'bit_reponame' ) ?>
 				</label>
-			</td>
+			</th>
 			<td>
 				<input id="bit_reponame" name="bit_reponame"
 					   type="text" maxlength="250" size="40"
@@ -156,11 +156,11 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 			<td class="spacer"></td>
 		</tr>
 		<tr>
-			<td class="category">
+			<th class="category">
 				<label for="master_branch">
 					<?php echo plugin_lang_get( 'master_branch' ) ?>
 				</label>
-			</td>
+			</th>
 			<td>
 				<input id="master_branch" name="master_branch"
 					   type="text" maxlength="250" size="40"

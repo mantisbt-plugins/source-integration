@@ -137,38 +137,66 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 
 ?>
 <tr>
-	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_url' ) ?></td>
+	<th class="category">
+		<label for="viewvc_url">
+			<?php echo lang_get( 'plugin_SourceViewVC_viewvc_url' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" name="viewvc_url" maxlength="250" size="40" value="<?php echo string_attribute( $t_url ) ?>"/>
+		<input id="viewvc_url"  name="viewvc_url"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_url ) ?>"
+		/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_name' ) ?></td>
+	<th class="category">
+		<label for="viewvc_name">
+			<?php echo lang_get( 'plugin_SourceViewVC_viewvc_name' ) ?>
+		</label>
+	</th>
 	<td>
-		<input type="text" name="viewvc_name" maxlength="250" size="40" value="<?php echo string_attribute( $t_name ) ?>"/>
+		<input id="viewvc_name" name="viewvc_name"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_name ) ?>"
+		/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_root_as_url' ) ?></td>
+	<th class="category">
+		<label for="viewvc_root_as_url">
+			<?php echo lang_get( 'plugin_SourceViewVC_viewvc_root_as_url' ) ?>
+		</label>
+	</th>
 	<td>
 		<label>
-			<input name="viewvc_root_as_url" type="checkbox" class="ace" <?php echo ($t_root_as_url ? 'checked="checked"' : '') ?>/>
+			<input id="viewvc_root_as_url" name="viewvc_root_as_url"
+				   type="checkbox" class="ace"
+				   <?php echo ($t_root_as_url ? 'checked="checked"' : '') ?>
+			/>
 			<span class="lbl"></span>
 		</label>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo lang_get( 'plugin_SourceViewVC_viewvc_use_checkout' ) ?></td>
+	<th class="category">
+		<label for="viewvc_use_checkout">
+			<?php echo lang_get( 'plugin_SourceViewVC_viewvc_use_checkout' ) ?>
+		</label>
+	</th>
 	<td>
 		<label>
-			<input name="viewvc_use_checkout" type="checkbox" class="ace" <?php echo ($t_use_checkout ? 'checked="checked"' : '') ?>/>
+			<input id="viewvc_use_checkout" name="viewvc_use_checkout"
+				   type="checkbox" class="ace"
+				   <?php echo ($t_use_checkout ? 'checked="checked"' : '') ?>
+			/>
 			<span class="lbl"></span>
 		</label>
 	</td>
 </tr>
 <?php
 
-		return parent::update_repo_form( $p_repo );
+		parent::update_repo_form( $p_repo );
 	}
 
 	public function update_repo( $p_repo ) {
@@ -178,6 +206,6 @@ class SourceViewVCPlugin extends SourceSVNPlugin {
 		$p_repo->info['viewvc_use_checkout'] = gpc_get_bool( 'viewvc_use_checkout', false );
 		$p_repo->info['viewvc_root_as_url'] = gpc_get_bool( 'viewvc_root_as_url', false );
 
-		return parent::update_repo( $p_repo );
+		parent::update_repo( $p_repo );
 	}
 }

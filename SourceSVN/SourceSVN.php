@@ -77,63 +77,84 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 
 ?>
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="svn_username"><?php echo plugin_lang_get( 'svn_username' ) ?></label>
-	</td>
+	</th>
 	<td>
-		<input type="text" id="svn_username" name="svn_username" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_username ) ?>"/>
+		<input id="svn_username" name="svn_username"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_svn_username ) ?>"
+		/>
 	</td>
 </tr>
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="svn_password"><?php echo plugin_lang_get( 'svn_password' ) ?></label>
-	</td>
+	</th>
 	<td>
-		<input type="text" id="svn_password" name="svn_password" maxlength="250" size="40" value="<?php echo string_attribute( $t_svn_password ) ?>"/>
+		<input id="svn_password" name="svn_password"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_svn_password ) ?>"
+		/>
 	</td>
 </tr>
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="standard_repo"><?php echo plugin_lang_get( 'standard_repo' ) ?></label>
-	</td>
+	</th>
 	<td>
 		<label>
-			<input id="standard_repo" name="standard_repo" type="checkbox" class="ace" <?php echo ($t_standard_repo ? 'checked="checked"' : '') ?>/>
+			<input id="standard_repo" name="standard_repo"
+				   type="checkbox" class="ace"
+				   <?php echo ($t_standard_repo ? 'checked="checked"' : '') ?>
+			/>
 			<span class="lbl"></span>
 		</label>
 	</td>
 </tr>
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="trunk_path"><?php echo plugin_lang_get( 'trunk_path' ) ?></label>
-	</td>
+	</th>
 	<td>
-		<input type="text" id="trunk_path" name="trunk_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_trunk_path ) ?>"/>
+		<input id="trunk_path" name="trunk_path"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_trunk_path ) ?>"
+		/>
 	</td>
 </tr>
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="branch_path"><?php echo plugin_lang_get( 'branch_path' ) ?></label>
-	</td>
+	</th>
 	<td>
-		<input type="text" id="branch_path" name="branch_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_branch_path ) ?>"/>
+		<input id="branch_path" name="branch_path"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_branch_path ) ?>"
+		/>
 	</td>
 </tr>
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="tag_path"><?php echo plugin_lang_get( 'tag_path' ) ?></label>
-	</td>
+	</th>
 	<td>
-		<input type="text" id="tag_path" name="tag_path" maxlength="250" size="40" value="<?php echo string_attribute( $t_tag_path ) ?>"/>
+		<input id="tag_path" name="tag_path"
+			   type="text" maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_tag_path ) ?>"
+		/>
 	</td>
 </tr>
 <tr>
-	<td class="category">
+	<th class="category">
 		<label for="ignore_paths"><?php echo plugin_lang_get( 'ignore_paths' ) ?></label>
-	</td>
+	</th>
 	<td>
 		<label>
-			<input id="ignore_paths" name="ignore_paths" type="checkbox" class="ace" <?php echo ($t_ignore_paths ? 'checked="checked"' : '') ?>/>
+			<input id="ignore_paths" name="ignore_paths"
+				   type="checkbox" class="ace"
+				   <?php echo ($t_ignore_paths ? 'checked="checked"' : '') ?>
+			/>
 			<span class="lbl"></span>
 		</label>
 	</td>
