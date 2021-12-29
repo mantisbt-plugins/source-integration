@@ -436,8 +436,10 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$f_master_branch = gpc_get_string( 'master_branch' );
 
 		# Clear the access token if client id and secret changed
-		if(   $p_repo->info['hub_app_client_id'] != $f_hub_app_client_id
-			|| $p_repo->info['hub_app_secret'] != $f_hub_app_secret
+		if( isset( $p_repo->info['hub_app_client_id'] )
+				&& $p_repo->info['hub_app_client_id'] != $f_hub_app_client_id
+			|| isset( $p_repo->info['hub_app_secret'] )
+				&& $p_repo->info['hub_app_secret'] != $f_hub_app_secret
 		) {
 			unset($p_repo->info['hub_app_access_token']);
 		}
