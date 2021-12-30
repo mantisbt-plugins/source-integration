@@ -627,6 +627,18 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	public function commit( $p_repo, $p_data ) {
 		if( !isset( $p_data['commits'] ) ) {
 			# Payload does not contain any commits
+
+			# Check if checkin was triggered by a ping event following Webhook creation
+			# https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#ping
+			if( array_key_exists( 'HTTP_X_GITHUB_EVENT', $_SERVER )
+				&& $_SERVER['HTTP_X_GITHUB_EVENT'] == 'ping'
+			) {
+				echo plugin_lang_get( 'webhook_ping_successful' ),
+					' - ', $p_data['zen'];
+				return array();
+			}
+
+			# Not a ping event - this is an error
 			return false;
 		}
 
