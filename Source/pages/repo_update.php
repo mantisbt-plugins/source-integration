@@ -17,6 +17,7 @@ $t_type = SourceType($t_repo->type);
 $t_repo->name = $f_repo_name;
 $t_repo->url = $f_repo_url;
 
+/** @var SourceRepo $t_updated_repo */
 $t_updated_repo = $t_vcs->update_repo( $t_repo );
 
 if ( !is_null( $t_updated_repo ) ) {

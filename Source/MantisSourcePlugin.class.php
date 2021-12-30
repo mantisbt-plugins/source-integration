@@ -136,7 +136,7 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 
 	/**
 	 * Process form elements for custom repository data.
-	 * @param object Repository
+	 * @param SourceRepo Repository
 	 */
 	public function update_repo( $p_repo ) {}
 
