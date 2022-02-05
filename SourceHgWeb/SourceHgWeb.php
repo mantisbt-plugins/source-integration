@@ -19,8 +19,8 @@ require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceHgWebPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '2.1.3';
-	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
+	const PLUGIN_VERSION = '2.2.0';
+	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	/**
 	 * Various PCRE patterns used to parse HgWeb output when retrieving

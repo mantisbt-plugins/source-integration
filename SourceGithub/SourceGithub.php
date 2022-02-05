@@ -14,8 +14,8 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceG
 
 class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '2.2.0';
-	const FRAMEWORK_VERSION_REQUIRED = '2.2.0';
+	const PLUGIN_VERSION = '2.3.0';
+	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	const URL_API = 'https://api.github.com/';
 	const URL_OAUTH = 'https://github.com/login/oauth/';

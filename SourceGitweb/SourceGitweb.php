@@ -11,8 +11,8 @@ require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '2.0.3';
-	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
+	const PLUGIN_VERSION = '2.1.0';
+	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	public $type = 'gitweb';
 

@@ -9,8 +9,8 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'Source/MantisSourceP
 
 class SourceSVNPlugin extends MantisSourcePlugin {
 
-	const PLUGIN_VERSION = '2.3.0';
-	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
+	const PLUGIN_VERSION = '2.4.0';
+	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	/**
 	 * Error constants
