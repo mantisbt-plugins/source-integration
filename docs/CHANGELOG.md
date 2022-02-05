@@ -23,22 +23,68 @@ specification.
 
 ### Changed
 
-- Minimum MantisBT version increased to 2.21.0
+- Minimum MantisBT version increased to 2.24.0
   [#350](https://github.com/mantisbt-plugins/source-integration/issues/350)
+  [#337](https://github.com/mantisbt-plugins/source-integration/issues/337)
+  [#339](https://github.com/mantisbt-plugins/source-integration/issues/339)
 - Only show "Attach issues" column if needed
   [#355](https://github.com/mantisbt-plugins/source-integration/issues/355)
+- Move register() function to MantisSourcePlugin class
+  [#369](https://github.com/mantisbt-plugins/source-integration/issues/369)
+- Remove custom plugin_lang_get_defaulted() function
+  [#339](https://github.com/mantisbt-plugins/source-integration/issues/339)
 - GitLab: improve error handling when setting repoid
   [#352](https://github.com/mantisbt-plugins/source-integration/issues/352)
+- Bitbucket: use Git base class
+  [#359](https://github.com/mantisbt-plugins/source-integration/issues/359)
+- GitHub: Use https links
+  [#357](https://github.com/mantisbt-plugins/source-integration/issues/357)
+- GitHub: use X-Hub-Signature-Sha-256 header
+  [#361](https://github.com/mantisbt-plugins/source-integration/issues/361)
+- GitHub: stop processing if payload contains no commits
+  [#367](https://github.com/mantisbt-plugins/source-integration/issues/367)
 - Code cleanup
 
 ### Fixed
 
 - Store Changeset timestamp as UTC and display in user's timezone
   [#317](https://github.com/mantisbt-plugins/source-integration/issues/317)
+- Return HTTP/400 when checkin.php input is invalid
+  [#365](https://github.com/mantisbt-plugins/source-integration/issues/365)
+- Fix missing language strings warnings
+  [#364](https://github.com/mantisbt-plugins/source-integration/issues/364)
 - Replace deprecated html_get_status_css_class() function
   [#350](https://github.com/mantisbt-plugins/source-integration/issues/350)
+- Localization does not fall back to English when translation is unavailable
+  [#337](https://github.com/mantisbt-plugins/source-integration/issues/337)
+- Bitbucket: fix changeset retrieval for branches with '/'
+  [#376](https://github.com/mantisbt-plugins/source-integration/issues/376)
+- Bitbucket: fix incorrect branch name validation
+  [#381](https://github.com/mantisbt-plugins/source-integration/issues/381)
+- Cgit: fix column 'revision' cannot be null when importing repository
+  [#149](https://github.com/mantisbt-plugins/source-integration/issues/149)
+- Cgit: fix error with libravatar plugin
+  [#386](https://github.com/mantisbt-plugins/source-integration/issues/386)
+- Cgit: fix error when parsing committer or author without email
+  [#387](https://github.com/mantisbt-plugins/source-integration/issues/387)
 - GitHub: prevent creating Webhook if secret changed
   [#357](https://github.com/mantisbt-plugins/source-integration/issues/357)
+- GitHub: Only process GitHub repositories in precommit()
+  [#366](https://github.com/mantisbt-plugins/source-integration/issues/366)
+- GitHub: Gracefully handle ping events from webhook
+  [#382](https://github.com/mantisbt-plugins/source-integration/issues/382)
+- GitHub: Fix undefined array key warning
+  [#383](https://github.com/mantisbt-plugins/source-integration/issues/383)
+- Gitlab: abort precommit() on invalid payload
+  [#370](https://github.com/mantisbt-plugins/source-integration/issues/370)
+- Gitlab: System warnings when the GitLab Root is not valid
+  [#373](https://github.com/mantisbt-plugins/source-integration/issues/373)
+
+### Security
+
+- Hide sensitive information in manage repo pages
+  [#329](https://github.com/mantisbt-plugins/source-integration/issues/329)
+
 
 ## [2.4.1] - 2021-01-19
 
