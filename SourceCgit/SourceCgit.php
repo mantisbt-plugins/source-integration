@@ -16,24 +16,16 @@ if ( !defined('testing') ) {
 
 class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '2.0.3';
-	const FRAMEWORK_VERSION_REQUIRED = '2.0.0';
+	const PLUGIN_VERSION = '2.1.0';
+	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	public $type = 'cgit';
 
 	public function register() {
-		$this->name = plugin_lang_get( 'title' );
-		$this->description = plugin_lang_get( 'description' );
-
-		$this->version = self::PLUGIN_VERSION;
-		$this->requires = array(
-			'MantisCore' => self::MANTIS_VERSION,
-			'Source' => self::FRAMEWORK_VERSION_REQUIRED,
-		);
+		parent::register();
 
 		$this->author = 'Alexander';
 		$this->contact = 'iam.asm89@gmail.com';
-		$this->url = 'https://github.com/mantisbt-plugins/source-integration/';
 	}
 
 	public function show_type() {
