@@ -3,7 +3,7 @@
 [![Gitter](https://img.shields.io/gitter/room/mantisbt-plugins/source-integration.svg)](https://gitter.im/mantisbt-plugins/source-integration)
 
 Copyright (c) 2008 - 2012  John Reese - https://noswap.com  
-Copyright (c) 2012 - 2020  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+Copyright (c) 2012 - 2022  MantisBT Team - mantisbt-dev@lists.sourceforge.net
 
 Released under the [MIT license](https://opensource.org/licenses/MIT)
 
@@ -79,12 +79,11 @@ get the appropriate version of the source code.
 Use [release tags](https://github.com/mantisbt-plugins/source-integration/releases),
 or the relevant branch in the Plugin's GitHub repository, as per the table below:
 
-MantisBT version | Tags | Branch | Notes
-:---:|---|---|---
-2.x   | v2.* | [master](https://github.com/mantisbt-plugins/source-integration/archive/master.zip) | **Current release**
-1.3.x | v1.* | [master-1.3.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.3.x.zip) | Support ended 2020-12-31
-1.2.x | v0.* | [master-1.2.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.2.x.zip) | Support ended 2017-06-30
-
+| MantisBT version | Tags | Branch                                                                                          | Notes                    |
+|:----------------:|:----:|-------------------------------------------------------------------------------------------------|--------------------------|
+|       2.x        | v2.* | [master](https://github.com/mantisbt-plugins/source-integration/archive/master.zip)             | **Current release**      |
+|      1.3.x       | v1.* | [master-1.3.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.3.x.zip) | Support ended 2020-12-31 |
+|      1.2.x       | v0.* | [master-1.2.x](https://github.com/mantisbt-plugins/source-integration/archive/master-1.2.x.zip) | Support ended 2017-06-30 |
 
 ### Setup instructions
 
