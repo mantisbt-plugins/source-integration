@@ -52,9 +52,7 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	private function uri_base( $p_repo ) {
-		$t_uri_base = $p_repo->info['cgit_root'] . '' . $p_repo->info['cgit_project'] . '/';
-
-		return $t_uri_base;
+		return $p_repo->info['cgit_root'] . '' . $p_repo->info['cgit_project'] . '/';
 	}
 
 	public function url_repo($p_repo, $p_changeset=null ) {
@@ -97,24 +95,42 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 		}
 ?>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'cgit_root' ) ?></td>
+	<td class="category">
+		<label for="cgit_root">
+			<?php echo plugin_lang_get( 'cgit_root' ) ?>
+		</label>
+	</td>
 	<td>
-		<input type="text" name="cgit_root" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_root ) ?>"/>
+		<input type="text" id="cgit_root" name="cgit_root"
+			   maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_cgit_root ) ?>"/>
 	</td>
 </tr>
 	<tr>
-	<td class="category"><?php echo plugin_lang_get( 'cgit_project' ) ?></td>
-	<td>
-		<input type="text" name="cgit_project" maxlength="250" size="40" value="<?php echo string_attribute( $t_cgit_project ) ?>"/>
+		<td class="category">
+			<label for="cgit_project">
+				<?php echo plugin_lang_get('cgit_project') ?>
+			</label>
+		</td>
+		<td>
+		<input type="text" id="cgit_project" name="cgit_project"
+			   maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_cgit_project ) ?>"/>
 	</td>
 </tr>
 <tr>
-	<td class="category"><?php echo plugin_lang_get( 'master_branch' ) ?></td>
+	<td class="category">
+		<label for="master_branch">
+			<?php echo plugin_lang_get( 'master_branch' ) ?>
+		</label>
+	</td>
 	<td>
-		<input type="text" name="master_branch" maxlength="250" size="40" value="<?php echo string_attribute( $t_master_branch ) ?>"/>
+		<input type="text" id="master_branch" name="master_branch"
+			   maxlength="250" size="40"
+			   value="<?php echo string_attribute( $t_master_branch ) ?>"/>
 	</td>
 </tr>
-<?php
+		<?php
 	}
 
 	public function update_repo( $p_repo ) {
@@ -146,7 +162,7 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 		$master_branches = array_map( 'trim', explode( ',', $p_repo->info['master_branch'] ) );
 		if (!in_array($t_branch,$master_branches) )
 		{
-				return;
+			return array();
 		}
 
 		return $this->import_commits($p_repo, null, $t_commit_id, $t_branch);
@@ -165,10 +181,11 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
-		foreach( $t_branches as $t_branch ) {
+		/** @noinspection DuplicatedCode */
+		foreach($t_branches as $t_branch ) {
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
-				' ORDER BY timestamp ASC';
+				' ORDER BY timestamp';
 			$t_result = db_query( $t_query, array( $p_repo->id, $t_branch ), 1 );
 
 			$t_commits = array( $t_branch );
@@ -194,7 +211,8 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 		return $this->import_full( $p_repo );
 	}
 
-	private function import_commits( $p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
+	/** @noinspection PhpUnusedParameterInspection */
+	private function import_commits($p_repo, $p_uri_base, $p_commit_ids, $p_branch='' ) {
 		static $s_parents = array();
 		static $s_counter = 0;
 
@@ -238,13 +256,14 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 	 * @return string the revision
 	 */
 	public function commit_revision( $p_input ) {
+		/** @noinspection HtmlUnknownTarget */
 		$pattern = "#<tr><th>commit</th><td colspan='2' class='oid'><a href='/(.*?)/commit/\?id=([a-f0-9]*)'>([a-f0-9]*)</a>#";
 		preg_match( $pattern, $p_input, $t_matches );
 		return $t_matches[2];
 	}
 
 	/**
-	 * Parses the author and comitter from a cgit page.
+	 * Parses the author and comitter from a cgit page.§
 	 *
 	 * @param string $p_input cgit html page
 	 * @return array author / committer
@@ -297,8 +316,8 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 
 		# Strip ref links and signoff spans from commit message
 		$t_message = preg_replace( array(
-				'@<a[^>]*>([^<]*)<\/a>@',
-				'@<span[^>]*>([^<]*<[^>]*>[^<]*)<\/span>@', #finds <span..>signed-off by <email></span>
+				'@<a[^>]*>([^<]*)</a>@',
+				'@<span[^>]*>([^<]*<[^>]*>[^<]*)</span>@', #finds <span..>signed-off by <email></span>
 			), '$1', $t_message );
 		return $t_message;
 	}
@@ -345,7 +364,7 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 		$t_input = $this->clean_input( $p_input );
 
 		// Get the revision
-		$t_commit['revision'] = $this->commit_revision( $t_input );;
+		$t_commit['revision'] = $this->commit_revision( $t_input );
 
 		echo "processing $t_commit[revision] ... ";
 
@@ -368,6 +387,7 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 			$t_commit['files'] = $this->commit_files( $t_input );
 
 			// Create the changeset
+			/** @noinspection DuplicatedCode */
 			$t_changeset = new SourceChangeset( $p_repo->id, $t_commit['revision'], $p_branch,
 				$t_commit['date'], $t_commit['author'], $t_commit['message'], 0,
 				( isset( $t_commit['parent'] ) ? $t_commit['parent'] : '' ) );
