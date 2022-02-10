@@ -13,7 +13,7 @@ class SourceVisualSVNServerPlugin extends SourceSVNPlugin {
 
 	const PLUGIN_VERSION = '2.1.0';
 	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
-	const SOURCESVN_VERSION_REQUIRED = '2.5.0';
+	const SOURCESVN_VERSION_REQUIRED = '2.4.0';
 
 	public $type = 'vsvns';
 
