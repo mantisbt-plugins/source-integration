@@ -516,7 +516,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			# Store retrieved data and proceed with next page
 			$t_json = array_merge( $t_json, $t_data );
 
-			$t_links = GuzzleHttp\Psr7\parse_header( $t_response->getHeader( 'Link' ) );
+			$t_links = GuzzleHttp\Psr7\Header::parse( $t_response->getHeader( 'Link' ) );
 			foreach( $t_links as $t_link ) {
 				if( $t_link['rel'] == 'next' ) {
 					$t_path = trim( $t_link[0], '<>' );
