@@ -4,6 +4,7 @@
 # Licensed under the MIT license
 
 /** @noinspection PhpFullyQualifiedNameUsageInspection */
+/** @noinspection PhpMissingParamTypeInspection PhpMissingReturnTypeInspection */
 
 use GuzzleHttp\RequestOptions;
 
