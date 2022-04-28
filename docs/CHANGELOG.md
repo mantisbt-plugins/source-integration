@@ -14,7 +14,7 @@ specification.
 
 ### Fixed
 
-- PHP 8.1 compatibility
+- github: PHP 8.1 compatibility
   [#391](https://github.com/mantisbt-plugins/source-integration/issues/391)
 
 
