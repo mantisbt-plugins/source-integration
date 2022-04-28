@@ -46,7 +46,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	 */
 	public function resources( $p_event ) {
 		# Only include the javascript when it's actually needed
-		parse_str( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY ), $t_query );
+		$t_url_query = parse_url( $_SERVER['REQUEST_URI'] , PHP_URL_QUERY );
+		parse_str( $t_url_query ?? '', $t_query );
 		if( array_key_exists( 'page', $t_query ) ) {
 			$t_page = basename( $t_query['page'] );
 			if( $t_page == 'repo_update_page' ) {

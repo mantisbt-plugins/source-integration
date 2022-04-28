@@ -10,6 +10,14 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [Unreleased]
+
+### Fixed
+
+- PHP 8.1 compatibility
+  [#391](https://github.com/mantisbt-plugins/source-integration/issues/391)
+
+
 ## [2.5.1] - 2022-02-10
 
 ### Fixed
