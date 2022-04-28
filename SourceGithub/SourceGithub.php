@@ -93,7 +93,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	 */
 	public function route_token_revoke( $p_request, $p_response, $p_args ) {
 		# Make sure the given repository exists
-		$t_repo_id = isset( $p_args['id'] ) ? $p_args['id'] : $p_request->getParam( 'id' );
+		$t_repo_id = $p_args['id'] ?? $p_request->getParam('id');
 		if( !SourceRepo::exists( $t_repo_id ) ) {
 			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, 'Invalid Repository Id' );
 		}
@@ -126,7 +126,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		plugin_push_current( 'Source' );
 
 		# Make sure the given repository exists
-		$t_repo_id = isset( $p_args['id'] ) ? $p_args['id'] : $p_request->getParam( 'id' );
+		$t_repo_id = $p_args['id'] ?? $p_request->getParam('id');
 		if( !SourceRepo::exists( $t_repo_id ) ) {
 			return $p_response->withStatus( HTTP_STATUS_BAD_REQUEST, 'Invalid Repository Id' );
 		}
@@ -287,11 +287,7 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			$t_hub_webhook_secret = $p_repo->info['hub_webhook_secret'];
 		}
 
-		if ( isset( $p_repo->info['master_branch'] ) ) {
-			$t_master_branch = $p_repo->info['master_branch'];
-		} else {
-			$t_master_branch = $this->get_default_primary_branches();
-		}
+		$t_master_branch = $p_repo->info['master_branch'] ?? $this->get_default_primary_branches();
 ?>
 
 <tr>
@@ -462,6 +458,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	 *
 	 * @param SourceRepo $p_repo Repository
 	 * @return \GuzzleHttp\Client
+	 *
+	 * @noinspection PhpReturnValueOfMethodIsNeverUsedInspection
 	 */
 	private function api_init( $p_repo ) {
 		# Initialize Guzzle client if not done already
@@ -538,7 +536,8 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		}
 	}
 
-	private function api_json_url( $p_repo, $p_url, $p_member = null ) {
+	/** @noinspection PhpSameParameterValueInspection */
+	private function api_json_url($p_repo, $p_url, $p_member = null ) {
 		static $t_start_time;
 		if ( $t_start_time === null ) {
 			$t_start_time = microtime( true );
@@ -561,12 +560,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 	public function precommit() {
 		# Legacy GitHub Service sends the payload via eponymous form variable
-		/** @noinspection PhpRedundantOptionalArgumentInspection */
 		$f_payload = gpc_get_string( 'payload', null );
 		if ( is_null( $f_payload ) ) {
 			# If empty, retrieve the webhook's payload from the body
 			$f_payload = file_get_contents( 'php://input' );
-			if ( is_null( $f_payload ) ) {
+			if ( $f_payload === false ) {
 				return null;
 			}
 		}
@@ -684,10 +682,10 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
 		foreach( $t_branches as $t_branch ) {
-			/** @noinspection SqlResolve */
+			/** @noinspection SqlResolve DuplicatedCode */
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
-				' ORDER BY timestamp ASC';
+				' ORDER BY timestamp';
 			$t_result = db_query( $t_query, array( $p_repo->id, $t_branch ), 1 );
 
 			$t_commits = array( $t_branch );
@@ -817,7 +815,6 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	private function oauth_authorize_uri( $p_repo ) {
 		$t_hub_app_client_id = null;
 		$t_hub_app_secret = null;
-		$t_hub_app_access_token = null;
 
 		if ( isset( $p_repo->info['hub_app_client_id'] ) ) {
 			$t_hub_app_client_id = $p_repo->info['hub_app_client_id'];
