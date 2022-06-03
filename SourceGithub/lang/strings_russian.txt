@@ -19,7 +19,7 @@ $s_plugin_SourceGithub_hub_app_authorize = 'Авторизоваться';
 $s_plugin_SourceGithub_hub_app_authorized = 'Авторизовано';
 
 $s_plugin_SourceGithub_repo_authorized = '<p>MantisBT авторизован в репозитории GitHub.</p>';
-$s_plugin_SourceGithub_repo_authorization_failed = '<p style="color: red;">Извините, MantisBT не удалось авторизоваться для доступа к этому репозиторию GitHub.</p>';
+$s_plugin_SourceGithub_repo_authorization_failed = 'Извините, MantisBT не удалось авторизоваться для доступа к этому репозиторию GitHub.';
 
 $s_plugin_SourceGithub_oauth_authorization = 'OAuth авторизация GitHub';
 $s_plugin_SourceGithub_back_repo = 'назад в репозиторий';

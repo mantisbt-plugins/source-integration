@@ -107,7 +107,7 @@ $s_plugin_Source_show_search_link = 'Search';
 $s_plugin_Source_show_repo_stats = 'Repository Statistics';
 $s_plugin_Source_show_file_stats = 'File statistics <span class="small">(may be slow on large repositories)</span>';
 $s_plugin_Source_enabled_features = 'Enabled Features';
-$s_plugin_Source_enable_linking = 'Changeset Linking <span class="small">(<em>&lt;type&gt;:&lt;reponame&gt;:&lt;revision&gt;:</em>)';
+$s_plugin_Source_enable_linking = 'Changeset Linking <span class="small">(<em>&lt;type&gt;:&lt;reponame&gt;:&lt;revision&gt;:</em>)</span>';
 $s_plugin_Source_enable_linking_info = 'Where &lt;type&gt = \'c\' or \'s\' for Changeset details; \'d\' or \'v\' for Diff; and \'p\' for Pull Request (if supported by the VCS)';
 $s_plugin_Source_enable_mapping = 'Branch Mappings';
 $s_plugin_Source_enable_resolving = 'Resolve Fixed Issues';

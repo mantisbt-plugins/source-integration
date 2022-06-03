@@ -20,7 +20,7 @@ $s_plugin_SourceGithub_hub_app_authorize = 'Polsa per autoritzar';
 $s_plugin_SourceGithub_hub_app_authorized = 'Autoritzat';
 
 $s_plugin_SourceGithub_repo_authorized = '<p>MantisBT ara és autoritzat a accedir a aquest repositori GitHub.</p>';
-$s_plugin_SourceGithub_repo_authorization_failed = '<p style="color: red;">MantisBT no ha estat autoritzat per accedir a aquest repositori GitHub.</p>';
+$s_plugin_SourceGithub_repo_authorization_failed = 'MantisBT no ha estat autoritzat per accedir a aquest repositori GitHub.';
 
 $s_plugin_SourceGithub_oauth_authorization = 'Autorització OAuth GitHub';
 $s_plugin_SourceGithub_back_repo = 'Tornar al repositori';

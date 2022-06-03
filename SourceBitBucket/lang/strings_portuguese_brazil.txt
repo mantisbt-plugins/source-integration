@@ -12,7 +12,7 @@ $s_plugin_SourceBitBucket_bit_reponame = 'Nome do Repositório no BitBucket<br/>
 $s_plugin_SourceBitBucket_master_branch = 'Branches Primários<br/><span class="small">(lista separada por vírgula, * importa todos os branches)</span>';
 
 $s_plugin_SourceBitBucket_repo_authorized = '<p>MantisBT está autorizado agora a acessar seu repositório no BitBucket.</p>';
-$s_plugin_SourceBitBucket_repo_authorization_failed = '<p style="color: red;">Desculpe, mas o MantisBT não está autorizado a acessar seu repositório no BitBucket.</p>';
+$s_plugin_SourceBitBucket_repo_authorization_failed = 'Desculpe, mas o MantisBT não está autorizado a acessar seu repositório no BitBucket.';
 
 $s_plugin_SourceBitBucket_oauth_authorization = 'Autenticação OAuth no BitBucket';
 $s_plugin_SourceBitBucket_back_repo = 'Retornar para Repositório';

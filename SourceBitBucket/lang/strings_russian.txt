@@ -12,6 +12,6 @@ $s_plugin_SourceBitBucket_bit_reponame = 'Имя репозитория BitBucke
 $s_plugin_SourceBitBucket_master_branch = 'Главные ветки<br/><span class="small">(список, разделенный запятыми)</span>';
 
 $s_plugin_SourceBitBucket_repo_authorized = '<p>MantisBT авторизован в репозитории BitBucket.</p>';
-$s_plugin_SourceBitBucket_repo_authorization_failed = '<p style="color: red;">Извините, MantisBT не удалось авторизоваться для доступа к этому репозиторию BitBucket.</p>';
+$s_plugin_SourceBitBucket_repo_authorization_failed = 'Извините, MantisBT не удалось авторизоваться для доступа к этому репозиторию BitBucket.';
 
 $s_plugin_SourceBitBucket_back_repo = 'назад в репозитории';
