@@ -392,7 +392,7 @@ function Source_FilterOption_Permalink( $p_string=null, $p_array=false, $p_type=
 			foreach( $t_input as $t_value ) {
 				if ( !is_blank( $t_value ) ) {
 					$t_input_clean[] = $t_value;
-					$s_permalink .= "&${p_string}[]=$t_value";
+					$s_permalink .= "&{$p_string}[]=$t_value";
 				}
 			}
 		}
