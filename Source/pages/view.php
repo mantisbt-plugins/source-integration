@@ -60,6 +60,8 @@ $t_columns =
 
 $t_update_form = $t_use_porting && $t_can_update;
 
+require_css( 'status_config.php' );
+
 layout_page_header( plugin_lang_get( 'title' ) );
 layout_page_begin();
 ?>
