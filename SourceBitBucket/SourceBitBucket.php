@@ -12,6 +12,11 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 	const PLUGIN_VERSION = '2.2.0';
 	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
+	/**
+	 * Error constants
+	 */
+	const ERROR_BITBUCKET_API = 'bitbucket_api';
+
 	protected $main_url = "https://bitbucket.org/";
 	protected $api_url = 'https://bitbucket.org/api/2.0/';
 
@@ -24,6 +29,18 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
 		$this->author  = 'Sergey Marchenko';
 		$this->contact = 'sergey@mzsl.ru';
+	}
+
+	function errors() {
+		$t_errors_list = array(
+			self::ERROR_BITBUCKET_API,
+		);
+
+		foreach( $t_errors_list as $t_error ) {
+			$t_errors[$t_error] = plugin_lang_get( 'error_' . $t_error );
+		}
+
+		return array_merge( parent::errors(), $t_errors );
 	}
 
 	public function show_type() {
@@ -201,7 +218,12 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
 	private function api_json_url( $p_repo, $p_url ) {
 		$t_data = $this->url_get( $p_repo, $p_url );
-		return json_decode( utf8_encode( $t_data ) );
+		$t_json = json_decode( utf8_encode( $t_data ) );
+		if( json_last_error() != JSON_ERROR_NONE ) {
+			error_parameters( $t_data );
+			plugin_error( self::ERROR_BITBUCKET_API );
+		}
+		return $t_json;
 	}
 
 	private function api_json_url_values( $p_repo, $p_url ) {
@@ -342,7 +364,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 				echo "Looking up target commit for $t_branch ... ";
 				$t_url  = $this->api_url( "repositories/$t_username/$t_reponame/refs/branches/$t_branch" );
 				$t_json = $this->api_json_url( $p_repo, $t_url );
-				if( false !== $t_json ) {
+				if( null !== $t_json ) {
 					$t_branch = $t_json->target->hash;
 				}
 			}

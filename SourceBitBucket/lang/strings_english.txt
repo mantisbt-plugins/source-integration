@@ -16,3 +16,5 @@ $s_plugin_SourceBitBucket_repo_authorization_failed = 'Sorry, MantisBT could not
 
 $s_plugin_SourceBitBucket_oauth_authorization = 'BitBucket OAuth Authorization';
 $s_plugin_SourceBitBucket_back_repo = 'Back to Repository';
+
+$s_plugin_SourceBitBucket_error_bitbucket_api = 'BitBucket API call failed with the following error message:<br><em>%1$s</em>';
