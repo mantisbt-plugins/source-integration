@@ -61,16 +61,22 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
-		$t_username = $p_repo->info['bit_username'];
-		$t_reponame = $p_repo->info['bit_reponame'];
+		# Can't link to a deleted file
+		if( $p_file->action == SourceFile::DELETED ) {
+			return '';
+		}
+
 		$t_ref      = $p_changeset->revision;
 		$t_filename = $p_file->filename;
 		return $this->main_url . "$t_username/$t_reponame/src/$t_ref/$t_filename";
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
-		$t_username = $p_repo->info['bit_username'];
-		$t_reponame = $p_repo->info['bit_reponame'];
+		# No point viewing the diff to a deleted file
+		if( $p_file->action == SourceFile::DELETED ) {
+			return '';
+		}
+
 		$t_ref      = $p_changeset->revision;
 		$t_filename = $p_file->filename;
 		return $this->main_url . "$t_username/$t_reponame/diff/$t_filename?diff2=$t_ref";

@@ -259,15 +259,13 @@ if ( $t_can_update ) {
 <td class="small" colspan="<?php echo $t_columns-2 ?>"><?php echo string_display_line( $t_vcs->show_file( $t_repo, $t_changeset, $t_file ) ) ?></td>
 <td class="center">
 <?php
-	print_extra_small_button(
-		$t_vcs->url_diff( $t_repo, $t_changeset, $t_file ),
-		plugin_lang_get( 'diff', 'Source' )
-	);
-	echo ' ';
-	print_extra_small_button(
-		$t_vcs->url_file( $t_repo, $t_changeset, $t_file ),
-		plugin_lang_get( 'file', 'Source' )
-	);
+	if( $t_url = $t_vcs->url_diff( $t_repo, $t_changeset, $t_file ) ) {
+		print_extra_small_button( $t_url, plugin_lang_get( 'diff', 'Source' ) );
+	}
+	if( $t_url = $t_vcs->url_file( $t_repo, $t_changeset, $t_file ) ) {
+		echo "\n";
+		print_extra_small_button( $t_url, plugin_lang_get( 'file', 'Source' ) );
+	}
 ?>
 </td>
 </tr>

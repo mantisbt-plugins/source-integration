@@ -240,6 +240,11 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
+		# Can't link to a deleted file
+		if( $p_file->action == SourceFile::DELETED ) {
+			return '';
+		}
+
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = $p_changeset->revision;
