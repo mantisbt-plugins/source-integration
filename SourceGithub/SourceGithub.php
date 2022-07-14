@@ -18,8 +18,12 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 	const PLUGIN_VERSION = '2.3.1';
 	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
+	/**
+	 * GitHub URLs
+	 */
+	const URL_MAIN = 'https://github.com/';
 	const URL_API = 'https://api.github.com/';
-	const URL_OAUTH = 'https://github.com/login/oauth/';
+	const URL_OAUTH = self::URL_MAIN . 'login/oauth/';
 
 	public $linkPullRequest = '/pull/%s';
 
@@ -216,27 +220,25 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		return  "$p_file->action - $p_file->filename";
 	}
 
+	public function url_base( $p_repo ) {
+		return self::URL_MAIN . $p_repo->info['hub_username'] . '/' . $p_repo->info['hub_reponame'];
+	}
+
 	public function url_repo( $p_repo, $p_changeset=null ) {
 		if( empty( $p_repo->info ) ) {
 			return '';
 		}
-		$t_username = $p_repo->info['hub_username'];
-		$t_reponame = $p_repo->info['hub_reponame'];
-		$t_ref = "";
 
+		$t_ref = '';
 		if ( !is_null( $p_changeset ) ) {
 			$t_ref = "/tree/$p_changeset->revision";
 		}
 
-		return "https://github.com/$t_username/$t_reponame$t_ref";
+		return $this->url_base( $p_repo ) . $t_ref;
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
-		$t_username = $p_repo->info['hub_username'];
-		$t_reponame = $p_repo->info['hub_reponame'];
-		$t_ref = $p_changeset->revision;
-
-		return "https://github.com/$t_username/$t_reponame/commit/$t_ref";
+		return $this->url_base( $p_repo ) . '/commit/' . $p_changeset->revision;
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
@@ -245,12 +247,10 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 			return '';
 		}
 
-		$t_username = $p_repo->info['hub_username'];
-		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = $p_changeset->revision;
 		$t_filename = $p_file->getFilename();
 
-		return "https://github.com/$t_username/$t_reponame/blob/$t_ref/$t_filename";
+		return $this->url_base( $p_repo ) . "/blob/$t_ref/$t_filename";
 	}
 
 	/**

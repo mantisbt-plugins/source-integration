@@ -59,23 +59,23 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		return "$p_file->action - $t_filename";
 	}
 
+	public function url_base( $p_repo ) {
+		return $this->main_url . $p_repo->info['bit_username'] . '/' . $p_repo->info['bit_reponame'];
+	}
+
 	public function url_repo( $p_repo, $p_changeset = null ) {
 		if( empty($p_repo->info) ) return '';
 
-		$t_username = $p_repo->info['bit_username'];
-		$t_reponame = $p_repo->info['bit_reponame'];
-		$t_ref      = '';
+		$t_ref = '';
 		if( !is_null( $p_changeset ) )
 			$t_ref = "/src/?at=$p_changeset->revision";
 
-		return $this->main_url . "$t_username/$t_reponame$t_ref";
+		return $this->url_base( $p_repo ) . $t_ref;
 	}
 
 	public function url_changeset( $p_repo, $p_changeset ) {
-		$t_username = $p_repo->info['bit_username'];
-		$t_reponame = $p_repo->info['bit_reponame'];
-		$t_ref      = $p_changeset->revision;
-		return $this->main_url . "$t_username/$t_reponame/commits/$t_ref";
+		$t_ref = $p_changeset->revision;
+		return $this->url_base( $p_repo ) . "/commits/$t_ref";
 	}
 
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
@@ -86,7 +86,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
 		$t_ref      = $p_changeset->revision;
 		$t_filename = $p_file->getFilename();
-		return $this->main_url . "$t_username/$t_reponame/src/$t_ref/$t_filename";
+		return $this->url_base( $p_repo ) . "/src/$t_ref/$t_filename";
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
@@ -97,7 +97,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
 		$t_ref      = $p_changeset->revision;
 		$t_filename = $p_file->getFilename();
-		return $this->main_url . "$t_username/$t_reponame/diff/$t_filename?diff2=$t_ref";
+		return $this->url_base( $p_repo ) . "/diff/$t_filename?diff2=$t_ref";
 	}
 
 	public function update_repo_form( $p_repo ) {
