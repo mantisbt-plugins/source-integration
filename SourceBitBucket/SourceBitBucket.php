@@ -3,13 +3,15 @@
 # Copyright (c) 2014 Sergey Marchenko
 # Licensed under the MIT license
 
+/** @noinspection PhpMissingReturnTypeInspection */
+
 if( false === include_once(config_get( 'plugin_path' ) . 'Source/MantisSourceGitBasePlugin.class.php') ) {
 	return;
 }
 
 class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '2.2.0';
+	const PLUGIN_VERSION = '2.2.1';
 	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	/**
@@ -301,7 +303,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		foreach ( $t_branches as $t_branch ) {
 			$t_query  = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
-						' ORDER BY timestamp ASC';
+						' ORDER BY timestamp';
 			$t_result = db_query( $t_query, array($p_repo->id, $t_branch), 1 );
 
 			$t_commits = array($t_branch);
