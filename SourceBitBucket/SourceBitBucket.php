@@ -22,6 +22,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 	 */
 	const URL_MAIN = "https://bitbucket.org/";
 	const URL_API = self::URL_MAIN . 'api/2.0/';
+	const URL_APP_PWD = self::URL_MAIN . 'account/settings/app-passwords/';
 
 	public $type = 'bb';
 
@@ -148,7 +149,14 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		<tr>
 			<th class="category">
 				<label for="bit_basic_pwd">
-					<?php echo plugin_lang_get( 'bit_basic_pwd' ) ?>
+<?php
+		echo plugin_lang_get( 'bit_basic_pwd' );
+		echo '<br>';
+		/** @noinspection HtmlUnknownTarget */
+		printf( '<span class="small">' . plugin_lang_get( 'generate_app_pwd' ) . '</span>',
+			sprintf( '<a href="%1$s" target="_blank">%1$s</a>', self::URL_APP_PWD )
+		);
+?>
 				</label>
 			</th>
 			<td>
