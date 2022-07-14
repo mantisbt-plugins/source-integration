@@ -380,15 +380,15 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 				$t_file['revision'] = $t_file_matches[1];
 
 				if ( isset( $t_file_matches[3] ) ) {
-					if ( $t_file_matches[3] == 'new' or $t_file_matches[3] == 'moved' ) {
-						$t_file['action'] = 'add';
-					} else if ( $t_file_matches[3] == 'deleted' or $t_file_matches[3] == 'similarity' ) {
-						$t_file['action'] = 'rm';
+					if ( $t_file_matches[3] == 'new' || $t_file_matches[3] == 'moved' ) {
+						$t_file['action'] = SourceFile::ADDED;
+					} else if ( $t_file_matches[3] == 'deleted' || $t_file_matches[3] == 'similarity' ) {
+						$t_file['action'] = SourceFile::DELETED;
 					} else {
-						$t_file['action'] = 'mod';
+						$t_file['action'] = SourceFile::MODIFIED;
 					}
 				} else {
-					$t_file['action'] = 'mod';
+					$t_file['action'] = SourceFile::MODIFIED;
 				}
 
 				$t_commit['files'][] = $t_file;

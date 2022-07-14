@@ -392,19 +392,19 @@ class SourceAzureDevOpsPlugin extends MantisSourceGitBasePlugin {
 						{
 							case "add":
 							case "undelete":
-								$t_action='add';
+								$t_action = SourceFile::ADDED;
 							break;
 							case "edit":
 							case "merge":
-								$t_action = 'mod';
+								$t_action = SourceFile::MODIFIED;
 							break;
 							case 'rename':
 							case 'sourceRename':
 							case 'targetRename':
-								$t_action = 'mv';
+								$t_action = SourceFile::RENAMED;
 							break;
 							case 'delete':
-								$t_action = 'rm';
+								$t_action = SourceFile::DELETED;
 							break;
 						}
 						$t_changeset->files[] = new SourceFile( 0, $t_change->item->commitId, $t_change->item->path, $t_action );

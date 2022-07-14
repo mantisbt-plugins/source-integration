@@ -783,17 +783,21 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 
 			if ( isset( $p_json->files ) ) {
 				foreach ( $p_json->files as $t_file ) {
+					$t_filename = $t_file->filename;
 					switch ( $t_file->status ) {
 						case 'added':
-							$t_changeset->files[] = new SourceFile( 0, '', $t_file->filename, 'add' );
+							$t_action = SourceFile::ADDED;
 							break;
 						case 'modified':
-							$t_changeset->files[] = new SourceFile( 0, '', $t_file->filename, 'mod' );
+							$t_action = SourceFile::MODIFIED;
 							break;
 						case 'removed':
-							$t_changeset->files[] = new SourceFile( 0, '', $t_file->filename, 'rm' );
+							$t_action = SourceFile::DELETED;
 							break;
+						default:
+							$t_action = SourceFile::UNKNOWN . ' ' . $t_file->status;
 					}
+					$t_changeset->files[] = new SourceFile( 0, '', $t_filename, $t_action );
 				}
 			}
 

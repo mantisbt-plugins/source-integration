@@ -45,7 +45,7 @@ class SourceSFSVNPlugin extends SourceSVNPlugin {
 	public function url_file( $p_repo, $p_changeset, $p_file ) {
 		# if the file has been removed, it doesn't exist in current revision
 		# so we generate a link to (current revision - 1)
-		$t_revision = ($p_file->action == 'rm')
+		$t_revision = ($p_file->action == SourceFile::DELETED)
 					? $p_changeset->revision - 1
 					: $p_changeset->revision;
 		return $this->sf_url( $p_repo ) . urlencode( $p_file->filename ) .
@@ -53,7 +53,7 @@ class SourceSFSVNPlugin extends SourceSVNPlugin {
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
-		if ( $p_file->action == 'rm' || $p_file->action == 'add' ) {
+		if ( $p_file->action == SourceFile::DELETED || $p_file->action == SourceFile::ADDED ) {
 			return '';
 		}
 		$t_diff = '?r1=' . urlencode( $p_changeset->revision ) . '&r2=' . urlencode( $p_changeset->revision - 1 );

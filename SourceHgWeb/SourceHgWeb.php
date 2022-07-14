@@ -327,21 +327,22 @@ class SourceHgWebPlugin extends MantisSourcePlugin {
 				$t_file['filename'] = $t_file_matches[3];
 				$t_file['revision'] = $t_commit['revision'];
 
+				$t_file['action'] = SourceFile::UNKNOWN;
 				if(!empty($t_file_matches[3])) {
 					if (empty($t_file_matches[5]) && empty($t_file_matches[6]) && empty($t_file_matches[7])) {
-						$t_file['action'] = 'mod';
+						$t_file['action'] = SourceFile::MODIFIED;
 					}
 					else if(!empty($t_file_matches[5])) {
-						$t_file['action'] = 'bin';
+						$t_file['action'] = SourceFile::BINARY;
 					}
 					else if ("/dev/null" == $t_file_matches[6]) {
-						$t_file['action'] = 'add';
+						$t_file['action'] = SourceFile::ADDED;
 					}
 					else if ("/dev/null" == $t_file_matches[7]) {
-						$t_file['action'] = 'rm';
+						$t_file['action'] = SourceFile::DELETED;
 					}
 					else if ("/dev/null" == $t_file_matches[7] && "/dev/null" == $t_file_matches[6]) {
-						$t_file['action'] = 'n/a';
+						$t_file['action'] = SourceFile::NA;
 					}
 				}
 				$t_commit['files'][] = $t_file;

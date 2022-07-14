@@ -1297,6 +1297,18 @@ class SourceChangeset {
  * Abstract source control file data.
  */
 class SourceFile {
+	/**
+	 * Action constants
+	 */
+	const ADDED = 'add';
+	const MODIFIED = 'mod';
+	const RENAMED = 'mv';
+	const DELETED = 'rm';
+	const UNKNOWN = '??';
+	# These are used by SourceHgWeb - not sure what they actually mean
+	const BINARY = 'bin';
+	const NA = 'n/a';
+
 	var $id;
 	var $change_id;
 	var $revision;

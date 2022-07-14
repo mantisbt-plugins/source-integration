@@ -521,10 +521,10 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 			if(isset($t_entry->paths->path)){
 				foreach( $t_entry->paths->path as $t_path ) {
 					switch( (string)$t_path['action'] ) {
-						case 'A': $t_action = 'add'; break;
-						case 'D': $t_action = 'rm'; break;
-						case 'M': $t_action = 'mod'; break;
-						case 'R': $t_action = 'mv'; break;
+						case 'A': $t_action = SourceFile::ADDED; break;
+						case 'D': $t_action = SourceFile::DELETED; break;
+						case 'M': $t_action = SourceFile::MODIFIED; break;
+						case 'R': $t_action = SourceFile::RENAMED; break;
 						default: $t_action = (string)$t_path['action'];
 					}
 

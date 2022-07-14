@@ -421,17 +421,22 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 			$t_files     = $this->api_json_url_values( $p_repo, $t_url );
 			if( !empty($t_files) ) {
 				foreach ( $t_files as $t_file ) {
+					$t_filename = $t_file->new->path;
 					switch( $t_file->status ) {
 						case 'added':
-							$t_changeset->files[] = new SourceFile(0, '', $t_file->new->path, 'add');
+							$t_action = SourceFile::ADDED;
 							break;
 						case 'modified':
-							$t_changeset->files[] = new SourceFile(0, '', $t_file->new->path, 'mod');
+							$t_action = SourceFile::MODIFIED;
 							break;
 						case 'removed':
-							$t_changeset->files[] = new SourceFile(0, '', $t_file->old->path, 'rm');
+							$t_action = SourceFile::DELETED;
+							$t_filename = $t_file->old->path;
 							break;
+						default:
+							$t_action = SourceFile::UNKNOWN . ' ' . $t_file->status;
 					}
+					$t_changeset->files[] = new SourceFile(0, '', $t_filename, $t_action );
 				}
 			}
 

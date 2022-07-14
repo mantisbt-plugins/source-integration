@@ -328,12 +328,16 @@ class SourceCgitPlugin extends MantisSourceGitBasePlugin {
 			$t_file['filename'] = $t_file_matches[5];
 			$t_file['revision'] = $t_file_matches[4];
 
-			if ( 'add' == $t_file_matches[2] ) {
-				$t_file['action'] = 'add';
-			} else if ( 'del' == $t_file_matches[2] ) {
-				$t_file['action'] = 'rm';
-			} else {
-				$t_file['action'] = 'mod';
+			switch( $t_file_matches[2] ) {
+				case 'add':
+					$t_file['action'] = SourceFile::ADDED;
+					break;
+				case 'del':
+					$t_file['action'] = SourceFile::DELETED;
+					break;
+				default:
+					$t_file['action'] = SourceFile::MODIFIED;
+					break;
 			}
 			$t_files[] = $t_file;
 		}
