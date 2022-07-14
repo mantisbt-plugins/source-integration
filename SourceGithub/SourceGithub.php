@@ -253,12 +253,16 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		return "https://github.com/$t_username/$t_reponame/blob/$t_ref/$t_filename";
 	}
 
+	/**
+	 * Get a URL to a diff view of the given file at the given changeset.
+	 *
+	 * GitHub's commit file-diff URLs are based on hashes, the calculation of
+	 * which is undocumented, so instead of reverse-engineering them we just
+	 * return the Changeset's diff and let the user manually pick the file to
+	 * view from there.
+	 */
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
-		$t_username = $p_repo->info['hub_username'];
-		$t_reponame = $p_repo->info['hub_reponame'];
-		$t_ref = $p_changeset->revision;
-
-		return "https://github.com/$t_username/$t_reponame/commit/$t_ref";
+		return $this->url_changeset( $p_repo, $p_changeset );
 	}
 
 	public function update_repo_form( $p_repo ) {
