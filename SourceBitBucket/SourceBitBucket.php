@@ -17,8 +17,11 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 	 */
 	const ERROR_BITBUCKET_API = 'bitbucket_api';
 
-	protected $main_url = "https://bitbucket.org/";
-	protected $api_url = 'https://bitbucket.org/api/2.0/';
+	/**
+	 * BitBucket URLs
+	 */
+	const URL_MAIN = "https://bitbucket.org/";
+	const URL_API = self::URL_MAIN . 'api/2.0/';
 
 	public $type = 'bb';
 
@@ -60,7 +63,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	public function url_base( $p_repo ) {
-		return $this->main_url . $p_repo->info['bit_username'] . '/' . $p_repo->info['bit_reponame'];
+		return self::URL_MAIN . $p_repo->info['bit_username'] . '/' . $p_repo->info['bit_reponame'];
 	}
 
 	public function url_repo( $p_repo, $p_changeset = null ) {
@@ -215,7 +218,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	private function api_url( $p_path ) {
-		return $this->api_url . $p_path;
+		return self::URL_API . $p_path;
 	}
 
 	private function api_json_url( $p_repo, $p_url ) {
