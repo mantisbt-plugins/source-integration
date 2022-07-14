@@ -64,11 +64,14 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	public function url_repo( $p_repo, $p_changeset = null ) {
-		if( empty($p_repo->info) ) return '';
+		if( empty( $p_repo->info ) ) {
+			return '';
+		}
 
 		$t_ref = '';
-		if( !is_null( $p_changeset ) )
+		if( !is_null( $p_changeset ) ) {
 			$t_ref = "/src/?at=$p_changeset->revision";
+		}
 
 		return $this->url_base( $p_repo ) . $t_ref;
 	}
@@ -133,7 +136,6 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 					<?php echo plugin_lang_get( 'bit_basic_login' ) ?>
 				</label>
 			</th>
-
 			<td>
 				<input id="bit_basic_login" name="bit_basic_login"
 					   type="text" maxlength="250" size="40"
@@ -231,7 +233,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		$values = [];
 
 		if( property_exists( $t_json, 'values' ) ) {
-		    foreach( $t_json->values as $t_item ) {
+			foreach( $t_json->values as $t_item ) {
 				$values[] = $t_item;
 			}
 		}
