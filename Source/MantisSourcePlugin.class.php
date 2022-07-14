@@ -79,64 +79,72 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 
 	/**
 	 * Get a string representing the given repository and changeset.
-	 * @param object Repository
-	 * @param object Changeset
+	 * @param SourceRepo $p_repo Repository
+	 * @param SourceChangeset $p_changeset Changeset
 	 * @return string Changeset string
 	 */
 	abstract public function show_changeset( $p_repo, $p_changeset);
 
 	/**
 	 * Get a string representing a file for a given repository and changeset.
-	 * @param object Repository
-	 * @param object Changeset
-	 * @param object File
+	 * @param SourceRepo $p_repo Repository
+	 * @param SourceChangeset $p_changeset Changeset
+	 * @param SourceFile $p_file File
 	 * @return string File string
 	 */
 	abstract public function show_file( $p_repo, $p_changeset, $p_file );
 
 	/**
 	 * Get a URL to a view of the repository at the given changeset.
-	 * @param object Repository
-	 * @param object Changeset
+	 * @param SourceRepo $p_repo Repository
+	 * @param SourceChangeset $p_changeset Changeset
 	 * @return string URL
 	 */
 	abstract public function url_repo( $p_repo, $p_changeset=null );
 
 	/**
 	 * Get a URL to a diff view of the given changeset.
-	 * @param object Repository
-	 * @param object Changeset
+	 * @param SourceRepo $p_repo Repository
+	 * @param SourceChangeset $p_changeset Changeset
 	 * @return string URL
 	 */
 	abstract public function url_changeset( $p_repo, $p_changeset );
 
 	/**
 	 * Get a URL to a view of the given file at the given changeset.
-	 * @param object Repository
-	 * @param object Changeset
-	 * @param object File
+	 *
+	 * Return empty string if URL is not relevant in the given context
+	 * (e.g. deleted file) or not supported by VCS.
+	 *
+	 * @param SourceRepo $p_repo Repository
+	 * @param SourceChangeset $p_changeset Changeset
+	 * @param SourceFile $p_file File
 	 * @return string URL
 	 */
 	abstract public function url_file( $p_repo, $p_changeset, $p_file );
 
 	/**
 	 * Get a URL to a diff view of the given file at the given changeset.
-	 * @param object Repository
-	 * @param object Changeset
-	 * @param object File
+	 *
+	 * Return empty string if URL is not relevant in the given context
+	 * (e.g. deleted file) or not supported by VCS.
+	 *
+	 * @param SourceRepo $p_repo Repository
+	 * @param SourceChangeset $p_changeset Changeset
+	 * @param SourceFile $p_file File
 	 * @return string URL
 	 */
 	abstract public function url_diff( $p_repo, $p_changeset, $p_file );
 
 	/**
 	 * Output form elements for custom repository data.
-	 * @param object Repository
+	 * @param SourceRepo $p_repo Repository
 	 */
 	public function update_repo_form( $p_repo ) {}
 
 	/**
 	 * Process form elements for custom repository data.
-	 * @param SourceRepo Repository
+	 * @param SourceRepo $p_repo Repository
 	 */
 	public function update_repo( $p_repo ) {}
 
@@ -165,37 +173,38 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 
 	/**
 	 * Translate commit data to Changeset objects for the given repo.
-	 * @param object Repository
-	 * @param mixed Commit data
+	 * @param SourceRepo $p_repo Repository
+	 * @param mixed $p_data Commit data
 	 * @return array Changesets
 	 */
 	public function commit( $p_repo, $p_data ) {}
 
 	/**
 	 * Initiate an import of changeset data for the entire repository.
-	 * @param object Repository
-	 * @return array Changesets
+	 * @param SourceRepo $p_repo Repository
+	 * @return SourceChangeset[] Changesets
 	 */
 	public function import_full( $p_repo ) {}
 
 	/**
 	 * Initiate an import of changeset data not yet imported.
-	 * @param object Repository
-	 * @return array Changesets
+	 * @param SourceRepo $p_repo Repository
+	 * @return SourceChangeset Changesets
 	 */
 	public function import_latest( $p_repo ) {}
 
 	/**
 	 * Initialize contact with the integration framework.
-	 * @return object The plugin object
+	 * @return MantisSourcePlugin The plugin object
 	 */
 	final public function integration( $p_event ) {
 		return $this;
 	}
 
 	/**
-	 * Pass the precommit event to the interface without the
-	 * event paramater.
+	 * Pass the precommit event to the interface without the event paremater.
+	 * @param mixed $p_event Unused
+	 * @return array|null
 	 */
 	final public function _precommit( $p_event ) {
 		return $this->precommit();

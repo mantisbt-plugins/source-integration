@@ -889,7 +889,8 @@ class SourceChangeset {
 	var $message;
 	var $info;
 
-	var $files; # array of SourceFile's
+	/** @var SourceFile[] */
+	var $files;
 	var $bugs;
 	var $__bugs;
 	var $repo;
