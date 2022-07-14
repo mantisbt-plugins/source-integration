@@ -38,7 +38,8 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 	}
 
 	public function show_file( $p_repo, $p_changeset, $p_file ) {
-		return "$p_file->action - $p_file->filename";
+		$t_filename = $p_file->getFilename();
+		return "$p_file->action - $t_filename";
 	}
 
 	public function url_repo( $p_repo, $p_changeset = null ) {
@@ -67,7 +68,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		}
 
 		$t_ref      = $p_changeset->revision;
-		$t_filename = $p_file->filename;
+		$t_filename = $p_file->getFilename();
 		return $this->main_url . "$t_username/$t_reponame/src/$t_ref/$t_filename";
 	}
 
@@ -78,7 +79,7 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		}
 
 		$t_ref      = $p_changeset->revision;
-		$t_filename = $p_file->filename;
+		$t_filename = $p_file->getFilename();
 		return $this->main_url . "$t_username/$t_reponame/diff/$t_filename?diff2=$t_ref";
 	}
 
@@ -438,6 +439,10 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 						case 'removed':
 							$t_action = SourceFile::DELETED;
 							$t_filename = $t_file->old->path;
+							break;
+						case 'renamed':
+							$t_action = SourceFile::RENAMED;
+							$t_filename = $t_file->old->path . SourceFile::RENAMED_SEPARATOR . $t_file->new->path;
 							break;
 						default:
 							$t_action = SourceFile::UNKNOWN . ' ' . $t_file->status;

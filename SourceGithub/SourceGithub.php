@@ -248,9 +248,9 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 		$t_username = $p_repo->info['hub_username'];
 		$t_reponame = $p_repo->info['hub_reponame'];
 		$t_ref = $p_changeset->revision;
-		$t_filename = $p_file->filename;
+		$t_filename = $p_file->getFilename();
 
-		return "https://github.com/$t_username/$t_reponame/tree/$t_ref/$t_filename";
+		return "https://github.com/$t_username/$t_reponame/blob/$t_ref/$t_filename";
 	}
 
 	public function url_diff( $p_repo, $p_changeset, $p_file ) {
@@ -798,6 +798,10 @@ class SourceGithubPlugin extends MantisSourceGitBasePlugin {
 							break;
 						case 'removed':
 							$t_action = SourceFile::DELETED;
+							break;
+						case 'renamed':
+							$t_action = SourceFile::RENAMED;
+							$t_filename = $t_file->previous_filename . SourceFile::RENAMED_SEPARATOR . $t_file->filename;
 							break;
 						default:
 							$t_action = SourceFile::UNKNOWN . ' ' . $t_file->status;

@@ -1309,6 +1309,11 @@ class SourceFile {
 	const BINARY = 'bin';
 	const NA = 'n/a';
 
+	/**
+	 * String used to separate old and new filename in RENAMED operations.
+	 */
+	const RENAMED_SEPARATOR = ' → ';
+
 	var $id;
 	var $change_id;
 	var $revision;
@@ -1321,6 +1326,23 @@ class SourceFile {
 		$this->revision		= $p_revision;
 		$this->action		= $p_action;
 		$this->filename		= $p_filename;
+	}
+
+	/**
+	 * Return the File's name.
+	 *
+	 * In rename operations, filename is stored as 'old → new' so we need to
+	 * conditionally split the string and return only the new filename to
+	 * avoid problems when it's used e.g. in URLs.
+	 *
+	 * @return string
+	 */
+	public function getFilename() {
+		if ($this->action == SourceFile::RENAMED) {
+			$t_split = explode(SourceFile::RENAMED_SEPARATOR, $this->filename);
+			return isset( $t_split[1] ) ? $t_split[1] : $t_split[0];
+		}
+		return $this->filename;
 	}
 
 	function save() {
