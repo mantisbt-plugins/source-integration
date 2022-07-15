@@ -51,7 +51,7 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 			. $t_vcs->show_changeset( $t_repo, $t_changeset )
 		)
 	?></p>
-	<p class="no-margin small lighter">
+	<p class="no-margin small">
 		<i class="fa fa-clock-o grey"></i>
 		<?php echo string_display_line( $t_changeset->getLocalTimestamp() ) ?>
 	</p>
@@ -61,12 +61,12 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 <?php
 		if( $t_committer && $t_committer != $t_author ) {
 ?>
-	<br>
-	<span class="small">
+	<p class="no-margin small">
 		<?php echo plugin_lang_get( 'committer', 'Source' ), ': ', $t_committer ?>
-	</span>
+	</p>
 <?php
 		}
+		echo '<br>';
 
 		if( $t_use_porting ) {
 ?>
@@ -78,7 +78,8 @@ function Source_View_Changesets( $p_changesets, $p_repos=null, $p_show_repos=tru
 					? plugin_lang_get( 'pending', 'Source' )
 					: plugin_lang_get( 'na', 'Source' )
 				)
-	?></p>
+?>
+	</p>
 <?php
 		}
 
