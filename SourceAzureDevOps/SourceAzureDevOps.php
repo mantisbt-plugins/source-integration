@@ -13,7 +13,7 @@ require_once( config_get( 'core_path' ) . 'url_api.php' );
 
 class SourceAzureDevOpsPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '1.0.0';
+	const PLUGIN_VERSION = '1.0.1';
 	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	/**

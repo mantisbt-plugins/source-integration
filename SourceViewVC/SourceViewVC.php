@@ -10,7 +10,7 @@ if ( false === include_once( config_get( 'plugin_path' ) . 'SourceSVN/SourceSVN.
 
 class SourceViewVCPlugin extends SourceSVNPlugin {
 
-	const PLUGIN_VERSION = '2.1.1';
+	const PLUGIN_VERSION = '2.1.2';
 	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 	const SOURCESVN_VERSION_REQUIRED = '2.4.0';
 

@@ -15,7 +15,7 @@ require_once( config_get( 'core_path' ) . 'json_api.php' );
 
 class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '2.1.0';
+	const PLUGIN_VERSION = '2.1.1';
 	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	public $type = 'gitlab';
