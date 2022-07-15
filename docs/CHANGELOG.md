@@ -10,6 +10,32 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [2.6.0] - 2022-07-15
+
+### Changed
+
+- Use constants instead of hardcoded strings for SourceFile actions
+  [#400](https://github.com/mantisbt-plugins/source-integration/issues/400)
+- Only display the Diff/File buttons when needed
+  [#401](https://github.com/mantisbt-plugins/source-integration/issues/401)
+- Code cleanup
+
+### Fixed
+
+- Allow file rename action for GitHub and Bitbucket
+  [#374](https://github.com/mantisbt-plugins/source-integration/issues/374)
+- Fix deprecated usage of ${} string interpolation
+  [#396](https://github.com/mantisbt-plugins/source-integration/issues/396)
+- Fix errors in language strings
+  [#397](https://github.com/mantisbt-plugins/source-integration/issues/397)
+- Make sure status colors CSS is available
+  [#398](https://github.com/mantisbt-plugins/source-integration/issues/398)
+- Fix Details/Diff buttons' position in Changesets list
+  [#402](https://github.com/mantisbt-plugins/source-integration/issues/402)
+- bitbucket: end of support for API authentication with account password
+  [#399](https://github.com/mantisbt-plugins/source-integration/issues/399)
+
+
 ## [2.5.2] - 2022-04-28
 
 ### Fixed
@@ -634,8 +660,9 @@ Support for the 0.x branch ended on 2017-06-30.
 ## [0.9] - 2008-04-11
 
 
-[Unreleased]: https://github.com/mantisbt-plugins/source-integration/compare/v2.5.2...HEAD
+[Unreleased]: https://github.com/mantisbt-plugins/source-integration/compare/v2.6.0...HEAD
 
+[2.6.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.5.2...v2.6.0
 [2.5.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.5.1...v2.5.2
 [2.5.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.5.0...v2.5.1
 [2.5.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.4.1...v2.5.0
