@@ -9,6 +9,10 @@
  * Child plugin handling the framework's integration with the MantisBT UI
  */
 final class SourceIntegrationPlugin extends MantisSourceBase {
+
+	/** @var SourceChangeset[] */
+	protected $changesets;
+
 	function register() {
 		$this->name = plugin_lang_get( 'title', 'Source' );
 		$this->version = self::FRAMEWORK_VERSION;
