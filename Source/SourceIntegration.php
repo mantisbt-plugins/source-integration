@@ -4,6 +4,13 @@
 # Licensed under the MIT license
 
 /**
+ * @noinspection PhpUnused,
+ *               PhpMissingReturnTypeInspection, PhpMissingParamTypeInspection
+ */
+
+use Mantis\Exceptions\ClientException;
+
+/**
  * Class SourceIntegrationPlugin
  *
  * Child plugin handling the framework's integration with the MantisBT UI
@@ -28,7 +35,17 @@ final class SourceIntegrationPlugin extends MantisSourceBase {
 		);
 	}
 
-	function display_changeset_link( $p_event, $p_bug_id ) {
+	/**
+	 * Display Changeset link.
+	 *
+	 * @param string $p_event Event name
+	 * @param int $p_bug_id User ID
+	 *
+	 * @return string[]
+	 *
+	 * @noinspection PhpUnusedParameterInspection
+	 */
+	function display_changeset_link($p_event, $p_bug_id ) {
 		$this->changesets = SourceChangeset::load_by_bug( $p_bug_id, true );
 
 		if ( count( $this->changesets ) > 0 ) {
@@ -38,6 +55,17 @@ final class SourceIntegrationPlugin extends MantisSourceBase {
 		return array();
 	}
 
+	/**
+	 * Display Bug.
+	 *
+	 * @param string $p_event Event name
+	 * @param int $p_bug_id User ID
+	 *
+	 * @return void
+	 * @throws ClientException
+	 *
+	 * @noinspection PhpUnusedParameterInspection
+	 */
 	function display_bug( $p_event, $p_bug_id ) {
 		require_once( 'Source.ViewAPI.php' );
 
@@ -82,8 +110,11 @@ final class SourceIntegrationPlugin extends MantisSourceBase {
 	/**
 	 * When updating user preferences, allowing the user or admin to specify
 	 * a version control username to be associated with the account.
-	 * @param string Event name
-	 * @param int User ID
+	 *
+	 * @param string $p_event Event name
+	 * @param int $p_user_id User ID
+	 *
+	 * @noinspection PhpUnusedParameterInspection
 	 */
 	function account_update_form( $p_event, $p_user_id ) {
 		if ( !access_has_global_level( config_get( 'plugin_Source_username_threshold' ) ) ) {
@@ -104,15 +135,18 @@ final class SourceIntegrationPlugin extends MantisSourceBase {
 	/**
 	 * When updating user preferences, allowing the user or admin to specify
 	 * a version control username to be associated with the account.
-	 * @param string Event name
-	 * @param int User ID
+	 *
+	 * @param string $p_event Event name
+	 * @param int $p_user_id User ID
+	 *
+	 * @noinspection PhpUnusedParameterInspection
 	 */
 	function account_update( $p_event, $p_user_id ) {
 		if ( !access_has_global_level( config_get( 'plugin_Source_username_threshold' ) ) ) {
 			return;
 		}
 
-		$f_vcs_sent = gpc_get_bool( 'Source_vcs', false );
+		$f_vcs_sent = gpc_get_bool( 'Source_vcs' );
 		$f_vcs_username = gpc_get_string( 'Source_vcs_username', '' );
 
 		# only load and persist the username if things are set and changed
