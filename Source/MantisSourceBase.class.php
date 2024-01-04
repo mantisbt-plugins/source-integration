@@ -26,5 +26,5 @@ abstract class MantisSourceBase extends MantisPlugin
 	 * Used to define the default MantisCore dependency for all child plugins;
 	 * VCS plugins may override this based on their individual requirements.
 	 */
-	const MANTIS_VERSION = '2.24.0';
+	const MANTIS_VERSION = '2.26.0';
 }
