@@ -10,6 +10,23 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [2.7.0] - 2024-01-04
+
+### Changed
+
+- Minimum MantisBT version increased to 2.26.0
+  [#372](https://github.com/mantisbt-plugins/source-integration/issues/372)
+- Use print_form_button() to display "Detach" buttons in view page
+  [#372](https://github.com/mantisbt-plugins/source-integration/issues/372)
+
+### Fixed
+
+- PHP 8.2: Creation of dynamic property is deprecated
+  [#409](https://github.com/mantisbt-plugins/source-integration/issues/409)
+- Page redirections trigger a deprecation warning since MantisBT 2.26.0
+  [#411](https://github.com/mantisbt-plugins/source-integration/issues/411)
+
+
 ## [2.6.0] - 2022-07-15
 
 ### Changed
@@ -660,8 +677,9 @@ Support for the 0.x branch ended on 2017-06-30.
 ## [0.9] - 2008-04-11
 
 
-[Unreleased]: https://github.com/mantisbt-plugins/source-integration/compare/v2.6.0...HEAD
+[Unreleased]: https://github.com/mantisbt-plugins/source-integration/compare/v2.7.0...HEAD
 
+[2.7.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.5.2...v2.6.0
 [2.5.2]: https://github.com/mantisbt-plugins/source-integration/compare/v2.5.1...v2.5.2
 [2.5.1]: https://github.com/mantisbt-plugins/source-integration/compare/v2.5.0...v2.5.1
