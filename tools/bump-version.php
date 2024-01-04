@@ -16,8 +16,13 @@
  */
 
 // Path to MantisBT root, relative to the Source Integration Plugin's git root
-// Change this based on your dev environment's setting
-$g_mantis_root = '../../mantisbt';
+// Change this based on your dev environment's setting. The default assumes the
+// following directory structure:
+//   /                           Dev root
+//   +-- mantis                  MantisBT root
+//   +-- plugins
+//       +-- source-integration  Source Integration Plugin's git root
+$g_mantis_root = '../../mantis';
 
 // ---------------------------------------------------------------------------
 // Main program
