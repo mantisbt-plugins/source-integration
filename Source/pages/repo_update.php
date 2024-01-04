@@ -33,5 +33,5 @@ $t_redirect_url = plugin_page( 'repo_update_page', true ) . '&'
 		'id' => $t_repo->id,
 		'status' => true,
 	) );
-print_successful_redirect( $t_redirect_url );
+print_header_redirect( $t_redirect_url );
 

@@ -104,5 +104,5 @@ if ( !is_blank( $f_mapping_branch ) ) {
 }
 
 form_security_purge( 'plugin_Source_repo_update_mappings' );
-print_successful_redirect( plugin_page( 'repo_manage_page', true ) . '&id=' . $t_repo->id );
+print_header_redirect( plugin_page( 'repo_manage_page', true ) . '&id=' . $t_repo->id );
 

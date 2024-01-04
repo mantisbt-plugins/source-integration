@@ -20,5 +20,5 @@ $t_user_id = auth_get_current_user_id();
 $t_changeset->save_bugs( $t_user_id );
 
 form_security_purge( 'plugin_Source_detach' );
-print_successful_redirect( plugin_page( 'view', true ) . '&id=' . $t_changeset->id );
+print_header_redirect( plugin_page( 'view', true ) . '&id=' . $t_changeset->id );
 

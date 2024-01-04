@@ -136,5 +136,5 @@ foreach( SourceVCS::all() as $t_type => $t_vcs ) {
 
 form_security_purge( 'plugin_Source_manage_config' );
 
-print_successful_redirect( plugin_page( 'manage_config_page', true ) );
+print_header_redirect( plugin_page( 'manage_config_page', true ) );
 

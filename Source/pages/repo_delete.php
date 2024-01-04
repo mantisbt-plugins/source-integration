@@ -16,4 +16,4 @@ helper_ensure_confirmed( $t_message, plugin_lang_get( 'delete_repository' ) );
 SourceRepo::delete( $t_repo->id );
 
 form_security_purge( 'plugin_Source_repo_delete' );
-print_successful_redirect( plugin_page( 'index', true ) );
+print_header_redirect( plugin_page( 'index', true ) );

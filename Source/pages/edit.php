@@ -52,5 +52,5 @@ if ( !is_blank( $f_message ) ) {
 $t_changeset->save();
 
 form_security_purge( 'plugin_Source_edit' );
-print_successful_redirect( plugin_page( 'view', true ) . '&id=' . $t_changeset->id . '&offset=' . $f_offset );
+print_header_redirect( plugin_page( 'view', true ) . '&id=' . $t_changeset->id . '&offset=' . $f_offset );
 

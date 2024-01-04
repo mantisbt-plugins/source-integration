@@ -27,5 +27,5 @@ if ( plugin_config_get( 'enable_porting' ) ) {
 
 $t_changeset->save();
 
-print_successful_redirect( plugin_page( 'view', true ) . '&id=' . $t_changeset->id );
+print_header_redirect( plugin_page( 'view', true ) . '&id=' . $t_changeset->id );
 

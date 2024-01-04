@@ -47,4 +47,4 @@ if( $f_redirect ) {
 		. '&id=' . $t_changeset->id;
 }
 
-print_successful_redirect( $t_redirect_url );
+print_header_redirect( $t_redirect_url );
