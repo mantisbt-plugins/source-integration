@@ -129,6 +129,7 @@ or the relevant branch in the Plugin's GitHub repository, as per the table below
     * [SourceViewVC](docs/CONFIGURING.SourceViewVC.md)
     * [SourceSVN](docs/CONFIGURING.SourceSVN.md)
     * [SourceVisualSVNServer](docs/CONFIGURING.SourceVisualSVNServer.md)
+    * [SourceGitea](SourceGitea/README.md)
 
 9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial
