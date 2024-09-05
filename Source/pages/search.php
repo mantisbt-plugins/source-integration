@@ -10,7 +10,7 @@ access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
 $f_offset = gpc_get_int( 'offset', 1 );
 $f_perpage = 25;
 
-require_once( config_get( 'plugin_path' ) . 'Source' . DIRECTORY_SEPARATOR . 'Source.FilterAPI.php' );
+require_once( config_get( 'plugin_path' ) . 'Source/Source.FilterAPI.php' );
 
 # Generate listing
 list( $t_filter, $t_permalink ) = Source_Generate_Filter();

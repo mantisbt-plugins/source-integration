@@ -5,7 +5,7 @@
 
 access_ensure_global_level( plugin_config_get( 'view_threshold' ) );
 
-require_once( config_get( 'plugin_path' ) . 'Source' . DIRECTORY_SEPARATOR . 'Source.FilterAPI.php' );
+require_once( config_get( 'plugin_path' ) . 'Source/Source.FilterAPI.php' );
 
 list( $t_filter, $t_permalink ) = Source_Generate_Filter();
 
