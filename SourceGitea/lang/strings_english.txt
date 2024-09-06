@@ -1,0 +1,17 @@
+<?php
+
+# Copyright (c) 2024 Pasquale Pizzuti
+# Licensed under the MIT license
+
+$s_plugin_SourceGitea_ = '';
+$s_plugin_SourceGitea_gitea = 'Gitea';
+$s_plugin_SourceGitea_title = 'Source Gitea Integration';
+$s_plugin_SourceGitea_description = 'Adds Gitea integration to the Source Integration framework.';
+
+$s_plugin_SourceGitea_hub_root = 'Gitea Root<br /><span class="small">The full URL of your Gitea instance</span>';
+$s_plugin_SourceGitea_hub_ownerid = 'Gitea Repository Owner<br /><span class="small">Organization or user that own the repository</span>';
+$s_plugin_SourceGitea_hub_repoid = 'Gitea Repository Name<br /><span class="small">Name of the repository</span>';
+$s_plugin_SourceGitea_hub_app_secret = 'Gitea API Key<br /><span class="small">api key for mantis user (continuous user)</span>';
+$s_plugin_SourceGitea_master_branch = 'Allowed Branches<br/><span class="small">(comma-separated list, regular expression with /.../  or *)</span>';
+
+$s_plugin_SourceGitea_back_repo = 'Back to Repository';

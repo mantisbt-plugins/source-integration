@@ -10,6 +10,18 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## [Unreleased]
+
+### Added
+
+- New Gitea VCS Plugin, thanks to Pasquale Pizzuti
+  [#375](https://github.com/mantisbt-plugins/source-integration/issues/375)
+
+### Fixed
+
+- Code cleanup
+
+
 ## [2.7.0] - 2024-01-04
 
 ### Changed
