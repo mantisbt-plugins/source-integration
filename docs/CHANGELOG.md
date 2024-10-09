@@ -12,6 +12,11 @@ specification.
 
 ## [Unreleased]
 
+### Fixed
+
+- checkin.php returning HTTP 200 when errors occur
+  [#266](https://github.com/mantisbt-plugins/source-integration/issues/266)
+
 
 ## [2.8.0] - 2024-09-06
 
