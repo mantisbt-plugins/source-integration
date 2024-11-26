@@ -375,11 +375,29 @@ class SourceGiteaPlugin extends MantisSourceGitBasePlugin {
 				$t_parents[] = $t_parent->sha;
 			}
 
+			$commit_date = $p_json->commit->author->date;
+
+			if ( substr( $commit_date, -1 ) == 'Z') {
+				$utc_commit_date = $commit_date;
+
+			} else {
+				$offset_sign = substr( $commit_date, -6, 1 );
+				$offset_time = substr( $commit_date, -5, 2 );
+				$timestamp = strtotime( $commit_date );
+
+				if ( '+' == $offset_sign ) {
+					$utc_commit_date = date( DateTime::ISO8601, $timestamp - $offset_time * 3600 );
+
+				} else {
+					$utc_commit_date = date( DateTime::ISO8601, $timestamp + $offset_time * 3600 );
+				}
+			}
+
 			$t_changeset = new SourceChangeset(
 				$p_repo->id,
 				$p_json->sha,
 				$p_branch,
-				$p_json->commit->author->date,
+				$utc_commit_date,
 				$p_json->commit->author->username ?? $p_json->commit->author->name,
 				$p_json->commit->message
 			);
