@@ -355,7 +355,7 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 			$t_commit['message'] = trim( str_replace( '<br/>', PHP_EOL, $t_matches[6] ) );
 
 			$t_parents = array();
-			if ( preg_match_all( '#parent</td><td class="sha1"><[^>]*h=([0-9a-f]*)#', $t_gitweb_data, $t_matches ) ) {
+			if ( preg_match_all( '#parent</td><td class="sha1"><[^>]*(?:h=|/commit/)([0-9a-f]*)#', $t_gitweb_data, $t_matches ) ) {
 				foreach( $t_matches[1] as $t_match ) {
 					$t_parents[] = $t_commit['parent'] = $t_match;
 				}
