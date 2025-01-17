@@ -10,7 +10,7 @@ specification.
 
 # Releases for MantisBT 2.x
 
-## [Unreleased]
+## 2.9.0 - 2025-01-17
 
 ### Changed
 
@@ -707,8 +707,9 @@ Support for the 0.x branch ended on 2017-06-30.
 ## [0.9] - 2008-04-11
 
 
-[Unreleased]: https://github.com/mantisbt-plugins/source-integration/compare/v2.8.0...HEAD
+[Unreleased]: https://github.com/mantisbt-plugins/source-integration/compare/v2.9.0...HEAD
 
+[2.9.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.78.0...v2.9.0
 [2.8.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/mantisbt-plugins/source-integration/compare/v2.5.2...v2.6.0
