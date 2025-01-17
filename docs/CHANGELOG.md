@@ -12,10 +12,20 @@ specification.
 
 ## [Unreleased]
 
+### Changed
+
+- Minimum MantisBT version increased to 2.26.4
+  [#266](https://github.com/mantisbt-plugins/source-integration/issues/266)
+  [#380](https://github.com/mantisbt-plugins/source-integration/issues/380)
+
 ### Fixed
 
 - checkin.php returning HTTP 200 when errors occur
   [#266](https://github.com/mantisbt-plugins/source-integration/issues/266)
+- github: API token causes webhook to fail silently
+  [#380](https://github.com/mantisbt-plugins/source-integration/issues/380)
+- gitweb: find parent commits with pathinfo URLs
+  [#418](https://github.com/mantisbt-plugins/source-integration/issues/418)
 
 
 ## [2.8.0] - 2024-09-06
