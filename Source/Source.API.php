@@ -954,7 +954,10 @@ class SourceChangeset {
 		# Commit timestamp: can't use DATE_ATOM format to insert datetime,
 		# as MySQL < 8.0.19 does not support specifying timezone
 		# @see https://dev.mysql.com/doc/refman/8.0/en/datetime.html
-		$t_timestamp = $this->timestamp->format( 'Y-m-d H:i:s' );
+		# so we convert the timestamp to UTC first.
+		$t_timestamp = $this->timestamp
+			->setTimezone( new DateTimeZone( 'UTC' ) )
+			->format( 'Y-m-d H:i:s' );
 
 		if ( 0 == $this->id ) { # create
 			$t_query = "INSERT INTO $t_changeset_table ( repo_id, revision, parent, branch, user_id,
