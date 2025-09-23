@@ -300,6 +300,33 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );
 	}
 
+  protected function build_gitlab_apis($p_repo, $t_branch) {
+	
+		$t_repoid = $p_repo->info['hub_repoid'];
+
+		/*
+		 * Because Gitlab will return a pageg result (only the 20 first branches)
+		 * The request for '*' should be reworked
+		 */
+		if ( $t_branch === "*" ) {
+			return array( "projects/$t_repoid/repository/branches/");
+		}
+
+		if ( preg_match( "/^\/.+\/[a-z]*$/i", $t_branch )) /* is a regex ? */
+		{
+			return array("projects/$t_repoid/repository/branches/?regex=$t_branch");
+		}
+
+		$gitlab_url_by_name = function( $branch ) use ($t_repoid) {
+			  $branch_name = urlencode($branch);
+  	  	return "projects/$t_repoid/repository/branches/$branch_name/";
+		};
+
+		$t_branches = array_map( 'trim', explode( ',', $t_branch ) );
+		return array_map( $gitlab_url_by_name, $t_branches);
+	}
+
+
 	public function import_full( $p_repo ) {
 		echo '<pre>';
 
@@ -308,41 +335,49 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 			$t_branch = $this->get_default_primary_branches();
 		}
 
-		# if we're not allowed everything, populate an array of what we are allowed
-		if( $t_branch != '*' ) {
-			$t_branches_allowed = array_map( 'trim', explode( ',', $t_branch ) );
+		# Always pull back only interested branches
+		$t_api_names = $this->build_gitlab_apis($p_repo, $t_branch);
+		
+		$t_uris = array();
+		foreach( $t_api_names as $t_api_name)
+		{
+			array_push($t_uris, $this->api_uri( $p_repo, $t_api_name));
 		}
 
-		# Always pull back full list of repos
-		$t_repoid = $p_repo->info['hub_repoid'];
-		$t_uri = $this->api_uri( $p_repo, "projects/$t_repoid/repository/branches" );
+		$t_json = array();
+		try {
 
-		$t_member = null;
-		$t_json = json_url( $t_uri, $t_member );
-		if( $t_json === null ) {
-			echo "Could not retrieve data from GitLab at '$t_uri'. Make sure your ";
-			print_link(
-				plugin_page( 'repo_update_page', null, 'Source' )
-				. "&id=$p_repo->id",
-				'repository settings'
-			);
-			echo " are correct.";
+		foreach ($t_uris as $t_uri)
+		{
+			$t_member = null;
+			#print_r($t_uri);
+			$t_json_tmp = json_url( $t_uri, $t_member );
+			#print_r($t_json_tmp);
+			if( $t_json_tmp === null ) {
+				echo "Could not retrieve data from GitLab at '$t_uri'. Make sure your ";
+				print_link(
+					plugin_page( 'repo_update_page', null, 'Source' )
+					. "&id=$p_repo->id",
+					'repository settings'
+				);
+				echo " are correct.";
+				echo '</pre>';
+				return array();
+			}
+			array_push( $t_json, $t_json_tmp);
+		}
+	  } catch (Exception $e) {
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
 			echo '</pre>';
 			return array();
 		}
-
-		$t_branches = array();
-		foreach( $t_json as $t_branch ) {
-			if( empty( $t_branches_allowed ) || in_array( $t_branch->name, $t_branches_allowed ) ) {
-				$t_branches[] = $t_branch;
-			}
-		}
+		#print_r($t_json);
 
 		$t_changesets = array();
 
 		$t_changeset_table = plugin_table( 'changeset', 'Source' );
 
-		foreach( $t_branches as $t_branch ) {
+		foreach( $t_json as $t_branch ) {
 			$t_query = "SELECT parent FROM $t_changeset_table
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
 				' ORDER BY timestamp';
