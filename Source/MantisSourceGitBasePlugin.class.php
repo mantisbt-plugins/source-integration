@@ -46,6 +46,7 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	 * Error constants
 	 */
 	const ERROR_INVALID_BRANCH = 'invalid_branch';
+	const ERROR_INVALID_DATE = 'invalid_date';
 
 	/**
 	 * Define plugin's Error strings
@@ -54,6 +55,7 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	public function errors() {
 		$t_errors_list = array(
 			self::ERROR_INVALID_BRANCH,
+			self::ERROR_INVALID_DATE,
 		);
 
 		foreach( $t_errors_list as $t_error ) {
@@ -131,6 +133,21 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 		plugin_pop_current();
 		return $t_value;
 	}
+
+  /**
+	 * Validates a date
+	 * Triggers an ERROR_INVALID_DATE if date is not valid
+	 * @return void
+	 */
+	protected function validate_date($p_date) {
+		if (empty($p_date)) {
+			return;
+		}
+    if (! (bool)strtotime($p_date)) {
+			error_parameters( $p_date );
+			plugin_error( self::ERROR_INVALID_DATE );
+	}
+}
 
 	/**
 	 * Output form elements for configuration options.

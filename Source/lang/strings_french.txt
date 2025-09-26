@@ -70,6 +70,7 @@ $s_plugin_Source_back_repo = 'Retour au dépôt';
 $s_plugin_Source_back_changeset = 'Retour au jeu de changements';
 $s_plugin_Source_import_full = 'Tout importer';
 $s_plugin_Source_import_latest = 'Importer les dernières données';
+$s_plugin_Source_import_since = 'Importer depuis le...';
 $s_plugin_Source_related_changesets = 'Jeux de changements liés';
 $s_plugin_Source_affected_issues = 'Demandes affectées';
 $s_plugin_Source_attach_to_issue = 'Attacher des demandes :';
@@ -134,7 +135,9 @@ $s_plugin_Source_changeset_removed = 'Jeu de changement détaché';
 
 $s_plugin_Source_ensure_delete = 'Voulez-vous vraiment supprimer le dépôt "%s" et tout son historique ?';
 $s_plugin_Source_ensure_import_full = 'Ceci va importer une nouvelle copie de votre dépôt, puis détruira les vieilles données de dépôt et pourrait avoir besoin d\'un accès au shell. Voulez-vous continuer ?';
+$s_plugin_Source_ensure_import_full_since = 'Ceci va importer une nouvelle copie de votre dépôt depuis le "%s", puis détruira les vieilles données de dépôt et pourrait avoir besoin d\'un accès au shell. Voulez-vous continuer ?';
 $s_plugin_Source_ensure_import_latest = 'Ceci va tenter d\'importer les données récentes dans votre dépôt et pourrait avoir besoin d\'un accès au shell. Voulez-vous continuer ?';
+$s_plugin_Source_ensure_import_latest_since = 'Cevi va tenter d\'importer les données depuis le "%s" dans votre dépôt et pourrait avoir besoin d\'un accès au shell. Voulez-vous continuer ?';
 $s_plugin_Source_import_results = 'Résultats de l\'import';
 $s_plugin_Source_import_stats = '%s jeux de changements importés, %s fichiers, et %s références de demande.';
 $s_plugin_Source_import_repo_error = 'Le processus d\'import a rencontré une erreur.';

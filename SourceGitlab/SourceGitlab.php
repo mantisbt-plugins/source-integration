@@ -94,6 +94,7 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 		$t_hub_repoid = null;
 		$t_hub_reponame = null;
 		$t_hub_app_secret = null;
+		$t_hub_oldest_commit_date = null;
 
 		if ( isset( $p_repo->info['hub_root'] ) ) {
 			$t_hub_root = $p_repo->info['hub_root'];
@@ -111,6 +112,9 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 			$t_master_branch = $p_repo->info['master_branch'];
 		} else {
 			$t_master_branch = $this->get_default_primary_branches();
+		}
+		if ( isset( $p_repo->info['hub_oldest_commit_date'] ) ) {
+			$t_hub_oldest_commit_date = $p_repo->info['hub_oldest_commit_date'];
 		}
 ?>
 <tr>
@@ -182,6 +186,18 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 		/>
 	</td>
 </tr>
+<tr>
+	<th class="category">
+		<label for="hub_oldest_commit_date">
+			<?php echo plugin_lang_get( 'hub_oldest_commit_date' ) ?>
+		</label>
+	</th>
+	<td>
+		  <input type="date" id="hub_oldest_commit_date" name="hub_oldest_commit_date" 
+		           value="<?php echo string_attribute( $t_hub_oldest_commit_date ) ?>"
+			/>
+	</td>
+</tr>
 <?php
 	}
 
@@ -239,6 +255,13 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 		# Update other fields
 		$p_repo->info['hub_repoid'] = $f_hub_repoid;
 		$p_repo->info['master_branch'] = $f_master_branch;
+
+		
+		# Check date format
+		$t_hub_oldest_commit_date = gpc_get_string( 'hub_oldest_commit_date' );
+		$this->validate_date($t_hub_oldest_commit_date);
+		
+		$p_repo->info['hub_oldest_commit_date'] = $t_hub_oldest_commit_date;
 
 		return $p_repo;
 	}
@@ -327,8 +350,10 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 	}
 
 
-	public function import_full( $p_repo ) {
-		echo '<pre>';
+	public function import_full( $p_repo) {
+		static $counter=0;
+		$counter = $counter + 1;
+		echo "<pre>Pass #$counter: \n";
 
 		$t_branch = $p_repo->info['master_branch'];
 		if ( is_blank( $t_branch ) ) {
@@ -382,7 +407,7 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 				WHERE repo_id=" . db_param() . ' AND branch=' . db_param() .
 				' ORDER BY timestamp';
 			$t_result = db_query( $t_query, array( $p_repo->id, $t_branch->name ), 1 );
-
+			echo "Process branch '$t_branch->name':\n";
 			$t_commits = array( $t_branch->commit->id );
 			if ( db_num_rows( $t_result ) > 0 ) {
 				$t_parent = db_result( $t_result );
@@ -390,9 +415,10 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 
 				if ( !empty( $t_parent ) ) {
 					$t_commits[] = $t_parent;
-					echo "Parents not empty";
+					echo "Parents not empty - ";
+				} else {
+					echo "Parents  empty";
 				}
-				echo "Parents  empty";
 			}
 
 			$t_changesets = array_merge( $t_changesets, $this->import_commits( $p_repo, $t_commits, $t_branch->name ) );
@@ -449,37 +475,43 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 
 	private function json_commit_changeset( $p_repo, $p_json, $p_branch='' ) {
 		echo "processing $p_json->id ... ";
-		if ( !SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
-			# Message will be replaced by title in gitlab version earlier than 7.2
-			$t_message = ( !property_exists( $p_json, 'message' ) )
-				? $p_json->title
-				: $p_json->message;
-			$t_changeset = new SourceChangeset(
-				$p_repo->id,
-				$p_json->id,
-				$p_branch,
-				$p_json->created_at,
-				$p_json->author_name,
-				$t_message
-			);
-
-			$t_parents = array();
-			foreach( $p_json->parent_ids as $t_parent ) {
-				$t_parents[] = $t_parent;
-			}
-			if( $t_parents ) {
-				$t_changeset->parent = $t_parents[0];
-			}
-
-			$t_changeset->author_email = $p_json->author_email;
-			$t_changeset->save();
-
-			echo "saved.\n";
-			return array( $t_changeset, $t_parents );
-		} else {
+		if ( SourceChangeset::exists( $p_repo->id, $p_json->id ) ) {
 			echo "already exists.\n";
 			return array( null, array() );
 		}
+
+		$t_oldest_commit_date = $p_repo->info['hub_oldest_commit_date']; 
+		if ( !empty( $t_oldest_commit_date ) && new DateTime( $p_json->created_at ) < new DateTime( $t_oldest_commit_date ) ) {
+			echo "commit before the oldest_commit_date.\n";
+			return array( null, array() );
+		}
+		
+		# Message will be replaced by title in gitlab version earlier than 7.2
+		$t_message = ( !property_exists( $p_json, 'message' ) )
+			? $p_json->title
+			: $p_json->message;
+		$t_changeset = new SourceChangeset(
+			$p_repo->id,
+			$p_json->id,
+			$p_branch,
+			$p_json->created_at,
+			$p_json->author_name,
+			$t_message
+		);
+
+		$t_parents = array();
+		foreach( $p_json->parent_ids as $t_parent ) {
+			$t_parents[] = $t_parent;
+		}
+		if( $t_parents ) {
+			$t_changeset->parent = $t_parents[0];
+		}
+
+		$t_changeset->author_email = $p_json->author_email;
+		$t_changeset->save();
+
+		echo "saved.\n";
+		return array( $t_changeset, $t_parents );
 	}
 
 	public static function url_post( $p_url, $p_post_data ) {

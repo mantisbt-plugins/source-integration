@@ -14,6 +14,7 @@ $s_plugin_SourceGitlab_hub_repoid = 'GitLab Repository ID<br /><span class="smal
 $s_plugin_SourceGitlab_hub_reponame = 'GitLab Repository Name<br /><span class="small">Name &amp; Namespace with no leading or trailing slashes (namespace/project)</span>';
 $s_plugin_SourceGitlab_hub_app_secret = 'GitLab API Key<br /><span class="small">api key for mantis user (continuous user)</span>';
 $s_plugin_SourceGitlab_master_branch = 'Allowed Branches<br/><span class="small">(comma-separated list, regular expression with /.../  or *)</span>';
+$s_plugin_SourceGitlab_hub_oldest_commit_date = 'Import since (optional)<br/><span class="small">Oldest commit will be ignored, leave empty to import all commits</span>';
 $s_plugin_SourceGitlab_import_limit = 'Import Limit<br/><span class="small">at most this many commits per import action (0: unlimited)</span>';
 
 $s_plugin_SourceGitlab_error_api = 'GitLab API error (%1$s)';
