@@ -46,6 +46,7 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	 * Error constants
 	 */
 	const ERROR_INVALID_BRANCH = 'invalid_branch';
+	const ERROR_INVALID_DATE = 'invalid_date';
 
 	/**
 	 * Define plugin's Error strings
@@ -54,6 +55,7 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	public function errors() {
 		$t_errors_list = array(
 			self::ERROR_INVALID_BRANCH,
+			self::ERROR_INVALID_DATE,
 		);
 
 		foreach( $t_errors_list as $t_error ) {
@@ -74,6 +76,19 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	}
 
 	/**
+	 * Determines if given string name is a valid regex.
+	 * @param string $p_regex regex to validate
+	 * @return bool True if valid
+	 */
+	protected function is_regex_branch_valid( $p_regex )
+	{
+		# Trick to compile the regex
+		# see ReturnValues of the official doc https://www.php.net/manual/en/function.preg-match.php
+		return (0 === preg_match( $p_regex, "" ));
+	}
+
+
+	/**
 	 * Triggers an error if the branch is invalid
 	 * @param string $p_branch Branch name to validate
 	 * @return void
@@ -89,15 +104,20 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	/**
 	 * Validates a comma-delimited list of git branches.
 	 * Triggers an ERROR_INVALID_BRANCH if one of the branches is invalid
-	 * @param string $p_list Comma-delimited list of branch names (or '*')
+	 * @param string $p_list Comma-delimited list of branch names, or a regex, or '*'
 	 * @return void
 	 */
 	protected function validate_branch_list( $p_list )
 	{
+		#Case '*'
 		if( $p_list == '*' ) {
 			return;
 		}
-
+		#Case regex
+		if( preg_match( "/^\/.+\/[a-z]*$/i", $p_list ) ) {
+			return;
+		}
+		#Case list of validi git branches
 		foreach( explode( ',', $p_list ) as $t_branch ) {
 			$this->ensure_branch_valid( trim( $t_branch ) );
 		}
@@ -113,6 +133,21 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 		plugin_pop_current();
 		return $t_value;
 	}
+
+  /**
+	 * Validates a date
+	 * Triggers an ERROR_INVALID_DATE if date is not valid
+	 * @return void
+	 */
+	protected function validate_date($p_date) {
+		if (empty($p_date)) {
+			return;
+		}
+    if (! (bool)strtotime($p_date)) {
+			error_parameters( $p_date );
+			plugin_error( self::ERROR_INVALID_DATE );
+	}
+}
 
 	/**
 	 * Output form elements for configuration options.

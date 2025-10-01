@@ -138,7 +138,9 @@ $s_plugin_Source_changeset_removed = 'Changeset removed';
 
 $s_plugin_Source_ensure_delete = 'Do you really want to delete the "%s" repository and all of its history?';
 $s_plugin_Source_ensure_import_full = 'This will import to a new copy of your repository, and then destroy the old repository data, and may require use of shell access.  Do you wish to continue?';
+$s_plugin_Source_ensure_import__full_since = 'This will import to a new copy of your repository since "%s", and then destroy the old repository data, and may require use of shell access. Do you wish to continue?';
 $s_plugin_Source_ensure_import_latest = 'This will attempt to import recent data for your repository, and may require use of shell access.  Do you wish to continue?';
+$s_plugin_Source_ensure_import_latest_since = 'This will attempt to import since "%s" for yout repository,  and may require use of shell access.  Do you wish to continue?';
 $s_plugin_Source_import_results = 'Import Results';
 $s_plugin_Source_import_stats = 'Imported %s changesets, %s files, and %s bug references.';
 $s_plugin_Source_import_repo_error = 'Import process produced an error.';
@@ -150,6 +152,7 @@ $s_plugin_Source_invalid_changeset = 'Changeset information could not be loaded'
 
 $s_plugin_Source_import_latest_failed = 'Repository latest data importing failed.';
 $s_plugin_Source_import_full_failed = 'Full repository data importing failed.';
+$s_plugin_Source_import_since_failed = 'Repository "since date" importing failed.';
 
 $s_plugin_Source_changeset_column_title = 'C';
 
