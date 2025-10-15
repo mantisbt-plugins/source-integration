@@ -19,3 +19,14 @@ $s_plugin_SourceHgWeb_description = 'Adds HgWeb integration to the Source Integr
 $s_plugin_SourceHgWeb_hgweb_root = 'HgWeb Root URL';
 $s_plugin_SourceHgWeb_hgweb_project = 'HgWeb Project<br/><span class="small">(name only)</span>';
 $s_plugin_SourceHgWeb_master_branch = 'Primary Branches<br/><span class="small">(comma-separated list)</span>';
+
+$s_plugin_SourceHgWeb_repo_commit_needs_issue = 'Commit Requires Issue Reference(s)';
+$s_plugin_SourceHgWeb_repo_commit_issues_must_exist = 'Referenced Issue(s) Must Exist';
+$s_plugin_SourceHgWeb_repo_commit_ownership_must_match = 'Referenced Issue(s) Must Be Owned By Committer';
+$s_plugin_SourceHgWeb_repo_commit_committer_must_be_member = 'Committer must be a member of the Mantis project';
+$s_plugin_SourceHgWeb_repo_commit_committer_must_be_level = 'Committer must be a:';
+$s_plugin_SourceHgWeb_repo_commit_status_restricted = 'Referenced Issue(s) must be at a particular status';
+$s_plugin_SourceHgWeb_repo_commit_status_allowed = 'Only allow commits when ticket is';
+$s_plugin_SourceHgWeb_repo_commit_project_restricted = 'Referenced Issue(s) must be within a particular project';
+$s_plugin_SourceHgWeb_repo_commit_project_allowed = 'Only allow commits when ticket is within';
+
