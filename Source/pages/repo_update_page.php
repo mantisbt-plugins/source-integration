@@ -12,6 +12,16 @@ $t_repo = SourceRepo::load( $f_repo_id );
 $t_vcs = SourceVCS::repo( $t_repo );
 $t_type = SourceType($t_repo->type);
 
+$t_repo_commit_needs_issue = isset( $t_repo->info['repo_commit_needs_issue'] ) ?  $t_repo->info['repo_commit_needs_issue'] : false;
+$t_repo_commit_issues_must_exist = isset( $t_repo->info['repo_commit_issues_must_exist'] ) ?  $t_repo->info['repo_commit_issues_must_exist'] : false;
+$t_repo_commit_ownership_must_match = isset( $t_repo->info['repo_commit_ownership_must_match'] ) ?  $t_repo->info['repo_commit_ownership_must_match'] : false;
+$t_repo_commit_committer_must_be_member = isset( $t_repo->info['repo_commit_committer_must_be_member'] ) ?  $t_repo->info['repo_commit_committer_must_be_member'] : false;
+$t_repo_commit_committer_must_be_level = isset( $t_repo->info['repo_commit_committer_must_be_level'] ) ?  $t_repo->info['repo_commit_committer_must_be_level'] : MantisEnum::getValues( config_get( 'access_levels_enum_string' ) ) ;
+$t_repo_commit_status_restricted = isset( $t_repo->info['repo_commit_status_restricted'] ) ?  $t_repo->info['repo_commit_status_restricted'] : false;
+$t_repo_commit_status_allowed = isset( $t_repo->info['repo_commit_status_allowed'] ) ?  $t_repo->info['repo_commit_status_allowed'] : MantisEnum::getValues( config_get( 'status_enum_string' ));
+$t_repo_commit_project_restricted = isset( $t_repo->info['repo_commit_project_restricted'] ) ?  $t_repo->info['repo_commit_project_restricted'] : false;
+$t_repo_commit_project_allowed = isset( $t_repo->info['repo_commit_project_allowed'] ) ?  $t_repo->info['repo_commit_project_allowed'] : Array( 0 );
+
 layout_page_header( plugin_lang_get( 'title' ) );
 layout_page_begin();
 
@@ -69,6 +79,58 @@ if( $f_status ) {
 			</tr>
 
 			<?php $t_vcs->update_repo_form( $t_repo ) ?>
+						
+			<tr >
+				<td class="category"><?php echo plugin_lang_get( 'pre_commit_checks' ); ?></td>
+				<td>
+					<table class="table table-striped table-bordered table-condensed">
+						<tr>
+							<td class="category"><?php echo plugin_lang_get( 'commit_needs_issue' ); ?></td>
+							<td><input name="repo_commit_needs_issue" type="checkbox" <?php echo ($t_repo_commit_needs_issue ? 'checked="checked"' : '') ?>/></td>
+						</tr>
+
+						<tr>
+							<td class="category"><?php echo plugin_lang_get( 'commit_issues_must_exist' ); ?></td>
+							<td><input name="repo_commit_issues_must_exist" type="checkbox" <?php echo ($t_repo_commit_issues_must_exist ? 'checked="checked"' : '') ?>/></td>
+						</tr>
+
+						<tr>
+							<td class="category"><?php echo plugin_lang_get( 'commit_ownership_must_match' ); ?></td>
+							<td><input name="repo_commit_ownership_must_match" type="checkbox" <?php echo ($t_repo_commit_ownership_must_match ? 'checked="checked"' : '') ?>/></td>
+						</tr>
+
+						<tr>
+							<td class="category"><?php echo plugin_lang_get( 'commit_committer_must_be_member' ); ?></td>
+							<td><input id="repo_commit_committer_must_be_member" name="repo_commit_committer_must_be_member" type="checkbox" <?php echo ($t_repo_commit_committer_must_be_member ? 'checked="checked"' : '') ?>/></td>
+						</tr>
+
+						<tr>
+							<td class="category"><?php echo plugin_lang_get( 'commit_committer_must_be_level' ) ?></td>
+							<td><select multiple="multiple" id="repo_commit_committer_must_be_level" name="repo_commit_committer_must_be_level[]"><?php print_enum_string_option_list( 'access_levels', $t_repo_commit_committer_must_be_level ) ?></select></td>
+						</tr>
+
+						<tr>
+							<td class="category"><?php echo plugin_lang_get( 'commit_status_restricted' ); ?></td>
+							<td><input name="repo_commit_status_restricted" id="repo_commit_status_restricted" type="checkbox" <?php echo ($t_repo_commit_status_restricted ? 'checked="checked"' : '') ?>/></td>
+						</tr>
+
+						<tr>
+							<td class="category"><?php echo plugin_lang_get( 'commit_status_restricted_list' ) ?></td>
+							<td><select multiple="multiple" id="repo_commit_status_allowed" name="repo_commit_status_allowed[]"><?php print_enum_string_option_list( 'status', $t_repo_commit_status_allowed ) ?></select></td>
+						</tr>
+
+						<tr>
+							<td class="category"><?php echo plugin_lang_get( 'commit_project_restricted' ); ?></td>
+							<td><input id="repo_commit_project_restricted" name="repo_commit_project_restricted" type="checkbox" <?php echo ($t_repo_commit_project_restricted ? 'checked="checked"' : '') ?>/></td>
+						</tr>
+
+						<tr>
+							<td class="category"><?php echo plugin_lang_get( 'commit_project_restricted_list' ) ?></td>
+							<td><select multiple="multiple" id="repo_commit_project_allowed" name="repo_commit_project_allowed[]"><?php print_project_option_list( $t_repo_commit_project_allowed ) ?></select></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
 		</table>
 				</div>
 			</div>
