@@ -1,0 +1,17 @@
+<?php
+
+# Copyright (c) 2025 Bart van Leeuwen
+# Licensed under the MIT license
+
+$s_plugin_SourceForgejo_ = '';
+$s_plugin_SourceForgejo_Forgejo = 'Forgejo';
+$s_plugin_SourceForgejo_title = 'Source Forgejo Integration';
+$s_plugin_SourceForgejo_description = 'Adds Forgejo integration to the Source Integration framework.';
+
+$s_plugin_SourceForgejo_fj_root = 'Forgejo Root<br /><span class="small">The full URL of your Forgejo instance</span>';
+$s_plugin_SourceForgejo_fj_ownerid = 'Forgejo Repository Owner<br /><span class="small">Organization or user that own the repository</span>';
+$s_plugin_SourceForgejo_fj_repoid = 'Forgejo Repository Name<br /><span class="small">Name of the repository</span>';
+$s_plugin_SourceForgejo_fj_app_secret = 'Forgejo API Key<br /><span class="small">api key for mantis user (continuous user)</span>';
+$s_plugin_SourceForgejo_master_branch = 'Allowed Branches<br/><span class="small">(comma-separated list, regular expression with /.../  or *)</span>';
+
+$s_plugin_SourceForgejo_back_repo = 'Back to Repository';
