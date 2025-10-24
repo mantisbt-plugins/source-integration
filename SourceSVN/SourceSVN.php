@@ -315,7 +315,7 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		# create parser
 		$t_svninfo_parsed_xml = new SimpleXMLElement($t_svninfo_xml);
 
-		$t_max_rev = (integer) $t_svninfo_parsed_xml->entry->commit['revision'];
+		$t_max_rev = (int) $t_svninfo_parsed_xml->entry->commit['revision'];
 
 		# this is required because invalid revision number render invalid xml output for svn log
 		if($t_rev > $t_max_rev) {
