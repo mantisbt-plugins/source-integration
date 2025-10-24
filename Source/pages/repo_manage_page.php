@@ -221,15 +221,17 @@ layout_page_begin();
 	$t_mappings[] = new SourceMapping( null, null, null );
 
 	foreach( $t_mappings as $t_mapping ) {
-		$t_branch = str_replace( '.', '_', $t_mapping->branch );
 		# Since it is not possible to update the branch's name (see #230),
 		# the input field is disabled, except for the 'new mapping' row
 		$t_disabled = 'disabled';
 		if( is_null( $t_mapping->branch ) ) {
+			$t_branch = '';
 			$t_disabled = '';
 			if( count( $t_mappings ) > 1 ) {
 				echo '<tr class="spacer"></tr>';
 			}
+		} else {
+			$t_branch = str_replace( '.', '_', $t_mapping->branch );
 		}
 ?>
 			<tr>
