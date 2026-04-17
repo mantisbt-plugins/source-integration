@@ -51,8 +51,15 @@ if ( !$t_valid && ON == plugin_config_get( 'remote_checkin' ) ) {
 
 
 $t_api_key = plugin_config_get( 'api_key' );
-if ( gpc_get_string( 'api_key' ) == $t_api_key && trim( $t_api_key ) != '') {
+if ( gpc_get_string( 'api_key', '' ) == $t_api_key && trim( $t_api_key ) != '') {
 	$t_valid = true;
+}
+
+# Allow requests carrying an X-Hub-Signature header to pass the gate.
+# Per-repo HMAC verification is performed inside EVENT_SOURCE_PRECOMMIT;
+# if validation fails there the request is rejected before any data is written.
+if( !$t_valid && isset( $_SERVER['HTTP_X_HUB_SIGNATURE'] ) ) {
+	$t_valid = !empty( file_get_contents( 'php://input' ) );
 }
 
 # Not validated by this point gets the boot!

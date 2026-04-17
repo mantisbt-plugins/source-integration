@@ -1,0 +1,25 @@
+<?php
+
+$s_plugin_SourceBitbucketDC_title       = 'Bitbucket Data Center Integration';
+$s_plugin_SourceBitbucketDC_description = 'Source control integration with self-hosted Bitbucket Data Center (formerly Bitbucket Server) repositories.';
+
+$s_plugin_SourceBitbucketDC_bitbucketdc = 'Bitbucket DC';
+
+# Repository form labels
+$s_plugin_SourceBitbucketDC_dc_project_key      = 'Project Key';
+$s_plugin_SourceBitbucketDC_dc_project_key_info  = 'The Bitbucket project key (uppercase), e.g. PROJ';
+
+$s_plugin_SourceBitbucketDC_dc_repo_slug      = 'Repository Slug';
+$s_plugin_SourceBitbucketDC_dc_repo_slug_info  = 'The repository slug as shown in its URL, e.g. my-repo';
+
+$s_plugin_SourceBitbucketDC_dc_token      = 'Personal Access Token';
+$s_plugin_SourceBitbucketDC_dc_token_info  = 'A Bitbucket DC Personal Access Token with repository read permission';
+
+
+$s_plugin_SourceBitbucketDC_master_branch      = 'Primary Branch(es)';
+$s_plugin_SourceBitbucketDC_master_branch_info  = 'Comma-separated list of branches to import. Glob patterns are supported: * matches any branch, release/* matches release/1.0 and release/2.0-hotfix, v* matches v1.0 and v2.3.1. Exact names like master or develop also work. Case-sensitive.';
+
+$s_plugin_SourceBitbucketDC_test_connection = 'Test Connection';
+
+# Error messages
+$s_plugin_SourceBitbucketDC_error_bitbucketdc_api_error = 'Bitbucket DC API error: %1$s';
