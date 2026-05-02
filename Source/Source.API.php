@@ -1219,9 +1219,12 @@ class SourceChangeset {
 
 	/**
 	 * Return a set of changeset objects from a database result.
+	 *
 	 * Assumes selecting * from changeset_table.
-	 * @param IteratorAggregate $p_result Database result
-	 * @param bool              $p_load_files
+	 *
+	 * @param ADORecordSet $p_result     Database result
+	 * @param bool         $p_load_files
+	 *
 	 * @return array Changeset objects
 	 */
 	static function from_result( $p_result, $p_load_files=false ) {
