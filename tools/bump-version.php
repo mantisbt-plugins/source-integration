@@ -29,9 +29,15 @@ $g_mantis_root = '../../mantis';
 //
 
 // Process command-line options
-$t_options = getopt( 'v::th' );
+$t_options = getopt( 'v::th', [], $t_index );
 $t_bump_version = array_key_exists( 'v', $t_options );
 $t_create_tag = array_key_exists( 't', $t_options );
+$t_remaining_args = array_slice( $argv, $t_index );
+if( $t_remaining_args ) {
+	echo "ERROR: unknown or unexpected arguments: " . implode( ' ', $t_remaining_args ) . "\n\n";
+	print_help();
+	exit(1);
+}
 if( array_key_exists( 'h', $t_options ) || !$t_bump_version && !$t_create_tag ) {
 	print_help();
 	exit(0);
@@ -80,10 +86,10 @@ if( $t_create_tag ) {
  * Prints command-line help
  */
 function print_help() {
-	echo basename( __FILE__ ) .  " [-v version] [-t] [-h]\n\n", <<<EOF
+	echo basename( __FILE__ ) .  " [-v[version]] [-t] [-h]\n\n", <<<EOF
 Helper script to increase Source Integration versions
 
-  -v [version] Set version if specified, and create bump commit
+  -v[version]  Set version if specified, and create bump commit
                If no version given, prints commit message
   -t           Create signed tag
   -h           Help
