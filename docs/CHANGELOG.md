@@ -10,6 +10,22 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## 2.9.2 - 2026-05-10
+
+### Changed
+
+- Improved GitLab documentation
+  [#428](https://github.com/mantisbt-plugins/source-integration/issues/428)
+
+### Fixed
+
+- PHP compatibility
+  [#426](https://github.com/mantisbt-plugins/source-integration/issues/426)
+  [#427](https://github.com/mantisbt-plugins/source-integration/issues/427)
+- Inconsistent placeholders in language strings
+  [#432](https://github.com/mantisbt-plugins/source-integration/issues/432)
+
+
 ## 2.9.1 - 2025-01-26
 
 ### Fixed
