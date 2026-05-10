@@ -133,7 +133,7 @@ $s_plugin_Source_ensure_delete = 'Wollen Sie das Projektarchiv "%s" wirklich kom
 $s_plugin_Source_ensure_import_full = 'Dies importiert eine neue Kopie des Projektarchives und löscht danach die alte Kopie. Evtl. werden für den Import Programme auf dem Webserver ausgeführt. Wollen Sie fortfahren?';
 $s_plugin_Source_ensure_import_latest = 'Dies importiert die letzten Änderungen am dem Projektarchiv. Evtl. werden für den Import Programme auf dem Webserver ausgeführt. Wollen Sie fortfahren?';
 $s_plugin_Source_import_results = 'Ergebnis des Imports';
-$s_plugin_Source_import_stats = 'Import beendet: %s Änderungssätze, %s Dateien und %s Eintragsreferenzen.';
+$s_plugin_Source_import_stats = 'Import beendet: %1$d Änderungssätze, %2$d Dateien und %3$d Eintragsreferenzen.';
 $s_plugin_Source_import_repo_error = 'Beim Import ist ein Fehler aufgetreten.';
 
 $s_plugin_Source_invalid_checkin_url = 'Ungültige Adresse für Übertragung vom Fremdrechner';

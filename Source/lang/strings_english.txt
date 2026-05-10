@@ -140,7 +140,7 @@ $s_plugin_Source_ensure_delete = 'Do you really want to delete the "%s" reposito
 $s_plugin_Source_ensure_import_full = 'This will import to a new copy of your repository, and then destroy the old repository data, and may require use of shell access.  Do you wish to continue?';
 $s_plugin_Source_ensure_import_latest = 'This will attempt to import recent data for your repository, and may require use of shell access.  Do you wish to continue?';
 $s_plugin_Source_import_results = 'Import Results';
-$s_plugin_Source_import_stats = 'Imported %s changesets, %s files, and %s bug references.';
+$s_plugin_Source_import_stats = 'Imported %1$d changesets, %2$d files, and %3$d bug references.';
 $s_plugin_Source_import_repo_error = 'Import process produced an error.';
 
 $s_plugin_Source_invalid_checkin_url = 'Invalid remote check-in address';

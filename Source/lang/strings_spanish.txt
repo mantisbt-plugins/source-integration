@@ -131,7 +131,7 @@ $s_plugin_Source_ensure_delete = '¿Quieres eliminar el repositorio "%s" y toda 
 $s_plugin_Source_ensure_import_full = 'Se va a importar la información a una nueva copia del repositorio, destruyendo todos los datos del repositorio actual, y puede requerir permisos de acceso al sistema. ¿Quieres continuar?';
 $s_plugin_Source_ensure_import_latest = 'Se va a intentar importar los datos más recientes al repositorio, y puede requerir permisos de acceso al sistema. ¿Quieres continuar?';
 $s_plugin_Source_import_results = 'Importar resultados';
-$s_plugin_Source_import_stats = 'Se han importado %s cambios, %s archivos, y %s referencias a incidencias.';
+$s_plugin_Source_import_stats = 'Se han importado %1$d cambios, %2$d archivos, y %3$d referencias a incidencias.';
 $s_plugin_Source_import_repo_error = 'Se ha producido un error en el proceso de importación.';
 
 $s_plugin_Source_invalid_checkin_url = 'Dirección remota de check-in no válida';

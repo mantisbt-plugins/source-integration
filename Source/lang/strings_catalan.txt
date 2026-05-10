@@ -131,7 +131,7 @@ $s_plugin_Source_ensure_delete = '¿Vosl eliminar el repositori "%s" i tota la s
 $s_plugin_Source_ensure_import_full = 'S\'importarà la informació a una nova còpia del repositori, destruint totes les dades al repositori actual, i pot requerir permissos d\'accés al sistema. Vols continuar?';
 $s_plugin_Source_ensure_import_latest = 'S\'importarà la informació a una nova còpia del repositori, i pot requerir permissos d\'accés al sistema. Vols continuar?';
 $s_plugin_Source_import_results = 'Importar resultats';
-$s_plugin_Source_import_stats = 'S\'han importat %s canvis, %s arxius, i %s referències a incidències.';
+$s_plugin_Source_import_stats = 'S\'han importat %1$d canvis, %2$d arxius, i %3$d referències a incidències.';
 $s_plugin_Source_import_repo_error = 'S\'ha produït un error al procés d\'importació.';
 
 $s_plugin_Source_invalid_checkin_url = 'Adreça remota de check-in no vàlida';
