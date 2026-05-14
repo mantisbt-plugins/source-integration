@@ -1,0 +1,32 @@
+<?php
+# Copyright (C) 2010 David Hicks
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+
+$s_plugin_SourceHgWeb_ = '';
+$s_plugin_SourceHgWeb_hgweb = 'HgWeb';
+$s_plugin_SourceHgWeb_title = 'HgWeb Integration';
+$s_plugin_SourceHgWeb_description = 'Integration für HgWeb über die VCS Basisintegration.';
+
+$s_plugin_SourceHgWeb_hgweb_root = 'HgWeb Root URL';
+$s_plugin_SourceHgWeb_hgweb_project = 'HgWeb Projekt<br/><span class="small">(nur Bezeichner)</span>';
+$s_plugin_SourceHgWeb_master_branch = 'Hauptzweige<br/><span class="small">(kommaseparierte Liste)</span>';
+
+$s_plugin_SourceHgWeb_repo_commit_needs_issue = 'Committext benötigt Beziehung zu mindestens einem Eintrag';
+$s_plugin_SourceHgWeb_repo_commit_issues_must_exist = 'Eintrag muss existieren';
+$s_plugin_SourceHgWeb_repo_commit_ownership_must_match = 'Eintrag muss Autor/Comitter gehören';
+$s_plugin_SourceHgWeb_repo_commit_committer_must_be_member = 'Benutzer muss dem Projekt in Mantis angehören';
+$s_plugin_SourceHgWeb_repo_commit_committer_must_be_level = 'Benutzer muss Rolle haben';
+$s_plugin_SourceHgWeb_repo_commit_status_restricted = 'Referenzierte Einträge müssen einen bestimmten Status haben';
+$s_plugin_SourceHgWeb_repo_commit_status_allowed = 'Commit nur zulassen für Einträge mit folgendem Status';
+$s_plugin_SourceHgWeb_repo_commit_project_restricted = 'Referenzierte Einträge müssen zu einem bestimmten Projekt gehören';
+$s_plugin_SourceHgWeb_repo_commit_project_allowed = 'Commit nur zulassen, wenn Eintrag aus Projekt';
+

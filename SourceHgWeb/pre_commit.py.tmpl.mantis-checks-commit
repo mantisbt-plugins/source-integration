@@ -1,0 +1,117 @@
+# -*- coding: utf-8 -*-
+"""check_commit_message_hook
+
+Calls pre-commit extension of mantis source plugin for evaluation.
+Inactive during merges.
+
+Intagrate into mercurial via
+
+[hooks]
+pretxncommit.bug_id_required=python:/<path_to>/pre_commit.py:check_commit_message_hook
+"""
+import re,os,sys,urllib,tempfile,mercurial
+
+if sys.version_info[0] < 3:
+	import urllib2
+
+#only edit these variables
+URL = 'http://localhost/mantis/plugin.php?page=Source/pre_commit_check'
+API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+
+# for testing
+bounce_commits = 0
+debug_mode = False
+ 
+
+def check_commit_message_hook(ui, repo, node, **kwargs):
+
+	global bounce_commits
+
+	ctx = repo[node]
+	commit_message = ctx.description()
+	repo_name = os.path.basename(repo.root)
+	user = ctx.user()
+
+	if debug_mode: 
+		ui.warn( b'\n\nDEBUG MODE IS ACTIVATED!\n\n' )
+		bounce_commits = 1
+
+	# not at merges
+	if len( ctx.parents() ) >= 2:
+		if debug_mode: 
+			ui.warn( b'possible merge found, cancelling\n' )
+		return bounce_commits
+
+	# not at tagging
+	try:
+		idx = ctx.files().index( '.hgtags' )
+	except ValueError:
+		idx = -1
+
+	if idx >= 0:
+		if debug_mode: 
+			ui.warn( b'tag found, cancelling\n' )
+		return bounce_commits
+
+
+	if debug_mode: 
+		ui.warn( b'sending data:\n\n' )
+		ui.warn( b'repo name ">%s<".\n' % repo_name )
+		ui.warn( b'comitter ">%s<".\n' % user )
+		ui.warn( b'message ">%s<".\n\n' % commit_message )
+
+	values = { 
+		'repo_name' : repo_name,
+		'committer' : user,
+		'api_key' : API_KEY,
+		'commit_comment' : commit_message
+	}
+
+	if sys.version_info[0] > 2:
+		data = urllib.parse.urlencode( values )
+		data = data.encode('ascii') #to bytes
+
+		req = urllib.request.Request(URL, data)
+		response = urllib.request.urlopen(req)
+	else:
+		data = urllib.urlencode( values )
+
+		# disable proxy
+		proxy_support = urllib2.ProxyHandler( {} )
+		opener = urllib2.build_opener( proxy_support )
+		urllib2.install_opener( opener)
+
+		req = urllib2.Request( URL, data )
+		response = urllib2.urlopen( req )
+
+	response_msg = response.read()
+
+	# plugin serving utf8, encode as iso-8859-15
+	response_msg = response_msg.decode('utf8').encode('iso-8859-15')
+
+	#for testing
+	if debug_mode:
+		ui.warn( b'getting response:\n\n' )
+		ui.warn( b'>%s<\n' % response_msg )
+
+	match = re.search( b'Check-OK: ([0-9]+)', response_msg, re.IGNORECASE )
+	if not match:
+		ui.warn( b'Didnt receive a valid response from Mantis SourceIntegration\n' )
+		ui.warn( b'Received:\n' )
+		ui.warn( b'-----------8<--------------------\n' )
+		ui.warn( b'>' + response_msg + b'<\n' )
+		ui.warn( b'-----------8<--------------------\n' )
+		return 1
+	elif match.group(1) == b'0':
+		match = re.search( b"^Check-Message: '(.+)(?=')", response_msg )
+		if not match:
+			ui.warn( b'Mantis SourceIntegration bounced the commit but didnt report why\n' )
+			return 1
+
+		else:
+			#output bounce message
+			ui.warn( match.group(1) + b'\n\n' )
+
+		return 1
+	
+	return bounce_commits
