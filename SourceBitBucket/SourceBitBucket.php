@@ -233,9 +233,6 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
 	private function api_json_url( $p_repo, $p_url ) {
 		$t_data = $this->url_get( $p_repo, $p_url );
-		# PHP 8.2 removed utf8_encode(); mb_convert_encoding() is the documented
-		# drop-in replacement for ISO-8859-1 -> UTF-8 conversion.
-		$t_data = mb_convert_encoding( $t_data, 'UTF-8', 'ISO-8859-1' );
 		$t_json = json_decode( $t_data );
 		if( json_last_error() != JSON_ERROR_NONE ) {
 			error_parameters( $t_data );
