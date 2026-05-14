@@ -137,6 +137,12 @@ abstract class MantisSourcePlugin extends MantisSourceBase {
 	abstract public function url_diff( $p_repo, $p_changeset, $p_file );
 
 	/**
+	 * Output additional action buttons on the Manage Repository page.
+	 * @param SourceRepo $p_repo Repository
+	 */
+	public function show_manage_actions( $p_repo ) {}
+
+	/**
 	 * Output form elements for custom repository data.
 	 * @param SourceRepo $p_repo Repository
 	 */

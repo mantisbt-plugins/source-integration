@@ -99,7 +99,7 @@ layout_page_begin();
 									. form_security_param( 'plugin_Source_repo_delete' ) ?>">
 								<?php echo plugin_lang_get( 'delete' ) ?>
 							</a>
-					<?php } ?>	
+					<?php } ?>
 					<a class="btn btn-xs btn-primary btn-white btn-round" href="<?php echo plugin_page( 'repo_manage_page' ) . '&id=' . $t_repo->id ?>">
 						<?php echo plugin_lang_get( 'manage' ) ?>
 					</a>

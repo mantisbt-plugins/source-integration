@@ -41,6 +41,7 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	 *
 	 */
 	const CFG_DEFAULT_PRIMARY_BRANCH = 'git_default_primary_branch';
+	const CFG_DEFAULT_URL = 'git_default_url';
 
 	/**
 	 * Error constants
@@ -143,6 +144,22 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 			<span class="small"><?php echo plugin_lang_get( 'git_default_primary_branch_info' ) ?></span>
 		</td>
 	</tr>
+	<tr>
+		<td class="category">
+			<label for="<?php echo self::CFG_DEFAULT_URL ?>">
+				<?php echo plugin_lang_get( self::CFG_DEFAULT_URL ) ?>
+			</label>
+		</td>
+		<td>
+			<input id="<?php echo self::CFG_DEFAULT_URL ?>"
+				   name="<?php echo self::CFG_DEFAULT_URL ?>"
+				   type="text" class="input-sm" size="50"
+				   value="<?php echo string_attribute( plugin_config_get( self::CFG_DEFAULT_URL, '' ) ) ?>"
+			/>
+			<br>
+			<span class="small"><?php echo plugin_lang_get( self::CFG_DEFAULT_URL . '_info' ) ?></span>
+		</td>
+	</tr>
 	<tr></tr>
 <?php
 			plugin_pop_current();
@@ -162,6 +179,12 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 			$t_default_branch = plugin_config_get( self::CFG_DEFAULT_PRIMARY_BRANCH, 'master' );
 			if ( $f_default_branch != $t_default_branch ) {
 				plugin_config_set( self::CFG_DEFAULT_PRIMARY_BRANCH, $f_default_branch );
+			}
+
+			$f_default_url = rtrim( trim( gpc_get_string( self::CFG_DEFAULT_URL, '' ) ), '/' );
+			$t_default_url = plugin_config_get( self::CFG_DEFAULT_URL, '' );
+			if( $f_default_url !== $t_default_url ) {
+				plugin_config_set( self::CFG_DEFAULT_URL, $f_default_url );
 			}
 			plugin_pop_current();
 		}
