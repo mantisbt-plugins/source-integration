@@ -177,12 +177,12 @@ layout_page_begin();
 					<form action="<?php echo plugin_page( 'repo_import_latest' ) . '&amp;id=' . $t_repo->id ?>" method="post" class="pull-right">
 						<?php echo form_security_field( 'plugin_Source_repo_import_latest' ) ?>
 						<input type="submit" class="btn btn-primary btn-white btn-sm btn-round " value="<?php echo plugin_lang_get( 'import_latest' ) ?>"/>
-					</form>
+					</form>	
 				</div>
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="space-10"></div>
 
 

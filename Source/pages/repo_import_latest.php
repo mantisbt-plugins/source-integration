@@ -7,17 +7,23 @@ helper_begin_long_process();
 
 form_security_validate( 'plugin_Source_repo_import_latest' );
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
-helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
 
-$f_repo_id = strtolower( gpc_get_string( 'id' ) );
+$f_repo_id = gpc_get_int( 'id' );
 
 $t_repo_id = (int) $f_repo_id;
 $t_repos = array( SourceRepo::load( $t_repo_id ) );
-
 $t_repo = array_shift( $t_repos );
 $t_vcs = SourceVCS::repo( $t_repo );
 
-$t_repo->pre_stats = $t_repo->stats();
+$t_pre_stats = $t_repo->stats();
+
+if ( empty( $t_repo->info['hub_oldest_commit_date'] ) ) {
+	helper_ensure_confirmed( plugin_lang_get( 'ensure_import_latest' ), plugin_lang_get( 'import_latest' ) );
+}else{
+	$t_date_since = $t_repo->info['hub_oldest_commit_date'];
+	helper_ensure_confirmed( sprintf(plugin_lang_get( 'ensure_import_latest_since' ), $t_date_since), plugin_lang_get( 'import_latest' ) );
+}
+
 
 layout_page_header( plugin_lang_get( 'title' ) );
 layout_page_begin();
@@ -39,7 +45,7 @@ layout_page_begin();
 
 <?php
 # keep checking for more changesets to import
-$t_repo->import_error = false;
+$t_import_error = false;
 while( true ) {
 
 	# import the next batch of changesets
@@ -47,7 +53,7 @@ while( true ) {
 
 	# check for errors
 	if ( !is_array( $t_changesets ) ) {
-		$t_repo->import_error = true;
+		$t_import_error = true;
 		break;
 	}
 
@@ -59,21 +65,21 @@ while( true ) {
 	Source_Process_Changesets( $t_changesets );
 }
 
-$t_repo->post_stats = $t_repo->stats();
+$t_post_stats = $t_repo->stats();
 ?>
 
 <tr>
 	<td class="category"><?php echo string_display_line( $t_repo->name ) ?></td>
 <td>
 <?php
-if ( $t_repo->import_error ) {
+if ( $t_import_error) {
 	echo plugin_lang_get( 'import_latest_failed' ), '<br/>';
 }
 
-$t_stats = $t_repo->post_stats;
-$t_stats['changesets'] -= $t_repo->pre_stats['changesets'];
-$t_stats['files'] -= $t_repo->pre_stats['files'];
-$t_stats['bugs'] -= $t_repo->pre_stats['bugs'];
+$t_stats = $t_post_stats;
+$t_stats['changesets'] -= $t_pre_stats['changesets'];
+$t_stats['files'] -= $t_pre_stats['files'];
+$t_stats['bugs'] -= $t_pre_stats['bugs'];
 
 echo sprintf( plugin_lang_get( 'import_stats' ), $t_stats['changesets'], $t_stats['files'], $t_stats['bugs'] );
 ?>

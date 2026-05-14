@@ -6,12 +6,18 @@
 form_security_validate( 'plugin_Source_repo_import_full' );
 access_ensure_global_level( plugin_config_get( 'manage_threshold' ) );
 
-$f_repo_id = gpc_get_string( 'id' );
+$f_repo_id = gpc_get_int( 'id' );
 
 $t_repo = SourceRepo::load( $f_repo_id );
 $t_vcs = SourceVCS::repo( $t_repo );
 
-helper_ensure_confirmed( plugin_lang_get( 'ensure_import_full' ), plugin_lang_get( 'import_full' ) );
+if (empty( $t_repo->info['hub_oldest_commit_date'])){
+	helper_ensure_confirmed( plugin_lang_get( 'ensure_import_full' ), plugin_lang_get( 'import_full' ) );
+}else{
+	$t_date_since = $t_repo->info['hub_oldest_commit_date'];
+	helper_ensure_confirmed( sprintf( plugin_lang_get( 'ensure_import_full_since' ), $t_date_since), plugin_lang_get( 'import_full' ) );
+}
+
 helper_begin_long_process();
 
 layout_page_header( plugin_lang_get( 'title' ) );
