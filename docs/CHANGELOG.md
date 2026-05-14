@@ -10,6 +10,16 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## 2.9.3 - 2026-05-14
+
+### Fixed
+
+- PHP 8.2: deprecation of utf8_encode()
+  [#433](https://github.com/mantisbt-plugins/source-integration/issues/433)
+- Remove utf8 conversion before decoding JSON
+  [#434](https://github.com/mantisbt-plugins/source-integration/issues/434)
+
+
 ## 2.9.2 - 2026-05-10
 
 ### Changed

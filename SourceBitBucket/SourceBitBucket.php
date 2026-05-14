@@ -11,7 +11,7 @@ if( false === include_once(config_get( 'plugin_path' ) . 'Source/MantisSourceGit
 
 class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 
-	const PLUGIN_VERSION = '2.3.0';
+	const PLUGIN_VERSION = '2.3.1';
 	const FRAMEWORK_VERSION_REQUIRED = '2.5.0';
 
 	/**
