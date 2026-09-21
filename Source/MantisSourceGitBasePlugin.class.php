@@ -115,6 +115,42 @@ abstract class MantisSourceGitBasePlugin extends MantisSourcePlugin
 	}
 
 	/**
+	 * Retrieves the repository's configured Primary Branches setting,
+	 * falling back to the plugin's default when not set on the repo.
+	 * @param SourceRepo $p_repo Repository
+	 * @return string Comma-separated list of branch names, or '*'
+	 */
+	protected function get_primary_branches_setting( $p_repo )
+	{
+		$t_value = $p_repo->info['master_branch'] ?? '';
+		if( is_blank( $t_value ) ) {
+			$t_value = $this->get_default_primary_branches();
+		}
+		return $t_value;
+	}
+
+	/**
+	 * Determines if the given branch is one of the repository's configured
+	 * Primary Branches, i.e. one that should be processed by an incoming
+	 * webhook/service checkin.
+	 * @param SourceRepo $p_repo   Repository
+	 * @param string     $p_branch Branch name to check
+	 * @return bool True if the branch matches the configured Primary
+	 *              Branches list, or if it is set to '*' (all branches)
+	 */
+	protected function is_primary_branch( $p_repo, $p_branch )
+	{
+		$t_primary_branches = $this->get_primary_branches_setting( $p_repo );
+
+		if( trim( $t_primary_branches ) == '*' ) {
+			return true;
+		}
+
+		$t_branches = array_map( 'trim', explode( ',', $t_primary_branches ) );
+		return in_array( $p_branch, $t_branches, true );
+	}
+
+	/**
 	 * Output form elements for configuration options.
 	 */
 	public function update_config_form() {

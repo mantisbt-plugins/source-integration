@@ -10,7 +10,7 @@ $s_plugin_SourceBitBucket_bit_basic_pwd = 'BitBucket App Password';
 $s_plugin_SourceBitBucket_generate_app_pwd = 'Generate one at %1$s';
 $s_plugin_SourceBitBucket_bit_username = 'BitBucket Repository Owner<br><span class="small">Username or Team name</span>';
 $s_plugin_SourceBitBucket_bit_reponame = 'BitBucket Repository Name<br><span class="small">(no spaces; must match the name as received from the webservice\'s payload)</span>';
-$s_plugin_SourceBitBucket_master_branch = 'Primary Branches<br><span class="small">(comma-separated list, * imports all branches)</span>';
+$s_plugin_SourceBitBucket_master_branch = 'Primary Branches<br><span class="small">(comma-separated list, * imports all branches)<br>Only commits on these branches are imported, whether via manual import or incoming webhook.</span>';
 
 $s_plugin_SourceBitBucket_repo_authorized = '<p>MantisBT is now authorized to access this BitBucket repository.</p>';
 $s_plugin_SourceBitBucket_repo_authorization_failed = 'Sorry, MantisBT could not be authorized to access this BitBucket repository.';

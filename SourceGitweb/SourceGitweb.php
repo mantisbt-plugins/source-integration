@@ -189,10 +189,8 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 		list ( , $t_commit_id, $t_branch) = explode(' ', $p_data);
 		list ( , , $t_branch) = explode('/', $t_branch, 3);
 
-		# master_branch contains comma-separated list of branches
-		$t_branches = explode(',', $p_repo->info['master_branch']);
-		if (!in_array('*', $t_branches) and !in_array($t_branch, $t_branches))
-		{
+		if( !$this->is_primary_branch( $p_repo, $t_branch ) ) {
+			# Push is to a branch that is not configured as a Primary Branch
 			return array();
 		}
 
@@ -202,10 +200,7 @@ class SourceGitwebPlugin extends MantisSourceGitBasePlugin {
 	public function import_full( $p_repo ) {
 		echo '<pre>';
 
-		$t_branch = $p_repo->info['master_branch'];
-		if ( is_blank( $t_branch ) ) {
-			$t_branch = $this->get_default_primary_branches();
-		}
+		$t_branch = $this->get_primary_branches_setting( $p_repo );
 
 		if ($t_branch != '*')
 		{
