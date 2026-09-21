@@ -270,16 +270,17 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 		$t_refData = explode( '/', $p_data['ref'] );
 		$t_branch  = $t_refData[2];
 
+		if( !$this->is_primary_branch( $p_repo, $t_branch ) ) {
+			# Push is to a branch that is not configured as a Primary Branch
+			return array();
+		}
+
 		return $this->import_commits( $p_repo, $t_commits, $t_branch );
 	}
 
 	public function import_full( $p_repo, $p_use_cache = true ) {
 		echo '<pre>';
-		$t_branch = $p_repo->info['master_branch'];
-
-		if( is_blank( $t_branch ) ) {
-			$t_branch = $this->get_default_primary_branches();
-		}
+		$t_branch = $this->get_primary_branches_setting( $p_repo );
 
 		$t_username = $p_repo->info['bit_username'];
 		$t_reponame = $p_repo->info['bit_reponame'];
