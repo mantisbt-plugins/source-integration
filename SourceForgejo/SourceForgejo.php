@@ -266,7 +266,7 @@ class SourceForgejoPlugin extends MantisSourceGitBasePlugin {
 	 * @return string
 	 */
 	private function webhook_url() {
-		return plugin_page( 'checkin', true, 'Source' ) . '&api_key=…';
+		return config_get_global( 'path' ) . plugin_page( 'checkin', true, 'Source' ) . '&api_key=…';
 	}
 
 	/**
@@ -370,9 +370,13 @@ class SourceForgejoPlugin extends MantisSourceGitBasePlugin {
 				$this->api_error = 'connection failed';
 				return null;
 			}
+			# $http_response_header is deprecated as of PHP 8.5
+			$t_response_headers = function_exists( 'http_get_last_response_headers' )
+				? http_get_last_response_headers()
+				: $http_response_header;
 			$t_status = 0;
-			if( isset( $http_response_header[0] )
-				&& preg_match( '{^HTTP/\S+\s+(\d{3})}', $http_response_header[0], $t_matches )
+			if( isset( $t_response_headers[0] )
+				&& preg_match( '{^HTTP/\S+\s+(\d{3})}', $t_response_headers[0], $t_matches )
 			) {
 				$t_status = (int)$t_matches[1];
 			}

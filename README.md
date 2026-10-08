@@ -24,6 +24,9 @@ plugins:
 * **SourceBitBucket**: Git repositories hosted on [BitBucket](https://bitbucket.org/).
 * **SourceCgit**: Git repositories accessible via a
   [cgit](https://git.zx2c4.com/cgit/about/) web frontend installation.
+* **SourceForgejo**: Git repositories hosted on a [Forgejo](https://forgejo.org/)
+  instance, with signed webhooks and import of changed files.
+* **SourceGitea**: Git repositories hosted on a [Gitea](https://about.gitea.com/) instance.
 * **SourceGithub**: Git repositories hosted on [GitHub](https://github.com/).
 * **SourceGitlab**: Git repositories hosted on [GitLab](https://about.gitlab.com/).
 * **SourceAzureDevOps**: Git repositories hosted on [Azure DevOps Services Repos](https://azure.microsoft.com/en-us/services/devops/).
@@ -61,6 +64,9 @@ for information about support for earlier releases.
 
 Some VCS plugins have additional, specific requirements:
 
+- **SourceForgejo** uses the [PHP Curl extension](https://www.php.net/book.curl)
+  if available, and falls back to PHP's HTTP stream wrapper (`allow_url_fopen`)
+  otherwise. It was developed and tested with Forgejo 11.0.
 - **SourceBitBucket** requires the 
   [PHP Curl extension](https://www.php.net/book.curl), or the ability to execute  
   system calls (via [shell_exec](https://www.php.net/function.shell-exec)).
@@ -131,7 +137,8 @@ or the relevant branch in the Plugin's GitHub repository, as per the table below
     * [SourceViewVC](docs/CONFIGURING.SourceViewVC.md)
     * [SourceSVN](docs/CONFIGURING.SourceSVN.md)
     * [SourceVisualSVNServer](docs/CONFIGURING.SourceVisualSVNServer.md)
-    * [SourceGitea](docs/CONFIGURING.SourceGitea)
+    * [SourceGitea](docs/CONFIGURING.SourceGitea.md)
+    * [SourceForgejo](docs/CONFIGURING.SourceForgejo.md)
 
 9. Once configured, click the "Return to Repository" link and click either
    the "Import Everything" or "Import Newest Data" button to perform initial

@@ -10,6 +10,20 @@ specification.
 
 # Releases for MantisBT 2.x
 
+## Unreleased
+
+### Added
+
+- New SourceForgejo plugin for repositories hosted on Forgejo: API token sent
+  in the Authorization header, webhook signature verification (HMAC-SHA256),
+  import of changed files, paginated history import.
+  See [configuration guide](CONFIGURING.SourceForgejo.md)
+
+### Fixed
+
+- README: broken link to the SourceGitea configuration guide
+
+
 ## 2.9.3 - 2026-05-14
 
 ### Fixed
