@@ -1,0 +1,28 @@
+<?php
+
+# Copyright (c) 2026 Karsten Fusenig
+# Licensed under the MIT license
+
+$s_plugin_SourceForgejo_ = '';
+$s_plugin_SourceForgejo_forgejo = 'Forgejo';
+$s_plugin_SourceForgejo_title = 'Forgejo-Integration';
+$s_plugin_SourceForgejo_description = 'Integration für Forgejo über die VCS-Basisintegration.';
+
+$s_plugin_SourceForgejo_hub_root = 'Forgejo-Adresse<br /><span class="small">Vollständige URL der Forgejo-Instanz, z. B. https://git.example.com</span>';
+$s_plugin_SourceForgejo_hub_ownerid = 'Forgejo-Besitzer<br /><span class="small">Organisation oder Benutzer, dem das Repository gehört</span>';
+$s_plugin_SourceForgejo_hub_repoid = 'Forgejo-Repository<br /><span class="small">Name des Repositorys</span>';
+$s_plugin_SourceForgejo_hub_app_secret = 'Forgejo-Zugriffstoken<br /><span class="small">Token mit dem Recht read:repository; bei öffentlichen Repositorys leer lassen</span>';
+$s_plugin_SourceForgejo_hub_webhook_secret = 'Forgejo-Webhook-Geheimnis<br /><span class="small">Muss mit dem Geheimnis des Webhooks übereinstimmen; Aufrufe ohne oder mit falscher Signatur werden abgewiesen</span>';
+$s_plugin_SourceForgejo_master_branch = 'Erlaubte Zweige<br/><span class="small">(kommaseparierte Liste oder * für alle)</span>';
+
+$s_plugin_SourceForgejo_api_status = 'API-Zugriff';
+$s_plugin_SourceForgejo_api_status_ok = 'Verbunden mit %1$s (Standardzweig: %2$s)';
+$s_plugin_SourceForgejo_api_status_failed = 'Forgejo-API-Abfrage fehlgeschlagen: %1$s';
+$s_plugin_SourceForgejo_webhook_url = 'Ziel-URL für den Webhook<br /><span class="small">… durch den API-Schlüssel des Source-Plugins ersetzen</span>';
+
+$s_plugin_SourceForgejo_webhook_event_ignored = 'Ereignis „%1$s“ übersprungen, es werden nur Push-Ereignisse verarbeitet.';
+$s_plugin_SourceForgejo_webhook_ref_ignored = 'Referenz „%1$s“ übersprungen.';
+$s_plugin_SourceForgejo_webhook_branch_ignored = 'Zweig „%1$s“ steht nicht in der Liste der erlaubten Zweige.';
+$s_plugin_SourceForgejo_error_invalid_signature = 'Ungültige Webhook-Signatur';
+
+$s_plugin_SourceForgejo_back_repo = 'Zurück zum Projektarchiv';
