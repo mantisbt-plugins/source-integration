@@ -1,0 +1,28 @@
+<?php
+
+# Copyright (c) 2026 Karsten Fusenig
+# Licensed under the MIT license
+
+$s_plugin_SourceForgejo_ = '';
+$s_plugin_SourceForgejo_forgejo = 'Forgejo';
+$s_plugin_SourceForgejo_title = 'Source Forgejo Integration';
+$s_plugin_SourceForgejo_description = 'Adds Forgejo integration to the Source Integration framework.';
+
+$s_plugin_SourceForgejo_hub_root = 'Forgejo Root<br /><span class="small">The full URL of your Forgejo instance, e.g. https://git.example.com</span>';
+$s_plugin_SourceForgejo_hub_ownerid = 'Forgejo Repository Owner<br /><span class="small">Organization or user owning the repository</span>';
+$s_plugin_SourceForgejo_hub_repoid = 'Forgejo Repository Name<br /><span class="small">Name of the repository</span>';
+$s_plugin_SourceForgejo_hub_app_secret = 'Forgejo Access Token<br /><span class="small">Token with scope read:repository; leave empty for public repositories</span>';
+$s_plugin_SourceForgejo_hub_webhook_secret = 'Forgejo Webhook Secret<br /><span class="small">Must match the secret of the webhook; payloads with a missing or wrong signature are rejected</span>';
+$s_plugin_SourceForgejo_master_branch = 'Allowed Branches<br/><span class="small">(comma-separated list or *)</span>';
+
+$s_plugin_SourceForgejo_api_status = 'API Access';
+$s_plugin_SourceForgejo_api_status_ok = 'Connected to %1$s (default branch: %2$s)';
+$s_plugin_SourceForgejo_api_status_failed = 'Forgejo API request failed: %1$s';
+$s_plugin_SourceForgejo_webhook_url = 'Webhook Target URL<br /><span class="small">Replace … with the API key of the Source plugin</span>';
+
+$s_plugin_SourceForgejo_webhook_event_ignored = 'Event "%1$s" ignored, only push events are processed.';
+$s_plugin_SourceForgejo_webhook_ref_ignored = 'Reference "%1$s" ignored.';
+$s_plugin_SourceForgejo_webhook_branch_ignored = 'Branch "%1$s" is not in the list of allowed branches.';
+$s_plugin_SourceForgejo_error_invalid_signature = 'Invalid webhook signature';
+
+$s_plugin_SourceForgejo_back_repo = 'Back to Repository';
