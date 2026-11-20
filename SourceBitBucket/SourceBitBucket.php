@@ -522,12 +522,8 @@ class SourceBitBucketPlugin extends MantisSourceGitBasePlugin {
 				return $t_data;
 			}
 		}
-		# Last resort system call, unless shell_exec() is disabled
-		if( !function_exists( 'shell_exec' ) ) {
-			return false;
-		}
-		$t_url = escapeshellarg( $p_url ); //use -u user:pass
-		return shell_exec( 'curl -u ' . escapeshellarg( $t_user_pass ) . ' ' . $t_url );
+
+		return false;
 	}
 
 }
