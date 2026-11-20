@@ -461,12 +461,9 @@ class SourceGitlabPlugin extends MantisSourceGitBasePlugin {
 			curl_close( $t_curl );
 
 			return $t_data;
-		} else {
-			# Last resort system call
-			$t_url = escapeshellarg( $p_url );
-			$t_post_data = escapeshellarg( $t_post_data );
-			return shell_exec( 'curl ' . $t_url . ' -d ' . $t_post_data );
 		}
+
+		return false;
 	}
 
 }
