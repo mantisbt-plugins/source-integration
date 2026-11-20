@@ -354,6 +354,11 @@ class SourceSVNPlugin extends MantisSourcePlugin {
 		# Append specific cmd & params
 		$t_svn_cmd = "$t_svn_exe $p_cmd";
 
+		# proc_open() may be disabled (disable_functions)
+		if( !function_exists( 'proc_open' ) ) {
+			plugin_error( self::ERROR_SVN_RUN );
+		}
+
 		$t_svn_proc = proc_open(
 			$t_svn_cmd,
 			array( array( 'pipe', 'r' ), array( 'pipe', 'w' ), array( 'pipe', 'w' ) ),
